@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rishabh Tiwari - AI/ML Engineer | Building Scalable AI Systems">
+    <meta name="keywords" content="AI, ML, Deep Learning, Python, Software Engineer">
+    <meta name="author" content="Rishabh Tiwari">
+    <title>Rishabh Tiwari | AI/ML Engineer</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #ec4899;
+            --accent-color: #14b8a6;
+            --dark-bg: #0f172a;
+            --darker-bg: #020617;
+            --card-bg: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border-color: #334155;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 60px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .social-icon:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        .about {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(20, 184, 166, 0.05) 100%);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .about-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .about-highlights {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .highlight {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .highlight-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .highlight-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Experience Section */
+        .experience {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.05) 0%, rgba(30, 41, 59, 0.5) 100%);
+        }
+
+        .experience-item {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        .experience-item:hover {
+            border-color: var(--primary-color);
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .experience-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .experience-company {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .experience-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            background: rgba(99, 102, 241, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+        }
+
+        .experience-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        /* Projects Section */
+        .projects {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(20, 184, 166, 0.05) 100%);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .project-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .project-header {
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .project-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .project-body {
+            padding: 1.5rem 2rem;
+            flex-grow: 1;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .project-highlights {
+            background: rgba(99, 102, 241, 0.05);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-highlights li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            margin-left: 1.5rem;
+        }
+
+        .project-highlights li::marker {
+            color: var(--primary-color);
+        }
+
+        .project-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        /* Skills Section */
+        .skills {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.05) 0%, rgba(30, 41, 59, 0.5) 100%);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .skill-category {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+        }
+
+        .skill-category-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-item {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary-color);
+            padding: 0.6rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Publications Section */
+        .publications {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(20, 184, 166, 0.05) 100%);
+        }
+
+        .publication-item {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .publication-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+        }
+
+        .publication-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .publication-authors {
+            color: var(--primary-color);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .publication-venue {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .publication-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+            color: var(--accent-color);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.05) 0%, rgba(30, 41, 59, 0.5) 100%);
+            text-align: center;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .contact-item {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .contact-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-value {
+            font-size: 1rem;
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: var(--dark-bg);
+                flex-direction: column;
+                gap: 0;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 1rem 2rem;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-highlights {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">RT</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#publications">Publications</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Rishabh Tiwari</h1>
+            <p class="hero-subtitle">Senior AI/ML Engineer</p>
+            <p class="hero-description">
+                Building intelligent systems at scale. Specializing in machine learning, deep learning, and AI-driven
+                applications with 3+ years of production experience.
+            </p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> View My Work
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    <i class="fas fa-envelope"></i> Get in Touch
+                </a>
+            </div>
+            <div class="social-links">
+                <a href="https://linkedin.com/in/rishabhtiwari022002" target="_blank" class="social-icon"
+                    title="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://github.com" target="_blank" class="social-icon" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="mailto:tiwaririshabh2023@gmail.com" class="social-icon" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="https://twitter.com" target="_blank" class="social-icon" title="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about section" id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3>🎯 My Journey</h3>
+                    <p>
+                        I'm an AI/ML Engineer with 3+ years of hands-on experience designing and deploying scalable AI
+                        systems. My passion lies in building intelligent solutions that solve real-world problems, from
+                        computer vision applications to large language model integrations.
+                    </p>
+                    <p>
+                        Currently at <strong>High Tech Infosystem</strong>, I lead the development of advanced AI
+                        systems including Neo4j knowledge graphs and voice agents. Previously, I've worked on production
+                        ML systems for tender classification, trading bots, and medical imaging applications.
+                    </p>
+                    <p>
+                        I'm deeply interested in MLOps, system design, and pushing the boundaries of what's possible
+                        with modern AI/ML technologies.
+                    </p>
+                </div>
+                <div>
+                    <div class="about-highlights">
+                        <div class="highlight">
+                            <div class="highlight-number">3+</div>
+                            <div class="highlight-label">Years Experience</div>
+                        </div>
+                        <div class="highlight">
+                            <div class="highlight-number">15+</div>
+                            <div class="highlight-label">Production Projects</div>
+                        </div>
+                        <div class="highlight">
+                            <div class="highlight-number">5+</div>
+                            <div class="highlight-label">Published Papers</div>
+                        </div>
+                        <div class="highlight">
+                            <div class="highlight-number">92-97%</div>
+                            <div class="highlight-label">Model Accuracy</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience section" id="experience">
+        <div class="container">
+            <h2 class="section-title">Professional Experience</h2>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <div class="experience-title">Senior AI/ML Engineer</div>
+                        <div class="experience-company">High Tech Infosystem</div>
+                    </div>
+                    <span class="experience-date">Jun 2025 - Present</span>
+                </div>
+                <p class="experience-description">
+                    Leading development of advanced AI systems and intelligent applications. Currently architecting and
+                    implementing voice agents and knowledge graph systems for enterprise solutions.
+                </p>
+                <ul class="experience-description" style="margin-left: 1.5rem;">
+                    <li>🔹 Implemented Neo4j knowledge graphs for telecom domain with MCP integration for LLM
+                        connectivity</li>
+                    <li>🔹 Built voice agents using Deepgram Nova-2 (STT), Claude Opus, and Gemini Live API with
+                        LangGraph orchestration</li>
+                    <li>🔹 Developed ATS system using LangChain and Gemini with 15+ microservices improving hiring
+                        efficiency by 40%</li>
+                    <li>🔹 Tech Stack: Python, LangChain, FastAPI, Neo4j, PostgreSQL, Docker, AWS</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <div class="experience-title">AI/ML Engineer</div>
+                        <div class="experience-company">CDN Software Group</div>
+                    </div>
+                    <span class="experience-date">Aug 2024 - Jun 2025</span>
+                </div>
+                <p class="experience-description">
+                    Developed and deployed large-scale ML systems for tender classification and recommendation.
+                    Optimized models for production deployment on GPU infrastructure.
+                </p>
+                <ul class="experience-description" style="margin-left: 1.5rem;">
+                    <li>🔹 Fine-tuned TextCNN and GLiNER models on 3+ crore tender queries across 800 classes with 92%+
+                        accuracy</li>
+                    <li>🔹 Processed 20K+ documents, extracted embeddings using FAISS-GPU, implemented hybrid search in
+                        OpenSearch</li>
+                    <li>🔹 Deployed vLLM-optimized LLaMA2-7B on L40 GPUs for tender summarization and generation</li>
+                    <li>🔹 Tech Stack: Python, FAISS, OpenSearch, vLLM, Docker, Kubernetes, AWS</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <div class="experience-title">ML Engineer</div>
+                        <div class="experience-company">Cognitive AI Solutions (potiki.com.au)</div>
+                    </div>
+                    <span class="experience-date">Contract Based</span>
+                </div>
+                <p class="experience-description">
+                    Built AI-powered systems for crypto trading and multilingual customer support with intelligent
+                    routing capabilities.
+                </p>
+                <ul class="experience-description" style="margin-left: 1.5rem;">
+                    <li>🔹 Designed multi-agent trading bot executing strategies via natural language commands across
+                        exchanges</li>
+                    <li>🔹 Implemented multilingual chatbot with M2M100 translation and FastText language detection</li>
+                    <li>🔹 Architected LangChain multi-agent system for FAQ, claims, and onboarding routing</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <div class="experience-title">AI/ML Research Associate</div>
+                        <div class="experience-company">Madhya Pradesh Govt. Funded Project</div>
+                    </div>
+                    <span class="experience-date">May 2023 - Jul 2024</span>
+                </div>
+                <p class="experience-description">
+                    Conducted research on diabetic retinopathy detection using deep learning, contributing to 5
+                    international publications.
+                </p>
+                <ul class="experience-description" style="margin-left: 1.5rem;">
+                    <li>🔹 Built DR detection system on 100K+ retinal images achieving 95-97% AUC with Vision
+                        Transformers</li>
+                    <li>🔹 Implemented YOLOv8 segmentation for lesion detection (microaneurysms, hemorrhages, exudates)
+                    </li>
+                    <li>🔹 Conducted 4D-STEM data analysis using Py4DSTEM for material properties research</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <div class="experience-title">Web Developer</div>
+                        <div class="experience-company">AKS Universe</div>
+                    </div>
+                    <span class="experience-date">Dec 2022 - May 2023</span>
+                </div>
+                <p class="experience-description">
+                    Developed Django applications with OCR integration for document processing automation.
+                </p>
+                <ul class="experience-description" style="margin-left: 1.5rem;">
+                    <li>🔹 Built Django app with PyTesseract OCR for automated exam document processing</li>
+                    <li>🔹 Implemented data pipelines with Django ORM, text extraction, and PDF report generation</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects section" id="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="project-title">Neo4j Knowledge Graph Voice Agent</h3>
+                        <p class="project-subtitle">Intelligent Telecom Chatbot</p>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">
+                            Built an advanced voice agent system for telecom domain knowledge queries using Neo4j
+                            knowledge graphs and Claude Opus LLM.
+                        </p>
+                        <div class="project-highlights">
+                            <ul>
+                                <li>Neo4j knowledge graph storage with MCP integration</li>
+                                <li>Deepgram Nova-2 for speech-to-text</li>
+                                <li>Claude Opus LLM with Gemini Live API for TTS</li>
+                                <li>LangGraph for complex agent orchestration</li>
+                                <li>MLflow evaluation and monitoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <div class="project-tech">
+                            <span class="tech-tag">Neo4j</span>
+                            <span class="tech-tag">LangGraph</span>
+                            <span class="tech-tag">Claude API</span>
+                            <span class="tech-tag">Deepgram</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <h3 class="project-title">Tender Atoms - Large Scale Classification</h3>
+                        <p class="project-subtitle">3 Crore Tender Classification System</p>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">
+                            Developed production-scale tender classification system processing millions of documents
+                            with 92%+ accuracy.
+                        </p>
+                        <div class="project-highlights">
+                            <ul>
+                                <li>TextCNN fine-tuning on 3+ crore queries across 800 classes</li>
+                                <li>GLiNER for named entity recognition</li>
+                                <li>FAISS-GPU embeddings with 20K+ document indexing</li>
+                                <li>OpenSearch hybrid search (keyword + vector)</li>
+                                <li>vLLM LLaMA2-7B deployment on L40 GPUs</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <div class="project-tech">
+                            <span class="tech-tag">FAISS</span>
+                            <span class="tech-tag">OpenSearch</span>
+                            <span class="tech-tag">vLLM</span>
+                            <span class="tech-tag">Kubernetes</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3 class="project-title">Diabetic Retinopathy Detection</h3>
+                        <p class="project-subtitle">Medical Imaging with Deep Learning</p>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">
+                            Advanced computer vision system for diabetic retinopathy detection achieving 95-97% AUC with
+                            Vision Transformers.
+                        </p>
+                        <div class="project-highlights">
+                            <ul>
+                                <li>Processed 100K+ retinal fundus images from 4 datasets</li>
+                                <li>Ensemble learning: ResNet/DenseNet/EfficientNet</li>
+                                <li>YOLOv8 lesion segmentation (94-96% accuracy)</li>
+                                <li>Vision Transformers & CNN-Transformer hybrids</li>
+                                <li>vLLM FastAPI deployment for inference</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <div class="project-tech">
+                            <span class="tech-tag">Vision Transformers</span>
+                            <span class="tech-tag">YOLOv8</span>
+                            <span class="tech-tag">Ensemble</span>
+                            <span class="tech-tag">FastAPI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <h3 class="project-title">MLOps Pipeline</h3>
+                        <p class="project-subtitle">End-to-End ML System on AWS</p>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">
+                            Complete MLOps infrastructure with automated training, testing, and deployment reducing
+                            deployment time by 70%.
+                        </p>
+                        <div class="project-highlights">
+                            <ul>
+                                <li>MLflow experiment tracking & model versioning</li>
+                                <li>DVC for data & model management</li>
+                                <li>GitHub Actions CI/CD pipelines</li>
+                                <li>Automated hyperparameter optimization</li>
+                                <li>Docker containerization for AWS EC2/ECR</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <div class="project-tech">
+                            <span class="tech-tag">MLflow</span>
+                            <span class="tech-tag">DVC</span>
+                            <span class="tech-tag">GitHub Actions</span>
+                            <span class="tech-tag">AWS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3 class="project-title">AI Video Generation System</h3>
+                        <p class="project-subtitle">Lip-Sync Video Synthesis on AWS SageMaker</p>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">
+                            Advanced video generation system integrating multiple AI models for speech-driven lip-sync
+                            video synthesis at scale.
+                        </p>
+                        <div class="project-highlights">
+                            <ul>
+                                <li>MuseTalk for speech processing</li>
+                                <li>DWPose for pose detection</li>
+                                <li>Stable Diffusion for image generation</li>
+                                <li>Whisper for speech transcription</li>
+                                <li>AWS S3 & SageMaker scalable inference</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <div class="project-tech">
+                            <span class="tech-tag">Stable Diffusion</span>
+                            <span class="tech-tag">AWS SageMaker</span>
+                            <span class="tech-tag">CUDA</span>
+                            <span class="tech-tag">PyTorch</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-shirt"></i>
+                        </div>
+                        <h3 class="project-title">Clothing Recommendation System</h3>
+                        <p class="project-subtitle">Interactive Computer Vision System</p>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">
+                            Interactive video-based fashion recommendation system leveraging YOLOv8 and Google Lens
+                            integration for real-time product discovery.
+                        </p>
+                        <div class="project-highlights">
+                            <ul>
+                                <li>Custom YOLOv8 clothing segmentation</li>
+                                <li>DeepFace for person tracking</li>
+                                <li>Google Lens API integration</li>
+                                <li>Semi-supervised learning on fashion datasets</li>
+                                <li>Interactive 3-second clip capture</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <div class="project-tech">
+                            <span class="tech-tag">YOLOv8</span>
+                            <span class="tech-tag">OpenCV</span>
+                            <span class="tech-tag">Roboflow</span>
+                            <span class="tech-tag">PyTorch</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills section" id="skills">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3 class="skill-category-title">
+                        <i class="fas fa-code"></i> Programming Languages
+                    </h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Python</span>
+                        <span class="skill-item">JavaScript</span>
+                        <span class="skill-item">C++</span>
+                        <span class="skill-item">SQL</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">
+                        <i class="fas fa-database"></i> Databases
+                    </h3>
+                    <div class="skill-list">
+                        <span class="skill-item">PostgreSQL</span>
+                        <span class="skill-item">MySQL</span>
+                        <span class="skill-item">MongoDB</span>
+                        <span class="skill-item">Neo4j</span>
+                        <span class="skill-item">Redis</span>
+                        <span class="skill-item">Pinecone</span>
+                        <span class="skill-item">Elasticsearch</span>
+                        <span class="skill-item">OpenSearch</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">
+                        <i class="fas fa-brain"></i> AI/ML Frameworks
+                    </h3>
+                    <div class="skill-list">
+                        <span class="skill-item">TensorFlow</span>
+                        <span class="skill-item">PyTorch</span>
+                        <span class="skill-item">Keras</span>
+                        <span class="skill-item">Scikit-learn</span>
+                        <span class="skill-item">Hugging Face</span>
+                        <span class="skill-item">LangChain</span>
+                        <span class="skill-item">LangGraph</span>
+                        <span class="skill-item">vLLM</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">
+                        <i class="fas fa-globe"></i> Web Technologies
+                    </h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Django</span>
+                        <span class="skill-item">FastAPI</span>
+                        <span class="skill-item">DRF</span>
+                        <span class="skill-item">Flask</span>
+                        <span class="skill-item">React</span>
+                        <span class="skill-item">REST APIs</span>
+                        <span class="skill-item">WebSockets</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">
+                        <i class="fas fa-cloud"></i> Cloud & DevOps
+                    </h3>
+                    <div class="skill-list">
+                        <span class="skill-item">AWS (EC2, S3, ECR)</span>
+                        <span class="skill-item">Google Cloud</span>
+                        <span class="skill-item">Azure ML</span>
+                        <span class="skill-item">Docker</span>
+                        <span class="skill-item">Kubernetes</span>
+                        <span class="skill-item">GitHub Actions</span>
+                        <span class="skill-item">Jenkins</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">
+                        <i class="fas fa-tools"></i> Tools & Platforms
+                    </h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Git/GitHub</span>
+                        <span class="skill-item">MLflow</span>
+                        <span class="skill-item">DVC</span>
+                        <span class="skill-item">Postman</span>
+                        <span class="skill-item">FAISS</span>
+                        <span class="skill-item">n8n</span>
+                        <span class="skill-item">MCP</span>
+                        <span class="skill-item">Roboflow</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">
+                        <i class="fas fa-chart-line"></i> Data & Computer Vision
+                    </h3>
+                    <div class="skill-list">
+                        <span class="skill-item">NumPy</span>
+                        <span class="skill-item">Pandas</span>
+                        <span class="skill-item">Matplotlib</span>
+                        <span class="skill-item">Seaborn</span>
+                        <span class="skill-item">OpenCV</span>
+                        <span class="skill-item">YOLOv8</span>
+                        <span class="skill-item">Spark</span>
+                        <span class="skill-item">Kafka</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="skill-category-title">
+                        <i class="fas fa-lightbulb"></i> Specializations
+                    </h3>
+                    <div class="skill-list">
+                        <span class="skill-item">RAG Systems</span>
+                        <span class="skill-item">LLM Integration</span>
+                        <span class="skill-item">Computer Vision</span>
+                        <span class="skill-item">NLP</span>
+                        <span class="skill-item">System Design</span>
+                        <span class="skill-item">MLOps</span>
+                        <span class="skill-item">Agentic AI</span>
+                        <span class="skill-item">Production ML</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publications Section -->
+    <section class="publications section" id="publications">
+        <div class="container">
+            <h2 class="section-title">Research & Publications</h2>
+
+            <div class="publication-item">
+                <div class="publication-title">📄 An Intelligent Approach to Analyze Severity Levels of Diabetic
+                    Retinopathy by Data Classification Using Transfer Learning</div>
+                <div class="publication-authors">Rishabh Tiwari, et al.</div>
+                <div class="publication-venue">Springer, Singapore</div>
+                <div class="publication-meta">
+                    <span><i class="fas fa-calendar"></i> Published 16 May 2025</span>
+                    <span><i class="fas fa-book"></i> DOI: 10.1007/978-981-97-9855-1_1</span>
+                </div>
+            </div>
+
+            <div class="publication-item">
+                <div class="publication-title">📄 Enhanced Diabetic Retinopathy Detection Mechanism Through Ensemble
+                    Learning Techniques</div>
+                <div class="publication-authors">Rishabh Tiwari, et al.</div>
+                <div class="publication-venue">Springer, Singapore</div>
+                <div class="publication-meta">
+                    <span><i class="fas fa-calendar"></i> Published 16 May 2025</span>
+                    <span><i class="fas fa-book"></i> DOI: 10.1007/978-981-97-9855-1_2</span>
+                    <span><i class="fas fa-barcode"></i> ISBN: 978-981-97-9854-4 (Print)</span>
+                </div>
+            </div>
+
+            <div class="publication-item">
+                <div class="publication-title">📄 A Recent Review on Diabetic Retinopathy Detection (DRD) Approaches
+                </div>
+                <div class="publication-authors">Rishabh Tiwari, et al.</div>
+                <div class="publication-venue">Proceedings of Third International Conference on Advanced Computing and
+                    Applications 2024</div>
+                <div class="publication-meta">
+                    <span><i class="fas fa-calendar"></i> 2024</span>
+                </div>
+            </div>
+
+            <div class="publication-item">
+                <div class="publication-title">📄 A Comparative Study on Diabetic Retinopathy Datasets for Data Accuracy
+                    Detection</div>
+                <div class="publication-authors">Rishabh Tiwari, et al.</div>
+                <div class="publication-venue">IEEE Students Conference on Electrical, Electronics and Computer Science
+                    (SCEECS)</div>
+                <div class="publication-meta">
+                    <span><i class="fas fa-calendar"></i> Peer Reviewed Conference</span>
+                </div>
+            </div>
+
+            <div class="publication-item">
+                <div class="publication-title">🎤 Presented Research Paper: "Diabetic Retinopathy Detection using AI/ML"
+                </div>
+                <div class="publication-authors">Rishabh Tiwari</div>
+                <div class="publication-venue">International Conference 2024</div>
+                <div class="publication-meta">
+                    <span><i class="fas fa-globe"></i> International Presentation</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p
+                style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                I'm always interested in discussing AI/ML projects, collaboration opportunities, and innovative ideas.
+                Feel free to reach out!
+            </p>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-label">Email</div>
+                    <a href="mailto:tiwaririshabh2023@gmail.com"
+                        style="color: var(--text-primary); text-decoration: none;">
+                        <div class="contact-value">tiwaririshabh2023@gmail.com</div>
+                    </a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-label">Phone</div>
+                    <a href="tel:+919131280691" style="color: var(--text-primary); text-decoration: none;">
+                        <div class="contact-value">+91 9131280691</div>
+                    </a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-label">Location</div>
+                    <div class="contact-value">Satna, Madhya Pradesh, India</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem;">
+                <h3 style="margin-bottom: 1.5rem; font-size: 1.3rem;">Connect With Me</h3>
+                <div class="social-links" style="gap: 2rem;">
+                    <a href="https://linkedin.com/in/rishabhtiwari022002" target="_blank" class="social-icon"
+                        style="width: 60px; height: 60px; font-size: 1.5rem;" title="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/riyatiwari212005" target="_blank" class="social-icon"
+                        style="width: 60px; height: 60px; font-size: 1.5rem;" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:tiwaririshabh2023@gmail.com" class="social-icon"
+                        style="width: 60px; height: 60px; font-size: 1.5rem;" title="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" class="social-icon"
+                        style="width: 60px; height: 60px; font-size: 1.5rem;" title="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Rishabh Tiwari. All rights reserved. | Built with ❤️ using HTML, CSS & JavaScript</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                <a href="#home" style="color: var(--primary-color); text-decoration: none;">Back to Top ↑</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuToggle?.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when link is clicked
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Smooth scroll offset for fixed nav
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const offsetTop = target.offsetTop - 70;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.experience-item, .project-card, .publication-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
+
+        // Active nav link highlighting
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const scrollPosition = window.scrollY + 100;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                const sectionId = section.getAttribute('id');
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    document.querySelectorAll('.nav-links a').forEach(link => {
+                        link.style.color = 'var(--text-secondary)';
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.style.color = 'var(--primary-color)';
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
