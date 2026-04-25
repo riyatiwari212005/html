@@ -1,0 +1,418 @@
+/* ====================================
+   Dark Mode & Mobile Responsive CSS
+   ==================================== */
+
+:root {
+    /* Light mode colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --border-color: #dddddd;
+    --accent-color: #667eea;
+    --hover-bg: #f0f0f0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode theme */
+html[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --border-color: #404040;
+    --accent-color: #8fa3f0;
+    --hover-bg: #3a3a3a;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Apply theme to common elements */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Text elements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-primary);
+}
+
+p,
+span,
+li,
+a {
+    color: var(--text-primary);
+}
+
+/* Form elements */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea,
+select {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--accent-color);
+}
+
+/* Buttons */
+button {
+    transition: all 0.3s ease;
+}
+
+/* Links */
+a {
+    color: var(--accent-color);
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+/* Tables */
+table {
+    border-collapse: collapse;
+}
+
+table th {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+table td {
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+table tr:hover {
+    background-color: var(--hover-bg);
+}
+
+/* Code blocks */
+code,
+pre {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+/* Cards/Panels */
+.card,
+.panel,
+.box,
+.container,
+article,
+section {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* Navigation */
+nav {
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+nav a {
+    color: var(--text-primary);
+}
+
+nav a:hover {
+    background-color: var(--hover-bg);
+}
+
+/* Modal/Dialog */
+.modal,
+.dialog {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* Scrollbar styling (Chrome/Edge) */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* ====================================
+   Mobile Responsive Design
+   ==================================== */
+
+/* Extra small devices (phones, less than 480px) */
+@media (max-width: 479px) {
+    html {
+        font-size: 14px;
+    }
+
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 22px;
+        margin: 15px 0;
+    }
+
+    h2 {
+        font-size: 18px;
+        margin: 12px 0;
+    }
+
+    h3 {
+        font-size: 16px;
+        margin: 10px 0;
+    }
+
+    /* Navigation */
+    nav {
+        flex-direction: column;
+    }
+
+    nav a {
+        padding: 10px 5px;
+    }
+
+    /* Tables - Stack on mobile */
+    table {
+        font-size: 12px;
+    }
+
+    table th,
+    table td {
+        padding: 8px 4px;
+    }
+
+    /* Forms - Full width */
+    input,
+    textarea,
+    select,
+    button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    /* Grid - Single column */
+    .grid,
+    .row,
+    .flex-container {
+        grid-template-columns: 1fr !important;
+        flex-direction: column !important;
+    }
+
+    /* Images - Responsive */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Padding/Margin reduction */
+    .container {
+        padding: 10px;
+    }
+
+    .card,
+    .panel,
+    .box {
+        padding: 15px;
+        margin: 10px 0;
+    }
+}
+
+/* Small devices (tablets, 480px - 768px) */
+@media (min-width: 480px) and (max-width: 768px) {
+    html {
+        font-size: 15px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    /* Grid - 2 columns */
+    .grid,
+    .grid-2,
+    .col-2 {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* Forms */
+    input,
+    textarea,
+    button {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    /* Tables */
+    table {
+        font-size: 13px;
+    }
+
+    table th,
+    table td {
+        padding: 10px 8px;
+    }
+}
+
+/* Medium devices (small laptops, 768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    html {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    /* Grid - 3 columns */
+    .grid,
+    .grid-3,
+    .col-3 {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+    .container {
+        padding: 20px;
+    }
+}
+
+/* Large devices (laptops, desktops, 1024px+) */
+@media (min-width: 1024px) {
+    html {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    /* Grid - 4 columns on large screens */
+    .grid,
+    .grid-4,
+    .col-4 {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+
+    .container {
+        padding: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+}
+
+/* ====================================
+   Utility Classes for Dark Mode
+   ==================================== */
+
+.bg-primary {
+    background-color: var(--bg-primary);
+}
+
+.bg-secondary {
+    background-color: var(--bg-secondary);
+}
+
+.text-primary {
+    color: var(--text-primary);
+}
+
+.text-secondary {
+    color: var(--text-secondary);
+}
+
+.border {
+    border-color: var(--border-color);
+}
+
+/* Dark mode only content */
+.dark-only {
+    display: none;
+}
+
+html[data-theme="dark"] .dark-only {
+    display: block;
+}
+
+html[data-theme="dark"] .light-only {
+    display: none;
+}
+
+/* ====================================
+   Accessibility & Print Styles
+   ==================================== */
+
+/* Ensure text is readable in print */
+@media print {
+    body {
+        background-color: white;
+        color: black;
+    }
+
+    .no-print {
+        display: none;
+    }
+}
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+    :root {
+        --text-primary: #000000;
+        --text-secondary: #333333;
+        --bg-primary: #ffffff;
+        --border-color: #000000;
+    }
+
+    html[data-theme="dark"] {
+        --text-primary: #ffffff;
+        --text-secondary: #e0e0e0;
+        --bg-primary: #000000;
+        --border-color: #ffffff;
+    }
+}

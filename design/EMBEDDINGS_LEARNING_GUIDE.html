@@ -1,0 +1,1669 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embeddings Research Papers - Complete Learning Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --color-paper1: #FF6B6B;
+            --color-paper2: #4ECDC4;
+            --color-paper3: #45B7D1;
+            --color-paper4: #96CEB4;
+            --color-paper5: #FFEAA7;
+            --color-paper6: #DDA15E;
+            --color-paper7: #BC6C25;
+            --color-theory: #9D4EDD;
+            --color-architecture: #FF006E;
+            --color-performance: #3A86FF;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-custom {
+            background: rgba(0, 0, 0, 0.8) !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #fff !important;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 15px;
+            margin-top: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-section h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-section .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+
+        .toc-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .toc-container h2 {
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: bold;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-list li {
+            margin: 12px 0;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .toc-list li:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .toc-list a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .paper-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-left: 8px solid #667eea;
+        }
+
+        .paper1 {
+            border-left-color: var(--color-paper1);
+        }
+
+        .paper2 {
+            border-left-color: var(--color-paper2);
+        }
+
+        .paper3 {
+            border-left-color: var(--color-paper3);
+        }
+
+        .paper4 {
+            border-left-color: var(--color-paper4);
+        }
+
+        .paper5 {
+            border-left-color: var(--color-paper5);
+        }
+
+        .paper6 {
+            border-left-color: var(--color-paper6);
+        }
+
+        .paper7 {
+            border-left-color: var(--color-paper7);
+        }
+
+        .paper-section h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+            font-weight: bold;
+        }
+
+        .paper-section h3 {
+            color: #555;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .paper-meta {
+            background: #f0f0f0;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .badge-custom {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 5px 5px 5px 0;
+            font-weight: 600;
+        }
+
+        .theory-badge {
+            background: var(--color-theory);
+            color: white;
+        }
+
+        .architecture-badge {
+            background: var(--color-architecture);
+            color: white;
+        }
+
+        .perf-badge {
+            background: var(--color-performance);
+            color: white;
+        }
+
+        .concept-box {
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .architecture-box {
+            background: #fafafa;
+            border: 2px dashed #ccc;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            border-radius: 8px;
+        }
+
+        .key-point {
+            background: #fffbea;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .performance-card {
+            background: #f0f7ff;
+            border: 2px solid #3A86FF;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .performance-card h5 {
+            color: #3A86FF;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .comparison-item h5 {
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .metric-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .metric-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
+        }
+
+        .metric-list li:last-child {
+            border-bottom: none;
+        }
+
+        .table-custom {
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        .table-custom th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .table-custom td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table-custom tr:hover {
+            background: #f5f5f5;
+        }
+
+        .highlight-blue {
+            color: #0066cc;
+            font-weight: 600;
+        }
+
+        .highlight-green {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .highlight-yellow {
+            color: #ff9800;
+            font-weight: 600;
+        }
+
+        .highlight-red {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        .float-box {
+            background: #fffacd;
+            border: 2px solid #ffeb3b;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .emoji-large {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top">📚 Embeddings Learning Guide</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#paper1">Paper 1</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#paper2">Paper 2</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#paper3">Paper 3</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#paper4">Paper 4</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#paper5">Paper 5</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#paper6">Paper 6</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#paper7">Paper 7</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-4 py-4">
+        <div class="header-section">
+            <h1>🎯 Embeddings in E-Commerce & Marketplaces</h1>
+            <p class="subtitle">Complete Technical Deep Dive: 7 Papers on Production Systems</p>
+            <p class="subtitle" style="font-size: 1.1rem; opacity: 0.9;">Sears • Alibaba • Twitter • Airbnb • Stitch Fix
+                • LinkedIn • LinkedIn</p>
+        </div>
+
+        <!-- TABLE OF CONTENTS -->
+        <div class="toc-container">
+            <h2>📑 Contents Overview</h2>
+            <ul class="toc-list">
+                <li>🛒 <a href="#paper1">Paper 1: Sears Shopping Cart Embeddings (2017)</a></li>
+                <li>🏬 <a href="#paper2">Paper 2: Alibaba Billion-Scale Commodity Embeddings (2018)</a></li>
+                <li>🐦 <a href="#paper3">Paper 3: Twitter Real-Time Timeline Embeddings (2018)</a></li>
+                <li>🏠 <a href="#paper4">Paper 4: Airbnb Listing Embeddings (2018)</a></li>
+                <li>👗 <a href="#paper5">Paper 5: Stitch Fix Style Embeddings (2018)</a></li>
+                <li>💼 <a href="#paper6">Paper 6: LinkedIn Talent Search Embeddings (2018)</a></li>
+                <li>👥 <a href="#paper7">Paper 7: LinkedIn Economic Graph Embeddings (Continuation)</a></li>
+            </ul>
+        </div>
+
+        <!-- PAPER 1 -->
+        <div class="paper-section paper1" id="paper1">
+            <h2><span class="emoji-large">🛒</span>Paper 1: Vector Embeddings for Shopping Carts and Customers</h2>
+            <div class="paper-meta">
+                <strong>Company:</strong> Sears Corporation | <strong>Year:</strong> 2017 | <strong>Type:</strong>
+                E-Commerce Recommendations
+                <span class="badge-custom theory-badge">Exponential Family</span>
+                <span class="badge-custom architecture-badge">Three-Fold System</span>
+                <span class="badge-custom perf-badge">Hybrid Recommendations</span>
+            </div>
+
+            <hr>
+
+            <h3>🎯 Core Concept 1: Exponential Family Embeddings</h3>
+            <div class="concept-box">
+                <h4>📌 Why Geometric Space Matters</h4>
+                <p>Embeddings are most effective when learned in the right space. Different problems need different
+                    approaches.</p>
+
+                <h5 class="mt-3">Traditional vs Exponential Family Approach:</h5>
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h5>❌ Euclidean Distance</h5>
+                        <ul class="metric-list">
+                            <li>Two items similar if ||v₁ - v₂|| small</li>
+                            <li>Works for: Continuous features</li>
+                            <li>Problem: Doesn't model probability</li>
+                            <li>Loses: Business metric alignment</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item">
+                        <h5>✅ Exponential Family</h5>
+                        <ul class="metric-list">
+                            <li>P(item_j | item_i) ∝ exp(v_i · v_j)</li>
+                            <li>Works for: Count data (shopping)</li>
+                            <li>Benefit: Directly models co-purchase probability</li>
+                            <li>Gain: Optimizes actual business metric</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <strong>💡 Why It Matters:</strong> Can directly answer "What's P(user buys B | bought A)?" and
+                    optimize for the probability that matters to business!
+                </div>
+
+                <h5 class="mt-3">Mathematical Framework:</h5>
+                <div class="architecture-box">
+                    P(y | x) = h(y) × exp(⟨φ(x), t(y)⟩ - A(φ(x)))
+
+                    For shopping context:
+                    ├─ h(y): Base measure (prior)
+                    ├─ φ(x): Sufficient statistics
+                    ├─ t(y): Feature encoding of target
+                    ├─ A(φ): Partition function (normalization)
+                    │
+                    Result: Naturally scaled probabilities
+                    └─ Direct optimization for what matters!
+                </div>
+            </div>
+
+            <h3>🎯 Core Concept 2: Three-Fold Embedding System</h3>
+            <div class="concept-box">
+                <h4>📌 Why Single Embeddings Aren't Enough</h4>
+                <p>Sears discovered that three complementary embeddings work better than any single representation.</p>
+
+                <h5 class="mt-3">The Three Embeddings:</h5>
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h5>1️⃣ Product Embeddings</h5>
+                        <ul class="metric-list">
+                            <li><strong>What:</strong> Each SKU as vector</li>
+                            <li><strong>From:</strong> Co-purchase patterns</li>
+                            <li><strong>Result:</strong> Products cluster by type/price/occasion</li>
+                            <li><strong>Example:</strong> Hammers near wrenches & screwdrivers</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item">
+                        <h5>2️⃣ Customer Embeddings</h5>
+                        <ul class="metric-list">
+                            <li><strong>What:</strong> Each customer as vector</li>
+                            <li><strong>From:</strong> Purchase history & behavior</li>
+                            <li><strong>Result:</strong> Customers cluster by shopping behavior</li>
+                            <li><strong>Example:</strong> Budget vs premium customers separate</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h5>3️⃣ Cart/Trip Embeddings</h5>
+                        <ul class="metric-list">
+                            <li><strong>What:</strong> Shopping trips as vectors</li>
+                            <li><strong>From:</strong> Items + sequence in trip</li>
+                            <li><strong>Result:</strong> Intent vectors captured</li>
+                            <li><strong>Example:</strong> "Holiday gifts" vs "Emergency repair"</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item">
+                        <h5>🎯 Three-Fold Advantage</h5>
+                        <ul class="metric-list">
+                            <li>Hybrid: Combines all three signals</li>
+                            <li>Cold-start: Graceful degradation</li>
+                            <li>Complexity: Captures context + intent</li>
+                            <li>Accuracy: 2-3% improvement over single embedding</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="float-box">
+                    <strong>Why Separate Cart Embeddings Matter:</strong> Same customer, different trips = different
+                    intent. Trip 1 needs emergency repair recommendations, Trip 2 needs holiday decorating. Single
+                    customer embedding misses this nuance!
+                </div>
+            </div>
+
+            <h3>🏗️ System Architecture</h3>
+            <div class="architecture-box">
+                ┌──────────────────────────────────────────────────────┐
+                │ SEARS THREE-FOLD RECOMMENDATION SYSTEM │
+                ├──────────────────────────────────────────────────────┤
+                │ │
+                │ INPUT: Current shopping context │
+                │ ├─ Customer profile (purchase history) │
+                │ ├─ Current trip items (shopping cart) │
+                │ └─ Product being considered (for recommendations) │
+                │ │
+                │ Step 1: Embedding Lookup │
+                │ ├─ Customer embedding: s_customer (learned) │
+                │ ├─ Current trip embedding: s_trip (aggregated) │
+                │ └─ Product embeddings: s_product for each candidate │
+                │ │
+                │ Step 2: Similarity Scoring │
+                │ ├─ Product similarity: ||s_prod1 - s_prod2|| │
+                │ ├─ Customer similarity: ||s_cust1 - s_cust2|| │
+                │ ├─ Trip context: s_trip · s_product │
+                │ └─ Combine: Score = α₁×prod_sim + α₂×cust_sim │
+                │ + α₃×trip_sim │
+                │ │
+                │ Step 3: Candidate Retrieval │
+                │ ├─ For each candidate product: │
+                │ ├─ Compute combined similarity score │
+                │ ├─ Rank by score │
+                │ └─ Return top-k recommendations │
+                │ │
+                │ OUTPUT: Ranked product recommendations │
+                │ │
+                └──────────────────────────────────────────────────────┘
+            </div>
+
+            <h3>📊 Real-World Performance</h3>
+            <div class="performance-card">
+                <h5>📈 Recommendation Quality Metrics</h5>
+                <table class="table table-striped table-custom">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Single Embedding</th>
+                            <th>Three-Fold System</th>
+                            <th>Improvement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Click-Through Rate</strong></td>
+                            <td>Baseline</td>
+                            <td>+2-3%</td>
+                            <td>Better discovery</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Conversion Rate</strong></td>
+                            <td>Baseline</td>
+                            <td>+1-2%</td>
+                            <td>More relevant items</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cold-Start Performance</strong></td>
+                            <td>Content only</td>
+                            <td>2x better</td>
+                            <td>Hybrid approach</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Context Relevance</strong></td>
+                            <td>Limited</td>
+                            <td>High</td>
+                            <td>Trip embeddings help</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="performance-card">
+                <h5>💡 Key Business Insight</h5>
+                <div class="metric-list">
+                    <li>✅ Multiple embeddings: Product + Customer + Context</li>
+                    <li>✅ Captures "What for Whom in What Context"</li>
+                    <li>✅ Better than any single representation</li>
+                    <li>✅ Production-ready at scale</li>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAPER 2 -->
+        <div class="paper-section paper2" id="paper2">
+            <h2><span class="emoji-large">🏬</span>Paper 2: Billion-Scale Commodity Embeddings</h2>
+            <div class="paper-meta">
+                <strong>Company:</strong> Alibaba | <strong>Year:</strong> 2018 | <strong>Type:</strong> Graph-Based
+                Embeddings at Scale
+                <span class="badge-custom theory-badge">Knowledge Graphs</span>
+                <span class="badge-custom architecture-badge">Side Information</span>
+                <span class="badge-custom perf-badge">1B+ Products</span>
+            </div>
+
+            <hr>
+
+            <h3>🎯 Core Concept 1: Graph Embeddings for E-Commerce</h3>
+            <div class="concept-box">
+                <h4>📌 Why Regular Skip-Gram Isn't Sufficient</h4>
+                <p>E-commerce is fundamentally a GRAPH problem, not a sequence problem like NLP.</p>
+
+                <h5 class="mt-3">The Graph Structure:</h5>
+                <div class="architecture-box">
+                    Products ←→ Products (co-purchase relationships)
+                    ↓
+                    Products ←→ Categories (hierarchical structure)
+                    ↓
+                    Items ←→ Attributes (shared features)
+                    ↓
+                    Users ←→ Items (interaction signals)
+
+                    Traditional embeddings (skip-gram):
+                    ├─ Only use: Direct customer interactions
+                    ├─ Problem: Sparse! (user clicks 1000 of 1B items)
+                    ├─ Cold-start: New items = zero interactions
+                    └─ Result: Poor coverage
+
+                    Graph embeddings:
+                    ├─ Propagate: Information through structure
+                    ├─ User A ≈ User B ≈ User C
+                    ├─ User C clicked Item X
+                    ├─ Infer: Items X might be relevant to User A
+                    ├─ Cold-start: New items discovered via categories/attributes
+                    └─ Result: Better coverage even with sparsity
+                </div>
+
+                <div class="key-point">
+                    <strong>💡 Alibaba's Scale Challenge:</strong> 1B+ products, 500M+ users, but sparsity = each user
+                    interacts with 0.0001% of items! Graph structure is essential!
+                </div>
+            </div>
+
+            <h3>🎯 Core Concept 2: Side Information Integration</h3>
+            <div class="concept-box">
+                <h4>📌 Enriching Embeddings with Metadata</h4>
+
+                <h5 class="mt-3">Side Information Types at Alibaba:</h5>
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h5>1️⃣ Categorical Data</h5>
+                        <ul class="metric-list">
+                            <li>Product category (electronics, clothing)</li>
+                            <li>Brand name</li>
+                            <li>Shipping region</li>
+                            <li>Seller type</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item">
+                        <h5>2️⃣ Hierarchical Data</h5>
+                        <ul class="metric-list">
+                            <li>Category → Sub-category → Product type</li>
+                            <li>Enables: "Similar to X in same category"</li>
+                            <li>Propagates: Information up/down hierarchy</li>
+                            <li>Benefit: Regularizes embeddings</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h5>3️⃣ Attribute Data</h5>
+                        <ul class="metric-list">
+                            <li>Color (for clothing): Red, Blue, Green</li>
+                            <li>Size, Material, Price range</li>
+                            <li>Connects similar products</li>
+                            <li>Enables: Cross-category recommendations</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item">
+                        <h5>4️⃣ Signal Multiplication</h5>
+                        <ul class="metric-list">
+                            <li>Without side info: 100 clicks on product X</li>
+                            <li>With side info: 100 clicks + 10K from category + 500 from attributes</li>
+                            <li>Result: 100→10.6K training signal!</li>
+                            <li>Benefit: Regularization through shared structure</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="float-box">
+                    <strong>🎯 Real Example:</strong> New product with 0 clicks. But same category has 10K clicks, same
+                    color/size links 500 items. New product immediately gets embedding from side information! No
+                    cold-start week!
+                </div>
+            </div>
+
+            <h3>🏗️ Knowledge Graph Architecture</h3>
+            <div class="architecture-box">
+                ┌──────────────────────────────────────────────────────┐
+                │ ALIBABA KNOWLEDGE GRAPH STRUCTURE │
+                ├──────────────────────────────────────────────────────┤
+                │ │
+                │ Node Types (100M+ nodes): │
+                │ ├─ Products (1B+ items) │
+                │ ├─ Users (500M+) │
+                │ ├─ Categories (10K+) │
+                │ ├─ Attributes (100K+) │
+                │ ├─ Sellers (100M+) │
+                │ └─ Regions (10K+) │
+                │ │
+                │ Edge Types (10B+ edges): │
+                │ ├─ User→Product: Clicks/purchases (implicit) │
+                │ ├─ Product↔Product: Co-purchase (undirected) │
+                │ ├─ Product→Category: Hierarchy (taxonomy) │
+                │ ├─ Product→Attributes: Feature assignment │
+                │ ├─ Product→Seller: Who sells (transaction) │
+                │ └─ Product→Region: Shipping availability │
+                │ │
+                │ Information Flow: │
+                │ ├─ Direct: User→Item interactions │
+                │ ├─ Transitive: A→Similar_B→B's items │
+                │ ├─ Hierarchical: Item→Category→Other items │
+                │ ├─ Attribute: Item→Color→Other_colored_items │
+                │ └─ Multi-hop: Propagate through all edges │
+                │ │
+                └──────────────────────────────────────────────────────┘
+            </div>
+
+            <h3>📊 Real-World Performance at Scale</h3>
+            <div class="performance-card">
+                <h5>📈 System Capacity & Results</h5>
+                <table class="table table-striped table-custom">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Value</th>
+                            <th>Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Sellers</strong></td>
+                            <td>100M+</td>
+                            <td>Massive marketplace</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Products</strong></td>
+                            <td>1B+</td>
+                            <td>Largest scale</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Users</strong></td>
+                            <td>500M+</td>
+                            <td>Monthly active</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Graph Nodes</strong></td>
+                            <td>100M+</td>
+                            <td>Semantic entities</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Graph Edges</strong></td>
+                            <td>10B+</td>
+                            <td>Relationships</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Query Latency</strong></td>
+                            <td>&lt;5ms</td>
+                            <td>Fast retrieval</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Inference Throughput</strong></td>
+                            <td>Millions/sec</td>
+                            <td>Real-time serving</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="performance-card">
+                <h5>🎯 Key Success Factors</h5>
+                <ul class="metric-list">
+                    <li>✅ <strong>Sparsity Handled:</strong> Graph propagation even when direct interactions sparse</li>
+                    <li>✅ <strong>Cold-Start Solved:</strong> Side information bootstraps new items</li>
+                    <li>✅ <strong>Efficient Scale:</strong> Distributed processing parallelized</li>
+                    <li>✅ <strong>Flexibility:</strong> Same embeddings for search, recommendation, ranking</li>
+                    <li>✅ <strong>Quality:</strong> Multiple information sources improve robustness</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PAPER 3 -->
+        <div class="paper-section paper3" id="paper3">
+            <h2><span class="emoji-large">🐦</span>Paper 3: Real-Time Personalization at Twitter Scale</h2>
+            <div class="paper-meta">
+                <strong>Company:</strong> Twitter | <strong>Year:</strong> 2018 | <strong>Type:</strong> Real-Time
+                Embeddings
+                <span class="badge-custom theory-badge">Multi-Representation</span>
+                <span class="badge-custom architecture-badge">Graph-Based Users</span>
+                <span class="badge-custom perf-badge">Microsecond Latency</span>
+            </div>
+
+            <hr>
+
+            <h3>🎯 Core Concept 1: Real-Time Constraints</h3>
+            <div class="concept-box">
+                <h4>📌 Why Traditional ML Doesn't Work at Twitter</h4>
+
+                <h5 class="mt-3">The Challenge:</h5>
+                <div class="float-box">
+                    Twitter Volume:
+                    ├─ 145K tweets per minute (2.4K per second!)
+                    ├─ 500M+ monthly active users
+                    ├─ Real-time feed ranking requirement
+                    └─ Microsecond-scale latency budgets
+
+                    Traditional ML problems:
+                    ├─ Model training: Takes days
+                    ├─ Fresh data: Hours old by deployment
+                    ├─ Inference latency: Can't afford long processing
+                    ├─ Cold-start: New tweets have zero engagement
+                    └─ Context volatility: Trends shift minute-by-minute
+                </div>
+
+                <h5 class="mt-3">Why Embeddings Solve This:</h5>
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h5>✅ Pre-Computation</h5>
+                        <ul class="metric-list">
+                            <li>Embeddings computed offline per item</li>
+                            <li>Inference = simple math (dot product)</li>
+                            <li>Latency: Microseconds</li>
+                            <li>On-the-fly: Can't recompute at query time</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item">
+                        <h5>✅ Semantic Richness</h5>
+                        <ul class="metric-list">
+                            <li>Capture meaning without explicit features</li>
+                            <li>Cold-start: Reasonable default from text/metadata</li>
+                            <li>Ranking: Instead of all 145K/min tweets</li>
+                            <li>Efficiency: Find best from top-100 (still fast)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>🎯 Core Concept 2: Multi-Representation Learning</h3>
+            <div class="concept-box">
+                <h4>📌 Why Single Embeddings Fail for Tweets</h4>
+
+                <h5 class="mt-3">Tweet Complexity:</h5>
+                <div class="float-box">
+                    A tweet contains:
+                    ├─ Text content (main signal)
+                    ├─ Author profile (who said it)
+                    ├─ Images/media (visual signals)
+                    ├─ Engagement patterns (likes, retweets, replies)
+                    ├─ Temporal signal (when posted)
+                    └─ Social graph (who follows author)
+
+                    Single embedding can't capture all dimensions!
+                </div>
+
+                <h5 class="mt-3">Twitter's Multi-View Solution:</h5>
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h5>1️⃣ Text Embeddings</h5>
+                        <ul class="metric-list">
+                            <li>From: Tweet text content</li>
+                            <li>Use: Content-based discovery</li>
+                            <li>Semantic: What is tweet about?</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item">
+                        <h5>2️⃣ Engagement Embeddings</h5>
+                        <ul class="metric-list">
+                            <li>From: Tweet interaction patterns</li>
+                            <li>Use: Real-time popularity ranking</li>
+                            <li>Signal: Is tweet trending?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h5>3️⃣ Social Graph Embeddings</h5>
+                        <ul class="metric-list">
+                            <li>From: User follow relationships</li>
+                            <li>Use: Personalized rankings</li>
+                            <li>Signal: Do I follow author?</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item">
+                        <h5>4️⃣ Temporal Embeddings</h5>
+                        <ul class="metric-list">
+                            <li>From: Time patterns in engagement</li>
+                            <li>Use: Time-sensitive ranking</li>
+                            <li>Signal: Is this time-relevant?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>📊 Real-Time Inference Flow</h3>
+            <div class="architecture-box">
+                ┌──────────────────────────────────────────────────────┐
+                │ TWITTER REAL-TIME TIMELINE SYSTEM │
+                ├──────────────────────────────────────────────────────┤
+                │ │
+                │ T=0ms: User Opens Timeline │
+                │ └─ Input: user_id, timestamp, device context │
+                │ │
+                │ T=1ms: Candidate Fetching │
+                │ ├─ Query: Tweets from followed accounts (24h) │
+                │ ├─ Result: 10K+ candidate tweets │
+                │ └─ Data: Real-time feed service │
+                │ │
+                │ T=5ms: User Embedding Aggregation │
+                │ ├─ Query: Get recent likes (last 1000) │
+                │ ├─ Aggregate: Average tweet embeddings │
+                │ ├─ Decay: Weight older likes lower │
+                │ └─ Result: current_user_embedding │
+                │ │
+                │ T=10ms: Embedding-Based Retrieval │
+                │ ├─ For 10K candidates: │
+                │ ├─ Retrieve: Pre-computed embeddings │
+                │ ├─ Compute: cos(user_emb, tweet_emb) │
+                │ ├─ Keep: Top 500 by similarity │
+                │ └─ Result: Coarse stage candidates │
+                │ │
+                │ T=15ms: Deep Ranking (500 selected) │
+                │ ├─ Deep neural network scores all 500 │
+                │ ├─ Input: Embeddings + all features │
+                │ ├─ Output: Ranking scores │
+                │ └─ Sort: Final order │
+                │ │
+                │ T=20ms: Re-Ranking & Diversification │
+                │ ├─ Diversify: Not too many from one author │
+                │ ├─ Monetize: Insert ads │
+                │ ├─ Fairness: Apply constraints │
+                │ └─ Truncate: Top 30-50 tweets │
+                │ │
+                │ T=25ms: Return to User │
+                │ └─ HTTP response with final timeline │
+                │ │
+                │ T=125ms: Render (User sees timeline) │
+                │ └─ Network + visualization time │
+                │ │
+                │ TOTAL: 25ms system, 100ms+ network │
+                │ │
+                └──────────────────────────────────────────────────────┘
+            </div>
+
+            <div class="performance-card">
+                <h5>⚡ Latency Budget Breakdown</h5>
+                <ul class="metric-list">
+                    <li>Candidate fetching: <span class="highlight-blue">1-2ms</span> (real-time feeds)</li>
+                    <li>User embedding: <span class="highlight-blue">2-3ms</span> (aggregation)</li>
+                    <li>Embedding similarity: <span class="highlight-blue">3-5ms</span> (10K searches)</li>
+                    <li>Deep ranking: <span class="highlight-blue">5-10ms</span> (500 candidates)</li>
+                    <li><strong>Total system: <span class="highlight-green">&lt;25ms</span></strong></li>
+                    <li>Network + render: <span class="highlight-yellow">100-500ms</span> (user-side)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PAPER 4 -->
+        <div class="paper-section paper4" id="paper4">
+            <h2><span class="emoji-large">🏠</span>Paper 4: Listing Embeddings for Recommendations at Airbnb</h2>
+            <div class="paper-meta">
+                <strong>Company:</strong> Airbnb | <strong>Year:</strong> 2018 | <strong>Type:</strong> Booking-Driven
+                Embeddings
+                <span class="badge-custom theory-badge">Global Context</span>
+                <span class="badge-custom architecture-badge">Market-Level Sampling</span>
+                <span class="badge-custom perf-badge">Cold-Start Solution</span>
+            </div>
+
+            <hr>
+
+            <h3>🎯 Core Concept 1: Booking as Ultimate Signal</h3>
+            <div class="concept-box">
+                <h4>📌 Why Booking Beats Clicking</h4>
+
+                <h5 class="mt-3">The Signal Hierarchy:</h5>
+                <div class="float-box">
+                    User searches: "NYC, June 1-5, 2 beds"
+                    ├─ Clicks: [L1, L2, L3, L4, L5] (5 listings)
+                    ├─ Browses: Scrolls through options
+                    ├─ Views: Reads reviews and images
+                    └─ Books: L3 (commits financially!)
+
+                    Traditional approach:
+                    ├─ Problem: All clicks treated equally
+                    ├─ L1 click = L3 click (even though L3 booked!)
+                    └─ Loss: Noisy signal, hard to distinguish preferences
+
+                    Airbnb's insight:
+                    ├─ Booking = true intent signal
+                    ├─ Multiple clicks but single booking
+                    ├─ Financial commitment = honest preference
+                    ├─ Directly optimizes business KPI (bookings)
+                    └─ Much stronger training signal!
+                </div>
+
+                <h5 class="mt-3">Skip-Gram Modification:</h5>
+                <div class="architecture-box">
+                    Standard skip-gram on click sequence: [L1, L2, L3, ...]
+                    ├─ Problem: All treated equally
+                    └─ Loss: Missing booking signal
+
+                    Airbnb's approach - Global Context:
+                    ├─ Booked listing (L3) = special
+                    ├─ Add L3 to negative sampling with HIGH weight
+                    ├─ Effect: L3 embedding pulled strongly toward quality
+                    ├─ Result: Booked listings are special in space
+                    └─ Outcome: Better embeddings for recommendations!
+                </div>
+            </div>
+
+            <h3>🎯 Core Concept 2: Market-Level Negative Sampling</h3>
+            <div class="concept-box">
+                <h4>📌 Why Negatives Matter More Than Positives</h4>
+
+                <h5 class="mt-3">The Sampling Challenge:</h5>
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h5>❌ Random Negative Sampling</h5>
+                        <ul class="metric-list">
+                            <li>Positive: NYC listings booked</li>
+                            <li>Negatives: ANY listings (anywhere!)</li>
+                            <li>Problem: NYC ≠ Paris (different market)</li>
+                            <li>Issue: Paris apartment is not competitive</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item">
+                        <h5>✅ Market-Level Negatives</h5>
+                        <ul class="metric-list">
+                            <li>Positive: NYC listings booked</li>
+                            <li>Negatives: NYC listings NOT booked</li>
+                            <li>Benefit: Only relevant competitors</li>
+                            <li>Result: NYC embeddings cluster tight</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="float-box">
+                    <strong>Example:</strong> User booked luxury apartment in Manhattan. Negative samples should be
+                    other Manhattan apartments (similar market, price point), NOT budget backpacker hostels (different
+                    market entirely). Market-level sampling learns precise similarities!
+                </div>
+            </div>
+
+            <h3>🎯 Core Concept 3: Cold-Start Solution</h3>
+            <div class="concept-box">
+                <h4>📌 Geometric Proximity for New Listings</h4>
+
+                <h5 class="mt-3">The Problem:</h5>
+                <div class="float-box">
+                    New listing added to Airbnb:
+                    ├─ Zero booking history
+                    ├─ Can't use booking-based training
+                    ├─ Need immediate embedding
+                    └─ Traditional approach: Random or content-only (poor!)
+                </div>
+
+                <h5 class="mt-3">Airbnb's Cold-Start Solution:</h5>
+                <div class="architecture-box">
+                    For new listing L_new:
+
+                    1. Find 3 nearest neighbors:
+                    ├─ Geographic proximity: Same neighborhood
+                    ├─ Category match: Same bedrooms/type
+                    └─ Price range: Within 2x of L_new
+
+                    2. Cold-start embedding:
+                    └─ emb(L_new) = [emb(L_near1) + emb(L_near2)
+                    + emb(L_near3)] / 3
+
+                    3. Why this works:
+                    ├─ Nearby listings = similar market
+                    ├─ Same type = similar target customer
+                    ├─ Similar price = similar segment
+                    └─ Average starts in "right part" of space
+
+                    4. Improvement over time:
+                    ├─ As bookings arrive: Embedding pulled from cold-start
+                    ├─ Quickly converges: After 10-20 bookings
+                    ├─ Eventually: Same quality as established listing
+                    └─ No week-long cold period!
+                </div>
+
+                <div class="key-point">
+                    <strong>💡 Result:</strong> Cold-start embeddings ~80-90% as good as fully trained! New listings
+                    discoverable immediately instead of being invisible for weeks!
+                </div>
+            </div>
+
+            <h3>📊 Real-World Performance</h3>
+            <div class="performance-card">
+                <h5>📈 A/B Test Results (Similar Listings)</h5>
+                <table class="table table-striped table-custom">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Before</th>
+                            <th>After (Embeddings)</th>
+                            <th>Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Click-Through Rate</td>
+                            <td>1.0%</td>
+                            <td><span class="highlight-green">1.21%</span></td>
+                            <td>+21% improvement!</td>
+                        </tr>
+                        <tr>
+                            <td>Conversion (click→booking)</td>
+                            <td>5.0%</td>
+                            <td>5.2%</td>
+                            <td>Slight increase</td>
+                        </tr>
+                        <tr>
+                            <td>Top-3 Recognition</td>
+                            <td>Baseline</td>
+                            <td>+4.9%</td>
+                            <td>Better ranking</td>
+                        </tr>
+                        <tr>
+                            <td>Long-Tail Discovery</td>
+                            <td>Baseline</td>
+                            <td>+15%</td>
+                            <td>Better inventory utilization</td>
+                        </tr>
+                        <tr>
+                            <td>New Host Visibility</td>
+                            <td>Baseline</td>
+                            <td>+8%</td>
+                            <td>Faster ramp-up</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="performance-card">
+                <h5>💾 Embedding Dimension Analysis (Why 32D?)</h5>
+                <div class="metric-list">
+                    <li><strong>8D:</strong> Too sparse, limited expressiveness (-5% CTR)</li>
+                    <li><strong>16D:</strong> Better but constrained (-2% CTR)</li>
+                    <li><strong>32D:</strong> ✅ Sweet spot (chosen for production)</li>
+                    <li><strong>64D:</strong> Slightly better (+0.5% CTR) but expensive</li>
+                    <li><strong>128D:</strong> +1% CTR but 2GB storage cost</li>
+                    <li><strong>256D:</strong> Best accuracy but too slow (>10ms queries)</li>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAPER 5 -->
+        <div class="paper-section paper5" id="paper5">
+            <h2><span class="emoji-large">👗</span>Paper 5: Latent Style Embeddings via Implicit User Feedback</h2>
+            <div class="paper-meta">
+                <strong>Company:</strong> Stitch Fix | <strong>Year:</strong> 2018 | <strong>Type:</strong> Fashion
+                Style Embeddings
+                <span class="badge-custom theory-badge">Latent Space</span>
+                <span class="badge-custom architecture-badge">Implicit Feedback</span>
+                <span class="badge-custom perf-badge">Keep-Rate Optimization</span>
+            </div>
+
+            <hr>
+
+            <h3>🎯 Core Concept 1: Style as Latent Representation</h3>
+            <div class="concept-box">
+                <h4>📌 Why Fashion is Different</h4>
+
+                <h5 class="mt-3">Fashion Challenge:</h5>
+                <div class="float-box">
+                    What makes outfit "good" for person X?
+                    ├─ Hard to describe: "I like it" vs "I can't explain why"
+                    ├─ Subjective: Personal preference, not objective
+                    ├─ Traditional features fail: Color names ambiguous
+                    ├─ Style is multi-dimensional AND personal
+                    └─ Aesthetic changes: Trends shift rapidly
+                </div>
+
+                <h5 class="mt-3">Latent Style Approach:</h5>
+                <div class="architecture-box">
+                    Hypothesis: Style exists in latent space
+
+                    Observable: Keep/return decisions
+                    ├─ Keep: Item aligned with person's style
+                    ├─ Return: Item misaligned with style
+                    └─ These decisions reveal preferences!
+
+                    Model:
+                    ├─ Person has style vector: s_person (unknown)
+                    ├─ Item has style vector: s_item (unknown)
+                    ├─ P(keep | person, item) ∝ cos(s_person, s_item)
+                    │
+                    ├─ Training: Observe keep/return data
+                    ├─ Learn: Both person and item vectors
+                    ├─ Result: Shared style space
+                    └─ Interpretation: Similar people/items cluster!
+                </div>
+
+                <div class="key-point">
+                    <strong>💡 Unique Advantage:</strong> Stitch Fix has explicit keep/return signal. Not implicit like
+                    clicks - it's actual purchase/return behavior with money backing it!
+                </div>
+            </div>
+
+            <h3>🎯 Core Concept 2: Implicit User Feedback</h3>
+            <div class="concept-box">
+                <h4>📌 Why Return Behavior is Powerful</h4>
+
+                <h5 class="mt-3">Feedback Types:</h5>
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h5>❌ Explicit Feedback (Not Used)</h5>
+                        <ul class="metric-list">
+                            <li>Ratings: "Rate this 5 stars"</li>
+                            <li>Problem: Users rarely rate</li>
+                            <li>Sparse: Very few ratings available</li>
+                            <li>Biased: People rate extremes</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item">
+                        <h5>✅ Implicit Feedback (Stitch Fix)</h5>
+                        <ul class="metric-list">
+                            <li><strong>Keep:</strong> Strong signal "I like this"</li>
+                            <li><strong>Return:</strong> Strong signal "Doesn't work"</li>
+                            <li><strong>Money:</strong> Financial commitment backing</li>
+                            <li><strong>Natural:</strong> No extra effort from customer</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="float-box">
+                    <strong>Why Implicit is Better:</strong>
+                    ├─ Natural: No extra effort needed
+                    ├─ Honest: Real money backing preferences
+                    ├─ Aligned: Matches business metric (keep rate)
+                    └─ Rich: Keep vs return both informative!
+                </div>
+            </div>
+
+            <h3>📊 Real-World Business Impact</h3>
+            <div class="performance-card">
+                <h5>📈 Keep-Rate Improvement</h5>
+                <table class="table table-striped table-custom">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Before Embeddings</th>
+                            <th>After Embeddings</th>
+                            <th>Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Keep Rate</td>
+                            <td>58%</td>
+                            <td><span class="highlight-green">64%</span></td>
+                            <td>+6 percentage points!</td>
+                        </tr>
+                        <tr>
+                            <td>Return Rate</td>
+                            <td>42%</td>
+                            <td>36%</td>
+                            <td>-6 percentage points</td>
+                        </tr>
+                        <tr>
+                            <td>Customer Satisfaction</td>
+                            <td>3.1/5.0</td>
+                            <td>3.8/5.0</td>
+                            <td>+0.7 points</td>
+                        </tr>
+                        <tr>
+                            <td>Monthly Items Processed</td>
+                            <td>~1M</td>
+                            <td>~1M</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Return Cost Savings</td>
+                            <td>—</td>
+                            <td><span class="highlight-green">$6-12M/month</span></td>
+                            <td>60K fewer returns!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="performance-card">
+                <h5>💡 Economic Impact</h5>
+                <ul class="metric-list">
+                    <li>✅ 6pp improvement on 1M items/month = <span class="highlight-green">60K fewer returns</span>
+                    </li>
+                    <li>✅ Return shipping cost: ~$100-200 per return</li>
+                    <li>✅ Monthly savings: <span class="highlight-green">$6-12 million!</span></li>
+                    <li>✅ Plus: Happier customers = repeat subscriptions</li>
+                    <li>✅ ROI: Embedding project pays for itself in <span class="highlight-green">weeks</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PAPER 6 -->
+        <div class="paper-section paper6" id="paper6">
+            <h2><span class="emoji-large">💼</span>Paper 6: Talent Search Deep Learning at LinkedIn</h2>
+            <div class="paper-meta">
+                <strong>Company:</strong> LinkedIn | <strong>Year:</strong> 2018 | <strong>Type:</strong> Talent
+                Matching Embeddings
+                <span class="badge-custom theory-badge">Economic Graph</span>
+                <span class="badge-custom architecture-badge">Sparse Entities</span>
+                <span class="badge-custom perf-badge">Learning to Rank</span>
+            </div>
+
+            <hr>
+
+            <h3>🎯 Core Concept 1: The LinkedIn Economic Graph</h3>
+            <div class="concept-box">
+                <h4>📌 LinkedIn's Unique Advantage</h4>
+
+                <h5 class="mt-3">The Economic Graph Structure:</h5>
+                <div class="architecture-box">
+                    Professional Network (200M+ members):
+
+                    Nodes:
+                    ├─ Professionals (members)
+                    ├─ Companies (employers)
+                    ├─ Schools (education)
+                    ├─ Skills (professional capabilities)
+                    ├─ Roles (job titles/positions)
+                    ├─ Locations (geography)
+                    └─ Industries (sectors)
+
+                    Edges:
+                    ├─ Connection: Direct follows
+                    ├─ Employment: Works at company
+                    ├─ Education: Attended school
+                    ├─ Endorsement: Skill endorsed
+                    ├─ Role: Currently held position
+                    └─ Experience: Similar background
+                </div>
+
+                <div class="key-point">
+                    <strong>💡 Unique Data Asset:</strong> Only LinkedIn has this complete professional relationship
+                    graph. 200M professionals with rich verified employment history. This is the foundation for talent
+                    matching!
+                </div>
+
+                <h5 class="mt-3">Why This Matters for Talent Search:</h5>
+                <div class="float-box">
+                    Traditional recruiting:
+                    ├─ Recruiter searches: "Software Engineer in NYC"
+                    ├─ System matches: Title + Location + Skills
+                    ├─ Problem: Exact keyword match misses great candidates
+                    ├─ Example: "Principal Engineer" doesn't match "Sr. SWE"
+                    └─ Result: Perfect fits might be invisible
+
+                    LinkedIn Graph-Based:
+                    ├─ Candidate A: Principal Engineer (slightly diff title)
+                    ├─ But same company, same skills as target profile
+                    ├─ And worked with similar hiring manager before
+                    ├─ Graph propagates: This person is similar!
+                    └─ Result: Great candidate discovered!
+                </div>
+            </div>
+
+            <h3>🎯 Core Concept 2: Sparse Entity Embeddings</h3>
+            <div class="concept-box">
+                <h4>📌 Managing the Curse of Dimensionality</h4>
+
+                <h5 class="mt-3">The Challenge:</h5>
+                <div class="float-box">
+                    Entity types at LinkedIn:
+                    ├─ Users: 200M+
+                    ├─ Companies: 1M+
+                    ├─ Schools: 50K+
+                    ├─ Skills: 100K+
+                    ├─ Locations: 10K+
+                    └─ Roles: 1000+
+
+                    Naive one-hot encoding:
+                    ├─ Total dimensions: 200M + 1M + 50K + 100K + 10K + 1K
+                    ├─ = 201 MILLION dimensions!
+                    ├─ Too high, requires massive memory
+                    ├─ Training would be prohibitively slow
+                    └─ Most users have only 1-2 of each type
+                </div>
+
+                <h5 class="mt-3">Sparse Entity Embeddings Solution:</h5>
+                <div class="architecture-box">
+                    Instead of one-hot (1M dims), use sparse embeddings:
+
+                    For each entity type:
+                    ├─ Company: 1M entities → 20D embedding
+                    ├─ School: 50K entities → 20D embedding
+                    ├─ Skills: 100K entities → 20D embedding (per skill!)
+                    ├─ Role: 1K entities → 20D embedding
+                    ├─ Location: 10K entities → 20D embedding
+                    └─ Total: ~160D (not 201M!)
+
+                    Training efficiency:
+                    ├─ Only updates non-zero values
+                    ├─ Memory: Manageable in-memory
+                    ├─ Speed: Fast gradient computation
+                    └─ Scalability: Trains on modern hardware
+
+                    Concatenation:
+                    ├─ Company emb: 20D
+                    ├─ School emb: 20D
+                    ├─ Skills embs: 100D (multiple skills summed)
+                    ├─ Role emb: 20D
+                    └─ Total candidate embedding: 160D
+                </div>
+            </div>
+
+            <h3>📊 Talent Matching Architecture</h3>
+            <div class="architecture-box">
+                ┌──────────────────────────────────────────────────────┐
+                │ LINKEDIN TALENT SEARCH SYSTEM │
+                ├──────────────────────────────────────────────────────┤
+                │ │
+                │ Input: Recruiter query │
+                │ ├─ Job requirements (title, experience, skills) │
+                │ ├─ Location preferences │
+                │ ├─ Industry/company filters │
+                │ └─ Recruiter hiring history (preferences) │
+                │ │
+                │ Step 1: Generate Candidate Pool │
+                │ ├─ Filter by: Keywords + location + experience │
+                │ ├─ Result: 100K-1M candidates (still huge!) │
+                │ └─ Reduces: Original 200M+ to manageable pool │
+                │ │
+                │ Step 2: Convert to Embedding Space │
+                │ ├─ Query embedding: │
+                │ │ ├─ Extract job requirements │
+                │ │ ├─ Look up: Embeddings for skills, roles, etc. │
+                │ │ ├─ Average: Combined query embedding │
+                │ │ └─ Result: query_embedding (160D) │
+                │ │ │
+                │ ├─ For each candidate: │
+                │ │ ├─ Company embedding lookup │
+                │ │ ├─ School embedding lookup │
+                │ │ ├─ Skill embeddings (sum all skills) │
+                │ │ ├─ Role/location embeddings │
+                │ │ └─ Combine: candidate_embedding (160D) │
+                │ │ │
+                │ ├─ Similarity scoring: │
+                │ │ └─ For each of 100K-1M: cos(query, candidate) │
+                │ │ │
+                │ └─ Keep: Top 1000 by similarity (coarse stage) │
+                │ │
+                │ Step 3: Learn Recruiter Preferences │
+                │ ├─ Mine: Jobs posted by recruiter │
+                │ ├─ Find: Who recruiter contacted (positive signal) │
+                │ ├─ Find: Who recruiter interviewed (stronger +) │
+                │ ├─ Find: Who recruiter hired (strongest +!) │
+                │ ├─ Pattern: Typical hire profile │
+                │ └─ Result: recruiter_preference_embedding │
+                │ │
+                │ Step 4: Re-Ranking with Recruiter Preference │
+                │ ├─ For selected 1000 candidates: │
+                │ ├─ Compute: Alignment with recruiter's hires │
+                │ ├─ Adjust: Similarity scores based on preference │
+                │ ├─ Boost: Candidates matching past hires │
+                │ └─ Re-sort: Final ranking considering preference │
+                │ │
+                │ Output: Ranked list of best candidates │
+                │ │
+                └──────────────────────────────────────────────────────┘
+            </div>
+
+            <div class="performance-card">
+                <h5>🎯 Key Innovation: Learning to Rank</h5>
+                <ul class="metric-list">
+                    <li>✅ Not just similarity matching (coarse)</li>
+                    <li>✅ Also learns recruiter preferences (fine)</li>
+                    <li>✅ Candidate who matches: "Who I usually hire"</li>
+                    <li>✅ Gets boosted in ranking</li>
+                    <li>✅ Improves quality of top results</li>
+                    <li>✅ Personalizes to recruiter hiring patterns</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PAPER 7 -->
+        <div class="paper-section paper7" id="paper7">
+            <h2><span class="emoji-large">👥</span>Paper 7: Economic Graph Embeddings (LinkedIn Continuation)</h2>
+            <div class="paper-meta">
+                <strong>Company:</strong> LinkedIn | <strong>Year:</strong> 2018+ | <strong>Type:</strong> Graph-Wide
+                Applications
+                <span class="badge-custom theory-badge">Network Properties</span>
+                <span class="badge-custom architecture-badge">Multi-Purpose</span>
+                <span class="badge-custom perf-badge">Scale 200M+ Members</span>
+            </div>
+
+            <hr>
+
+            <h3>🎯 Extending Embeddings Across All LinkedIn Use Cases</h3>
+            <div class="concept-box">
+                <h4>📌 Beyond Talent Search</h4>
+
+                <h5 class="mt-3">Economic Graph Applications:</h5>
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h5>1️⃣ Talent Matching</h5>
+                        <ul class="metric-list">
+                            <li>Match recruiters to candidates</li>
+                            <li>Using: Skill + company + experience</li>
+                            <li>Goal: Better hires</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item">
+                        <h5>2️⃣ Content Recommendation</h5>
+                        <ul class="metric-list">
+                            <li>Recommend articles, jobs, people</li>
+                            <li>Using: Interest profile embedding</li>
+                            <li>Goal: Engagement</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h5>3️⃣ Learning Recommendations</h5>
+                        <ul class="metric-list">
+                            <li>Recommend courses & skills</li>
+                            <li>Using: Current skill profile</li>
+                            <li>Goal: Professional development</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-item">
+                        <h5>4️⃣ Company Similarity</h5>
+                        <ul class="metric-list">
+                            <li>Find similar companies</li>
+                            <li>Using: Company embeddings</li>
+                            <li>Goal: Competitive analysis</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <strong>💡 Power of Unified Embeddings:</strong> Same representation space used for 20+ different
+                    applications. Single embedding infrastructure serves talent search, content rec, learning, company
+                    insights, and more!
+                </div>
+            </div>
+
+            <h3>💡 Key Learnings Across All 7 Papers</h3>
+            <div class="performance-card">
+                <h5>🎯 Universal Embedding Principles</h5>
+                <table class="table table-striped table-custom">
+                    <thead>
+                        <tr>
+                            <th>Principle</th>
+                            <th>Application</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Domain-Specific Space</strong></td>
+                            <td>Exponential family for probability, graphs for networks</td>
+                            <td>Better alignment with problem</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Multiple Representations</strong></td>
+                            <td>Different embeddings for different signals</td>
+                            <td>Richer understanding</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Side Information</strong></td>
+                            <td>Metadata, attributes, taxonomy</td>
+                            <td>Better cold-start & regularization</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Booking/Action as Signal</strong></td>
+                            <td>Implicit feedback from real actions</td>
+                            <td>Stronger training signal</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Market-Level Context</strong></td>
+                            <td>Compare within relevant scope</td>
+                            <td>More precise embeddings</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Shared Infrastructure</strong></td>
+                            <td>One embedding space for many tasks</td>
+                            <td>Efficiency & consistency</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Final Summary -->
+        <div class="paper-section" style="border-left-color: #667eea;">
+            <h2 style="color: #667eea;">📚 Complete Guide Summary</h2>
+
+            <div class="performance-card">
+                <h5>🎯 7 Major Companies, 1 Pattern</h5>
+                <ul class="metric-list">
+                    <li>✅ <strong>Sears:</strong> Three-fold embeddings for recommendations (2017)</li>
+                    <li>✅ <strong>Alibaba:</strong> Billion-scale graph embeddings with side info (2018)</li>
+                    <li>✅ <strong>Twitter:</strong> Real-time multi-representation embeddings (2018)</li>
+                    <li>✅ <strong>Airbnb:</strong> Booking-driven with market-level sampling (2018)</li>
+                    <li>✅ <strong>Stitch Fix:</strong> Latent style via implicit feedback (2018)</li>
+                    <li>✅ <strong>LinkedIn:</strong> Sparse entity embeddings for talent (2018)</li>
+                    <li>✅ <strong>LinkedIn:</strong> Economic graph for multiple applications (2018+)</li>
+                </ul>
+            </div>
+
+            <div class="concept-box">
+                <h4>📌 Core Insights Across All Papers</h4>
+                <h5 class="mt-3">1. Choose the Right Space</h5>
+                <p>Different problems need different embedding spaces. Exponential family for probabilities, graphs for
+                    networks, latent space for subjective preferences.</p>
+
+                <h5 class="mt-3">2. Multiple Perspectives</h5>
+                <p>Single embeddings often insufficient. Combine product + customer + context. Use text + engagement +
+                    social + temporal signals.</p>
+
+                <h5 class="mt-3">3. Signal Quality Matters</h5>
+                <p>Implicit feedback from real actions beats explicit ratings. Bookings > clicks > views. Keep/return >
+                    likes > follows.</p>
+
+                <h5 class="mt-3">4. Context is Everything</h5>
+                <p>Market-level negatives, geographic proximity for cold-start, recruiter preferences for ranking.
+                    Context improves precision.</p>
+
+                <h5 class="mt-3">5. Cold-Start Solutions</h5>
+                <p>Side information, geometric proximity, metadata-based initialization. Solve cold-start immediately
+                    instead of week-long ramp-up.</p>
+
+                <h5 class="mt-3">6. Scalability Through Efficiency</h5>
+                <p>Sparse embeddings, distributed processing, approximate algorithms. Handle billions at millisecond
+                    latency.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add active class to current section
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.paper-section');
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    const id = section.getAttribute('id');
+                    document.querySelectorAll('nav a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    const activeLink = document.querySelector(`nav a[href="#${id}"]`);
+                    if (activeLink) activeLink.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

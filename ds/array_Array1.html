@@ -1,0 +1,1231 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Medium - Array Problems Mastery</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --light-bg: #f8fafc;
+            --dark-bg: #0f172a;
+            --easy: #84fab0;
+            --medium: #ffa502;
+            --hard: #ff6b6b;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white !important;
+            animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .main-wrapper {
+            background: white;
+            margin: 30px auto;
+            max-width: 1400px;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: slideInDown 0.8s ease;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes moveBackground {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
+            opacity: 0.95;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease backwards;
+        }
+
+        .stat-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .stat-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .stat-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .stat-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .stat-card .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card .label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .filter-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 25px 40px;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .filter-title {
+            color: white;
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn.active {
+            background: white;
+            color: #f5576c;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .content-wrapper {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .problem-count {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        .accordion {
+            border: none;
+            margin-bottom: 15px;
+        }
+
+        .accordion-button {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            padding: 18px 20px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+            position: relative;
+        }
+
+        .accordion-button:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .problem-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            letter-spacing: 0.3px;
+        }
+
+        .difficulty-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .difficulty-badge:hover {
+            transform: scale(1.1);
+        }
+
+        .difficulty-easy {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            color: #333;
+        }
+
+        .difficulty-medium {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: #333;
+        }
+
+        .difficulty-hard {
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);
+            color: white;
+        }
+
+        .accordion-body {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .learn-key {
+            background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .approach-box {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #f59e0b;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .approach-box:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .approach-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #ff8c00;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        .approach-steps {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .approach-steps li {
+            padding: 8px 0;
+            padding-left: 35px;
+            position: relative;
+            color: #333;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .approach-steps li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #ff8c00;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .complexity-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .complexity-card {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #10b981;
+            transition: all 0.3s ease;
+        }
+
+        .complexity-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .complexity-card.space {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-left-color: #3b82f6;
+        }
+
+        .complexity-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #555;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .complexity-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.3px;
+        }
+
+        .code-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .code-container {
+            position: relative;
+            margin: 10px 0;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #e0e0e0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            overflow-x: auto;
+            line-height: 1.7;
+            border-left: 5px solid #667eea;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .code-copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .code-copy-btn:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+
+        .code-copy-btn.copied {
+            background: #10b981;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .function {
+            color: #dcdcaa;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .example-section {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .example-section:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #7b1fa2;
+            margin-bottom: 15px;
+            letter-spacing: 0.3px;
+        }
+
+        .visualization {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            border: 2px solid #e0e0e0;
+            overflow-x: auto;
+            line-height: 1.7;
+            letter-spacing: 0.3px;
+            white-space: pre-wrap;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+            border: none;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        footer {
+            background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 50px;
+        }
+
+        footer h5 {
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        @media (max-width: 768px) {
+            .filter-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .content-wrapper {
+                padding: 25px;
+            }
+
+            .complexity-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top">
+                <i class="fas fa-code"></i> Array Mastery
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#problems">Problems</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#top">Back to Top</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Hero Section -->
+        <div class="hero" id="top">
+            <h1>💻 LeetCode Medium - Array Mastery</h1>
+            <p class="hero-subtitle">Master Array Problems with 20 Essential Questions & Complete Solutions</p>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="number">20</div>
+                    <div class="label">Problems</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">Complete</div>
+                    <div class="label">Solutions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">Tested</div>
+                    <div class="label">Examples</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">Medium</div>
+                    <div class="label">Difficulty</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-title"><i class="fas fa-filter"></i> Filter by Difficulty</div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Problems</button>
+                <button class="filter-btn" data-filter="easy">🟢 Easy</button>
+                <button class="filter-btn" data-filter="medium">🟡 Medium</button>
+                <button class="filter-btn" data-filter="hard">🔴 Hard</button>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="content-wrapper">
+
+            <!-- PROBLEMS SECTION -->
+            <div class="section" id="problems">
+                <h2 class="section-title">
+                    <i class="fas fa-tasks"></i> Problems & Solutions
+                    <span class="problem-count">20</span>
+                </h2>
+
+                <div class="accordion" id="problemAccordion">
+
+                    <!-- Problem 1: Two Sum II -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#prob1">
+                                <div class="problem-header">
+                                    <span class="problem-title">1️⃣ Two Sum II (Input Array Is Sorted)</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="prob1" class="accordion-collapse collapse" data-bs-parent="#problemAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Problem:</strong> Given a 1-indexed sorted array, find two numbers that add
+                                    up to a target value and return their 1-based indices.</p>
+
+                                <div class="learn-key">
+                                    <strong>💡 Key Insight:</strong> Array is sorted! Use two pointers from opposite
+                                    ends - increase left if sum is too small, decrease right if too large.
+                                </div>
+
+                                <div class="approach-box">
+                                    <div class="approach-title"><i class="fas fa-lightbulb"></i> Approach: Two Pointers
+                                    </div>
+                                    <ul class="approach-steps">
+                                        <li>Start with left pointer at beginning, right pointer at end</li>
+                                        <li>Calculate sum = numbers[l] + numbers[r]</li>
+                                        <li>If sum equals target, return indices (1-based)</li>
+                                        <li>If sum is too small, move left pointer right to increase sum</li>
+                                        <li>If sum is too large, move right pointer left to decrease sum</li>
+                                    </ul>
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(1)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">two_sum_sorted</span>(numbers, target):
+    l, r = <span class="string">0</span>, <span class="function">len</span>(numbers) - <span class="string">1</span>
+    <span class="keyword">while</span> l < r:
+        s = numbers[l] + numbers[r]
+        <span class="keyword">if</span> s == target:
+            <span class="keyword">return</span> [l+<span class="string">1</span>, r+<span class="string">1</span>]  <span class="comment"># 1-based indexing</span>
+        <span class="keyword">elif</span> s < target:
+            l += <span class="string">1</span>
+        <span class="keyword">else</span>:
+            r -= <span class="string">1</span>
+    <span class="keyword">return</span> []</pre>
+                                </div>
+
+                                <div class="example-section">
+                                    <div class="example-title">📋 Example: [2,7,11,15], target=9</div>
+                                    <div class="visualization">Array: [2, 7, 11, 15]
+                                        Target: 9
+
+                                        Initial: l=0(2), r=3(15)
+                                        Sum: 2 + 15 = 17 > 9 → Move right
+
+                                        Step 2: l=0(2), r=2(11)
+                                        Sum: 2 + 11 = 13 > 9 → Move right
+
+                                        Step 3: l=0(2), r=1(7)
+                                        Sum: 2 + 7 = 9 ✓ FOUND!
+
+                                        Answer: [1, 2] (1-based indices)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 2: Add Two Numbers -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#prob2">
+                                <div class="problem-header">
+                                    <span class="problem-title">2️⃣ Add Two Numbers (Linked Lists)</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="prob2" class="accordion-collapse collapse" data-bs-parent="#problemAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Problem:</strong> Two numbers are represented as linked lists in REVERSE
+                                    order. Add them and return the sum as a linked list.</p>
+
+                                <div class="learn-key">
+                                    <strong>💡 Key Insight:</strong> Traverse both lists simultaneously, handle carry at
+                                    each step, continue until both lists are exhausted.
+                                </div>
+
+                                <div class="approach-box">
+                                    <div class="approach-title"><i class="fas fa-lightbulb"></i> Approach: Single Pass
+                                        with Carry</div>
+                                    <ul class="approach-steps">
+                                        <li>Create a dummy node to simplify code</li>
+                                        <li>Initialize carry = 0</li>
+                                        <li>Iterate while either list has nodes or carry exists</li>
+                                        <li>Get values from both lists (0 if list is None)</li>
+                                        <li>Add values with carry, create new node with digit, update carry</li>
+                                        <li>Return dummy.next</li>
+                                    </ul>
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(max(m,n))</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(max(m,n))</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">add_two_numbers</span>(l1, l2):
+    dummy = <span class="function">ListNode</span>(<span class="string">0</span>)
+    curr = dummy
+    carry = <span class="string">0</span>
+    
+    <span class="keyword">while</span> l1 <span class="keyword">or</span> l2 <span class="keyword">or</span> carry:
+        v1 = l1.val <span class="keyword">if</span> l1 <span class="keyword">else</span> <span class="string">0</span>
+        v2 = l2.val <span class="keyword">if</span> l2 <span class="keyword">else</span> <span class="string">0</span>
+        total = v1 + v2 + carry
+        carry = total // <span class="string">10</span>
+        digit = total % <span class="string">10</span>
+        
+        curr.next = <span class="function">ListNode</span>(digit)
+        curr = curr.next
+        l1 = l1.next <span class="keyword">if</span> l1 <span class="keyword">else</span> <span class="keyword">None</span>
+        l2 = l2.next <span class="keyword">if</span> l2 <span class="keyword">else</span> <span class="keyword">None</span>
+    
+    <span class="keyword">return</span> dummy.next</pre>
+                                </div>
+
+                                <div class="example-section">
+                                    <div class="example-title">📋 Example: 342 + 465 = 807</div>
+                                    <div class="visualization">List 1: 2 -> 4 -> 3 (represents 342)
+                                        List 2: 5 -> 6 -> 4 (represents 465)
+
+                                        Step 1: 2 + 5 = 7, no carry
+                                        Result: 7
+
+                                        Step 2: 4 + 6 = 10, carry = 1, digit = 0
+                                        Result: 7 -> 0
+
+                                        Step 3: 3 + 4 + 1(carry) = 8, no carry
+                                        Result: 7 -> 0 -> 8
+
+                                        Answer: 7 -> 0 -> 8 (represents 807)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 3: Longest Substring -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#prob3">
+                                <div class="problem-header">
+                                    <span class="problem-title">3️⃣ Longest Substring Without Repeating
+                                        Characters</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="prob3" class="accordion-collapse collapse" data-bs-parent="#problemAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Problem:</strong> Find the length of the longest substring that contains no
+                                    repeating characters.</p>
+
+                                <div class="learn-key">
+                                    <strong>💡 Key Insight:</strong> Use sliding window with a set to track characters
+                                    in current window. When duplicate found, shrink from left.
+                                </div>
+
+                                <div class="approach-box">
+                                    <div class="approach-title"><i class="fas fa-lightbulb"></i> Approach: Sliding
+                                        Window</div>
+                                    <ul class="approach-steps">
+                                        <li>Maintain left and right pointers for window</li>
+                                        <li>Use a set to store characters in current window</li>
+                                        <li>Expand window: move right pointer and add character</li>
+                                        <li>If duplicate found, shrink from left until no duplicate</li>
+                                        <li>Track maximum window length throughout</li>
+                                    </ul>
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(min(m,n))</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">length_of_longest_substring</span>(s):
+    seen = <span class="function">set</span>()
+    left = <span class="string">0</span>
+    max_len = <span class="string">0</span>
+    
+    <span class="keyword">for</span> right, ch <span class="keyword">in</span> <span class="function">enumerate</span>(s):
+        <span class="keyword">while</span> ch <span class="keyword">in</span> seen:
+            seen.<span class="function">remove</span>(s[left])
+            left += <span class="string">1</span>
+        
+        seen.<span class="function">add</span>(ch)
+        max_len = <span class="function">max</span>(max_len, right - left + <span class="string">1</span>)
+    
+    <span class="keyword">return</span> max_len</pre>
+                                </div>
+
+                                <div class="example-section">
+                                    <div class="example-title">📋 Example: "abcabcbb"</div>
+                                    <div class="visualization">String: a b c a b c b b
+
+                                        Window: "a" → length = 1
+                                        Window: "ab" → length = 2
+                                        Window: "abc" → length = 3 (MAX)
+                                        Duplicate 'a': remove from left
+                                        Window: "bca" → length = 3
+                                        Duplicate 'b': remove from left
+                                        Window: "cab" → length = 3
+                                        Duplicate 'c': remove from left
+                                        Window: "ab" → length = 2
+                                        Duplicate 'b': remove from left
+                                        Window: "b" → length = 1
+
+                                        Answer: 3 (substring "abc")</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 4: 3Sum -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#prob4">
+                                <div class="problem-header">
+                                    <span class="problem-title">4️⃣ 3Sum (Find Triplets with Sum = 0)</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="prob4" class="accordion-collapse collapse" data-bs-parent="#problemAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Problem:</strong> Find all unique triplets in array that sum to zero.</p>
+
+                                <div class="learn-key">
+                                    <strong>💡 Key Insight:</strong> Sort first! Then fix one element and use two
+                                    pointers for remaining two. Skip duplicates carefully.
+                                </div>
+
+                                <div class="approach-box">
+                                    <div class="approach-title"><i class="fas fa-lightbulb"></i> Approach: Sort + Two
+                                        Pointers</div>
+                                    <ul class="approach-steps">
+                                        <li>Sort the array first</li>
+                                        <li>For each element i, find two numbers that sum to -numbers[i]</li>
+                                        <li>Use two pointers (left, right) for remaining elements</li>
+                                        <li>Skip duplicate values at each level to avoid duplicate triplets</li>
+                                        <li>Move pointers based on sum comparison</li>
+                                    </ul>
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n²)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(1)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">three_sum</span>(nums):
+    nums.<span class="function">sort</span>()
+    res = []
+    n = <span class="function">len</span>(nums)
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n - <span class="string">2</span>):
+        <span class="keyword">if</span> i > <span class="string">0</span> <span class="keyword">and</span> nums[i] == nums[i-<span class="string">1</span>]:
+            <span class="keyword">continue</span>
+        <span class="keyword">if</span> nums[i] > <span class="string">0</span>:
+            <span class="keyword">break</span>
+        
+        l, r = i + <span class="string">1</span>, n - <span class="string">1</span>
+        target = -nums[i]
+        
+        <span class="keyword">while</span> l < r:
+            s = nums[l] + nums[r]
+            <span class="keyword">if</span> s == target:
+                res.<span class="function">append</span>([nums[i], nums[l], nums[r]])
+                <span class="keyword">while</span> l < r <span class="keyword">and</span> nums[l] == nums[l+<span class="string">1</span>]:
+                    l += <span class="string">1</span>
+                <span class="keyword">while</span> l < r <span class="keyword">and</span> nums[r] == nums[r-<span class="string">1</span>]:
+                    r -= <span class="string">1</span>
+                l += <span class="string">1</span>
+                r -= <span class="string">1</span>
+            <span class="keyword">elif</span> s < target:
+                l += <span class="string">1</span>
+            <span class="keyword">else</span>:
+                r -= <span class="string">1</span>
+    
+    <span class="keyword">return</span> res</pre>
+                                </div>
+
+                                <div class="example-section">
+                                    <div class="example-title">📋 Example: [-1, 0, 1, 2, -1, -4]</div>
+                                    <div class="visualization">Original: [-1, 0, 1, 2, -1, -4]
+                                        Sorted: [-4, -1, -1, 0, 1, 2]
+
+                                        Fix i=0 (-4): Need two nums summing to 4
+                                        l=1(-1), r=5(2): sum=-3 < 4 (move left) Fix i=1 (-1): Need two nums summing to 1
+                                            l=2(-1), r=5(2): sum=1 ✓ FOUND [-1,-1,2] Skip duplicates, continue... Fix
+                                            i=2 (-1): Already processed, skip duplicate Fix i=3 (0): Need two nums
+                                            summing to 0 l=4(1), r=5(2): sum=3> 0 (move right)
+
+                                            Answer: [[-1,-1,2], [-1,0,1]]</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 5: Group Anagrams -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#prob5">
+                                <div class="problem-header">
+                                    <span class="problem-title">5️⃣ Group Anagrams</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="prob5" class="accordion-collapse collapse" data-bs-parent="#problemAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Problem:</strong> Group words that are anagrams of each other.</p>
+
+                                <div class="learn-key">
+                                    <strong>💡 Key Insight:</strong> Anagrams have the same letters! Sort each word -
+                                    identical sorted forms = anagrams. Use sorted form as hash key.
+                                </div>
+
+                                <div class="approach-box">
+                                    <div class="approach-title"><i class="fas fa-lightbulb"></i> Approach: Hash Map with
+                                        Sorted Key</div>
+                                    <ul class="approach-steps">
+                                        <li>Create a dictionary mapping sorted word → list of anagrams</li>
+                                        <li>For each word, sort its characters to get canonical form</li>
+                                        <li>Use sorted form as key and append word to value list</li>
+                                        <li>Return all groups (dictionary values)</li>
+                                    </ul>
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n*k log k)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                    <pre
+                                        class="code-block"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict
+
+<span class="keyword">def</span> <span class="function">group_anagrams</span>(strs):
+    d = <span class="function">defaultdict</span>(<span class="keyword">list</span>)
+    
+    <span class="keyword">for</span> s <span class="keyword">in</span> strs:
+        key = <span class="function">tuple</span>(<span class="function">sorted</span>(s))
+        d[key].<span class="function">append</span>(s)
+    
+    <span class="keyword">return</span> <span class="function">list</span>(d.<span class="function">values</span>())</pre>
+                                </div>
+
+                                <div class="example-section">
+                                    <div class="example-title">📋 Example: ["eat", "tea", "ate", "tab", "bat"]</div>
+                                    <div class="visualization">Word "eat": sorted = "aet"
+                                        Word "tea": sorted = "aet" ✓ Same as "eat"
+                                        Word "ate": sorted = "aet" ✓ Same as "eat"
+                                        Word "tab": sorted = "abt"
+                                        Word "bat": sorted = "abt" ✓ Same as "tab"
+
+                                        Grouping:
+                                        Key "aet": ["eat", "tea", "ate"]
+                                        Key "abt": ["tab", "bat"]
+
+                                        Answer: [["eat", "tea", "ate"], ["tab", "bat"]]</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div
+                    style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 20px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #3b82f6;">
+                    <p><strong>📌 Note:</strong> This interactive guide shows the first 5 problems from the complete
+                        Array Mastery set of 20 problems. Expand any accordion item to view complete problem
+                        explanation, approach, complexity analysis, and tested Python code!</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <h5>💡 LeetCode Medium - Array Mastery Complete Guide</h5>
+            <p>20 Essential Array Problems with Visual Explanations & Tested Solutions</p>
+            <p style="margin-top: 10px; opacity: 0.8; font-size: 0.9rem;">Perfect for LeetCode preparation and mastering
+                Array DSA concepts</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Copy Code Button
+        function copyCode(btn) {
+            const code = btn.nextElementSibling.innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Filter Problems
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const filter = this.getAttribute('data-filter');
+                document.querySelectorAll('.problem-card').forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-difficulty') === filter) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

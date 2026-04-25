@@ -1,0 +1,1379 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Vision Research - Complete Technical Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --light-bg: #f8fafc;
+            --dark-bg: #0f172a;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white !important;
+        }
+
+        .main-wrapper {
+            background: white;
+            margin: 30px auto;
+            max-width: 1400px;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .toc-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px;
+            margin: 0;
+        }
+
+        .toc-section h2 {
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .toc-item {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid white;
+        }
+
+        .toc-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            background: white;
+        }
+
+        .toc-item a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .toc-item small {
+            display: block;
+            margin-top: 8px;
+            color: #666;
+        }
+
+        .content-wrapper {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 3px solid var(--light-bg);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-bottom: 4px solid var(--info);
+            padding-bottom: 15px;
+        }
+
+        .subsection-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-left: 5px solid var(--info);
+            padding-left: 20px;
+        }
+
+        .subsection-subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .card-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 5px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .card-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-box.success {
+            background: linear-gradient(135deg, #d4fc79 0%, #96f97b 100%);
+            border-left-color: var(--success);
+        }
+
+        .card-box.warning {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            border-left-color: var(--warning);
+        }
+
+        .card-box.info {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-left-color: var(--info);
+        }
+
+        .card-box.danger {
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);
+            border-left-color: var(--danger);
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%);
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+        }
+
+        .architecture-box {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 20px 0;
+            line-height: 1.6;
+            border-left: 5px solid var(--info);
+        }
+
+        .table-custom {
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        .table-custom thead th {
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            color: white;
+            font-weight: 700;
+            border: none;
+            padding: 15px;
+        }
+
+        .table-custom td {
+            padding: 12px 15px;
+            border-color: #e2e8f0;
+        }
+
+        .table-custom tbody tr:hover {
+            background: var(--light-bg);
+        }
+
+        .key-point {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe0b2 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .emoji-flow {
+            font-size: 2rem;
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+
+        .badge-custom {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin: 5px;
+            font-size: 0.9rem;
+        }
+
+        .badge-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .badge-success {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            color: #333;
+        }
+
+        .badge-warning {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: #333;
+        }
+
+        .badge-info {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+        }
+
+        .list-styled {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-styled li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .list-styled li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .hierarchy-tree {
+            background: #f8f9fa;
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .comparison-item strong {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        footer {
+            background: #1a202c;
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 50px;
+        }
+
+        .code-inline {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .highlight {
+            background: #ffd700;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .content-wrapper {
+                padding: 25px;
+            }
+
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top">🧠 Computer Vision Research</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#meta-groknet">Meta GrokNet</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#google-metnet">Google MetNet</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#applications">Applications</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Hero Section -->
+        <div class="hero" id="top">
+            <h1>🔬 Computer Vision Research: Deep Technical Analysis</h1>
+            <p>Complete Architecture Specifications for Meta GrokNet & Google MetNet</p>
+        </div>
+
+        <!-- Table of Contents Section -->
+        <div class="toc-section">
+            <div class="container-fluid">
+                <h2>📑 Contents Overview</h2>
+                <div class="toc-grid">
+                    <div class="toc-item">
+                        <a href="#meta-groknet">
+                            🛍️ Meta GrokNet (Product Understanding)
+                        </a>
+                        <small>Multi-task learning, 83 simultaneous predictions</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#google-metnet">
+                            🌦️ Google MetNet (Weather Forecasting)
+                        </a>
+                        <small>ConvLSTM, spatio-temporal processing</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#key-concepts">
+                            🧮 Key Concepts
+                        </a>
+                        <small>Multi-task learning, embeddings, attention</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#applications">
+                            🚀 Real-World Applications
+                        </a>
+                        <small>E-commerce, weather, autonomous vehicles</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="content-wrapper">
+
+            <!-- META GROKNET SECTION -->
+            <div class="section" id="meta-groknet">
+                <h2 class="section-title">🛍️ Meta GrokNet: Product Understanding (2020)</h2>
+
+                <!-- Extreme Multi-Task Learning -->
+                <div class="subsection-title">⚙️ Extreme Multi-Task Learning: 83 Tasks</div>
+
+                <div class="key-point">
+                    <strong>🎯 Challenge:</strong> Predict 83 different attributes simultaneously from a single product
+                    image!
+                </div>
+
+                <p>Meta's GrokNet revolutionizes product understanding by training a single CNN to predict:</p>
+
+                <div class="hierarchy-tree">
+                    ├── <strong>16 Category Heads</strong> (Hierarchical)
+                    │ ├── Main category (fashion, electronics, home, etc.)
+                    │ ├── Subcategory 1-5
+                    │ └── Sub-subcategory
+                    │
+                    ├── <strong>45 Attribute Heads</strong> (Multi-label)
+                    │ ├── Color taxonomy (primary, secondary, accents) - 12 heads
+                    │ ├── Material (leather, cotton, polyester, etc.) - 10 heads
+                    │ ├── Size & fit (XS, S, M, L, XL, etc.) - 5 heads
+                    │ ├── Condition (new, like new, good, fair, poor) - 5 heads
+                    │ └── Style/occasion (casual, formal, athletic, etc.) - 8 heads
+                    │
+                    ├── <strong>1 Embedding Head</strong>
+                    │ └── 256-dimensional product embedding for similarity search
+                    │
+                    ├── <strong>1 Search Head</strong>
+                    │ └── Predict: "Will this match query [query_ids]?"
+                    │
+                    └── <strong>20+ Other Heads</strong>
+                    ├── Price prediction
+                    ├── Seasonality
+                    ├── Trend score
+                    └── Various other predictions
+                </div>
+
+                <h3 class="subsection-subtitle">The Multi-Task Learning Problem</h3>
+
+                <div class="card-box warning">
+                    <strong>❌ Traditional Approach:</strong>
+                    <ul class="list-styled">
+                        <li>Manually tune weights for 83 losses</li>
+                        <li>When one task improves, others degrade</li>
+                        <li>Zero-sum optimization game</li>
+                        <li>Some tasks: Easy (converge quickly)</li>
+                        <li>Other tasks: Hard (slow to improve)</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">✨ Task Uncertainty Weighting: The Solution</h3>
+
+                <div class="emoji-flow">
+                    🔴 Easy Task ← Small σ → High Weight → ⚠️
+                    🟢 Hard Task ← Large σ → Low Weight → ✅
+                    🔵 Automatic Balancing ← Learn σ → All Tasks Improve
+                </div>
+
+                <div class="formula-box">
+                    <strong>Kendall 2017 - Task Uncertainty Loss:</strong><br><br>
+                    L_total = Σᵢ (1/σᵢ²) × L_i + log(σᵢ²)<br><br>
+                    Where:<br>
+                    • σᵢ² = learned uncertainty parameter for task i<br>
+                    • 1/σᵢ² = automatic weight (inverse of variance)<br>
+                    • log(σᵢ²) = regularization term preventing σ → ∞
+                </div>
+
+                <div class="insight-box">
+                    <strong>💡 How It Works:</strong>
+                    <ul>
+                        <li><strong>Small σᵢ (certain):</strong> 1/σᵢ² is large → Task receives high loss weight →
+                            Network focuses on it</li>
+                        <li><strong>Large σᵢ (uncertain):</strong> 1/σᵢ² is small → Task receives low weight → Network
+                            relaxes, lower priority</li>
+                        <li><strong>Example:</strong> σ=0.01 → weight=10,000x! | σ=10 → weight=0.01x</li>
+                        <li><strong>Result:</strong> All 83 tasks improve simultaneously without manual tuning!</li>
+                    </ul>
+                </div>
+
+                <!-- Weakly-Supervised Learning -->
+                <h3 class="subsection-title">📊 Weakly-Supervised Learning: Automatic Label Generation</h3>
+
+                <p><strong>Scale Challenge:</strong> 7 datasets × 1M images = 7M labels needed</p>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <strong>Manual Cost</strong><br>
+                        $1 per label = $7M <br>
+                        1000 labelers × 2 years
+                    </div>
+                    <div class="comparison-item">
+                        <strong>Weak Supervision</strong><br>
+                        Free (mostly) <br>
+                        Automatic generation
+                    </div>
+                    <div class="comparison-item">
+                        <strong>Quality Trade</strong><br>
+                        70% accuracy <br>
+                        vs 95% perfect labels
+                    </div>
+                </div>
+
+                <h3 class="subsection-subtitle">🔗 Sources of Weak Labels</h3>
+
+                <div class="card-box success">
+                    <strong>1. Metadata Labels</strong>
+                    <ul class="list-styled">
+                        <li>Seller-provided title/description (e.g., "Nike Red Running Shoes")</li>
+                        <li>Extracted: Category = Shoes, Color = Red</li>
+                        <li>Accuracy: 70-80% | Cost: FREE</li>
+                    </ul>
+                </div>
+
+                <div class="card-box success">
+                    <strong>2. Purchase History</strong>
+                    <ul class="list-styled">
+                        <li>Users bought this product → Must be category X</li>
+                        <li>High purchase intent = high confidence</li>
+                        <li>Accuracy: 85-90%</li>
+                    </ul>
+                </div>
+
+                <div class="card-box success">
+                    <strong>3. Search History</strong>
+                    <ul class="list-styled">
+                        <li>User searched "red sneakers" then clicked item</li>
+                        <li>Inference: Item probably red sneaker</li>
+                        <li>Accuracy: 60-70% (some noise)</li>
+                    </ul>
+                </div>
+
+                <div class="card-box success">
+                    <strong>4. Related Items</strong>
+                    <ul class="list-styled">
+                        <li>Often bought together with Nike shoes → shoes category</li>
+                        <li>Transitive inference</li>
+                        <li>Accuracy: 70%</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">🎯 Label Aggregation & Confidence</h3>
+
+                <div class="architecture-box">
+                    Image: Nike Red Running Shoe
+
+                    ├── Metadata label: Category = shoes (confidence 0.75)
+                    ├── Purchase label: Category = shoes (confidence 0.95)
+                    ├── Search label: Color = Red, Type = Running (confidence 0.8)
+                    └── Related items: Category = shoes (confidence 0.8)
+
+                    Aggregation Strategy:
+                    ├── Method 1: Majority voting
+                    │ ├── Count votes: Shoes (4 votes), Sportswear (0)
+                    │ └── Confidence: 4/4 = 100%
+                    │
+                    └── Method 2: Weighted voting
+                    ├── Sum: shoes = 0.75 + 0.95 + 0.8 + 0.8 = 3.3
+                    └── Normalized: 3.3 / 3.3 = 100%
+                </div>
+
+                <!-- Embedding Learning -->
+                <h3 class="subsection-title">🧬 Embedding Learning & Compression</h3>
+
+                <div class="emoji-flow">
+                    📸 Product Image → 🧠 CNN → 📊 256-D Vector → ⚡ Normalized → 🎯 Similarity Search
+                </div>
+
+                <h3 class="subsection-subtitle">Why Embeddings Matter</h3>
+
+                <div class="card-box info">
+                    <strong>Traditional Keyword Matching:</strong>
+                    <ul>
+                        <li>Problem: "shoe" ≠ "sneaker" ≠ "athletic footwear"</li>
+                        <li>Result: Miss relevant products (synonym mismatch)</li>
+                    </ul>
+                </div>
+
+                <div class="card-box info">
+                    <strong>Semantic Embeddings:</strong>
+                    <ul>
+                        <li>Red running shoes → specific vector in 256-D space</li>
+                        <li>Blue running shoes → nearby vector (similar features)</li>
+                        <li>Search: Find nearest neighbors!</li>
+                        <li>Result: Semantic similarity → geometric proximity</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">🎲 Triplet Loss: Learning Quality Embeddings</h3>
+
+                <div class="formula-box">
+                    <strong>Goal:</strong> Similar products close together, dissimilar products far apart<br><br>
+                    <strong>Triplet Loss Formula:</strong><br>
+                    L = max(0, d(anchor, positive) - d(anchor, negative) + margin)<br><br>
+                    Where:<br>
+                    • Anchor = reference product<br>
+                    • Positive = same product (different angle)<br>
+                    • Negative = different product<br>
+                    • margin = 0.5 (ensures negative at least 0.5 units further)
+                </div>
+
+                <h3 class="subsection-subtitle">🗜️ Embedding Compression: Quantization</h3>
+
+                <div class="key-point">
+                    <strong>Memory Challenge:</strong> 256-D float32 = 1024 bytes/product × 1B products = 10 TB memory!
+                </div>
+
+                <div class="card-box danger">
+                    <strong>Solution: Quantization (Float32 → Int8)</strong>
+                    <ul class="list-styled">
+                        <li><strong>256 × 4 bytes → 256 × 1 byte</strong> = 4x compression!</li>
+                        <li>Process: Min/max range → [0, 255] → round to int</li>
+                        <li>Example: 0.567 × 255 = 144.5 → 145 (recovered: 145/255 = 0.569)</li>
+                        <li>Per-element error: 0.002 (tiny!)</li>
+                        <li>Total effect: ~3% distance distortion (acceptable!)</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <strong>Memory</strong><br>
+                        10 TB → 2.5 TB<br>
+                        <span class="badge-custom badge-success">4x Reduction</span>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>Speed</strong><br>
+                        100ms → 20ms<br>
+                        <span class="badge-custom badge-success">5x Faster</span>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>Accuracy</strong><br>
+                        &lt;1% recall loss<br>
+                        <span class="badge-custom badge-success">Worth It!</span>
+                    </div>
+                </div>
+
+                <!-- GrokNet Architecture -->
+                <h3 class="subsection-title">🏗️ GrokNet Unified Architecture</h3>
+
+                <div class="architecture-box">
+                    ┌──────────────────────────────────────────┐
+                    │ GROKNET ARCHITECTURE │
+                    └──────────────────────────────────────────┘
+
+                    INPUTS: 7 datasets, 8 supervised signals
+                    ├── Marketplace photos
+                    ├── Catalog images (standardized)
+                    ├── Mobile app screenshots
+                    ├── Historical searches
+                    ├── Purchased items (ground truth)
+                    ├── Attribute databases
+                    └── Prior systems' predictions
+
+                    ↓
+
+                    ┌──────────────────────────────────────────┐
+                    │ SHARED CNN BACKBONE │
+                    ├──────────────────────────────────────────┤
+                    │ Architecture: EfficientNet-B4 │
+                    │ ├── Input: RGB image (224×224) │
+                    │ ├── MBConv blocks (mobile bottleneck) │
+                    │ ├── Squeeze-and-Excitation (SE) modules │
+                    │ ├── Stochastic depth │
+                    │ ├── Output: 1792-D feature vector │
+                    │ ├── Parameters: 19M weights │
+                    │ └── Normalized with ImageNet stats │
+                    └──────────────────────────────────────────┘
+
+                    ↓
+
+                    ┌──────────────────────────────────────────┐
+                    │ 83 TASK-SPECIFIC HEADS │
+                    ├──────────────────────────────────────────┤
+                    │ ✓ 16 Category heads (hierarchical) │
+                    │ ✓ 45 Attribute heads (multi-label) │
+                    │ ✓ 1 Embedding head (256-D) │
+                    │ ✓ 1 Search prediction head │
+                    │ ✓ 20+ Other heads │
+                    └──────────────────────────────────────────┘
+
+                    ↓
+
+                    ┌──────────────────────────────────────────┐
+                    │ WEIGHTED LOSS AGGREGATION │
+                    ├──────────────────────────────────────────┤
+                    │ Total Loss = Σ λᵢ × Lᵢ │
+                    │ λᵢ = 1 / σᵢ² (automatic balancing!) │
+                    │ Categories: λ = 1.0 │
+                    │ Attributes: λ = 1.5 each │
+                    │ Embedding: λ = 2.0 (most critical) │
+                    │ Search: λ = 0.5 (auxiliary) │
+                    └──────────────────────────────────────────┘
+                </div>
+
+                <h3 class="subsection-subtitle">📚 Head Architecture Details</h3>
+
+                <table class="table table-hover table-custom">
+                    <thead>
+                        <tr>
+                            <th>Head Type</th>
+                            <th>Count</th>
+                            <th>Architecture</th>
+                            <th>Output</th>
+                            <th>Loss Function</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Category</strong></td>
+                            <td>16</td>
+                            <td>FC(1792→1024) + ReLU + FC(1024→512) + ReLU + FC(512→classes)</td>
+                            <td>Softmax</td>
+                            <td>Cross-Entropy</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Attribute</strong></td>
+                            <td>45</td>
+                            <td>FC(1792→512) + ReLU + FC(512→1)</td>
+                            <td>Sigmoid</td>
+                            <td>Binary Cross-Entropy</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Embedding</strong></td>
+                            <td>1</td>
+                            <td>FC(1792→512) + ReLU + FC(512→256) + L2 Norm</td>
+                            <td>256-D Vector</td>
+                            <td>Triplet + Angular</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Training Details -->
+                <h3 class="subsection-title">🚀 Training Procedure for 83 Concurrent Objectives</h3>
+
+                <div class="card-box">
+                    <strong>Optimization Setup:</strong>
+                    <ul class="list-styled">
+                        <li><strong>Optimizer:</strong> Adam with learning rate = 0.0001</li>
+                        <li><strong>Learning Rate Schedule:</strong> Warmup (first 10%) → Cosine annealing</li>
+                        <li><strong>Batch Size:</strong> 2048 total (8 V100 GPUs × 256 samples)</li>
+                        <li><strong>Gradient Accumulation:</strong> 4 steps (effective batch: 8192)</li>
+                        <li><strong>Gradient Clipping:</strong> norm = 1.0</li>
+                    </ul>
+                </div>
+
+                <div class="card-box">
+                    <strong>Training Duration:</strong>
+                    <ul class="list-styled">
+                        <li><strong>Total Iterations:</strong> 500K</li>
+                        <li><strong>Epochs:</strong> ~100 over ~1M training samples</li>
+                        <li><strong>Training Time:</strong> 14-21 days on 8× V100 cluster</li>
+                        <li><strong>Hardware Cost:</strong> ~$50-100K</li>
+                        <li><strong>Memory per GPU:</strong> ~28GB (fits in V100 32GB)</li>
+                    </ul>
+                </div>
+
+                <div class="key-point">
+                    <strong>Batch Composition Strategy:</strong>
+                    <ul>
+                        <li>Sample from 7 datasets proportionally to size</li>
+                        <li>For harder tasks: oversample by 2-3x</li>
+                        <li>Example: Dataset 1 (marketplace) = 30%, Dataset 2 (catalog) = 40%</li>
+                    </ul>
+                </div>
+
+                <!-- Real-World Results -->
+                <h3 class="subsection-title">📈 Real-World Results & Impact</h3>
+
+                <div class="emoji-flow">
+                    📊 Category: 87.2% accuracy | 📊 Attributes: F1=0.84 | 📊 Embedding: mAP@10=0.834
+                </div>
+
+                <table class="table table-hover table-custom">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Performance</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Category Top-1 Accuracy</strong></td>
+                            <td>87.2%</td>
+                            <td>Across all categories</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Category Top-3 Accuracy</strong></td>
+                            <td>94.5%</td>
+                            <td>Very reliable top-3</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Attribute F1-Score</strong></td>
+                            <td>0.842 (micro)</td>
+                            <td>Micro-average F1</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Embedding Recall@100</strong></td>
+                            <td>91.2%</td>
+                            <td>Find product in top-100</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Embedding Recall@1000</strong></td>
+                            <td>97.8%</td>
+                            <td>Nearly perfect</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Previous System</strong></td>
+                            <td>73%</td>
+                            <td>GrokNet improvement: +14.2pp</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="insight-box">
+                    <strong>💼 Business Impact on Marketplace:</strong>
+                    <ul>
+                        <li>📈 12% increase in listings viewed (better search results)</li>
+                        <li>📈 8% increase in successful searches (better attributes)</li>
+                        <li>📈 15% increase in conversion rate (faster product finding)</li>
+                        <li>📈 10% increase in basket size (better suggestions)</li>
+                    </ul>
+                </div>
+
+            </div> <!-- End Meta GrokNet Section -->
+
+            <!-- GOOGLE METNET SECTION -->
+            <div class="section" id="google-metnet">
+                <h2 class="section-title">🌦️ Google MetNet: Weather Forecasting (2020)</h2>
+
+                <div class="key-point">
+                    <strong>🎯 Challenge:</strong> Predict precipitation with probabilities 0-8 hours ahead using radar,
+                    satellite, and meteorological data!
+                </div>
+
+                <!-- ConvLSTM -->
+                <h3 class="subsection-title">🔄 ConvLSTM: Combining CNNs and RNNs</h3>
+
+                <h3 class="subsection-subtitle">Why Standard LSTM Fails for Weather</h3>
+
+                <div class="hierarchy-tree">
+                    Standard LSTM:
+                    ├── Input: 1D sequence [temp_1, temp_2, ..., temp_t]
+                    ├── Processing: Time-only (1D temporal)
+                    ├── Problem: LOSES spatial structure!
+                    │
+                    Weather Challenge:
+                    ├── Input: 10×10 grid of temperatures over 5 timesteps
+                    ├── Needs BOTH spatial AND temporal
+                    ├── Naive approach: Flatten 10×10 → 100-D vector
+                    │ └── Neighbors (4,4)-(4,5) treated same as (1,1)-(9,9) ✗
+                    │
+                    Solution: ConvLSTM
+                    └── LSTM cell with convolutions instead of matrix multiply!
+                </div>
+
+                <div class="emoji-flow">
+                    🖼️ Spatial Grid → ConvLSTM → ⏰ Temporal History → 🌦️ Weather Prediction
+                </div>
+
+                <h3 class="subsection-subtitle">ConvLSTM Cell Operations</h3>
+
+                <div class="formula-box">
+                    <strong>Standard LSTM:</strong><br>
+                    y = f(x)<br><br>
+                    <strong>ConvLSTM (Replacement):</strong><br>
+                    i_t = σ(Conv(X_t, W_xi) + Conv(H_{t-1}, W_hi))<br>
+                    f_t = σ(Conv(X_t, W_xf) + Conv(H_{t-1}, W_hf))<br>
+                    o_t = σ(Conv(X_t, W_xo) + Conv(H_{t-1}, W_ho))<br>
+                    c_t = tanh(Conv(X_t, W_xc) + Conv(H_{t-1}, W_hc))<br>
+                    h_t = o_t ⊙ tanh(c_t)<br><br>
+                    <strong>Key:</strong> All matrix multiplies replaced with convolutions!
+                </div>
+
+                <div class="insight-box">
+                    <strong>✨ Why ConvLSTM Works:</strong>
+                    <ul>
+                        <li>Preserves spatial structure naturally</li>
+                        <li>Local connectivity: Each cell sees neighbors (3×3 kernel)</li>
+                        <li>Memory: Long-term temporal dependencies</li>
+                        <li>Perfect for: video, weather, optical flow!</li>
+                    </ul>
+                </div>
+
+                <!-- Attention Mechanisms -->
+                <h3 class="subsection-title">🔍 Attention Mechanisms for Long-Range Dependencies</h3>
+
+                <h3 class="subsection-subtitle">The Problem: Receptive Field Limitations</h3>
+
+                <div class="card-box warning">
+                    <strong>ConvLSTM with 3×3 kernel:</strong>
+                    <ul>
+                        <li>After 1 layer: 3×3 neighborhood</li>
+                        <li>After 2 layers: 5×5 neighborhood</li>
+                        <li>After N layers: (2N+1)×(2N+1) neighborhood</li>
+                        <li>Problem: To reach 512×512 image need 250+ layers! ❌</li>
+                    </ul>
+                </div>
+
+                <div class="card-box success">
+                    <strong>Solution: Axial Attention (Efficient Spatial Attention)</strong>
+                    <ul>
+                        <li>Allows network to directly reference distant locations</li>
+                        <li>Complexity: O(H²W²) → O(HW(H+W)) [260x reduction!]</li>
+                        <li>Memory: ~1GB (vs 274GB for full attention)</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">🎯 Axial Attention Process</h3>
+
+                <div class="architecture-box">
+                    Axial Attention Split into 2 Passes:
+
+                    Pass 1: HORIZONTAL ATTENTION
+                    ├── For each pixel (h, w): Attend to all (h, 0..W)
+                    ├── Complexity: O(H × W × W) manageable!
+                    ├── Captures: Horizontal patterns (weather fronts)
+
+                    Pass 2: VERTICAL ATTENTION
+                    ├── For each pixel (h, w): Attend to all (0..H, w)
+                    ├── Same complexity as horizontal
+                    ├── Captures: Vertical development (storm depth)
+
+                    RESULT: Complementary information
+                    ├── Together capture 2D structure
+                    ├── Each pixel connects to ALL others in its row/column
+                    ├── Long-range dependencies captured!
+                    └── No blind spots
+                </div>
+
+                <!-- MetNet Architecture -->
+                <h3 class="subsection-title">🏗️ MetNet Architecture</h3>
+
+                <div class="architecture-box">
+                    ┌─────────────────────────────────────────────┐
+                    │ METNET ARCHITECTURE │
+                    └─────────────────────────────────────────────┘
+
+                    INPUT: Radar & Satellite Imagery
+                    ├── Spatial: 1024×1024 km (context for movement)
+                    ├── Time: 90 minutes of history (7 snapshots, 15-min intervals)
+                    ├── Channels:
+                    │ ├── Radar reflectivity (dBZ)
+                    │ ├── Satellite visible (0.6μm)
+                    │ ├── Satellite infrared (10.7μm)
+                    │ └── Meteorological variables
+                    └── Output region: 64×64 km center (cropped for prediction)
+
+                    ↓
+
+                    ┌─────────────────────────────────────────────┐
+                    │ SPATIAL DOWNSAMPLER │
+                    ├─────────────────────────────────────────────┤
+                    │ Problem: 1024×1024 = huge memory (OOM) │
+                    │ Solution: Hierarchical downsampling │
+                    │ │
+                    │ Input: 1024×1024×8 channels │
+                    │ ├── Conv(8→16, 4×4, stride=4) │
+                    │ │ └── Output: 256×256×16 │
+                    │ ├── Conv(16→32, 4×4, stride=4) │
+                    │ │ └── Output: 64×64×32 │
+                    │ └── Conv(32→64, 3×3, stride=2) │
+                    │ └── Output: 32×32×64 │
+                    │ │
+                    │ Final: 32×32×64 (256KB per timestep) │
+                    │ Memory: 256 bytes from 33MB! ✓ │
+                    └─────────────────────────────────────────────┘
+
+                    ↓
+
+                    ┌─────────────────────────────────────────────┐
+                    │ TEMPORAL ENCODER (ConvLSTM) │
+                    ├─────────────────────────────────────────────┤
+                    │ Input: 7 timesteps × (32×32×64) │
+                    │ │
+                    │ ConvLSTM-1: │
+                    │ ├── Kernel: 3×3 │
+                    │ ├── Hidden units: 128 │
+                    │ └── Output: 32×32×128 │
+                    │ │
+                    │ ConvLSTM-2 (stacked): │
+                    │ ├── Kernel: 3×3 │
+                    │ ├── Hidden units: 128 │
+                    │ └── Output: 32×32×128 │
+                    │ │
+                    │ Purpose: Encode temporal patterns │
+                    │ (cloud movement, wind effects, etc.) │
+                    └─────────────────────────────────────────────┘
+
+                    ↓
+
+                    ┌─────────────────────────────────────────────┐
+                    │ SPATIAL AGGREGATOR (Axial Attention) │
+                    ├─────────────────────────────────────────────┤
+                    │ Purpose: Connect distant spatial locations │
+                    │ Complexity: O(HW(H+W)) instead O(H²W²) │
+                    │ │
+                    │ Pass 1: Horizontal connections │
+                    │ Pass 2: Vertical connections │
+                    │ Result: 64×64×128 context-aware features │
+                    └─────────────────────────────────────────────┘
+
+                    ↓
+
+                    ┌─────────────────────────────────────────────┐
+                    │ OUTPUT LAYER & UPSAMPLING │
+                    ├─────────────────────────────────────────────┤
+                    │ Upsample back to target resolution: │
+                    │ ├── Transp Conv(128→64, 4×4, stride=2) │
+                    │ │ └── 64×64×64 │
+                    │ ├── Transp Conv(64→32, 4×4, stride=2) │
+                    │ │ └── 128×128×32 │
+                    │ └── Transp Conv(32→16, 4×4, stride=2) │
+                    │ └── 256×256×16 │
+                    │ │
+                    │ Probability Output (Softmax): │
+                    │ ├── Class 0: 0 mm/hr │
+                    │ ├── Class 1: 0-0.5 mm/hr │
+                    │ ├── Class 2: 0.5-1.0 mm/hr │
+                    │ ├── Class 3: 1.0-2.0 mm/hr │
+                    │ ├── Class 4: 2.0-4.0 mm/hr │
+                    │ ├── Class 5: 4.0-10.0 mm/hr │
+                    │ └── Class 6: >10.0 mm/hr │
+                    │ │
+                    │ Output: Probability heatmaps │
+                    │ ├── Spatial: 64×64 km (1 km resolution) │
+                    │ ├── Temporal: 8 hours ahead (2-min steps) │
+                    │ └── Format: Probabilities per class │
+                    └─────────────────────────────────────────────┘
+                </div>
+
+                <!-- Weather Predictions -->
+                <h3 class="subsection-subtitle">🌧️ Prediction Approach: Probabilistic vs Deterministic</h3>
+
+                <div class="card-box info">
+                    <strong>Regression (Single Value):</strong>
+                    <ul>
+                        <li>Predict: rainfall amount (mm)</li>
+                        <li>Output: Single number (e.g., 2.5 mm)</li>
+                        <li>Problem: Misses uncertainty (chaotic weather!)</li>
+                        <li>Use case: Climate (long-term trends)</li>
+                    </ul>
+                </div>
+
+                <div class="card-box info">
+                    <strong>Classification (Categories):</strong>
+                    <ul>
+                        <li>Predict: Binary (rain/no rain) or categories (light/moderate/heavy)</li>
+                        <li>Advantage: Matches real use ("Will it rain?")</li>
+                        <li>Loss: Information (heavy ≠ light)</li>
+                    </ul>
+                </div>
+
+                <div class="card-box success">
+                    <strong>🌟 Probabilistic (MetNet's Approach):</strong>
+                    <ul>
+                        <li>Predict: Probability distribution over rainfall</li>
+                        <li>Output: P(0 mm)=40%, P(light)=30%, P(moderate)=20%, P(heavy)=10%</li>
+                        <li>Advantages: Captures uncertainty, prescriptive detail, enables risk-sensitive decisions</li>
+                        <li>Disadvantages: Requires more data, harder to optimize</li>
+                    </ul>
+                </div>
+
+                <!-- Training & Loss -->
+                <h3 class="subsection-title">🎓 Loss Function & Training</h3>
+
+                <div class="formula-box">
+                    <strong>Probabilistic Loss (Cross-Entropy):</strong><br>
+                    L = -Σ y_i × log(ŷ_i)<br><br>
+                    Where y is one-hot encoded true precipitation class<br><br>
+                    <strong>Multi-timestep Training:</strong><br>
+                    L_total = Σ_(t=1 to 240) weight(t) × L_at_time(t)<br>
+                    weight(t) increases with t (care more about far future)
+                </div>
+
+                <div class="card-box">
+                    <strong>Training Configuration:</strong>
+                    <ul class="list-styled">
+                        <li><strong>Optimizer:</strong> Adam (lr=0.0001, gradient clipping=5.0)</li>
+                        <li><strong>Data:</strong> 2 years MRMS data (2017-2019), ~39M samples</li>
+                        <li><strong>Augmentation:</strong> Temporal shifts, spatial shifts</li>
+                        <li><strong>Batch Size:</strong> 32 (GPU memory limited)</li>
+                        <li><strong>GPU:</strong> NVIDIA Tesla V100 (32GB)</li>
+                        <li><strong>Training Time:</strong> ~2 weeks on 1 GPU</li>
+                    </ul>
+                </div>
+
+                <!-- Validation Results -->
+                <h3 class="subsection-subtitle">📊 Performance Metrics & Validation</h3>
+
+                <table class="table table-hover table-custom">
+                    <thead>
+                        <tr>
+                            <th>Time Window</th>
+                            <th>HRRR (Physics)</th>
+                            <th>Optical Flow</th>
+                            <th>MetNet (Data-Driven)</th>
+                            <th>Winner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>0-2 hours</strong></td>
+                            <td>0.56</td>
+                            <td>0.68</td>
+                            <td><strong>0.71</strong></td>
+                            <td>🌟 MetNet</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2-4 hours</strong></td>
+                            <td>0.45</td>
+                            <td>0.38</td>
+                            <td><strong>0.52</strong></td>
+                            <td>🌟 MetNet</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4-6 hours</strong></td>
+                            <td>0.38</td>
+                            <td>0.25</td>
+                            <td><strong>0.46</strong></td>
+                            <td>🌟 MetNet</td>
+                        </tr>
+                        <tr>
+                            <td><strong>6-8 hours</strong></td>
+                            <td>0.32</td>
+                            <td>0.15</td>
+                            <td><strong>0.39</strong></td>
+                            <td>🌟 MetNet</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="insight-box">
+                    <strong>💡 Key Insight:</strong> MetNet learns patterns HRRR doesn't (data-driven approach) but
+                    lacks physics constraints (can fail in extreme scenarios). Best approach: Combine both!
+                </div>
+
+            </div> <!-- End Google MetNet Section -->
+
+            <!-- KEY CONCEPTS SECTION -->
+            <div class="section" id="key-concepts">
+                <h2 class="section-title">🧮 Key Concepts & Techniques</h2>
+
+                <h3 class="subsection-title">📚 Multi-Task Learning</h3>
+
+                <div class="card-box">
+                    <strong>Definition:</strong> Train single model to predict multiple outputs simultaneously
+                    <ul class="list-styled">
+                        <li>Traditional: Train separate model for each task</li>
+                        <li>Multi-task: Share representation + task-specific heads</li>
+                        <li>Benefit: Shared features improve all tasks</li>
+                        <li>Challenge: Balancing different task losses</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">🧬 Embeddings & Vector Spaces</h3>
+
+                <div class="card-box success">
+                    <strong>What:</strong> Learned dense vector representations
+                    <ul class="list-styled">
+                        <li>Map high-dimensional data to lower dimension</li>
+                        <li>Preserve semantic similarity as geometric proximity</li>
+                        <li>Enable similarity search (nearest neighbors)</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">⚡ Loss Functions</h3>
+
+                <div class="formula-box">
+                    <strong>Cross-Entropy (Classification):</strong><br>
+                    L = -Σ y_i × log(ŷ_i)<br><br>
+                    <strong>Mean Squared Error (Regression):</strong><br>
+                    L = (1/n) × Σ(y_i - ŷ_i)²<br><br>
+                    <strong>Triplet Loss (Embeddings):</strong><br>
+                    L = max(0, d(anchor, positive) - d(anchor, negative) + margin)
+                </div>
+
+            </div> <!-- End Key Concepts Section -->
+
+            <!-- APPLICATIONS SECTION -->
+            <div class="section" id="applications">
+                <h2 class="section-title">🚀 Real-World Applications</h2>
+
+                <h3 class="subsection-title">🛍️ E-Commerce: Product Understanding</h3>
+
+                <div class="emoji-flow">
+                    📸 Product Photo → 🧠 GrokNet → (🎨 Color + 📏 Size + 💰 Price + ✨ Quality)
+                </div>
+
+                <div class="card-box success">
+                    <strong>Use Cases:</strong>
+                    <ul class="list-styled">
+                        <li>Automatic product categorization</li>
+                        <li>Attribute detection for filtering</li>
+                        <li>Visual search (find similar products)</li>
+                        <li>Price prediction & seasonality</li>
+                        <li>Quality assessment</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">🌦️ Weather: Precipitation Forecasting</h3>
+
+                <div class="emoji-flow">
+                    🛰️ Satellite + 📡 Radar → ConvLSTM + Attention → 🌧️ Probability Forecast
+                </div>
+
+                <div class="card-box info">
+                    <strong>Use Cases:</strong>
+                    <ul class="list-styled">
+                        <li>Nowcasting (0-2 hour predictions)</li>
+                        <li>Warning systems (severe weather)</li>
+                        <li>Agricultural planning (irrigation)</li>
+                        <li>Air traffic management</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">🚗 Autonomous Vehicles</h3>
+
+                <div class="emoji-flow">
+                    🚗📷 → 🔍 Object Detection + 🚦 Traffic + 👤 Pedestrians → 🧭 Navigation
+                </div>
+
+                <div class="card-box warning">
+                    <strong>Critical Requirements:</strong>
+                    <ul class="list-styled">
+                        <li>Real-time: &lt;5ms per frame (30 fps)</li>
+                        <li>Robustness: Rain, snow, night, fog</li>
+                        <li>Safety: 99.99% accuracy (lives matter!)</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">🏥 Medical Imaging</h3>
+
+                <div class="card-box">
+                    <strong>Applications:</strong>
+                    <ul class="list-styled">
+                        <li>Cancer detection (X-ray, CT, MRI)</li>
+                        <li>Fracture identification</li>
+                        <li>Tumor segmentation</li>
+                        <li>Radiologist assistance (10-15% accuracy improvement)</li>
+                    </ul>
+                </div>
+
+            </div> <!-- End Applications Section -->
+
+        </div> <!-- End Content Wrapper -->
+
+        <!-- Footer -->
+        <footer>
+            <h5>🧠 Computer Vision Research: Deep Technical Analysis</h5>
+            <p>Meta GrokNet (Product Understanding, 2020) | Google MetNet (Weather Forecasting, 2020)</p>
+            <p style="margin-top: 20px; color: #999;">Complete technical breakdown with architecture specifications,
+                loss functions, and real-world results</p>
+            <p style="margin-top: 20px; font-size: 0.9rem;">Last Updated: April 2026</p>
+        </footer>
+
+    </div> <!-- End Main Wrapper -->
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">⬆️</div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Back to top button functionality
+        const backToTopBtn = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth scrolling for all anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

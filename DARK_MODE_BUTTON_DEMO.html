@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Toggle Button Demo</title>
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .demo-section {
+            background-color: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .demo-section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+
+        .demo-section h3 {
+            font-size: 18px;
+            margin: 20px 0 10px 0;
+        }
+
+        .button-showcase {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        /* Dark Mode Toggle Button */
+        .dark-mode-toggle {
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .toggle-icon {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover .toggle-icon {
+            transform: rotate(20deg);
+        }
+
+        .theme-toggle {
+            padding: 10px 20px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .theme-toggle:hover {
+            opacity: 0.8;
+        }
+
+        pre {
+            background-color: var(--bg-primary);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .button-showcase {
+                flex-direction: column;
+            }
+
+            .dark-mode-toggle,
+            .theme-toggle {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Toggle Button - Click to Switch Mode -->
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode (Ctrl+Shift+D)">
+        <span class="toggle-icon">🌙</span>
+        <span class="toggle-text">Dark</span>
+    </button>
+
+    <div class="container">
+        <header>
+            <h1>🌓 Dark Mode - Clickable Button Demo</h1>
+            <p>Click the button at the top right or press Ctrl+Shift+D to toggle dark mode</p>
+        </header>
+
+        <div class="demo-section">
+            <h2>✨ Button Features</h2>
+            <ul style="margin-left: 20px; line-height: 2;">
+                <li>✓ Click to toggle dark/light mode</li>
+                <li>✓ Icon and text update automatically</li>
+                <li>✓ Smooth animations on hover</li>
+                <li>✓ Remembers your preference</li>
+                <li>✓ Works on mobile and desktop</li>
+                <li>✓ Keyboard shortcut: Ctrl+Shift+D</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h2>📋 How to Add to Your Pages</h2>
+
+            <h3>Step 1: Add CSS (in &lt;head&gt;)</h3>
+            <pre>&lt;link rel="stylesheet" href="css/dark-mode.css"&gt;</pre>
+
+            <h3>Step 2: Add Button (anywhere in &lt;body&gt;)</h3>
+            <pre>&lt;button class="dark-mode-toggle" onclick="toggleDarkMode()"&gt;
+    &lt;span class="toggle-icon"&gt;🌙&lt;/span&gt;
+    &lt;span class="toggle-text"&gt;Dark&lt;/span&gt;
+&lt;/button&gt;</pre>
+
+            <h3>Step 3: Add JavaScript (before &lt;/body&gt;)</h3>
+            <pre>&lt;script src="js/dark-mode.js"&gt;&lt;/script&gt;</pre>
+        </div>
+
+        <div class="demo-section">
+            <h2>🎨 Button Styles</h2>
+
+            <h3>Option 1: Fixed Position (Top Right)</h3>
+            <pre>.dark-mode-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}</pre>
+
+            <h3>Option 2: In Navbar</h3>
+            <pre>&lt;!-- Add button to your navbar --&gt;
+&lt;nav&gt;
+    &lt;button class="dark-mode-toggle" onclick="toggleDarkMode()"&gt;
+        &lt;span class="toggle-icon"&gt;🌙&lt;/span&gt;
+        &lt;span class="toggle-text"&gt;Dark&lt;/span&gt;
+    &lt;/button&gt;
+&lt;/nav&gt;</pre>
+
+            <h3>Option 3: Simple Style</h3>
+            <pre>&lt;button class="theme-toggle" onclick="toggleDarkMode()"&gt;
+    🌙 Dark Mode
+&lt;/button&gt;</pre>
+        </div>
+
+        <div class="demo-section">
+            <h2>🧪 Test It Out</h2>
+            <p>Click any of these buttons to toggle dark mode:</p>
+            <div class="button-showcase">
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                    <span class="toggle-icon">🌙</span>
+                    <span class="toggle-text">Dark</span>
+                </button>
+                <button class="theme-toggle" onclick="toggleDarkMode()">
+                    🌓 Toggle Theme
+                </button>
+                <button class="theme-toggle" onclick="alert(getCurrentTheme())">
+                    📊 Current Mode: Light
+                </button>
+            </div>
+        </div>
+
+        <div class="demo-section" style="text-align: center; color: var(--text-secondary);">
+            <p>Dark Mode is now available on ALL pages in your deploy folder!</p>
+            <small>Try switching to dark mode and refresh the page - your preference will be saved!</small>
+        </div>
+    </div>
+
+    <!-- Dark Mode JS -->
+    <script src="js/dark-mode.js"></script>
+</body>
+
+</html>

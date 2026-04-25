@@ -1,0 +1,2923 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HummingBot Manager - Complete System Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e88e5;
+            --secondary: #43a047;
+            --warning: #fb8c00;
+            --danger: #e53935;
+            --info: #00bcd4;
+            --success: #7cb342;
+            --dark: #1a237e;
+            --light-bg: #eceff1;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #64b5f6 !important;
+            letter-spacing: 1px;
+        }
+
+        .main-wrapper {
+            background: white;
+            margin: 20px auto;
+            max-width: 1300px;
+            border-radius: 12px;
+            box-shadow: 0 2px 24px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 0;
+            opacity: 0.9;
+        }
+
+        .toc-section {
+            background: linear-gradient(135deg, #fb8c00 0%, #e65100 100%);
+            color: white;
+            padding: 35px 40px;
+        }
+
+        .toc-section h2 {
+            font-weight: 800;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .toc-item {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .toc-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .toc-item a {
+            text-decoration: none;
+            color: #1e88e5;
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .content-wrapper {
+            padding: 40px 50px;
+            background: white;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 35px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--primary);
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .subsection-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--info);
+            padding-bottom: 8px;
+        }
+
+        .subsection-subtitle {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1565c0;
+            margin-top: 18px;
+            margin-bottom: 12px;
+        }
+
+        .card-box {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8eaf6 100%);
+            border-left: 5px solid var(--info);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-box:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            transform: translateX(5px);
+        }
+
+        .card-box.success {
+            border-left-color: #43a047;
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+        }
+
+        .card-box.warning {
+            border-left-color: #fb8c00;
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+        }
+
+        .card-box.danger {
+            border-left-color: #e53935;
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+        }
+
+        .card-box.info {
+            border-left-color: #1e88e5;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+
+        .formula-box {
+            background: #263238;
+            color: #80deea;
+            border-left: 5px solid #1e88e5;
+            padding: 18px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .table-custom {
+            width: 100%;
+            margin: 15px 0;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-custom thead th {
+            background: linear-gradient(135deg, #1e88e5, #1565c0);
+            color: white;
+            padding: 12px 14px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .table-custom td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 0.9rem;
+        }
+
+        .table-custom tr:hover {
+            background: #f5f5f5;
+            transition: background 0.2s ease;
+        }
+
+        .table-custom tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .diagram-box {
+            background: #f5f5f5;
+            border: 2px solid #1e88e5;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 12px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            color: #1a237e;
+        }
+
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .arch-card {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid #1e88e5;
+            border-radius: 8px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        \n\n .arch-card h4 {
+            \n color: #1565c0;
+            \n font-weight: 700;
+            \n margin-bottom: 10px;
+            \n font-size: 1rem;
+            \n
+        }
+
+        .arch-card p {
+            font-size: 0.9rem;
+            color: #37474f;
+        }
+
+        .arch-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .list-styled {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-styled li {
+            padding: 8px 0 8px 35px;
+            position: relative;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .list-styled li:before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.4rem;
+        }
+
+        .badge-custom {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin: 5px 5px 5px 0;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .badge-architecture {
+            background: #e3f2fd;
+            color: #1565c0;
+            border: 2px solid #1e88e5;
+        }
+
+        .badge-database {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 2px solid #43a047;
+        }
+
+        .badge-messaging {
+            background: #fff3e0;
+            color: #e65100;
+            border: 2px solid #fb8c00;
+        }
+
+        .badge-api {
+            background: #f3e5f5;
+            color: #6a1b9a;
+            border: 2px solid #ab47bc;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+            border-left: 5px solid #fb8c00;
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 5px solid #43a047;
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .workflow-box {
+            background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+            border-left: 5px solid #0277bd;
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .accordion-button {
+            background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%) !important;
+            color: white !important;
+            font-weight: 700;
+            padding: 13px 16px;
+            border: none !important;
+            border-radius: 6px !important;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #1565c0 0%, #1a237e 100%) !important;
+        }
+
+        .accordion-button::after {
+            filter: invert(1) brightness(1.2);
+        }
+
+        .accordion-body {
+            padding: 18px;
+            background: #f5f5f5;
+            border-radius: 0 0 6px 6px;
+            border-top: 2px solid #1e88e5;
+        }
+
+        .accordion-body pre {
+            margin: 0;
+            background: white;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .accordion-body code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #1a237e;
+        }
+
+        .accordion-body p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 12px 0;
+        }
+
+        .strategy-card {
+            background: white;
+            border: 2px solid #1e88e5;
+            border-radius: 8px;
+            padding: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .strategy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .strategy-card h4 {
+            color: #1e88e5;
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .strategy-card .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .comparison-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #1e88e5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .comparison-item strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #1e88e5;
+            font-size: 0.9rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #1e88e5, #1565c0);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.3rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            text-align: center;
+            padding: 50px;
+            margin-top: 50px;
+            font-weight: 500;
+        }
+
+        .metric-card {
+            background: white;
+            border: 2px solid #1e88e5;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 15px 0;
+            border-top: 5px solid #1e88e5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .metric-card h5 {
+            color: #1e88e5;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1565c0;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 25px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .architecture-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-custom {
+                font-size: 0.85rem;
+            }
+        }
+
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .flow-step-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid #1e88e5;
+            border-radius: 8px;
+            padding: 15px 20px;
+            flex: 1;
+            font-weight: 600;
+            color: #1565c0;
+        }
+
+        .flow-arrow {
+            font-size: 2rem;
+            color: #1e88e5;
+            font-weight: 800;
+            text-align: center;
+            width: 50px;
+        }
+
+        .arch-layer {
+            background: linear-gradient(135deg, #f5f5f5 0%, #eeeeee 100%);
+            border: 2px solid #1e88e5;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .arch-layer-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1565c0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .arch-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .arch-item {
+            background: white;
+            border: 2px solid #1e88e5;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            color: #1e88e5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .mermaid-container {
+            background: white;
+            border: 2px solid #1e88e5;
+            border-radius: 8px;
+            padding: 18px;
+            margin: 12px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <span class="navbar-brand">🤖 HummingBot Manager</span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>🚀 HummingBot Manager</h1>
+            <p>Production-Grade Bot Orchestration Platform</p>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc-section">
+            <h2>📋 Table of Contents</h2>
+            <div class="toc-grid">
+                <div class="toc-item"><a href="#overview">📊 System Overview</a></div>
+                <div class="toc-item"><a href="#architecture">🏗️ Architecture</a></div>
+                <div class="toc-item"><a href="#database">🗄️ Database Design</a></div>
+                <div class="toc-item"><a href="#components">⚙️ Core Components</a></div>
+                <div class="toc-item"><a href="#orchestration">🐳 Orchestration</a></div>
+                <div class="toc-item"><a href="#messaging">💬 Messaging System</a></div>
+                <div class="toc-item"><a href="#strategies">🎯 Strategies</a></div>
+                <div class="toc-item"><a href="#deployment">🚀 Deployment</a></div>
+                <div class="toc-item"><a href="#kubernetes">☸️ Kubernetes</a></div>
+                <div class="toc-item"><a href="#bottlenecks">⚠️ Bottlenecks</a></div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content-wrapper">
+
+            <!-- SECTION 1: System Overview -->
+            <div class="section" id="overview">
+                <h2 class="section-title">📊 System Overview</h2>
+
+                <div class="insight-box">
+                    <strong>🎯 Mission:</strong> A production-grade bot orchestration platform that manages multiple
+                    trading bots as containerized services with centralized control, real-time monitoring, and secure
+                    credential management.
+                </div>
+
+                <div class="architecture-grid">
+                    <div class="arch-card">
+                        <div class="icon">🤖</div>
+                        <h4>HummingBot Manager</h4>
+                        <p>Flask-based central control system that orchestrates all bots and manages lifecycle</p>
+                    </div>
+                    <div class="arch-card">
+                        <div class="icon">🐳</div>
+                        <h4>Docker Containers</h4>
+                        <p>Each bot runs in isolated Docker container for security and portability</p>
+                    </div>
+                    <div class="arch-card">
+                        <div class="icon">🗄️</div>
+                        <h4>Database</h4>
+                        <p>Secure storage for users, credentials, configs, and transaction history</p>
+                    </div>
+                    <div class="arch-card">
+                        <div class="icon">💬</div>
+                        <h4>MQTT Pub/Sub</h4>
+                        <p>Real-time messaging for manager ↔ bot communication</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">📈 Key Features</h3>
+                <ul class="list-styled">
+                    <li>✅ <strong>Centralized Control:</strong> Create, start, stop, and monitor multiple bots from one
+                        dashboard</li>
+                    <li>✅ <strong>Secure Credential Management:</strong> Encrypted storage of API keys and secrets</li>
+                    <li>✅ <strong>Real-time Monitoring:</strong> Live logs, performance metrics, transaction tracking
+                    </li>
+                    <li>✅ <strong>Dynamic Bot Creation:</strong> Spin up new trading bots on demand via API</li>
+                    <li>✅ <strong>Configuration as Code:</strong> YAML-based bot strategies and parameters</li>
+                    <li>✅ <strong>Horizontal Scalability:</strong> Support 100s of bots simultaneously</li>
+                    <li>✅ <strong>Fault Tolerance:</strong> Container restart policies, error recovery, retry logic</li>
+                </ul>
+
+            </div>
+
+            <!-- SECTION 2: Core Architecture -->
+            <div class="section" id="architecture">
+                <h2 class="section-title">🏗️ Core Architecture</h2>
+
+                <h3 class="subsection-title">High-Level Architecture Flow</h3>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        graph TD
+                        A["👤 User / API Client"] -->|"REST Requests"| B["🤖 HummingBot Manager<br />(Flask Backend)"]
+                        B -->|"Store Config"| D[("🗄️ PostgreSQL<br />Database")]
+                        B -->|"Publish/Subscribe"| E["💬 MQTT Broker<br />(EMQX)"]
+                        B -->|"Create/Control"| F["🐳 Docker Daemon"]
+                        D -->|"Retrieve Data"| B
+                        E -->|"Events"| B
+                        F -->|"Run"| G["📦 Bot Containers<br />(Bot 1, Bot 2, ... Bot N)"]
+                        G -->|"Trade"| H["🏦 Exchange APIs<br />(Binance, Kucoin, etc)"]
+                        G -->|"Logs/Status"| E
+                        E -->|"Commands"| G
+                        H -->|"Order Results"| G
+                        G -->|"Transactions"| D
+
+                        style A fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px,color:#000
+                        style B fill:#fff9c4,stroke:#fb8c00,stroke-width:2px,color:#000
+                        style D fill:#e8f5e9,stroke:#43a047,stroke-width:2px,color:#000
+                        style E fill:#f3e5f5,stroke:#ab47bc,stroke-width:2px,color:#000
+                        style F fill:#fce4ec,stroke:#e53935,stroke-width:2px,color:#000
+                        style G fill:#e0f2f1,stroke:#00897b,stroke-width:2px,color:#000
+                        style H fill:#fff3e0,stroke:#fb8c00,stroke-width:2px,color:#000
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">Component Breakdown</h3>
+
+                <div class="accordion" id="architectureAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#arch1">
+                                <strong>🤖 Manager Service (Control Plane)</strong>
+                            </button>
+                        </h2>
+                        <div id="arch1" class="accordion-collapse collapse show"
+                            data-bs-parent="#architectureAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Purpose:</strong> Central orchestration and API endpoint</p>
+                                <p><strong>Responsibilities:</strong></p>
+                                <ul class="list-styled">
+                                    <li>Create new bot Docker containers dynamically</li>
+                                    <li>Start/Stop/Restart bots</li>
+                                    <li>Inject configurations into containers</li>
+                                    <li>Monitor bot health and performance</li>
+                                    <li>Route API requests to appropriate services</li>
+                                    <li>Manage authentication and authorization</li>
+                                </ul>
+                                <p><strong>Tech Stack:</strong> Flask, Python Docker SDK</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#arch2">
+                                <strong>🐳 Bot Execution Layer</strong>
+                            </button>
+                        </h2>
+                        <div id="arch2" class="accordion-collapse collapse" data-bs-parent="#architectureAccordion">
+                            <div class="accordion-body">
+                                <p><strong>What:</strong> Each bot runs in its own Docker container</p>
+                                <p><strong>Isolation Benefits:</strong></p>
+                                <ul class="list-styled">
+                                    <li>Process isolation (bot crash doesn't affect others)</li>
+                                    <li>Resource limits (CPU, RAM per bot)</li>
+                                    <li>Environment isolation (different API keys per bot)</li>
+                                    <li>Easy scaling (add containers, not code changes)</li>
+                                </ul>
+                                <p><strong>Container Image:</strong> Hummingbot base image + custom strategy</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#arch3">
+                                <strong>🗄️ Database Layer</strong>
+                            </button>
+                        </h2>
+                        <div id="arch3" class="accordion-collapse collapse" data-bs-parent="#architectureAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Database:</strong> PostgreSQL</p>
+                                <p><strong>Storage Strategy:</strong></p>
+                                <ul class="list-styled">
+                                    <li>Encrypted API credentials</li>
+                                    <li>User account information</li>
+                                    <li>Bot configurations (YAML stored as JSON)</li>
+                                    <li>Transaction history</li>
+                                    <li>Audit logs for compliance</li>
+                                </ul>
+                                <p><strong>Security:</strong> All sensitive data encrypted at-rest and in-transit</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#arch4">
+                                <strong>💬 MQTT Pub/Sub</strong>
+                            </button>
+                        </h2>
+                        <div id="arch4" class="accordion-collapse collapse" data-bs-parent="#architectureAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Purpose:</strong> Real-time bidirectional communication</p>
+                                <p><strong>Topics:</strong></p>
+                                <ul class="list-styled">
+                                    <li><code>bots/{bot_id}/commands</code> - Manager → Bot commands</li>
+                                    <li><code>bots/{bot_id}/status</code> - Bot → Manager status updates</li>
+                                    <li><code>bots/{bot_id}/logs</code> - Bot → Logging system</li>
+                                    <li><code>system/alerts</code> - System-wide notifications</li>
+                                </ul>
+                                <p><strong>Broker:</strong> EMQX or Mosquitto</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SECTION 3: Database Design -->
+            <div class="section" id="database">
+                <h2 class="section-title">🗄️ Database Schema</h2>
+
+                <h3 class="subsection-title">Core Tables & Relationships</h3>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        erDiagram
+                        USERS ||--o{ EXCHANGE_CREDENTIALS : has
+                        USERS ||--o{ BOTS : creates
+                        BOTS ||--o{ BOT_CONFIGS : has
+                        BOTS ||--o{ TRANSACTIONS : executes
+                        BOTS ||--o{ BOT_LOGS : generates
+                        BOTS ||--o{ BOT_COMMANDS : receives
+
+                        USERS {
+                        string id PK
+                        string name
+                        string email UK
+                        string password_hash
+                        timestamp created_at
+                        }
+
+                        EXCHANGE_CREDENTIALS {
+                        string id PK
+                        string user_id FK
+                        string exchange_name
+                        string api_key
+                        string api_secret
+                        }
+
+                        BOTS {
+                        string id PK
+                        string user_id FK
+                        string name
+                        string status
+                        string docker_container_id
+                        timestamp created_at
+                        }
+
+                        BOT_CONFIGS {
+                        string id PK
+                        string bot_id FK
+                        string trading_pair
+                        decimal amount
+                        json config_json
+                        }
+
+                        TRANSACTIONS {
+                        string id PK
+                        string bot_id FK
+                        string exchange_name
+                        string side
+                        decimal price
+                        decimal amount
+                        string status
+                        }
+
+                        BOT_LOGS {
+                        string id PK
+                        string bot_id FK
+                        string log_level
+                        string message
+                        timestamp timestamp
+                        }
+
+                        BOT_COMMANDS {
+                        string id PK
+                        string bot_id FK
+                        string command
+                        string status
+                        timestamp created_at
+                        }
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">Table Details</h3>
+
+                <div class="accordion" id="databaseAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db1">
+                                <strong>👤 users Table</strong>
+                            </button>
+                        </h2>
+                        <div id="db1" class="accordion-collapse collapse show" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <p><strong>📌 Purpose:</strong> Store user account information</p>
+
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 40%;">Column Name</th>
+                                            <th style="width: 30%;">Type</th>
+                                            <th style="width: 30%;">Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>id</strong></td>
+                                            <td>UUID</td>
+                                            <td>Primary Key</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>name</strong></td>
+                                            <td>VARCHAR(100)</td>
+                                            <td>User full name</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>email</strong></td>
+                                            <td>VARCHAR(150)</td>
+                                            <td>Unique email</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>password_hash</strong></td>
+                                            <td>TEXT</td>
+                                            <td>Bcrypt hashed</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>created_at</strong></td>
+                                            <td>TIMESTAMP</td>
+                                            <td>Auto-set NOW()</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>updated_at</strong></td>
+                                            <td>TIMESTAMP</td>
+                                            <td>Auto-set NOW()</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db2">
+                                <strong>🔐 exchange_credentials Table</strong>
+                            </button>
+                        </h2>
+                        <div id="db2" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <p><strong>📌 Purpose:</strong> Store encrypted exchange API credentials</p>
+
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 40%;">Column Name</th>
+                                            <th style="width: 30%;">Type</th>
+                                            <th style="width: 30%;">Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>id</strong></td>
+                                            <td>UUID</td>
+                                            <td>Primary Key</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>user_id</strong></td>
+                                            <td>UUID</td>
+                                            <td>Foreign Key → users</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>exchange_name</strong></td>
+                                            <td>VARCHAR(50)</td>
+                                            <td>binance, kucoin, etc</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>api_key</strong></td>
+                                            <td>TEXT</td>
+                                            <td>🔒 Encrypted (AES-256)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>api_secret</strong></td>
+                                            <td>TEXT</td>
+                                            <td>🔒 Encrypted (AES-256)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>extra_config</strong></td>
+                                            <td>JSONB</td>
+                                            <td>Passphrase, etc</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>created_at</strong></td>
+                                            <td>TIMESTAMP</td>
+                                            <td>Auto-set NOW()</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="highlight-box">
+                                    ⚠️ <strong>Security Critical:</strong> All API keys encrypted before storage. Use
+                                    environment-based key rotation.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db3">
+                                <strong>🤖 bots Table</strong>
+                            </button>
+                        </h2>
+                        <div id="db3" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <p><strong>📌 Purpose:</strong> Store bot instances and their container metadata</p>
+
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 40%;">Column Name</th>
+                                            <th style="width: 30%;">Type</th>
+                                            <th style="width: 30%;">Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>id</strong></td>
+                                            <td>UUID</td>
+                                            <td>Primary Key</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>user_id</strong></td>
+                                            <td>UUID</td>
+                                            <td>Foreign Key → users</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>name</strong></td>
+                                            <td>VARCHAR(100)</td>
+                                            <td>Bot display name</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>status</strong></td>
+                                            <td>VARCHAR(20)</td>
+                                            <td>running/stopped/error</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>docker_container_id</strong></td>
+                                            <td>VARCHAR(100)</td>
+                                            <td>Docker container reference</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>strategy_name</strong></td>
+                                            <td>VARCHAR(100)</td>
+                                            <td>pure_market_making, etc</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>created_at</strong></td>
+                                            <td>TIMESTAMP</td>
+                                            <td>Auto-set NOW()</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>updated_at</strong></td>
+                                            <td>TIMESTAMP</td>
+                                            <td>Auto-set NOW()</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db4">
+                                <strong>⚙️ bot_configs Table</strong>
+                            </button>
+                        </h2>
+                        <div id="db4" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <p><strong>📌 Purpose:</strong> Store bot trading configurations and strategy parameters
+                                </p>
+
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 40%;">Column Name</th>
+                                            <th style="width: 30%;">Type</th>
+                                            <th style="width: 30%;">Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>id</strong></td>
+                                            <td>UUID</td>
+                                            <td>Primary Key</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>bot_id</strong></td>
+                                            <td>UUID</td>
+                                            <td>Foreign Key → bots</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>trading_pair</strong></td>
+                                            <td>VARCHAR(50)</td>
+                                            <td>BTC-USDT, ETH-USDC, etc</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>amount</strong></td>
+                                            <td>DECIMAL(18,8)</td>
+                                            <td>Trading amount</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>config_json</strong></td>
+                                            <td>JSONB</td>
+                                            <td>Flexible strategy params</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>created_at</strong></td>
+                                            <td>TIMESTAMP</td>
+                                            <td>Auto-set NOW()</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="card-box info">
+                                    <strong>💡 Design Note:</strong> JSONB format allows flexibility for different
+                                    strategy parameters without schema changes.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db5">
+                                <strong>💳 transactions Table</strong>
+                            </button>
+                        </h2>
+                        <div id="db5" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <p><strong>📌 Purpose:</strong> Store all executed trades and transactions</p>
+
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 40%;">Column Name</th>
+                                            <th style="width: 30%;">Type</th>
+                                            <th style="width: 30%;">Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>id</strong></td>
+                                            <td>UUID</td>
+                                            <td>Primary Key</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>bot_id</strong></td>
+                                            <td>UUID</td>
+                                            <td>Foreign Key → bots</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>exchange_name</strong></td>
+                                            <td>VARCHAR(50)</td>
+                                            <td>binance, kucoin, etc</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>trading_pair</strong></td>
+                                            <td>VARCHAR(50)</td>
+                                            <td>BTC-USDT, etc</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>side</strong></td>
+                                            <td>VARCHAR(10)</td>
+                                            <td>buy or sell</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>price</strong></td>
+                                            <td>DECIMAL(18,8)</td>
+                                            <td>Execution price</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>amount</strong></td>
+                                            <td>DECIMAL(18,8)</td>
+                                            <td>Trade amount</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>status</strong></td>
+                                            <td>VARCHAR(20)</td>
+                                            <td>pending/filled/failed</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>external_id</strong></td>
+                                            <td>VARCHAR(100)</td>
+                                            <td>Exchange order ID</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>created_at</strong></td>
+                                            <td>TIMESTAMP</td>
+                                            <td>Auto-set NOW()</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db6">
+                                <strong>📝 bot_logs Table</strong>
+                            </button>
+                        </h2>
+                        <div id="db6" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <p><strong>📌 Purpose:</strong> Store bot runtime logs and events</p>
+
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 40%;">Column Name</th>
+                                            <th style="width: 30%;">Type</th>
+                                            <th style="width: 30%;">Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>id</strong></td>
+                                            <td>BIGSERIAL</td>
+                                            <td>Primary Key (auto-increment)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>bot_id</strong></td>
+                                            <td>UUID</td>
+                                            <td>Foreign Key → bots</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>log_level</strong></td>
+                                            <td>VARCHAR(10)</td>
+                                            <td>INFO/ERROR/WARNING/DEBUG</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>message</strong></td>
+                                            <td>TEXT</td>
+                                            <td>Log message content</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>timestamp</strong></td>
+                                            <td>TIMESTAMP</td>
+                                            <td>Auto-set NOW()</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="card-box warning">
+                                    <strong>⚠️ Note:</strong> Archive old logs to separate storage (S3, etc.) for
+                                    performance.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SECTION 4: Components -->
+            <div class="section" id="components">
+                <h2 class="section-title">⚙️ Core Components</h2>
+
+                <h3 class="subsection-title">1. Bot Orchestration Layer</h3>
+
+                <div class="card-box success">
+                    <strong>Responsibility:</strong> Manage Docker container lifecycle
+                    <br><br>
+                    <strong>Operations:</strong>
+                    <ul class="list-styled">
+                        <li>Create new bot container from image</li>
+                        <li>Inject config via environment variables</li>
+                        <li>Start/Stop containers</li>
+                        <li>Monitor resource usage</li>
+                        <li>Restart on failure</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">2. HummingBot Integration</h3>
+
+                <div class="card-box warning">
+                    <strong>How Bots Execute Trades:</strong>
+                    <br><br>
+                    <strong>Flow:</strong>
+                    <ol style="margin-left: 20px;">
+                        <li>Manager generates YAML config from DB</li>
+                        <li>Config injected into container as environment/mounted file</li>
+                        <li>HummingBot reads config on startup</li>
+                        <li>Bot connects to exchange API using credentials from ENV</li>
+                        <li>Bot executes strategy (place orders, monitor, adjust)</li>
+                        <li>Results streamed via MQTT → Logging system</li>
+                    </ol>
+                </div>
+
+                <h3 class="subsection-title">3. Configuration System</h3>
+
+                <p><strong>Example Bot Config (YAML format):</strong></p>
+                <div class="formula-box">
+                    strategy: pure_market_making
+                    exchange: binance
+                    trading_pair: BTC-USDT
+                    amount: 0.001
+
+                    # Strategy-specific parameters
+                    bid_spread: 0.01 # 1% below market
+                    ask_spread: 0.01 # 1% above market
+                    order_refresh_time: 30
+                    inventory_target_base_pct: 50
+
+                    # Credentials (injected via ENV)
+                    api_key: ${EXCHANGE_API_KEY}
+                    api_secret: ${EXCHANGE_API_SECRET}
+                </div>
+
+                <h3 class="subsection-title">4. API Layer (Flask)</h3>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Endpoint</th>
+                            <th>Method</th>
+                            <th>Description</th>
+                            <th>Returns</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>/api/bots/create</code></td>
+                            <td>POST</td>
+                            <td>Create new bot</td>
+                            <td>Bot ID, Status</td>
+                        </tr>
+                        <tr>
+                            <td><code>/api/bots/{id}/start</code></td>
+                            <td>POST</td>
+                            <td>Start bot container</td>
+                            <td>Status: started</td>
+                        </tr>
+                        <tr>
+                            <td><code>/api/bots/{id}/stop</code></td>
+                            <td>POST</td>
+                            <td>Stop bot container</td>
+                            <td>Status: stopped</td>
+                        </tr>
+                        <tr>
+                            <td><code>/api/bots/{id}/logs</code></td>
+                            <td>GET</td>
+                            <td>Fetch bot logs (WebSocket for live)</td>
+                            <td>Log entries</td>
+                        </tr>
+                        <tr>
+                            <td><code>/api/transactions</code></td>
+                            <td>GET</td>
+                            <td>List all transactions</td>
+                            <td>Transaction history</td>
+                        </tr>
+                        <tr>
+                            <td><code>/api/credentials/add</code></td>
+                            <td>POST</td>
+                            <td>Add exchange credentials</td>
+                            <td>Credential ID</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p><strong>Example Create Bot Request:</strong></p>
+                <div class="formula-box">
+                    POST /api/bots/create
+                    {
+                    "name": "BTC Arbitrage Bot 1",
+                    "strategy": "arbitrage",
+                    "exchange_primary": "binance",
+                    "exchange_secondary": "kucoin",
+                    "trading_pair": "BTC-USDT",
+                    "amount": 0.001,
+                    "min_profitability": 0.003
+                    }
+
+                    Response:
+                    {
+                    "bot_id": "uuid-123",
+                    "status": "created",
+                    "docker_id": "abc123def456",
+                    "message": "Bot created successfully"
+                    }
+                </div>
+
+            </div>
+
+            <!-- SECTION 5: Orchestration -->
+            <div class="section" id="orchestration">
+                <h2 class="section-title">🐳 Docker Compose Orchestration</h2>
+
+                <h3 class="subsection-title">Docker Compose Structure</h3>
+
+                <div class="accordion" id="dockerAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#docker1">
+                                <strong>📦 PostgreSQL Service</strong>
+                            </button>
+                        </h2>
+                        <div id="docker1" class="accordion-collapse collapse show" data-bs-parent="#dockerAccordion">
+                            <div class="accordion-body">
+                                <pre
+                                    style="font-size: 0.9rem; line-height: 1.6; background: #fff; padding: 15px; border-radius: 5px; border-left: 4px solid #4caf50;"><code>postgres:
+  image: postgres:15
+  environment:
+    POSTGRES_DB: hummingbot
+    POSTGRES_USER: admin
+    POSTGRES_PASSWORD: ${DB_PASSWORD}
+  volumes:
+    - postgres_data:/var/lib/postgresql/data
+  ports:
+    - "5432:5432"</code></pre>
+                                <p style="margin-top: 15px; font-size: 0.95rem; color: #333;"><strong>🔹
+                                        Purpose:</strong> Persistent database for user data, bot configs, transactions,
+                                    and logs</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#docker2">
+                                <strong>📨 EMQX MQTT Broker</strong>
+                            </button>
+                        </h2>
+                        <div id="docker2" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+                            <div class="accordion-body">
+                                <pre
+                                    style="font-size: 0.9rem; line-height: 1.6; background: #fff; padding: 15px; border-radius: 5px; border-left: 4px solid #2196f3;"><code>emqx:
+  image: emqx:latest
+  ports:
+    - "1883:1883"     # MQTT protocol
+    - "18083:18083"   # Web dashboard
+  volumes:
+    - emqx_data:/opt/emqx/data</code></pre>
+                                <p style="margin-top: 15px; font-size: 0.95rem; color: #333;"><strong>🔹
+                                        Purpose:</strong> Message broker for bot-to-manager communication (commands,
+                                    status, logs, metrics)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#docker3">
+                                <strong>⚙️ Manager Service</strong>
+                            </button>
+                        </h2>
+                        <div id="docker3" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+                            <div class="accordion-body">
+                                <pre
+                                    style="font-size: 0.9rem; line-height: 1.6; background: #fff; padding: 15px; border-radius: 5px; border-left: 4px solid #ff9800;"><code>manager:
+  image: hummingbot-manager:latest
+  build:
+    context: .
+    dockerfile: Dockerfile.manager
+  environment:
+    DB_HOST: postgres
+    MQTT_BROKER: emqx
+    API_PORT: 5000
+  ports:
+    - "5000:5000"
+  depends_on:
+    - postgres
+    - emqx
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock</code></pre>
+                                <p style="margin-top: 15px; font-size: 0.95rem; color: #333;"><strong>🔹
+                                        Purpose:</strong> Orchestration service - manages bot creation, configuration,
+                                    deployment, and monitoring</p>
+                                <p style="font-size: 0.95rem; color: #666; margin-top: 10px;">💡 <strong>Note:</strong>
+                                    Docker socket mount allows manager to create/manage bot containers</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#docker4">
+                                <strong>💾 Volumes Configuration</strong>
+                            </button>
+                        </h2>
+                        <div id="docker4" class="accordion-collapse collapse" data-bs-parent="#dockerAccordion">
+                            <div class="accordion-body">
+                                <pre
+                                    style="font-size: 0.9rem; line-height: 1.6; background: #fff; padding: 15px; border-radius: 5px; border-left: 4px solid #9c27b0;"><code>volumes:
+  postgres_data:    # PostgreSQL persistent storage
+  emqx_data:        # MQTT broker persistent storage</code></pre>
+                                <p style="margin-top: 15px; font-size: 0.95rem; color: #333;"><strong>🔹
+                                        Purpose:</strong> Named volumes for data persistence across container restarts
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <strong>🎯 Key Points:</strong><br>
+                    • Manager connects to Docker daemon via socket<br>
+                    • Each bot created dynamically (not in compose)<br>
+                    • Core services (DB, MQTT) persistent<br>
+                    • Environment-based configuration for security
+                </div>
+
+                <h3 class="subsection-title">Bot Container Lifecycle</h3>
+
+                <div class="workflow-box">
+                    <strong>1️⃣ Creation:</strong> User calls API → Manager creates container<br>
+                    <strong>2️⃣ Configuration Injection:</strong> Config pushed to container via ENV/volume mount<br>
+                    <strong>3️⃣ Startup:</strong> Container starts, loads config, connects to exchange<br>
+                    <strong>4️⃣ Execution:</strong> Strategy runs, streams logs via MQTT<br>
+                    <strong>5️⃣ Monitoring:</strong> Manager checks health, collects metrics<br>
+                    <strong>6️⃣ Termination:</strong> User stops bot → Container gracefully shuts down
+                </div>
+
+            </div>
+
+            <!-- SECTION 6: Messaging -->
+            <div class="section" id="messaging">
+                <h2 class="section-title">💬 MQTT Messaging System (8 Core Topics)</h2>
+
+                <div class="insight-box">
+                    <strong>🎯 Overview:</strong> All bot-to-server communication happens through MQTT Pub/Sub. Manager
+                    subscribes to bot topics, bots subscribe to manager commands. Zero central polling = efficient &
+                    scalable.
+                </div>
+
+                <h3 class="subsection-title">Complete MQTT Topic Architecture</h3>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        graph TD
+                        A["📦 Topic Hierarchy"] -->|"Bot Topics"| B["bots/{bot_id}/"]
+                        A -->|"System Topics"| C["system/"]
+
+                        B --> B1["🎮 commands<br />Manager → Bot"]
+                        B --> B2["📊 status<br />Bot → Manager"]
+                        B --> B3["📝 logs<br />Bot → Manager"]
+                        B --> B4["📈 metrics<br />Bot → Manager"]
+                        B --> B5["💳 trades<br />Bot → Manager"]
+                        B --> B6["⚠️ errors<br />Bot → Manager"]
+                        B --> B7["❤️ health<br />Bot → Manager"]
+
+                        C --> C1["🚨 alerts<br />Manager → All"]
+                        C --> C2["⚙️ config<br />Manager → All"]
+                        C --> C3["🔔 notifications<br />System → All"]
+
+                        style A fill:#e3f2fd,stroke:#1e88e5,stroke-width:3px
+                        style B fill:#e8f5e9,stroke:#43a047,stroke-width:2px
+                        style C fill:#fff3e0,stroke:#fb8c00,stroke-width:2px
+
+                        style B1 fill:#ffebee,stroke:#e53935
+                        style B2 fill:#e8f5e9,stroke:#43a047
+                        style B3 fill:#e8f5e9,stroke:#43a047
+                        style B4 fill:#e8f5e9,stroke:#43a047
+                        style B5 fill:#e8f5e9,stroke:#43a047
+                        style B6 fill:#e8f5e9,stroke:#43a047
+                        style B7 fill:#e8f5e9,stroke:#43a047
+
+                        style C1 fill:#ffebee,stroke:#e53935
+                        style C2 fill:#ffebee,stroke:#e53935
+                        style C3 fill:#ffebee,stroke:#e53935
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">🔄 Communication Flow Diagram</h3>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        graph TB
+                        subgraph MGR["🤖 MANAGER SERVICE"]
+                        M1["📥 Subscribes To"]
+                        M1 --> M1A["bots/+/status"]
+                        M1 --> M1B["bots/+/logs"]
+                        M1 --> M1C["bots/+/metrics"]
+                        M1 --> M1D["bots/+/trades"]
+                        M1 --> M1E["bots/+/errors"]
+                        M1 --> M1F["bots/+/health"]
+
+                        M2["📤 Publishes To"]
+                        M2 --> M2A["bots/{bot_id}/commands"]
+                        M2 --> M2B["system/alerts"]
+                        M2 --> M2C["system/config"]
+                        end
+
+                        MGR -->|"Connect"| MQTT
+
+                        MQTT["💬 MQTT BROKER<br />(EMQX / Mosquitto)"]
+
+                        MQTT -->|"Events"| BOT1
+                        MQTT -->|"Events"| BOT2
+                        MQTT -->|"Events"| BOTN
+
+                        BOT1 -->|"Publish"| MQTT
+                        BOT2 -->|"Publish"| MQTT
+                        BOTN -->|"Publish"| MQTT
+
+                        subgraph BOTS["🐳 BOT CONTAINERS"]
+                        BOT1["Bot 1"]
+                        BOT2["Bot 2"]
+                        BOTN["... Bot N"]
+                        end
+
+                        style MGR fill:#e3f2fd,stroke:#1e88e5,stroke-width:3px
+                        style MQTT fill:#f3e5f5,stroke:#ab47bc,stroke-width:3px
+                        style BOTS fill:#e0f2f1,stroke:#00897b,stroke-width:3px
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">📌 8 Core MQTT Topics (Detailed)</h3>
+
+                <div class="accordion" id="mqttAccordion">
+
+                    <!-- Topic 1 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#mqtt1">
+                                <strong>1️⃣ bots/{bot_id}/commands</strong> <span
+                                    style="margin-left: auto; font-size: 0.85rem; color: #ff7043;">Manager → Bot</span>
+                            </button>
+                        </h2>
+                        <div id="mqtt1" class="accordion-collapse collapse show" data-bs-parent="#mqttAccordion">
+                            <div class="accordion-body">
+                                <p><strong>🎯 Purpose:</strong> Manager sends control commands to bot</p>
+                                <p><strong>QoS Level:</strong> 1 (at least once delivery)</p>
+
+                                <div class="subsection-subtitle" style="margin-top: 15px;">Supported Commands:</div>
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th>Command</th>
+                                            <th>Description</th>
+                                            <th>Parameters</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>start</strong></td>
+                                            <td>Start trading strategy</td>
+                                            <td>config (JSON)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>stop</strong></td>
+                                            <td>Stop trading gracefully</td>
+                                            <td>reason (string)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>restart</strong></td>
+                                            <td>Restart bot container</td>
+                                            <td>force (boolean)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>pause</strong></td>
+                                            <td>Pause trading (keep orders)</td>
+                                            <td>duration (seconds)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>resume</strong></td>
+                                            <td>Resume from pause</td>
+                                            <td>—</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>update_config</strong></td>
+                                            <td>Update strategy parameters</td>
+                                            <td>config (JSON)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>panic_sell</strong></td>
+                                            <td>Emergency: sell all positions</td>
+                                            <td>—</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div style="margin-top: 20px;"><strong>📤 Example Payload (JSON):</strong></div>
+                                <div class="formula-box">
+                                    // Start command
+                                    {
+                                    "command": "start",
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:00:00Z",
+                                    "payload": {
+                                    "strategy": "pure_market_making",
+                                    "exchange": "binance",
+                                    "trading_pair": "BTC-USDT",
+                                    "order_amount": 0.001,
+                                    "bid_spread": 0.01,
+                                    "ask_spread": 0.01
+                                    }
+                                    }
+
+                                    // Update config command
+                                    {
+                                    "command": "update_config",
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:15:00Z",
+                                    "payload": {
+                                    "bid_spread": 0.015,
+                                    "ask_spread": 0.015
+                                    }
+                                    }
+
+                                    // Panic sell command
+                                    {
+                                    "command": "panic_sell",
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:20:00Z",
+                                    "reason": "System malfunction detected"
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 2 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#mqtt2">
+                                <strong>2️⃣ bots/{bot_id}/status</strong> <span
+                                    style="margin-left: auto; font-size: 0.85rem; color: #66bb6a;">Bot → Manager</span>
+                            </button>
+                        </h2>
+                        <div id="mqtt2" class="accordion-collapse collapse" data-bs-parent="#mqttAccordion">
+                            <div class="accordion-body">
+                                <p><strong>🎯 Purpose:</strong> Bot reports current state and operational status</p>
+                                <p><strong>Frequency:</strong> Every 5-10 seconds (configurable)</p>
+                                <p><strong>QoS Level:</strong> 1 (at least once)</p>
+
+                                <div style="margin-top: 20px;"><strong>📤 Example Status Payload:</strong></div>
+                                <div class="formula-box">
+                                    {
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:00:15Z",
+                                    "status": "running",
+                                    "state": {
+                                    "active_orders": 5,
+                                    "total_positions": {
+                                    "BTC": 0.005,
+                                    "USDT": 2500.00
+                                    },
+                                    "pnl": {
+                                    "realized": 125.50,
+                                    "unrealized": 45.30,
+                                    "total": 170.80
+                                    },
+                                    "uptime_seconds": 3600,
+                                    "trades_today": 42,
+                                    "cpu_usage_percent": 25.5,
+                                    "memory_usage_mb": 350
+                                    },
+                                    "health": {
+                                    "exchange_connection": "connected",
+                                    "mqtt_connection": "connected",
+                                    "last_trade": "2024-01-01T10:00:12Z",
+                                    "error_count": 0
+                                    }
+                                    }
+
+                                    // Status: stopped
+                                    {
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T11:00:00Z",
+                                    "status": "stopped",
+                                    "reason": "User initiated stop",
+                                    "final_stats": {
+                                    "total_trades": 150,
+                                    "total_pnl": 250.75,
+                                    "total_uptime_seconds": 7200
+                                    }
+                                    }
+                                </div>
+
+                                <div class="card-box success" style="margin-top: 15px;">
+                                    <strong>Status Values:</strong> running, stopped, error, paused, restarting
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 3 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#mqtt3">
+                                <strong>3️⃣ bots/{bot_id}/logs</strong> <span
+                                    style="margin-left: auto; font-size: 0.85rem; color: #66bb6a;">Bot → Manager</span>
+                            </button>
+                        </h2>
+                        <div id="mqtt3" class="accordion-collapse collapse" data-bs-parent="#mqttAccordion">
+                            <div class="accordion-body">
+                                <p><strong>🎯 Purpose:</strong> Real-time log streaming from bot to manager</p>
+                                <p><strong>Frequency:</strong> Continuous (as events happen)</p>
+                                <p><strong>QoS Level:</strong> 0 (fire and forget - logs are not critical)</p>
+
+                                <div style="margin-top: 20px;"><strong>📤 Log Entry Examples:</strong></div>
+                                <div class="formula-box">
+                                    // INFO level log
+                                    {
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:00:30Z",
+                                    "level": "INFO",
+                                    "message": "Order placed successfully",
+                                    "metadata": {
+                                    "order_id": "ext-order-789",
+                                    "side": "buy",
+                                    "price": 42000.50,
+                                    "amount": 0.001,
+                                    "exchange": "binance"
+                                    }
+                                    }
+
+                                    // WARNING level log
+                                    {
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:01:00Z",
+                                    "level": "WARNING",
+                                    "message": "High spread detected, pausing new orders",
+                                    "metadata": {
+                                    "bid_price": 41999.00,
+                                    "ask_price": 42005.00,
+                                    "spread_percent": 0.015
+                                    }
+                                    }
+
+                                    // ERROR level log
+                                    {
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:02:00Z",
+                                    "level": "ERROR",
+                                    "message": "Failed to cancel order",
+                                    "metadata": {
+                                    "error_code": "EXCHANGE_API_ERROR",
+                                    "order_id": "ext-order-790",
+                                    "error_details": "Order already filled"
+                                    }
+                                    }
+
+                                    // DEBUG level log
+                                    {
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:00:45Z",
+                                    "level": "DEBUG",
+                                    "message": "Strategy evaluation cycle started",
+                                    "metadata": {
+                                    "cycle_number": 1001,
+                                    "current_bid": 41999.00,
+                                    "current_ask": 42005.00,
+                                    "mid_price": 42002.00
+                                    }
+                                    }
+                                </div>
+
+                                <div class="card-box warning" style="margin-top: 15px;">
+                                    <strong>Log Levels:</strong> DEBUG, INFO, WARNING, ERROR, CRITICAL
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 4 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#mqtt4">
+                                <strong>4️⃣ bots/{bot_id}/metrics</strong> <span
+                                    style="margin-left: auto; font-size: 0.85rem; color: #66bb6a;">Bot → Manager</span>
+                            </button>
+                        </h2>
+                        <div id="mqtt4" class="accordion-collapse collapse" data-bs-parent="#mqttAccordion">
+                            <div class="accordion-body">
+                                <p><strong>🎯 Purpose:</strong> Performance metrics & analytics data</p>
+                                <p><strong>Frequency:</strong> Every 30-60 seconds</p>
+                                <p><strong>QoS Level:</strong> 1 (important for analytics)</p>
+
+                                <div style="margin-top: 20px;"><strong>📤 Metrics Payload:</strong></div>
+                                <div class="formula-box">
+                                    {
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:05:00Z",
+                                    "metrics": {
+                                    "performance": {
+                                    "pnl_today": 250.75,
+                                    "pnl_month": 1850.50,
+                                    "roi_percent": 2.35,
+                                    "sharpe_ratio": 1.45,
+                                    "max_drawdown_percent": 5.20
+                                    },
+                                    "trading": {
+                                    "trades_today": 42,
+                                    "trades_month": 780,
+                                    "win_rate_percent": 58.5,
+                                    "avg_trade_duration_seconds": 150,
+                                    "total_volume_usdt": 50000.00
+                                    },
+                                    "operational": {
+                                    "uptime_percent": 99.8,
+                                    "latency_ms": 45,
+                                    "failed_orders": 2,
+                                    "filled_orders": 450,
+                                    "pending_orders": 3
+                                    },
+                                    "risk": {
+                                    "current_leverage": 1.0,
+                                    "position_risk_percent": 5.0,
+                                    "liquidation_price": null,
+                                    "value_at_risk_95": 125.50
+                                    }
+                                    }
+                                    }
+                                </div>
+
+                                <div class="card-box info" style="margin-top: 15px;">
+                                    <strong>💡 Use Case:</strong> Dashboard visualization, performance tracking,
+                                    alerting on degraded metrics
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 5 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#mqtt5">
+                                <strong>5️⃣ bots/{bot_id}/trades</strong> <span
+                                    style="margin-left: auto; font-size: 0.85rem; color: #66bb6a;">Bot → Manager</span>
+                            </button>
+                        </h2>
+                        <div id="mqtt5" class="accordion-collapse collapse" data-bs-parent="#mqttAccordion">
+                            <div class="accordion-body">
+                                <p><strong>🎯 Purpose:</strong> Executed trade notifications (filled orders)</p>
+                                <p><strong>Frequency:</strong> As trades occur</p>
+                                <p><strong>QoS Level:</strong> 1 (critical for transaction recording)</p>
+
+                                <div style="margin-top: 20px;"><strong>📤 Trade Execution Payload:</strong></div>
+                                <div class="formula-box">
+                                    {
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:01:23Z",
+                                    "trade": {
+                                    "trade_id": "trade-uuid-456",
+                                    "order_id": "ext-order-789",
+                                    "exchange": "binance",
+                                    "trading_pair": "BTC-USDT",
+                                    "side": "buy",
+                                    "price": 42000.50,
+                                    "amount": 0.001,
+                                    "total_value_usdt": 42.00,
+                                    "fee_usdt": 0.42,
+                                    "fee_percent": 0.01,
+                                    "net_value_usdt": 41.58,
+                                    "status": "filled",
+                                    "execution_time_ms": 250,
+                                    "slippage_percent": 0.002
+                                    }
+                                    }
+
+                                    // Partially filled
+                                    {
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:02:15Z",
+                                    "trade": {
+                                    "trade_id": "trade-uuid-457",
+                                    "order_id": "ext-order-790",
+                                    "exchange": "binance",
+                                    "trading_pair": "BTC-USDT",
+                                    "side": "sell",
+                                    "price": 42050.00,
+                                    "amount": 0.001,
+                                    "filled_amount": 0.0005,
+                                    "total_value_usdt": 21.025,
+                                    "status": "partially_filled",
+                                    "remaining_amount": 0.0005
+                                    }
+                                    }
+                                </div>
+
+                                <div class="workflow-box" style="margin-top: 15px;">
+                                    <strong>Flow:</strong> Bot executes trade → Publishes to MQTT → Manager stores in DB
+                                    → Updates transaction history
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 6 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#mqtt6">
+                                <strong>6️⃣ bots/{bot_id}/errors</strong> <span
+                                    style="margin-left: auto; font-size: 0.85rem; color: #ef5350;">Bot → Manager</span>
+                            </button>
+                        </h2>
+                        <div id="mqtt6" class="accordion-collapse collapse" data-bs-parent="#mqttAccordion">
+                            <div class="accordion-body">
+                                <p><strong>🎯 Purpose:</strong> Error events & exceptions (separate from logs)</p>
+                                <p><strong>Frequency:</strong> As errors occur</p>
+                                <p><strong>QoS Level:</strong> 2 (exactly once - critical for debugging)</p>
+
+                                <div style="margin-top: 20px;"><strong>📤 Error Event Payload:</strong></div>
+                                <div class="formula-box">
+                                    {
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:03:00Z",
+                                    "error": {
+                                    "error_id": "error-uuid-001",
+                                    "error_code": "EXCHANGE_CONNECTION_LOST",
+                                    "severity": "CRITICAL",
+                                    "message": "Connection to exchange lost, retrying...",
+                                    "stack_trace": "...",
+                                    "context": {
+                                    "last_action": "place_order",
+                                    "recovery_action": "automatic_restart"
+                                    },
+                                    "timestamp": "2024-01-01T10:03:00Z",
+                                    "auto_resolved": false
+                                    }
+                                    }
+
+                                    // API Rate limit error
+                                    {
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:04:00Z",
+                                    "error": {
+                                    "error_id": "error-uuid-002",
+                                    "error_code": "RATE_LIMIT_EXCEEDED",
+                                    "severity": "WARNING",
+                                    "message": "API rate limit reached, backing off for 60 seconds",
+                                    "recovery_action": "exponential_backoff"
+                                    }
+                                    }
+
+                                    // Insufficient balance
+                                    {
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:05:00Z",
+                                    "error": {
+                                    "error_id": "error-uuid-003",
+                                    "error_code": "INSUFFICIENT_BALANCE",
+                                    "severity": "ERROR",
+                                    "message": "Cannot place order: insufficient USDT balance",
+                                    "available_balance": 100.00,
+                                    "required_balance": 500.00
+                                    }
+                                    }
+                                </div>
+
+                                <div class="card-box danger" style="margin-top: 15px;">
+                                    <strong>Error Severity Levels:</strong> INFO, WARNING, ERROR, CRITICAL
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 7 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#mqtt7">
+                                <strong>7️⃣ bots/{bot_id}/health</strong> <span
+                                    style="margin-left: auto; font-size: 0.85rem; color: #66bb6a;">Bot → Manager</span>
+                            </button>
+                        </h2>
+                        <div id="mqtt7" class="accordion-collapse collapse" data-bs-parent="#mqttAccordion">
+                            <div class="accordion-body">
+                                <p><strong>🎯 Purpose:</strong> Heartbeat / liveness check</p>
+                                <p><strong>Frequency:</strong> Every 30 seconds</p>
+                                <p><strong>QoS Level:</strong> 1</p>
+                                <p><strong>Keep-Alive Timeout:</strong> If no message for 90 seconds → mark bot as dead
+                                </p>
+
+                                <div style="margin-top: 20px;"><strong>📤 Health Check Payload:</strong></div>
+                                <div class="formula-box">
+                                    {
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:01:30Z",
+                                    "health": {
+                                    "status": "healthy",
+                                    "uptime_seconds": 7200,
+                                    "cpu_percent": 25.5,
+                                    "memory_mb": 350,
+                                    "memory_limit_mb": 512,
+                                    "threads": 8,
+                                    "connections": {
+                                    "mqtt": "connected",
+                                    "exchange_api": "connected",
+                                    "database": "connected"
+                                    },
+                                    "last_trade_time": "2024-01-01T10:01:20Z",
+                                    "pending_operations": 2,
+                                    "warnings": []
+                                    }
+                                    }
+
+                                    // Unhealthy
+                                    {
+                                    "bot_id": "bot-123",
+                                    "timestamp": "2024-01-01T10:02:00Z",
+                                    "health": {
+                                    "status": "unhealthy",
+                                    "cpu_percent": 95.0,
+                                    "memory_mb": 500,
+                                    "connections": {
+                                    "mqtt": "connected",
+                                    "exchange_api": "disconnected",
+                                    "database": "connected"
+                                    },
+                                    "warnings": [
+                                    "High CPU usage",
+                                    "Exchange API disconnected",
+                                    "Multiple failed requests"
+                                    ]
+                                    }
+                                    }
+                                </div>
+
+                                <div class="card-box info" style="margin-top: 15px;">
+                                    <strong>💡 Manager Action:</strong> If no health check received for 90 seconds →
+                                    Trigger alert or auto-restart
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 8 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#mqtt8">
+                                <strong>8️⃣ system/alerts</strong> <span
+                                    style="margin-left: auto; font-size: 0.85rem; color: #ff7043;">Manager → All
+                                    Subscribers</span>
+                            </button>
+                        </h2>
+                        <div id="mqtt8" class="accordion-collapse collapse" data-bs-parent="#mqttAccordion">
+                            <div class="accordion-body">
+                                <p><strong>🎯 Purpose:</strong> System-wide alerts & notifications</p>
+                                <p><strong>Subscribers:</strong> Manager, Frontend, Bots, Logging System</p>
+                                <p><strong>QoS Level:</strong> 1</p>
+
+                                <div style="margin-top: 20px;"><strong>📤 Alert Types:</strong></div>
+                                <div class="formula-box">
+                                    // Bot went offline
+                                    {
+                                    "timestamp": "2024-01-01T10:05:00Z",
+                                    "alert_id": "alert-001",
+                                    "type": "BOT_OFFLINE",
+                                    "severity": "CRITICAL",
+                                    "message": "Bot bot-123 offline for 120 seconds",
+                                    "affected_bots": ["bot-123"],
+                                    "action_required": true,
+                                    "suggested_action": "Check bot logs, consider restart"
+                                    }
+
+                                    // Exchange API degradation
+                                    {
+                                    "timestamp": "2024-01-01T10:06:00Z",
+                                    "alert_id": "alert-002",
+                                    "type": "EXCHANGE_DEGRADATION",
+                                    "severity": "WARNING",
+                                    "message": "Binance API latency >1000ms detected",
+                                    "affected_bots": ["bot-123", "bot-124"],
+                                    "action_required": false
+                                    }
+
+                                    // High system load
+                                    {
+                                    "timestamp": "2024-01-01T10:07:00Z",
+                                    "alert_id": "alert-003",
+                                    "type": "SYSTEM_LOAD_HIGH",
+                                    "severity": "WARNING",
+                                    "message": "Cluster CPU >80%, memory >75%",
+                                    "current_metrics": {
+                                    "cpu_percent": 82.5,
+                                    "memory_percent": 76.3
+                                    },
+                                    "action_required": true,
+                                    "suggested_action": "Scale up cluster or reduce bot count"
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <h3 class="subsection-title" style="margin-top: 50px;">📊 MQTT Topic Summary Table</h3>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Topic</th>
+                            <th>Direction</th>
+                            <th>QoS</th>
+                            <th>Frequency</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>bots/{bot_id}/commands</code></td>
+                            <td style="color: #ff7043;">Manager → Bot</td>
+                            <td>1</td>
+                            <td>On demand</td>
+                            <td>Send commands (start/stop/pause)</td>
+                        </tr>
+                        <tr>
+                            <td><code>bots/{bot_id}/status</code></td>
+                            <td style="color: #66bb6a;">Bot → Manager</td>
+                            <td>1</td>
+                            <td>Every 5-10s</td>
+                            <td>Report bot state & positions</td>
+                        </tr>
+                        <tr>
+                            <td><code>bots/{bot_id}/logs</code></td>
+                            <td style="color: #66bb6a;">Bot → Manager</td>
+                            <td>0</td>
+                            <td>Continuous</td>
+                            <td>Real-time log streaming</td>
+                        </tr>
+                        <tr>
+                            <td><code>bots/{bot_id}/metrics</code></td>
+                            <td style="color: #66bb6a;">Bot → Manager</td>
+                            <td>1</td>
+                            <td>Every 30-60s</td>
+                            <td>Performance & analytics data</td>
+                        </tr>
+                        <tr>
+                            <td><code>bots/{bot_id}/trades</code></td>
+                            <td style="color: #66bb6a;">Bot → Manager</td>
+                            <td>1</td>
+                            <td>As trades execute</td>
+                            <td>Trade execution notifications</td>
+                        </tr>
+                        <tr>
+                            <td><code>bots/{bot_id}/errors</code></td>
+                            <td style="color: #ef5350;">Bot → Manager</td>
+                            <td>2</td>
+                            <td>As errors occur</td>
+                            <td>Error events & exceptions</td>
+                        </tr>
+                        <tr>
+                            <td><code>bots/{bot_id}/health</code></td>
+                            <td style="color: #66bb6a;">Bot → Manager</td>
+                            <td>1</td>
+                            <td>Every 30s</td>
+                            <td>Heartbeat & liveness check</td>
+                        </tr>
+                        <tr>
+                            <td><code>system/alerts</code></td>
+                            <td style="color: #ff7043;">Manager → All</td>
+                            <td>1</td>
+                            <td>As needed</td>
+                            <td>System-wide notifications</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="subsection-title" style="margin-top: 50px;">🔄 Complete Message Lifecycle Example</h3>
+
+                <div class="workflow-box">
+                    <strong>Scenario: Manager wants to update bot strategy spreads</strong>
+                    <br><br>
+                    <strong>Step 1 (T+0s):</strong> User clicks "Update Config" in Dashboard
+                    <br>
+                    <strong>Step 2 (T+0.1s):</strong> Frontend calls API → /api/bots/bot-123/config
+                    <br>
+                    <strong>Step 3 (T+0.2s):</strong> Manager receives request, validates in DB
+                    <br>
+                    <strong>Step 4 (T+0.3s):</strong> Manager publishes to <code>bots/bot-123/commands</code>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Payload:
+                    <code>{"command": "update_config", "payload": {"bid_spread": 0.015}}</code>
+                    <br>
+                    <strong>Step 5 (T+0.5s):</strong> Bot receives command from MQTT broker
+                    <br>
+                    <strong>Step 6 (T+0.6s):</strong> Bot validates & applies new config
+                    <br>
+                    <strong>Step 7 (T+5s):</strong> Bot publishes status with new config to
+                    <code>bots/bot-123/status</code>
+                    <br>
+                    <strong>Step 8 (T+5.1s):</strong> Manager receives status update, updates dashboard
+                    <br>
+                    <strong>Result:</strong> ✅ Config updated, Dashboard reflects change in ~5 seconds
+                </div>
+
+            </div>
+
+            <!-- SECTION 7: Strategies -->
+            <div class="section" id="strategies">
+                <h2 class="section-title">🎯 HummingBot Strategies</h2>
+
+                <h3 class="subsection-title">Supported Strategies</h3>
+
+                <div class="strategy-grid">
+                    <div class="strategy-card">
+                        <div class="icon">📊</div>
+                        <h4>Pure Market Making</h4>
+                        <p>Places buy + sell orders around mid-price. Profits from spread.</p>
+                        <div class="badge-custom badge-api">Beginner</div>
+                    </div>
+
+                    <div class="strategy-card">
+                        <div class="icon">🔄</div>
+                        <h4>Cross Exchange MM</h4>
+                        <p>Market make on one exchange, hedge on another. Reduces risk.</p>
+                        <div class="badge-custom badge-messaging">Intermediate</div>
+                    </div>
+
+                    <div class="strategy-card">
+                        <div class="icon">⚡</div>
+                        <h4>Arbitrage</h4>
+                        <p>Exploits price differences between exchanges. Instant profit.</p>
+                        <div class="badge-custom badge-database">Advanced</div>
+                    </div>
+
+                    <div class="strategy-card">
+                        <div class="icon">📈</div>
+                        <h4>Avellaneda MM</h4>
+                        <p>Advanced market making with inventory risk modeling.</p>
+                        <div class="badge-custom badge-architecture">Expert</div>
+                    </div>
+
+                    <div class="strategy-card">
+                        <div class="icon">⏱️</div>
+                        <h4>TWAP</h4>
+                        <p>Splits large orders into chunks over time. Minimizes slippage.</p>
+                        <div class="badge-custom badge-api">Intermediate</div>
+                    </div>
+
+                    <div class="strategy-card">
+                        <div class="icon">🚀</div>
+                        <h4>Perpetual MM</h4>
+                        <p>Market making on perpetual futures contracts.</p>
+                        <div class="badge-custom badge-messaging">Advanced</div>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">Strategy Parameters Example</h3>
+
+                <p><strong>Pure Market Making Configuration:</strong></p>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Example Value</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>bid_spread</code></td>
+                            <td>Float</td>
+                            <td>0.01</td>
+                            <td>Buy 1% below market price</td>
+                        </tr>
+                        <tr>
+                            <td><code>ask_spread</code></td>
+                            <td>Float</td>
+                            <td>0.01</td>
+                            <td>Sell 1% above market price</td>
+                        </tr>
+                        <tr>
+                            <td><code>order_amount</code></td>
+                            <td>Decimal</td>
+                            <td>0.001</td>
+                            <td>Size of each order (in base asset)</td>
+                        </tr>
+                        <tr>
+                            <td><code>order_refresh_time</code></td>
+                            <td>Int (seconds)</td>
+                            <td>30</td>
+                            <td>Cancel and replace orders every 30s</td>
+                        </tr>
+                        <tr>
+                            <td><code>inventory_target</code></td>
+                            <td>Float (0-1)</td>
+                            <td>0.5</td>
+                            <td>Maintain 50% base, 50% quote</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- SECTION 8: Transaction Flow -->
+            <div class="section" id="deployment">
+                <h2 class="section-title">🚀 End-to-End Transaction Flow</h2>
+
+                <h3 class="subsection-title">Complete User Journey</h3>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        flowchart TD
+                        A["👤 STEP 1: User Creates Bot via Dashboard/API<br />POST /api/bots/create<br />Strategy:
+                        pure_market_making<br />Trading Pair: BTC-USDT"] --> B
+                        B["✅ STEP 2: Manager Receives Request<br />• Validates user + permissions<br />• Stores config
+                        in PostgreSQL<br />• Creates Docker container"] --> C
+                        C["⚙️ STEP 3: Configuration Injection<br />• Generate YAML from DB config<br />• Inject exchange
+                        credentials<br />• Mount config as volume/ENV"] --> D
+                        D["🚀 STEP 4: Bot Container Starts<br />• Loads config<br />• Connects to exchange API<br />•
+                        Subscribes to MQTT topics"] --> E
+                        E["📊 STEP 5: Strategy Execution<br />• Get current market prices<br />• Calculate bid/ask
+                        prices<br />• Place orders on exchange"] --> F
+                        F["💰 STEP 6: Order Execution<br />• Exchange fills order<br />• Returns filled price +
+                        qty<br />• Bot stores in local log"] --> G
+                        G["📤 STEP 7: Publish Results<br />Topic: bots/bot-123/transactions<br />Message: side, price,
+                        qty"] --> H
+                        H["💾 STEP 8: Manager Receives & Stores<br />• Subscribe to transactions topic<br />• Store in
+                        PostgreSQL<br />• Update live dashboard"] --> I
+                        I["📈 STEP 9: Continuous Monitoring<br />• Bot publishes status metrics<br />• Manager stores
+                        logs<br />• Frontend displays dashboard"]
+
+                        style A fill:#e3f2fd,stroke:#1e88e5,stroke-width:3px,color:#000
+                        style B fill:#f3e5f5,stroke:#7e57c2,stroke-width:2px,color:#000
+                        style C fill:#ede7f6,stroke:#9575cd,stroke-width:2px,color:#000
+                        style D fill:#e0f2f1,stroke:#26a69a,stroke-width:2px,color:#000
+                        style E fill:#fff3e0,stroke:#fb8c00,stroke-width:2px,color:#000
+                        style F fill:#fce4ec,stroke:#ec407a,stroke-width:2px,color:#000
+                        style G fill:#f1f8e9,stroke:#9ccc65,stroke-width:2px,color:#000
+                        style H fill:#ede7f6,stroke:#5c6bc0,stroke-width:2px,color:#000
+                        style I fill:#e8f5e9,stroke:#43a047,stroke-width:3px,color:#000
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">Deployment Strategy</h3>
+
+                <div class="highlight-box">
+                    <strong>🐳 Docker Compose Deployment (Single Server):</strong>
+                    <br><br>
+                    ✓ Start: <code>docker-compose -f docker-compose.yml up -d</code>
+                    <br>
+                    ✓ Includes: Manager, DB, MQTT, Network
+                    <br>
+                    ✓ Bots created dynamically when API called
+                    <br>
+                    ✓ Logs persisted to volumes
+                    <br>
+                    ✓ Good for development/staging
+                </div>
+
+                <div class="insight-box">
+                    <strong>☸️ Kubernetes Deployment (Production):</strong>
+                    <br><br>
+                    ✓ Helm charts for easy deployment
+                    <br>
+                    ✓ Horizontal pod autoscaling for bots
+                    <br>
+                    ✓ StatefulSet for database
+                    <br>
+                    ✓ Service mesh for observability
+                    <br>
+                    ✓ Recommended for 100+ bots
+                </div>
+
+            </div>
+
+            <!-- SECTION 9: Kubernetes -->
+            <div class="section" id="kubernetes">
+                <h2 class="section-title">☸️ Kubernetes Architecture</h2>
+
+                <h3 class="subsection-title">High-Level K8s Cluster</h3>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        graph TD
+                        subgraph ingress["🌐 Ingress Layer"]
+                        nginx["NGINX Ingress<br />/api /ws /chat /health"]
+                        end
+
+                        subgraph manager["⚙️ Manager Service"]
+                        flask["Flask Manager Pod<br />Replica: 2"]
+                        end
+
+                        subgraph storage["💾 Storage & Messaging"]
+                        db[("PostgreSQL<br />StatefulSet<br />PersistentVolume")]
+                        mqtt["MQTT Broker<br />EMQX"]
+                        redis["Redis Queue<br />Optional"]
+                        end
+
+                        subgraph k8s_nodes["☸️ Kubernetes Nodes<br />6-10 nodes"]
+                        nodes["Worker Nodes<br />~16vCPU, ~32GB RAM each"]
+                        end
+
+                        subgraph bots["🤖 HummingBot Pods<br />1 Pod per Bot"]
+                        b1["Bot 1"]
+                        b2["Bot 2"]
+                        b3["Bot 3"]
+                        bn["Bot N"]
+                        end
+
+                        nginx --> flask
+                        flask --> db
+                        flask --> mqtt
+                        flask --> redis
+                        flask --> nodes
+                        nodes --> b1 & b2 & b3 & bn
+                        b1 & b2 & b3 & bn --> mqtt
+                        b1 & b2 & b3 & bn --> db
+
+                        style ingress fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px
+                        style manager fill:#fff3e0,stroke:#fb8c00,stroke-width:2px
+                        style storage fill:#f3e5f5,stroke:#7e57c2,stroke-width:2px
+                        style k8s_nodes fill:#e8f5e9,stroke:#43a047,stroke-width:2px
+                        style bots fill:#fce4ec,stroke:#ec407a,stroke-width:2px
+                        style nginx fill:#bbdefb,color:#000
+                        style flask fill:#ffe0b2,color:#000
+                        style db fill:#e1bee7,color:#000
+                        style mqtt fill:#e1bee7,color:#000
+                        style redis fill:#e1bee7,color:#000
+                        style nodes fill:#c8e6c9,color:#000
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">Cluster Sizing</h3>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Per Bot</th>
+                            <th>For 500 Bots</th>
+                            <th>Cluster Nodes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CPU</strong></td>
+                            <td>200-500m</td>
+                            <td>~150 cores</td>
+                            <td>10 × 16vCPU = 160 cores</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RAM</strong></td>
+                            <td>256-512MB</td>
+                            <td>~175 GB</td>
+                            <td>10 × 32 GB = 320 GB</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Storage</strong></td>
+                            <td>N/A (logs external)</td>
+                            <td>DB + logs: 500 GB</td>
+                            <td>EBS/NFS: 1 TB</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="card-box success">
+                    <strong>📊 Capacity Planning:</strong>
+                    <br>
+                    • 8 worker nodes, 70 bots per node<br>
+                    • Total capacity: ~560 bots<br>
+                    • Safe margin: 40 bots buffer<br>
+                    • Auto-scaling: Add nodes when CPU >70%
+                </div>
+
+                <h3 class="subsection-title">Pod Configuration</h3>
+
+                <div class="accordion" id="k8sAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#k8s1">
+                                <strong>🎛️ Manager Deployment</strong>
+                            </button>
+                        </h2>
+                        <div id="k8s1" class="accordion-collapse collapse show" data-bs-parent="#k8sAccordion">
+                            <div class="accordion-body">
+                                <pre
+                                    style="font-size: 0.9rem; line-height: 1.6; background: #fff; padding: 15px; border-radius: 5px; border-left: 4px solid #ff9800;"><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hummingbot-manager
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: manager
+  template:
+    metadata:
+      labels:
+        app: manager
+    spec:
+      containers:
+      - name: manager
+        image: hummingbot-manager:latest
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+          limits:
+            cpu: "1000m"
+            memory: "2Gi"
+        env:
+        - name: DB_HOST
+          value: postgres.default.svc.cluster.local
+        - name: MQTT_BROKER
+          value: emqx.default.svc.cluster.local</code></pre>
+                                <p style="margin-top: 15px; font-size: 0.95rem; color: #333;"><strong>🔹
+                                        Purpose:</strong> Orchestration service with 2 replicas for high availability
+                                </p>
+                                <p style="font-size: 0.95rem; color: #666; margin-top: 10px;">⚙️ Resources: CPU
+                                    500m-1000m, Memory 1Gi-2Gi</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#k8s2">
+                                <strong>🤖 Bot Pod Configuration</strong>
+                            </button>
+                        </h2>
+                        <div id="k8s2" class="accordion-collapse collapse" data-bs-parent="#k8sAccordion">
+                            <div class="accordion-body">
+                                <pre
+                                    style="font-size: 0.9rem; line-height: 1.6; background: #fff; padding: 15px; border-radius: 5px; border-left: 4px solid #4caf50;"><code>apiVersion: v1
+kind: Pod
+metadata:
+  name: bot-{bot-id}
+spec:
+  containers:
+  - name: hummingbot
+    image: hummingbot:latest
+    resources:
+      requests:
+        cpu: "200m"
+        memory: "256Mi"
+      limits:
+        cpu: "500m"
+        memory: "512Mi"
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            topologyKey: kubernetes.io/hostname</code></pre>
+                                <p style="margin-top: 15px; font-size: 0.95rem; color: #333;"><strong>🔹
+                                        Purpose:</strong> Individual bot pod created dynamically per user request</p>
+                                <p style="font-size: 0.95rem; color: #666; margin-top: 10px;">⚙️ Resources: CPU
+                                    200m-500m, Memory 256Mi-512Mi per bot</p>
+                                <p style="font-size: 0.95rem; color: #666; margin-top: 10px;">🔀 Anti-Affinity:
+                                    Distributes bots across different nodes for availability</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SECTION 10: Bottlenecks -->
+            <div class="section" id="bottlenecks">
+                <h2 class="section-title">⚠️ Bottlenecks & Improvements</h2>
+
+                <h3 class="subsection-title">Critical Bottlenecks</h3>
+
+                <div class="card-box danger">
+                    <strong>1. Single Manager Failure Risk</strong>
+                    <br><br>
+                    <strong>Problem:</strong> If manager crashes, can't start/stop bots<br>
+                    <strong>Solution:</strong>
+                    <ul class="list-styled">
+                        <li>Run 2-3 manager replicas behind load balancer</li>
+                        <li>Use distributed state (shared DB)</li>
+                        <li>Health check + auto-restart</li>
+                    </ul>
+                </div>
+
+                <div class="card-box danger">
+                    <strong>2. Database Contention</strong>
+                    <br><br>
+                    <strong>Problem:</strong> 500 bots × frequent writes = high DB load<br>
+                    <strong>Solution:</strong>
+                    <ul class="list-styled">
+                        <li>Use read replicas for queries</li>
+                        <li>Move logs to time-series DB (InfluxDB, TimescaleDB)</li>
+                        <li>Cache frequently accessed configs in Redis</li>
+                        <li>Batch writes where possible</li>
+                    </ul>
+                </div>
+
+                <div class="card-box danger">
+                    <strong>3. MQTT Broker Scaling Limits</strong>
+                    <br><br>
+                    <strong>Problem:</strong> Single MQTT broker can handle ~1K connections max<br>
+                    <strong>Solution:</strong>
+                    <ul class="list-styled">
+                        <li>Use EMQX cluster (multi-node)</li>
+                        <li>Implement message routing/sharding</li>
+                        <li>Consider Kafka for higher throughput</li>
+                    </ul>
+                </div>
+
+                <div class="card-box danger">
+                    <strong>4. Network I/O Between Bot & Exchange</strong>
+                    <br><br>
+                    <strong>Problem:</strong> 500 bots all hitting exchange API → rate limits<br>
+                    <strong>Solution:</strong>
+                    <ul class="list-styled">
+                        <li>Implement exponential backoff retry logic</li>
+                        <li>Use connection pooling</li>
+                        <li>Respect API rate limits per exchange</li>
+                        <li>Queue requests intelligently</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">Production Improvements (Recommended)</h3>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Improvement</th>
+                            <th>Problem It Solves</th>
+                            <th>Implementation</th>
+                            <th>Priority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Kubernetes</strong></td>
+                            <td>Better scaling, auto-recovery</td>
+                            <td>Migrate from Docker Compose to K8s</td>
+                            <td><span class="badge badge-danger">CRITICAL</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Secrets Manager (Vault)</strong></td>
+                            <td>Secure credential rotation</td>
+                            <td>HashiCorp Vault / AWS Secrets Manager</td>
+                            <td><span class="badge badge-warning">HIGH</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Message Queue (Kafka)</strong></td>
+                            <td>Decouple services, handle spikes</td>
+                            <td>Replace MQTT with Kafka for high-volume</td>
+                            <td><span class="badge badge-warning">HIGH</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Time-Series DB (InfluxDB)</strong></td>
+                            <td>Efficient metrics storage</td>
+                            <td>Move bot metrics/logs to TimescaleDB</td>
+                            <td><span class="badge badge-info">MEDIUM</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Monitoring (Prometheus + Grafana)</strong></td>
+                            <td>Observability, alerting</td>
+                            <td>Add metrics collection + dashboards</td>
+                            <td><span class="badge badge-info">MEDIUM</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Logging (ELK Stack)</strong></td>
+                            <td>Centralized logs, search</td>
+                            <td>Elasticsearch + Logstash + Kibana</td>
+                            <td><span class="badge badge-info">MEDIUM</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Circuit Breaker Pattern</strong></td>
+                            <td>Prevent cascading failures</td>
+                            <td>Implement in manager ↔ bot communication</td>
+                            <td><span class="badge badge-secondary">LOW</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="subsection-title">Enterprise Architecture (Future)</h3>
+
+                <div class="insight-box">
+                    <strong>For 1000+ Bots:</strong>
+                    <br><br>
+                    ✓ <strong>Kubernetes Multi-Cluster:</strong> Spread across regions for resilience<br>
+                    ✓ <strong>Service Mesh (Istio):</strong> Advanced routing, circuit breakers, retry logic<br>
+                    ✓ <strong>Event Streaming (Kafka):</strong> Replace MQTT entirely<br>
+                    ✓ <strong>Distributed Tracing (Jaeger):</strong> Track requests end-to-end<br>
+                    ✓ <strong>Feature Flags:</strong> A/B test strategies without deployment<br>
+                    ✓ <strong>Compliance:</strong> Audit logs, regulatory reporting (GDPR, etc.)
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <h5>🚀 HummingBot Manager System Documentation</h5>
+            <p style="margin-bottom: 0; font-size: 0.9rem;">
+                Production-Grade Trading Bot Orchestration Platform |
+                © 2024 | Built for Scalability & Security
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" onclick="scrollToTop()">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Back to Top Button
+        window.addEventListener('scroll', function () {
+            const btn = document.querySelector('.back-to-top');
+            if (window.scrollY > 300) {
+                btn.classList.add('show');
+            } else {
+                btn.classList.remove('show');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc-item a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

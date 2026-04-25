@@ -1,0 +1,3005 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetic Retinopathy Detection - Complete Comprehensive Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e74c3c;
+            --secondary: #c0392b;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e67e22;
+            --info: #3498db;
+            --light-bg: #ecf0f1;
+            --dark-bg: #1c1c1c;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            background: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1a1a1a 0%, #0f0f0f 100%);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #e74c3c !important;
+        }
+
+        .main-wrapper {
+            background: white;
+            margin: 20px auto;
+            max-width: 1200px;
+            border-radius: 8px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 45px 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            margin-bottom: 0;
+            opacity: 0.95;
+        }
+
+        .toc-section {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            padding: 30px;
+        }
+
+        .toc-section h2 {
+            font-weight: 700;
+            margin-bottom: 18px;
+            font-size: 1.5rem;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .toc-item {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid white;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .toc-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .toc-item a {
+            text-decoration: none;
+            color: #e74c3c;
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .content-wrapper {
+            padding: 40px;
+            background: white;
+        }
+
+        .section {
+            margin-bottom: 35px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        .subsection-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 22px;
+            margin-bottom: 14px;
+            border-bottom: 2px solid var(--info);
+            padding-bottom: 8px;
+        }
+
+        .subsection-subtitle {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-top: 16px;
+            margin-bottom: 12px;
+        }
+
+        .card-box {
+            background: #f8f9fa;
+            border-left: 4px solid var(--info);
+            border-radius: 6px;
+            padding: 16px;
+            margin: 12px 0;
+            transition: all 0.3s ease;
+        }
+
+        .card-box:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-box.success {
+            border-left-color: var(--success);
+            background: #f0fdf4;
+        }
+
+        .card-box.warning {
+            border-left-color: var(--warning);
+            background: #fffbeb;
+        }
+
+        .card-box.danger {
+            border-left-color: var(--danger);
+            background: #fef2f2;
+        }
+
+        .card-box.info {
+            border-left-color: var(--info);
+            background: #f0f9ff;
+        }
+
+        .formula-box {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-left: 4px solid var(--primary);
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .table-custom {
+            width: 100%;
+            margin: 12px 0;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .table-custom thead th {
+            background: linear-gradient(135deg, var(--primary), var(--danger));
+            color: white;
+            padding: 11px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .table-custom td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .table-custom tr:hover {
+            background: #f8f9fa;
+        }
+
+        .accordion-button {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%) !important;
+            color: white !important;
+            font-weight: 600;
+            padding: 16px 20px;
+            border: none !important;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%) !important;
+        }
+
+        .accordion-button::after {
+            filter: invert(1) brightness(1.1);
+        }
+
+        .accordion-body {
+            padding: 25px;
+            background: #f9fafb;
+            border-top: 2px solid #e67e22;
+        }
+
+        .list-styled {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-styled li {
+            padding: 6px 0 6px 30px;
+            position: relative;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .list-styled li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe0b2 100%);
+            border-left: 4px solid var(--warning);
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 4px solid var(--success);
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 18px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .metric-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 12px 0;
+            border-top: 3px solid var(--primary);
+        }
+
+        .metric-card h5 {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .decision-box {
+            background: linear-gradient(135deg, #d4fc79 0%, #96f97b 100%);
+            border-left: 4px solid var(--success);
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .mistake-box {
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);
+            border-left: 4px solid var(--danger);
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .comparison-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 14px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-size: 0.9rem;
+        }
+
+        .comparison-item strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .notebook-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 22px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 5px;
+            transition: all 0.3s;
+            border: 2px solid var(--primary);
+            font-size: 0.95rem;
+        }
+
+        .notebook-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            background: white;
+            color: var(--primary);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.3rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 50px;
+        }
+
+        .flow-diagram {
+            background: #f8f9fa;
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            padding: 18px;
+            margin: 12px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .badge-custom {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-weight: 600;
+            margin: 3px;
+            font-size: 0.85rem;
+        }
+
+        .badge-phase1 {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .badge-phase2 {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-phase3 {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-phase4 {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .badge-phase5 {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-phase6 {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .architecture-box {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-left: 4px solid var(--info);
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 25px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-custom {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top">👁️ DRD: Complete Guide</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#problem">Problem</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#data">Data</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#history">History</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#phases">Phases</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#preprocessing">Preprocessing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#evaluation">Evaluation</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Hero Section -->
+        <div class="hero" id="top">
+            <h1>👁️ Diabetic Retinopathy Detection</h1>
+            <p>Complete End-to-End Learning Guide | From Baseline CNN to Vision Transformers</p>
+            <p style="font-size: 0.95rem; margin-top: 15px; opacity: 0.9;">
+                🏥 Clinical Partnership: Apollo Sage Hospital | 📊 70% → 97% Accuracy | 🔬 6 Progressive Phases
+            </p>
+        </div>
+
+        <!-- TOC Section -->
+        <div class="toc-section">
+            <h2>📚 Quick Navigation</h2>
+            <div class="toc-grid">
+                <div class="toc-item"><a href="#problem">🎯 Problem Statement</a></div>
+                <div class="toc-item"><a href="#data">📊 Datasets</a></div>
+                <div class="toc-item"><a href="#history">📜 Historical Evolution</a></div>
+                <div class="toc-item"><a href="#phases">🚀 6 Phases</a></div>
+                <div class="toc-item"><a href="#preprocessing">🔧 Preprocessing</a></div>
+                <div class="toc-item"><a href="#evaluation">📈 Evaluation Metrics</a></div>
+                <div class="toc-item"><a href="#deployment">🌐 Deployment</a></div>
+                <div class="toc-item"><a href="#model-selection">🎯 Model Selection</a></div>
+                <div class="toc-item"><a href="#limitations">⚠️ Limitations</a></div>
+                <div class="toc-item"><a href="#tech-stack">🛠️ Tech Stack</a></div>
+                <div class="toc-item"><a href="#future">🚀 Future Directions</a></div>
+                <div class="toc-item"><a href="#thresholds">📊 Decision Thresholds</a></div>
+                <div class="toc-item"><a href="#recommendations">📋 Production Roadmap</a></div>
+                <div class="toc-item"><a href="#advanced">🔬 Advanced Preprocessing</a></div>
+                <div class="toc-item"><a href="#checklist">✅ Checklist</a></div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content-wrapper">
+
+            <!-- PROBLEM STATEMENT -->
+            <div class="section" id="problem">
+                <h2 class="section-title">🎯 Problem Statement & Clinical Context</h2>
+
+                <h3 class="subsection-title">What is Diabetic Retinopathy?</h3>
+                <div class="card-box">
+                    <p><strong>Diabetic Retinopathy (DR)</strong> is damage to blood vessels in the retina caused by
+                        high blood sugar from diabetes. It is <strong>the leading cause of preventable blindness
+                            worldwide</strong>.</p>
+                    <ul class="list-styled">
+                        <li>Affects ~1 in 3 people with diabetes</li>
+                        <li>Often asymptomatic in early stages</li>
+                        <li>Early detection enables timely treatment and intervention</li>
+                        <li>Manual screening is time-consuming, subjective, and limited by specialist availability</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">Why AI-Based Automated Detection?</h3>
+                <div class="decision-box">
+                    <strong>Current Clinical Challenge:</strong><br>
+                    • Manual ophthalmologist screening: 10-15 minutes per patient<br>
+                    • Limited specialists: Few ophthalmologists in rural areas<br>
+                    • High cost: Professional examination ≈ $50-200 per patient<br>
+                    • Subjective: Inter-observer agreement varies (κ ≈ 0.75-0.85)
+                </div>
+
+                <div class="insight-box">
+                    <strong>AI Solution Benefits:</strong><br>
+                    ✓ 24/7 automated screening at scale<br>
+                    ✓ Cost-effective: Deploy on smartphone/tablet<br>
+                    ✓ Consistent: Same algorithm, reproducible results<br>
+                    ✓ Accessible: Reach remote/rural areas instantly
+                </div>
+
+                <h3 class="subsection-title">5 DR Severity Grades</h3>
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Grade</th>
+                            <th>Classification</th>
+                            <th>Characteristics</th>
+                            <th>Clinical Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>0</strong></td>
+                            <td>No DR</td>
+                            <td>Normal retina, no lesions</td>
+                            <td>Routine follow-up</td>
+                        </tr>
+                        <tr>
+                            <td><strong>1</strong></td>
+                            <td>Mild</td>
+                            <td>Microaneurysms only</td>
+                            <td>Monitor annually</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2</strong></td>
+                            <td>Moderate</td>
+                            <td>Microaneurysms + hemorrhages + hard exudates</td>
+                            <td>More frequent monitoring</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3</strong></td>
+                            <td>Severe</td>
+                            <td>Multiple hemorrhages, cotton-wool spots, venous abnormalities</td>
+                            <td>Urgent evaluation needed</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4</strong></td>
+                            <td>Proliferative</td>
+                            <td>Neovascularization, vitreous hemorrhage, risk of blindness</td>
+                            <td>IMMEDIATE treatment (laser/surgery)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- DATA SECTION -->
+            <div class="section" id="data">
+                <h2 class="section-title">📊 Data Collection & Datasets</h2>
+
+                <h3 class="subsection-title">Public Datasets Used</h3>
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Dataset</th>
+                            <th>Images</th>
+                            <th>Country</th>
+                            <th>Classes</th>
+                            <th>Key Feature</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>EyePACS (Kaggle)</strong></td>
+                            <td>~88,000</td>
+                            <td>USA</td>
+                            <td>5-class (0-4)</td>
+                            <td>Large, real-world, noisy</td>
+                        </tr>
+                        <tr>
+                            <td><strong>APTOS 2019</strong></td>
+                            <td>3,662</td>
+                            <td>India</td>
+                            <td>5-class (0-4)</td>
+                            <td>Used in this project</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Messidor</strong></td>
+                            <td>1,200</td>
+                            <td>France</td>
+                            <td>Binary/4-class</td>
+                            <td>High-quality clinical grading</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Messidor-2</strong></td>
+                            <td>1,748</td>
+                            <td>France</td>
+                            <td>Binary DR</td>
+                            <td>Benchmark standard</td>
+                        </tr>
+                        <tr>
+                            <td><strong>IDRiD</strong></td>
+                            <td>516</td>
+                            <td>India</td>
+                            <td>5-class + masks</td>
+                            <td>Pixel-level lesion annotations (gold-standard)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DDR</strong></td>
+                            <td>13,673</td>
+                            <td>China</td>
+                            <td>5-class</td>
+                            <td>Multi-center clinical data</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="subsection-title">🏥 Apollo Sage Hospital Clinical Data</h3>
+                <div class="card-box info">
+                    <strong>Real-World Clinical Partnership:</strong>
+                    <ul class="list-styled">
+                        <li><strong>Data Source:</strong> Apollo Sage Hospital, India (routine clinical screening)</li>
+                        <li><strong>Clinical Advisor:</strong> Dr. Sidharth (Ophthalmology specialist)</li>
+                        <li><strong>Modality:</strong> Retinal fundus images</li>
+                        <li><strong>Challenges:</strong> Blur, illumination variation, camera artifacts (unlike curated
+                            public datasets)</li>
+                        <li><strong>Validation:</strong> Dr. Sidharth manually verified ambiguous grades and provided
+                            lesion expertise</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">📈 Class Distribution Challenge</h3>
+                <div class="highlight-box">
+                    <strong>Highly Imbalanced Data:</strong><br>
+                    Grade 0 (No-DR): ~80% ← Dominant class<br>
+                    Grade 1 (Mild): ~10%<br>
+                    Grade 2 (Moderate): ~5%<br>
+                    Grade 3 (Severe): ~3%<br>
+                    Grade 4 (Proliferative): ~2% ← Rarest but most critical!<br>
+                    <br>
+                    <strong>Problem:</strong> Model biased toward predicting "No-DR"<br>
+                    <strong>Solution:</strong> Class weighting, stratified splits, focal loss
+                </div>
+
+            </div>
+
+            <!-- HISTORICAL EVOLUTION -->
+            <div class="section" id="history">
+                <h2 class="section-title">📜 Historical Evolution of DR Detection Models</h2>
+
+                <h3 class="subsection-title">Phase 0: Classical Machine Learning Era (Pre-2012)</h3>
+                <div class="card-box">
+                    <strong>Approach:</strong> Hand-crafted features + Classical classifiers
+                    <ul class="list-styled">
+                        <li><strong>Feature Extraction:</strong> Blood vessel segmentation, texture analysis, color
+                            histograms</li>
+                        <li><strong>Classifiers:</strong> SVM, Random Forest, k-NN</li>
+                        <li><strong>Performance:</strong> 60-75% accuracy</li>
+                        <li><strong>Limitations:</strong> Heavy manual engineering, poor generalization, didn't scale to
+                            new hospitals</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">Phase 1: Early CNN Era (2012-2015)</h3>
+                <div class="card-box">
+                    <strong>Breakthrough:</strong> AlexNet (ImageNet 2012) sparked deep learning revolution
+                    <ul class="list-styled">
+                        <li><strong>Models:</strong> Simple CNNs (LeNet-style), limited datasets</li>
+                        <li><strong>Performance:</strong> 75-80% accuracy</li>
+                        <li><strong>Issue:</strong> Limited data availability for medical imaging</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">Phase 2: Deep CNN Breakthrough (2015-2018)</h3>
+                <div class="card-box success">
+                    <strong>Game-Changer:</strong> Google (2016) achieved ophthalmologist-level accuracy
+                    <ul class="list-styled">
+                        <li><strong>Model:</strong> Inception-V3 on EyePACS dataset (~88K images)</li>
+                        <li><strong>Performance:</strong> 95%+ sensitivity, similar to expert ophthalmologists</li>
+                        <li><strong>Key Innovation:</strong> Transfer learning + large-scale data</li>
+                        <li><strong>Impact:</strong> Validated AI feasibility for clinical use</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">Phase 3: Modern Deep Learning (2019-Present)</h3>
+                <div class="card-box success">
+                    <strong>Current State-of-Art:</strong>
+                    <ul class="list-styled">
+                        <li><strong>Efficient Models:</strong> EfficientNet, ResNet, DenseNet (better accuracy/parameter
+                            tradeoff)</li>
+                        <li><strong>Attention Mechanisms:</strong> Focus on relevant regions of retina</li>
+                        <li><strong>Vision Transformers:</strong> ViT-based models achieving 97%+ AUC</li>
+                        <li><strong>Multi-task Learning:</strong> Simultaneous grade classification + lesion
+                            segmentation</li>
+                        <li><strong>Explainability:</strong> Attention maps show which areas influenced diagnosis</li>
+                        <li><strong>Deployment:</strong> Mobile/edge-optimized models for global reach</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- PHASES OVERVIEW -->
+            <div class="section" id="phases">
+                <h2 class="section-title">🚀 6-Phase Progressive Development</h2>
+
+                <div class="insight-box">
+                    <strong>Learning Philosophy:</strong><br>
+                    Start simple to understand fundamentals → progressively add complexity → reach state-of-art.<br>
+                    Each phase builds on previous learnings, showing why each innovation matters.
+                </div>
+
+                <h3 class="subsection-title">Performance Progression Overview</h3>
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Phase</th>
+                            <th>Architecture</th>
+                            <th>Accuracy</th>
+                            <th>Key Innovation</th>
+                            <th>Training Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge-custom badge-phase1">Phase 1</span></td>
+                            <td>Simple CNN</td>
+                            <td>70-80%</td>
+                            <td>Baseline, understand patterns</td>
+                            <td>~8 min</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge-custom badge-phase2">Phase 2</span></td>
+                            <td>Pretrained CNN (ResNet/Inception)</td>
+                            <td>85-90%</td>
+                            <td>Transfer learning breakthrough</td>
+                            <td>~3 min</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge-custom badge-phase3">Phase 3</span></td>
+                            <td>Efficient Models (EfficientNet/MobileNet)</td>
+                            <td>88-92%</td>
+                            <td>Mobile deployment ready</td>
+                            <td>~5 min</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge-custom badge-phase4">Phase 4</span></td>
+                            <td>Ensemble (5-10 models)</td>
+                            <td>92-95%</td>
+                            <td>Voting/averaging combination</td>
+                            <td>~25 min total</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge-custom badge-phase5">Phase 5</span></td>
+                            <td>U-Net Segmentation</td>
+                            <td>Pixel-level</td>
+                            <td>Explainability & localization</td>
+                            <td>~15 min</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge-custom badge-phase6">Phase 6</span></td>
+                            <td>Vision Transformer (ViT)</td>
+                            <td>95-97% AUC</td>
+                            <td>State-of-art, attention-based</td>
+                            <td>~35 min</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Phase Accordion -->
+                <div class="accordion mt-4" id="phasesAccordion">
+
+                    <!-- Phase 1 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#phase1">
+                                <span class="badge-custom badge-phase1">Phase 1</span> <strong>Simple CNN: Baseline
+                                    Understanding</strong>
+                            </button>
+                        </h2>
+                        <div id="phase1" class="accordion-collapse collapse" data-bs-parent="#phasesAccordion">
+                            <div class="accordion-body">
+                                <h5>🎯 Goal</h5>
+                                <p>Establish baseline performance and understand retinal image patterns.</p>
+
+                                <h5>⚙️ Architecture</h5>
+                                <div class="architecture-box">
+                                    Input (224×224×3)
+                                    ↓
+                                    Conv Block 1: 3 → 32 channels [Conv2d + BatchNorm + ReLU + MaxPool]
+                                    ↓
+                                    Conv Block 2: 32 → 64 channels
+                                    ↓
+                                    Conv Block 3: 64 → 128 channels
+                                    ↓
+                                    Conv Block 4: 128 → 256 channels
+                                    ↓
+                                    Global Average Pooling → Flatten
+                                    ↓
+                                    FC Layer: 256 → Dropout(0.5) → 5 classes
+                                    ↓
+                                    Output: Softmax probabilities
+                                </div>
+
+                                <h5>📚 Training Configuration</h5>
+                                <ul class="list-styled">
+                                    <li><strong>Optimizer:</strong> Adam (lr=0.001)</li>
+                                    <li><strong>Loss:</strong> CrossEntropyLoss with class weights</li>
+                                    <li><strong>Batch Size:</strong> 16</li>
+                                    <li><strong>Epochs:</strong> ~30 (early stopping)</li>
+                                    <li><strong>Dropout:</strong> 0.5 (prevent overfitting)</li>
+                                </ul>
+
+                                <h5>❌ Problems Identified</h5>
+                                <div class="mistake-box">
+                                    <ul class="list-styled">
+                                        <li>Misses microaneurysms (15-30 pixel lesions need large receptive field)</li>
+                                        <li>Limited receptive field: 7×7 neighborhood after 4 layers</li>
+                                        <li>Overfitting on small datasets (100 synthetic samples)</li>
+                                        <li>No pre-trained features (building from random initialization)</li>
+                                        <li>70-80% accuracy insufficient for clinical use</li>
+                                    </ul>
+                                </div>
+
+                                <h5>✅ Learning Value</h5>
+                                <div class="decision-box">
+                                    <ul class="list-styled">
+                                        <li>Understand CNN mechanics (conv → pooling → FC)</li>
+                                        <li>Learn data loading, preprocessing, train-val-test split</li>
+                                        <li>Practice evaluation metrics and basic debugging</li>
+                                        <li>Establish baseline for comparison</li>
+                                        <li>Motivation: Why we need deeper/pretrained models</li>
+                                    </ul>
+                                </div>
+
+                                <a href="phase1_simple_cnn.ipynb" class="notebook-link">📖 Open Phase 1 Notebook</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 2 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#phase2">
+                                <span class="badge-custom badge-phase2">Phase 2</span> <strong>Pretrained CNNs: Transfer
+                                    Learning Breakthrough</strong>
+                            </button>
+                        </h2>
+                        <div id="phase2" class="accordion-collapse collapse" data-bs-parent="#phasesAccordion">
+                            <div class="accordion-body">
+                                <h5>🎯 Goal</h5>
+                                <p>Leverage 1.2M ImageNet pretrained weights to dramatically improve accuracy.</p>
+
+                                <h5>🏗️ Models Implemented</h5>
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th>Model</th>
+                                            <th>Params</th>
+                                            <th>Depth</th>
+                                            <th>Accuracy</th>
+                                            <th>Speed</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>ResNet50</strong></td>
+                                            <td>25.5M</td>
+                                            <td>50 layers (residual connections)</td>
+                                            <td>87-90%</td>
+                                            <td>Fast ⭐⭐⭐</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Inception-V3</strong></td>
+                                            <td>27.2M</td>
+                                            <td>Multi-branch (1×1, 3×3, 5×5 parallel)</td>
+                                            <td>88-91%</td>
+                                            <td>Medium ⭐⭐</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>DenseNet121</strong></td>
+                                            <td>7.98M</td>
+                                            <td>121 layers (dense connections)</td>
+                                            <td>85-88%</td>
+                                            <td>Fast ⭐⭐⭐</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h5>🔄 Transfer Learning Strategy</h5>
+                                <div class="card-box info">
+                                    <strong>Two Approaches:</strong><br><br>
+                                    <strong>1. Feature Extraction (Quick):</strong><br>
+                                    ✓ Freeze all pretrained layers<br>
+                                    ✓ Train only final classifier<br>
+                                    ✓ Time: 1-3 minutes<br>
+                                    ✓ Good for limited compute<br><br>
+
+                                    <strong>2. Full Fine-tuning (Better):</strong><br>
+                                    ✓ Unfreeze all layers<br>
+                                    ✓ Use low learning rate (0.0001)<br>
+                                    ✓ Time: 5-15 minutes<br>
+                                    ✓ Adapts model to DR domain
+                                </div>
+
+                                <h5>📈 Improvements Over Phase 1</h5>
+                                <div class="insight-box">
+                                    <ul class="list-styled">
+                                        <li><strong>+15% accuracy:</strong> 75% → 88%</li>
+                                        <li><strong>Better features:</strong> ImageNet filters capture vessels,
+                                            exudates, hemorrhages</li>
+                                        <li><strong>10× faster training:</strong> From 100 epochs to ~30</li>
+                                        <li><strong>Better generalization:</strong> All architectures tested on APTOS +
+                                            synthetic blend</li>
+                                        <li><strong>ROC-AUC: 0.90-0.94</strong> (clinically acceptable)</li>
+                                    </ul>
+                                </div>
+
+                                <h5>⚠️ Remaining Issues</h5>
+                                <div class="mistake-box">
+                                    <ul class="list-styled">
+                                        <li>Grade confusion: 85% of errors between adjacent grades (Mild vs Moderate)
+                                        </li>
+                                        <li>Image quality sensitive: -5-10% on blurry images</li>
+                                        <li>Black-box predictions: Cannot explain to clinicians why image is Severe</li>
+                                        <li>Class imbalance still evident: Biased toward No-DR</li>
+                                    </ul>
+                                </div>
+
+                                <a href="phase2_pretrained_cnn.ipynb" class="notebook-link">📖 Open Phase 2 Notebook</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 3 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#phase3">
+                                <span class="badge-custom badge-phase3">Phase 3</span> <strong>Efficient Models: Mobile
+                                    Deployment</strong>
+                            </button>
+                        </h2>
+                        <div id="phase3" class="accordion-collapse collapse" data-bs-parent="#phasesAccordion">
+                            <div class="accordion-body">
+                                <h5>🎯 Goal</h5>
+                                <p>Achieve high accuracy with lightweight models for mobile/edge deployment.</p>
+
+                                <h5>📱 Why Efficiency Matters</h5>
+                                <div class="highlight-box">
+                                    ResNet50: 100MB model size<br>
+                                    EfficientNet-B0: 20MB (5× smaller)<br><br>
+                                    Deploy to hospitals in rural areas → runs on phones/tablets!
+                                </div>
+
+                                <h5>⚡ Efficient Architectures Compared</h5>
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th>Model</th>
+                                            <th>Size</th>
+                                            <th>Params</th>
+                                            <th>Accuracy</th>
+                                            <th>Mobile Speed</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>EfficientNet-B0</strong></td>
+                                            <td>20MB</td>
+                                            <td>5.3M</td>
+                                            <td>88-91%</td>
+                                            <td>100ms</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>EfficientNet-B2</strong></td>
+                                            <td>35MB</td>
+                                            <td>9.1M</td>
+                                            <td>90-92%</td>
+                                            <td>150ms</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>EfficientNet-B4</strong></td>
+                                            <td>65MB</td>
+                                            <td>19M</td>
+                                            <td>92-94%</td>
+                                            <td>300ms</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>MobileNetV3</strong></td>
+                                            <td>16MB</td>
+                                            <td>5.4M</td>
+                                            <td>87-90%</td>
+                                            <td>80ms</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h5>🔧 Optimization Techniques</h5>
+                                <div class="card-box warning">
+                                    <strong>Knowledge Distillation:</strong><br>
+                                    Train small student model to mimic large teacher (ResNet50)<br>
+                                    → Small model with large model accuracy<br><br>
+
+                                    <strong>Quantization (Int8):</strong><br>
+                                    Convert float32 weights → int8 (4× memory reduction)<br>
+                                    Minimal accuracy loss (~1-2%)
+                                </div>
+
+                                <a href="phase3_efficient_models.ipynb" class="notebook-link">📖 Open Phase 3
+                                    Notebook</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 4 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#phase4">
+                                <span class="badge-custom badge-phase4">Phase 4</span> <strong>Ensemble Methods:
+                                    Multi-Model Fusion</strong>
+                            </button>
+                        </h2>
+                        <div id="phase4" class="accordion-collapse collapse" data-bs-parent="#phasesAccordion">
+                            <div class="accordion-body">
+                                <h5>🎯 Goal</h5>
+                                <p>Combine multiple models to achieve higher accuracy and robustness.</p>
+
+                                <h5>🤝 Ensemble Philosophy</h5>
+                                <div class="decision-box">
+                                    <strong>"Five mediocre models can beat one expert"</strong><br>
+                                    Each model makes different errors → Ensemble corrects them
+                                </div>
+
+                                <h5>📊 Ensemble Strategies</h5>
+                                <div class="card-box">
+                                    <strong>1. Soft Voting (Recommended)</strong><br>
+                                    Average probability predictions: P_ensemble = (P₁ + P₂ + P₃) / 3<br>
+                                    Result: 92-95% accuracy<br><br>
+
+                                    <strong>2. Hard Voting</strong><br>
+                                    Choose class with most votes<br>
+                                    Less stable than soft voting<br><br>
+
+                                    <strong>3. Weighted Soft Voting</strong><br>
+                                    Weight by individual validation accuracy<br>
+                                    Most sophisticated approach
+                                </div>
+
+                                <h5>📈 Performance Gain</h5>
+                                <div class="formula-box">
+                                    Example:<br>
+                                    • ResNet50: 88%<br>
+                                    • EfficientNet-B2: 91%<br>
+                                    • Inception-V3: 89%<br>
+                                    • Ensemble (soft voting): 93-94% (+2-3% gain!)
+                                </div>
+
+                                <a href="phase4_ensemble.ipynb" class="notebook-link">📖 Open Phase 4 Notebook</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 5 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#phase5">
+                                <span class="badge-custom badge-phase5">Phase 5</span> <strong>Lesion Segmentation:
+                                    Explainability</strong>
+                            </button>
+                        </h2>
+                        <div id="phase5" class="accordion-collapse collapse" data-bs-parent="#phasesAccordion">
+                            <div class="accordion-body">
+                                <h5>🎯 Goal</h5>
+                                <p>Localize lesions at pixel level for clinical explainability.</p>
+
+                                <h5>❓ Why Segmentation Matters</h5>
+                                <div class="highlight-box">
+                                    Doctor asks: "WHERE is the DR?" not just "DO you detect it?"<br>
+                                    Explainability builds trust in AI systems
+                                </div>
+
+                                <h5>🏗️ U-Net Architecture</h5>
+                                <div class="architecture-box">
+                                    Encoder (Downsampling):
+                                    Input → Conv → Conv → Pool → Conv → Conv → Pool → ... → Bottleneck
+
+                                    Decoder (Upsampling):
+                                    Bottleneck → UpConv → [Skip1] → Conv → UpConv → [Skip2] → Conv → Output
+
+                                    Key: Skip connections preserve spatial information
+                                </div>
+
+                                <h5>🎯 Lesion Types Detected</h5>
+                                <div class="comparison-grid">
+                                    <div class="comparison-item">
+                                        <strong>Microaneurysms</strong>
+                                        <p>Red dots (15-30 px)</p>
+                                    </div>
+                                    <div class="comparison-item">
+                                        <strong>Hemorrhages</strong>
+                                        <p>Dark red/black patches</p>
+                                    </div>
+                                    <div class="comparison-item">
+                                        <strong>Hard Exudates</strong>
+                                        <p>Bright yellow deposits</p>
+                                    </div>
+                                    <div class="comparison-item">
+                                        <strong>Cotton-wool Spots</strong>
+                                        <p>White fluffy areas</p>
+                                    </div>
+                                </div>
+
+                                <h5>📊 Pixel-Level Metrics</h5>
+                                <div class="card-box info">
+                                    <ul class="list-styled">
+                                        <li>Dice Coefficient: 85-92%</li>
+                                        <li>Intersection over Union (IoU): 80-88%</li>
+                                        <li>Pixel-level F1-Score</li>
+                                        <li>Boundary IoU (emphasizes accuracy at edges)</li>
+                                    </ul>
+                                </div>
+
+                                <a href="phase5_lesion_segmentation.ipynb" class="notebook-link">📖 Open Phase 5
+                                    Notebook</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 6 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#phase6">
+                                <span class="badge-custom badge-phase6">Phase 6</span> <strong>Vision Transformers:
+                                    State-of-Art</strong>
+                            </button>
+                        </h2>
+                        <div id="phase6" class="accordion-collapse collapse" data-bs-parent="#phasesAccordion">
+                            <div class="accordion-body">
+                                <h5>🎯 Goal</h5>
+                                <p>Achieve state-of-the-art 95-97% AUC using transformer architecture.</p>
+
+                                <h5>🚀 Why Vision Transformers?</h5>
+                                <div class="insight-box">
+                                    <strong>Breakthrough:</strong><br>
+                                    "Attention Is All You Need" (2017) → Transformers dominate NLP<br>
+                                    2021: Vision Transformers (ViT) now beat CNNs on image tasks!
+                                </div>
+
+                                <h5>⚙️ ViT Pipeline</h5>
+                                <div class="architecture-box">
+                                    Step 1: Split image into patches
+                                    224×224 image → 16×16 patches → 14×14 = 196 patches
+
+                                    Step 2: Linear embedding
+                                    Each patch → 768-D vector
+
+                                    Step 3: Add positional encoding
+                                    Preserve spatial information
+
+                                    Step 4: Transformer blocks
+                                    12 layers × 12 attention heads
+
+                                    Step 5: [CLS] token → Classification head
+                                    → 5 classes (DR grades)
+                                </div>
+
+                                <h5>🔍 Attention Mechanism Benefits</h5>
+                                <div class="decision-box">
+                                    ✓ Focus on retinal lesion regions<br>
+                                    ✓ Capture long-range vessel patterns<br>
+                                    ✓ Multi-head: Different heads focus on different features<br>
+                                    ✓ Produces attention maps for explainability
+                                </div>
+
+                                <h5>📊 ViT vs CNN</h5>
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th>Aspect</th>
+                                            <th>CNN</th>
+                                            <th>ViT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Receptive Field</strong></td>
+                                            <td>Grows slowly (local bias)</td>
+                                            <td>Global from start (global relationships)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Inductive Bias</strong></td>
+                                            <td>Fixed (Conv kernel structure)</td>
+                                            <td>Learns from data</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Data Requirement</strong></td>
+                                            <td>Works with small datasets</td>
+                                            <td>Needs large datasets</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Performance</strong></td>
+                                            <td>88-92% AUC</td>
+                                            <td>95-97% AUC ⭐</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h5>🏆 Final Performance Comparison</h5>
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th>Metric</th>
+                                            <th>Phase 1</th>
+                                            <th>Phase 2</th>
+                                            <th>Phase 4</th>
+                                            <th>Phase 6</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Accuracy</strong></td>
+                                            <td>75%</td>
+                                            <td>87%</td>
+                                            <td>93%</td>
+                                            <td><strong>96%</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ROC-AUC</strong></td>
+                                            <td>0.78</td>
+                                            <td>0.89</td>
+                                            <td>0.94</td>
+                                            <td><strong>0.96-0.97</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>F1-Score</strong></td>
+                                            <td>0.72</td>
+                                            <td>0.86</td>
+                                            <td>0.92</td>
+                                            <td><strong>0.95</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Training Time</strong></td>
+                                            <td>~8 min</td>
+                                            <td>~3 min</td>
+                                            <td>~30 min</td>
+                                            <td>~35 min</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <a href="phase6_vision_transformer.ipynb" class="notebook-link">📖 Open Phase 6
+                                    Notebook</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PREPROCESSING SECTION -->
+            <div class="section" id="preprocessing">
+                <h2 class="section-title">🔧 Preprocessing Pipeline & Data Handling</h2>
+
+                <div class="insight-box">
+                    <strong>Golden Rule:</strong> Preprocessing is 80% of the work.<br>
+                    Poor preprocessing → Even best models fail. Great preprocessing → Mediocre models work well.
+                </div>
+
+                <div class="accordion" id="preprocessingAccordion">
+
+                    <!-- Step 1 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#preproc1">
+                                <strong>Step 1: Image Loading & RGB Conversion</strong>
+                            </button>
+                        </h2>
+                        <div id="preproc1" class="accordion-collapse collapse" data-bs-parent="#preprocessingAccordion">
+                            <div class="accordion-body">
+                                <p><strong>What:</strong> Load images from disk, convert to RGB format</p>
+                                <p><strong>Why:</strong> CNNs expect 3-channel RGB. Red = vessels, Green = lesion
+                                    contrast</p>
+                                <div class="formula-box">DICOM/PNG/JPG → PIL Image.open() → .convert('RGB') → 3-channel
+                                    tensor</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#preproc2">
+                                <strong>Step 2: Resizing to 224×224</strong>
+                            </button>
+                        </h2>
+                        <div id="preproc2" class="accordion-collapse collapse" data-bs-parent="#preprocessingAccordion">
+                            <div class="accordion-body">
+                                <p><strong>What:</strong> Standardize all images to 224×224</p>
+                                <p><strong>Why:</strong></p>
+                                <ul class="list-styled">
+                                    <li>Computational efficiency (84× smaller than 2048×2048)</li>
+                                    <li>ImageNet pretrained models use 224×224</li>
+                                    <li>Captures major lesions while staying practical</li>
+                                </ul>
+                                <div class="highlight-box">
+                                    <strong>Trade-off:</strong><br>
+                                    Too small (<128px): Lose microaneurysm details ❌<br>
+                                        224px: Optimal balance ✅<br>
+                                        Too large (>512px): Memory intensive, minimal gain ⚠️
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#preproc3">
+                                <strong>Step 3: Normalization (ImageNet Statistics)</strong>
+                            </button>
+                        </h2>
+                        <div id="preproc3" class="accordion-collapse collapse" data-bs-parent="#preprocessingAccordion">
+                            <div class="accordion-body">
+                                <p><strong>What:</strong> Apply channel-wise normalization</p>
+                                <p><strong>Statistics:</strong> Mean=[0.485, 0.456, 0.406], Std=[0.229, 0.224, 0.225]
+                                </p>
+                                <p><strong>Why:</strong></p>
+                                <ul class="list-styled">
+                                    <li>Pretrained models optimized for these statistics</li>
+                                    <li>Zero mean & unit variance → stable training gradients</li>
+                                    <li>Partially compensates for illumination variation</li>
+                                </ul>
+                                <div class="formula-box">normalized_pixel = (pixel - mean) / std</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#preproc4">
+                                <strong>Step 4: Data Augmentation (Training Only!)</strong>
+                            </button>
+                        </h2>
+                        <div id="preproc4" class="accordion-collapse collapse" data-bs-parent="#preprocessingAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Augmentations Applied:</strong></p>
+                                <ul class="list-styled">
+                                    <li>🔄 Random Horizontal Flip (50%)</li>
+                                    <li>↻ Random Rotation (±15°)</li>
+                                    <li>🌈 Color Jitter (brightness ±20%, contrast ±20%)</li>
+                                    <li>🔍 Random Zoom/Crop</li>
+                                </ul>
+                                <p><strong>Why:</strong></p>
+                                <ul class="list-styled">
+                                    <li>Increases effective dataset size</li>
+                                    <li>Prevents overfitting</li>
+                                    <li>Simulates real-world variation (camera angles, lighting)</li>
+                                    <li>Improves generalization by 2-5% accuracy</li>
+                                </ul>
+                                <div class="mistake-box">
+                                    <strong>⚠️ CRITICAL:</strong><br>
+                                    Augmentation ONLY on training data!<br>
+                                    If applied before split → validation data leaks into training
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#preproc5">
+                                <strong>Step 5: Stratified Train-Val-Test Split (70-15-15)</strong>
+                            </button>
+                        </h2>
+                        <div id="preproc5" class="accordion-collapse collapse" data-bs-parent="#preprocessingAccordion">
+                            <div class="accordion-body">
+                                <p><strong>What:</strong> Split data 70% train, 15% val, 15% test with stratification
+                                </p>
+                                <p><strong>Stratified means:</strong> Each class appears proportionally in all splits
+                                </p>
+                                <p><strong>Why essential for medical data:</strong></p>
+                                <ul class="list-styled">
+                                    <li>No data leakage (no image in both train and test)</li>
+                                    <li>Prevents class imbalance bias (80% No-DR)</li>
+                                    <li>Fair validation that represents real performance</li>
+                                    <li>Prevents overfitting to test set</li>
+                                </ul>
+                                <div class="formula-box">
+                                    from sklearn.model_selection import train_test_split<br>
+                                    train_df, temp_df = train_test_split(df, test_size=0.30,
+                                    stratify=df['diagnosis'])<br>
+                                    val_df, test_df = train_test_split(temp_df, test_size=0.50,
+                                    stratify=temp_df['diagnosis'])
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#preproc6">
+                                <strong>Step 6: Class Imbalance Handling</strong>
+                            </button>
+                        </h2>
+                        <div id="preproc6" class="accordion-collapse collapse" data-bs-parent="#preprocessingAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Problem:</strong> 80% No-DR, 2% Proliferative → Model biased</p>
+                                <p><strong>Solution:</strong> Inverse frequency class weighting</p>
+                                <p><strong>Formula:</strong> weight = total_samples / (num_classes × samples_in_class)
+                                </p>
+                                <p><strong>Effect:</strong> Rare classes weighted 5-10× higher in loss function</p>
+                                <div class="decision-box">
+                                    <strong>Clinical Reasoning:</strong><br>
+                                    False Negative (miss Severe) → Blindness ❌❌❌<br>
+                                    False Positive (false alarm) → Doctor reviews ✅<br>
+                                    <br>
+                                    <strong>Therefore: Weight rare classes to catch them!</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 7 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#preproc7">
+                                <strong>Step 7: Batch Processing & DataLoaders</strong>
+                            </button>
+                        </h2>
+                        <div id="preproc7" class="accordion-collapse collapse" data-bs-parent="#preprocessingAccordion">
+                            <div class="accordion-body">
+                                <p><strong>What:</strong> Process 16-32 images at a time</p>
+                                <p><strong>Why:</strong></p>
+                                <ul class="list-styled">
+                                    <li>Memory efficiency (8GB GPU can't load 3.6K images)</li>
+                                    <li>Stochasticity (random shuffling improves generalization)</li>
+                                    <li>Gradient stability (mini-batch averaging)</li>
+                                    <li>Reproducibility (fixed random seed)</li>
+                                </ul>
+                                <div class="formula-box">
+                                    train_loader = DataLoader(dataset, batch_size=16, shuffle=True)<br>
+                                    val_loader = DataLoader(dataset, batch_size=16, shuffle=False)<br>
+                                    test_loader = DataLoader(dataset, batch_size=16, shuffle=False)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Filtering Techniques for Medical Image Enhancement -->
+                    <h3 class="subsection-title" style="margin-top: 40px; padding-top: 20px;">Advanced Filtering &
+                        Enhancement Techniques for Retinal Images</h3>
+
+                    <!-- Step 8: Gaussian Blur Filter -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#preproc8">
+                                <strong>Step 8: Gaussian Blur Filter</strong>
+                            </button>
+                        </h2>
+                        <div id="preproc8" class="accordion-collapse collapse" data-bs-parent="#preprocessingAccordion">
+                            <div class="accordion-body">
+                                <h5>Mathematical Theory</h5>
+                                <p><strong>Gaussian Blur Formula:</strong></p>
+                                <div class="formula-box">
+                                    G(x,y) = (1 / 2πσ²) × e^(-(x²+y²) / 2σ²)<br><br>
+                                    G_blur = Original × Gaussian Kernel<br>
+                                    where σ (sigma) = standard deviation
+                                </div>
+
+                                <h5>Purpose in Diabetic Retinopathy Detection</h5>
+                                <ul class="list-styled">
+                                    <li><strong>Noise Reduction:</strong> Smooths camera sensor noise, dust artifacts
+                                    </li>
+                                    <li><strong>Lesion Preservation:</strong> Large σ can blur out microaneurysms (use
+                                        carefully!)</li>
+                                    <li><strong>Background Uniformity:</strong> Makes optic disc stand out</li>
+                                    <li><strong>Preprocessing for Derivatives:</strong> Essential before edge detection
+                                    </li>
+                                </ul>
+
+                                <h5>Clinical Application</h5>
+                                <div class="card-box success">
+                                    <strong>Recommended Parameters:</strong><br>
+                                    Kernel Size: 3×3 to 5×5 (preserve lesions)<br>
+                                    σ (sigma): 0.5 to 1.5<br>
+                                    <br>
+                                    <strong>Use Case:</strong> Initial noise reduction on RAW retinal images from
+                                    imaging devices
+                                </div>
+
+                                <h5>Code Implementation</h5>
+                                <div class="formula-box">
+                                    import cv2<br>
+                                    import numpy as np<br><br>
+                                    # Gaussian Blur<br>
+                                    blurred = cv2.GaussianBlur(image, ksize=(5, 5), sigmaX=1.5, sigmaY=1.5)<br>
+                                    <br>
+                                    # Effect: Smooth image, preserve edges moderately
+                                </div>
+
+                                <div class="mistake-box">
+                                    <strong>⚠️ Caution:</strong> Excessive Gaussian blur can remove microaneurysms (tiny
+                                    hemorrhages). Use σ ≤ 1.5 for medical images.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 9: Bilateral Filter -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#preproc9">
+                                <strong>Step 9: Bilateral Filter (Edge-Preserving Smoothing)</strong>
+                            </button>
+                        </h2>
+                        <div id="preproc9" class="accordion-collapse collapse" data-bs-parent="#preprocessingAccordion">
+                            <div class="accordion-body">
+                                <h5>Mathematical Theory</h5>
+                                <p><strong>Why Bilateral is Different from Gaussian:</strong></p>
+                                <div class="formula-box">
+                                    Bilateral(x,y) = (1/W_p) × Σ I(ξ,η) × Gσ_s(||m-n||) × Gσ_r(|I(m,n)-I(ξ,η)|)<br><br>
+                                    where:<br>
+                                    Gσ_s = Spatial Gaussian (distance from center)<br>
+                                    Gσ_r = Range Gaussian (intensity difference)<br>
+                                    W_p = normalization factor
+                                </div>
+
+                                <h5>Key Advantage Over Gaussian Blur</h5>
+                                <div class="card-box info">
+                                    <strong>Bilateral = "Smart Blur"</strong><br><br>
+                                    ✓ Smooths within similar intensities (same tissue)<br>
+                                    ✓ PRESERVES sharp edges (lesion boundaries)<br>
+                                    ✓ Noise reduction without lesion loss<br>
+                                    ✗ Computationally expensive (O(w²) per pixel)
+                                </div>
+
+                                <h5>Clinical Application for DR Detection</h5>
+                                <ul class="list-styled">
+                                    <li><strong>Microaneurysm Preservation:</strong> Preserves tiny red dots while
+                                        smoothing background</li>
+                                    <li><strong>Hemorrhage Boundaries:</strong> Keeps sharp lesion edges</li>
+                                    <li><strong>Hard Exudates:</strong> Maintains bright yellow spots without blurring
+                                        edges</li>
+                                    <li><strong>Vessel Clarity:</strong> Enhances vessel-background contrast</li>
+                                </ul>
+
+                                <h5>Recommended Parameters</h5>
+                                <div class="card-box warning">
+                                    d (diameter): 7-9 pixels<br>
+                                    σ_color (range): 20-50<br>
+                                    σ_space (spatial): 20-50<br>
+                                    <br>
+                                    <strong>Typical Setting:</strong> d=7, σ_color=30, σ_space=30
+                                </div>
+
+                                <h5>Code Implementation</h5>
+                                <div class="formula-box">
+                                    import cv2<br><br>
+                                    # Bilateral Filter (edge-preserving)<br>
+                                    bilateral = cv2.bilateralFilter(image, d=7, sigmaColor=30, sigmaSpace=30)<br>
+                                    <br>
+                                    # Result: Smooth with sharp edges preserved
+                                </div>
+
+                                <div class="insight-box">
+                                    <strong>💡 Clinical Insight:</strong><br>
+                                    Bilateral filter is ideal for DR preprocessing because it removes fluorescence noise
+                                    while keeping pathological lesion boundaries sharp for CNN feature extraction.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 10: Median Filter -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#preproc10">
+                                <strong>Step 10: Median Filter (Salt-and-Pepper Noise)</strong>
+                            </button>
+                        </h2>
+                        <div id="preproc10" class="accordion-collapse collapse"
+                            data-bs-parent="#preprocessingAccordion">
+                            <div class="accordion-body">
+                                <h5>Mathematical Theory</h5>
+                                <div class="formula-box">
+                                    Median(x,y) = median{I(ξ,η) : (ξ,η) ∈ neighborhood}<br><br>
+                                    For a 3×3 window: Sort 9 pixel values, take middle value<br>
+                                    Example: [10, 15, 20, 25, 30, 35, 40, 255, 0]<br>
+                                    Median = 30 (eliminates outliers 255 and 0)
+                                </div>
+
+                                <h5>Why Median is Unique</h5>
+                                <div class="card-box success">
+                                    <strong>Advantage: Non-linear & Robust to Outliers</strong><br><br>
+                                    ✓ Excellent for impulse noise (sensor defects, dead pixels)<br>
+                                    ✓ Removes speckles without blurring<br>
+                                    ✓ Better than average for non-Gaussian noise<br>
+                                    ✓ O(n log n) complexity (manageable)<br>
+                                    ✗ Can create blocky artifacts if kernel too large
+                                </div>
+
+                                <h5>Clinical Application in Retinal Imaging</h5>
+                                <ul class="list-styled">
+                                    <li><strong>Sensor Artifacts:</strong> Removes dead pixels from fundus cameras</li>
+                                    <li><strong>Dust Particles:</strong> Eliminates dust on optical elements</li>
+                                    <li><strong>Vignetting Noise:</strong> Reduces peripheral artifacts</li>
+                                    <li><strong>Preprocessing for OCT Images:</strong> Common first step for optical
+                                        coherence tomography</li>
+                                </ul>
+
+                                <h5>Parameter Selection</h5>
+                                <div class="card-box warning">
+                                    Kernel Size: 3×3 or 5×5 (avoid >5×5 for medical images)<br>
+                                    <br>
+                                    <strong>Medical Best Practice:</strong> Use 3×3 kernel<br>
+                                    Larger kernels can obliterate microaneurysms
+                                </div>
+
+                                <h5>Code Implementation</h5>
+                                <div class="formula-box">
+                                    import cv2<br><br>
+                                    # Median Filter<br>
+                                    median = cv2.medianBlur(image, ksize=5)<br>
+                                    <br>
+                                    # ksize must be odd (3, 5, 7, etc.)<br>
+                                    # Ideal for salt-and-pepper noise
+                                </div>
+
+                                <div class="decision-box">
+                                    <strong>When to Use Median:</strong><br>
+                                    If image has visible dead pixels/dots → Use Median 3×3<br>
+                                    If image has Gaussian noise → Use Gaussian Blur<br>
+                                    If you need both → Apply Median first, then Gaussian
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 11: CLAHE (Contrast Enhancement) -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#preproc11">
+                                <strong>Step 11: CLAHE (Contrast Limited Adaptive Histogram Equalization)</strong>
+                            </button>
+                        </h2>
+                        <div id="preproc11" class="accordion-collapse collapse"
+                            data-bs-parent="#preprocessingAccordion">
+                            <div class="accordion-body">
+                                <h5>Mathematical Theory</h5>
+                                <div class="formula-box">
+                                    Global Histogram Equalization: CDF maps pixel values uniformly<br><br>
+                                    Adaptive HE: Compute histogram locally in 8×8 blocks<br><br>
+                                    Contrast Limiting: Clip histogram at threshold λ<br>
+                                    λ = (M×N/L) × β<br>
+                                    where M×N = block size, L = gray levels, β = clipping factor
+                                </div>
+
+                                <h5>Why CLAHE for Medical Imaging</h5>
+                                <div class="card-box success">
+                                    <strong>Problem Solved: Over-enhancement in Standard HE</strong><br><br>
+                                    ✗ Global HE: Makes dark optic disc region too bright<br>
+                                    ✗ Creates noise amplification in uniform regions<br>
+                                    <br>
+                                    ✓ CLAHE: Balances local and global contrast<br>
+                                    ✓ Clips histogram to prevent noise amplification<br>
+                                    ✓ Reveals microaneurysms and hard exudates<br>
+                                    ✓ Standard preprocessing in ophthalmology
+                                </div>
+
+                                <h5>Clinical Benefits for Diabetic Retinopathy</h5>
+                                <ul class="list-styled">
+                                    <li><strong>Microaneurysm Visibility:</strong> Makes tiny red spots 20% more visible
+                                    </li>
+                                    <li><strong>Hard Exudate Detection:</strong> Enhances yellow spots against red
+                                        background</li>
+                                    <li><strong>Vessel Segmentation:</strong> Improves blood vessel clarity</li>
+                                    <li><strong>Optic Disc Definition:</strong> Brings disc boundaries into sharp relief
+                                    </li>
+                                    <li><strong>Cotton Wool Spots:</strong> Whitish lesions become prominent</li>
+                                </ul>
+
+                                <h5>Parameter Tuning</h5>
+                                <div class="card-box warning">
+                                    clipLimit: 2.0 - 4.0 (controls clipping intensity)<br>
+                                    tileGridSize: 8×8 pixels (block size for adaptation)<br>
+                                    <br>
+                                    <strong>Recommended for DR:</strong> clipLimit=2.5, tileGridSize=(8,8)
+                                </div>
+
+                                <h5>Code Implementation</h5>
+                                <div class="formula-box">
+                                    import cv2<br>
+                                    import numpy as np<br><br>
+                                    # Convert to LAB (better than RGB for enhancement)<br>
+                                    lab = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)<br>
+                                    l, a, b = cv2.split(lab)<br><br>
+                                    # Apply CLAHE to L channel only<br>
+                                    clahe = cv2.createCLAHE(clipLimit=2.5, tileGridSize=(8,8))<br>
+                                    l_enhanced = clahe.apply(l)<br><br>
+                                    # Merge and convert back<br>
+                                    lab_enhanced = cv2.merge([l_enhanced, a, b])<br>
+                                    result = cv2.cvtColor(lab_enhanced, cv2.COLOR_LAB2BGR)
+                                </div>
+
+                                <div class="insight-box">
+                                    <strong>💡 Pro Tip:</strong> Apply CLAHE to LAB color space L-channel only, not RGB.
+                                    This preserves color information while enhancing contrast (LAB L = Lightness).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 12: Thresholding Techniques -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#preproc12">
+                                <strong>Step 12: Adaptive & Otsu Thresholding for Segmentation</strong>
+                            </button>
+                        </h2>
+                        <div id="preproc12" class="accordion-collapse collapse"
+                            data-bs-parent="#preprocessingAccordion">
+                            <div class="accordion-body">
+                                <h5>Thresholding Concepts</h5>
+                                <div class="formula-box">
+                                    Simple Threshold: Output = 255 if Input > T else 0<br><br>
+                                    Otsu's Method: Finds threshold T that maximizes between-class variance<br>
+                                    T_optimal = argmax(σ_b²) = argmax(w₀ × w₁ × (μ₀ - μ₁)²)<br><br>
+                                    Adaptive: T(x,y) = mean(neighborhood(x,y)) - C<br>
+                                    where C = bias constant
+                                </div>
+
+                                <h5>Three Thresholding Approaches</h5>
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th>Method</th>
+                                            <th>How It Works</th>
+                                            <th>Best For</th>
+                                            <th>Limitation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Simple</strong></td>
+                                            <td>Fixed threshold T</td>
+                                            <td>High contrast images</td>
+                                            <td>Fails with uneven lighting</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Otsu</strong></td>
+                                            <td>Auto-threshold, maximizes variance</td>
+                                            <td>Bimodal histograms</td>
+                                            <td>Assumes two distinct classes</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Adaptive</strong></td>
+                                            <td>Local threshold per pixel neighborhood</td>
+                                            <td>Uneven illumination (MEDICAL STANDARD)</td>
+                                            <td>Slower computation</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h5>Clinical Application: Blood Vessel Segmentation</h5>
+                                <div class="card-box success">
+                                    <strong>Use Case: Extract Blood Vessels for Analysis</strong><br><br>
+                                    1. Apply Gaussian to smooth<br>
+                                    2. Extract green channel (vessels are dark green in retinal images)<br>
+                                    3. Apply Adaptive Threshold → Binary mask of vessels<br>
+                                    4. Use for hemorrhage detection (should be within vessels)
+                                </div>
+
+                                <h5>Code Implementation</h5>
+                                <div class="formula-box">
+                                    import cv2<br>
+                                    import numpy as np<br><br>
+                                    # Convert to grayscale<br>
+                                    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)<br><br>
+                                    # Method 1: Otsu Thresholding<br>
+                                    _, thresh_otsu = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY +
+                                    cv2.THRESH_OTSU)<br><br>
+                                    # Method 2: Adaptive Thresholding (MEDICAL STANDARD)<br>
+                                    thresh_adaptive = cv2.adaptiveThreshold(gray, 255,
+                                    cv2.ADAPTIVE_THRESH_GAUSSIAN_C,<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;cv2.THRESH_BINARY, blockSize=11, C=2)<br><br>
+                                    # Method 3: Manual threshold<br>
+                                    _, thresh_manual = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+                                </div>
+
+                                <div class="decision-box">
+                                    <strong>Which Method to Use?</strong><br><br>
+                                    Uniform lighting + 2 classes → Otsu<br>
+                                    Uneven illumination (real cameras) → Adaptive ✓ BEST<br>
+                                    Specific pathology → Manual tuning
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 13: Edge Detection -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#preproc13">
+                                <strong>Step 13: Edge Detection (Canny, Sobel)</strong>
+                            </button>
+                        </h2>
+                        <div id="preproc13" class="accordion-collapse collapse"
+                            data-bs-parent="#preprocessingAccordion">
+                            <div class="accordion-body">
+                                <h5>Mathematical Theory</h5>
+                                <div class="formula-box">
+                                    Sobel X-Gradient: Gx = [[-1,0,1], [-2,0,2], [-1,0,1]] ⊗ Image<br>
+                                    Sobel Y-Gradient: Gy = [[-1,-2,-1], [0,0,0], [1,2,1]] ⊗ Image<br><br>
+                                    Gradient Magnitude: G = √(Gx² + Gy²)<br>
+                                    Gradient Direction: θ = atan2(Gy, Gx)<br><br>
+                                    Canny = Sobel + Non-Maximum Suppression + Double Thresholding + Edge Linking
+                                </div>
+
+                                <h5>Edge Detection Methods Comparison</h5>
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th>Method</th>
+                                            <th>Algorithm</th>
+                                            <th>Sensitivity</th>
+                                            <th>Best For DR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Sobel</strong></td>
+                                            <td>Simple gradient</td>
+                                            <td>Medium</td>
+                                            <td>Quick vessel detection</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Prewitt</strong></td>
+                                            <td>3×3 kernel gradient</td>
+                                            <td>Medium</td>
+                                            <td>Comparable to Sobel</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Canny</strong></td>
+                                            <td>Gaussian + gradient + NMS + linking</td>
+                                            <td>High (tunable)</td>
+                                            <td>BEST - Vessel and lesion boundaries</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Laplacian</strong></td>
+                                            <td>2nd derivative</td>
+                                            <td>Very high (noisy)</td>
+                                            <td>Microaneurysm edges</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h5>Clinical Purpose in DR Detection</h5>
+                                <ul class="list-styled">
+                                    <li><strong>Microaneurysm Detection:</strong> Canny finds 1-2 pixel red dots</li>
+                                    <li><strong>Hemorrhage Boundaries:</strong> Edges separate lesions from background
+                                    </li>
+                                    <li><strong>Vessel Tracking:</strong> Vessels appear as edge chains</li>
+                                    <li><strong>Optic Disc Localization:</strong> Disc has distinct circular edge</li>
+                                    <li><strong>Hard Exudate Clusters:</strong> Bright lesion boundaries</li>
+                                </ul>
+
+                                <h5>Canny Edge Detection Steps</h5>
+                                <div class="card-box info">
+                                    <strong>Step 1: Gaussian Blur</strong> (σ=1.4)<br>
+                                    ↓<br>
+                                    <strong>Step 2: Compute Gradients</strong> (Sobel X, Y)<br>
+                                    ↓<br>
+                                    <strong>Step 3: Non-Maximum Suppression</strong> (thin edges)<br>
+                                    ↓<br>
+                                    <strong>Step 4: Double Thresholding</strong> (strong, weak edges)<br>
+                                    ↓<br>
+                                    <strong>Step 5: Edge Linking</strong> (connect weak to strong)<br>
+                                    ↓<br>
+                                    <strong>Final: Binary edge map</strong>
+                                </div>
+
+                                <h5>Code Implementation</h5>
+                                <div class="formula-box">
+                                    import cv2<br>
+                                    import numpy as np<br><br>
+                                    # Read and blur<br>
+                                    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)<br>
+                                    blurred = cv2.GaussianBlur(gray, (5, 5), 1.5)<br><br>
+                                    # Canny Edge Detection<br>
+                                    edges = cv2.Canny(blurred, threshold1=50, threshold2=150)<br><br>
+                                    # Sobel for comparison<br>
+                                    sobelx = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)<br>
+                                    sobely = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)<br>
+                                    magnitude = np.sqrt(sobelx**2 + sobely**2)
+                                </div>
+
+                                <div class="insight-box">
+                                    <strong>💡 Medical Imaging Insight:</strong><br>
+                                    Always apply Gaussian blur BEFORE Canny. For DR images, use lower threshold=50,
+                                    higher threshold=150 to catch subtle lesion edges.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 14: Morphological Operations -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#preproc14">
+                                <strong>Step 14: Morphological Operations (Erosion, Dilation, Opening, Closing)</strong>
+                            </button>
+                        </h2>
+                        <div id="preproc14" class="accordion-collapse collapse"
+                            data-bs-parent="#preprocessingAccordion">
+                            <div class="accordion-body">
+                                <h5>Morphological Operations Theory</h5>
+                                <div class="formula-box">
+                                    Erosion: Output = min of all pixels under kernel<br>
+                                    E(x,y) = min{I(x+i, y+j) : (i,j) ∈ Kernel}<br><br>
+                                    Dilation: Output = max of all pixels under kernel<br>
+                                    D(x,y) = max{I(x+i, y+j) : (i,j) ∈ Kernel}<br><br>
+                                    Opening = Erosion followed by Dilation (remove small objects)<br>
+                                    Closing = Dilation followed by Erosion (fill small holes)<br><br>
+                                    Gradient = Dilation - Erosion (edge detection variant)
+                                </div>
+
+                                <h5>Four Main Operations & Their Effects</h5>
+                                <table class="table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th>Operation</th>
+                                            <th>Formula</th>
+                                            <th>Effect</th>
+                                            <th>Medical Use</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Erosion</strong></td>
+                                            <td>Shrink white regions</td>
+                                            <td>Removes small objects, thins lines</td>
+                                            <td>Remove noise, isolate lesions</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Dilation</strong></td>
+                                            <td>Expand white regions</td>
+                                            <td>Enlarges objects, fills gaps</td>
+                                            <td>Connect broken vessels, fill holes</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Opening</strong></td>
+                                            <td>Erosion → Dilation</td>
+                                            <td>Remove small noise, preserve large objects</td>
+                                            <td>MOST USED - Clean up false positive noise</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Closing</strong></td>
+                                            <td>Dilation → Erosion</td>
+                                            <td>Fill holes, connect nearby objects</td>
+                                            <td>Merge fragmented hemorrhages</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h5>Clinical Application in Diabetic Retinopathy</h5>
+                                <div class="card-box success">
+                                    <strong>Lesion Refinement Pipeline:</strong><br><br>
+                                    1. Threshold → Binary lesion map (contains noise)<br>
+                                    2. Opening (3×3) → Remove false positives (dust, noise)<br>
+                                    3. Closing (5×5) → Merge fragmented hemorrhages<br>
+                                    4. Morphological Gradient → Find lesion boundaries<br>
+                                    5. Label connected components → Individual lesions
+                                </div>
+
+                                <h5>Kernel (Structuring Element) Selection</h5>
+                                <ul class="list-styled">
+                                    <li><strong>3×3 Rectangular:</strong> Fast, for small noise removal</li>
+                                    <li><strong>5×5 Elliptical:</strong> Better for circular lesions (exudates)</li>
+                                    <li><strong>7×7 Cross:</strong> For vessel connectivity</li>
+                                    <li><strong>Custom:</strong> Design based on lesion morphology</li>
+                                </ul>
+
+                                <h5>Detailed Effects & Parameters</h5>
+                                <div class="card-box warning">
+                                    <strong>Microaneurysm (1-3 px):</strong> 3×3 kernel erosion removes it<br>
+                                    <strong>Small hemorrhage (5-15 px):</strong> 3×3 opening refines, 5×5 closing merges
+                                    fragments<br>
+                                    <strong>Large hemorrhage (>20 px):</strong> Preserve with 5×5 or larger kernel<br>
+                                    <strong>Hard exudate clusters:</strong> 5×5 closing effective
+                                </div>
+
+                                <h5>Code Implementation</h5>
+                                <div class="formula-box">
+                                    import cv2<br>
+                                    import numpy as np<br><br>
+                                    # Define structuring element (kernel)<br>
+                                    kernel_3x3 = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))<br>
+                                    kernel_5x5 = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))<br><br>
+                                    # Erosion - removes small objects<br>
+                                    eroded = cv2.erode(binary_image, kernel_3x3, iterations=1)<br><br>
+                                    # Dilation - fills holes, connects nearby objects<br>
+                                    dilated = cv2.dilate(binary_image, kernel_3x3, iterations=1)<br><br>
+                                    # Opening = Erosion + Dilation (remove noise)<br>
+                                    opened = cv2.morphologyEx(binary_image, cv2.MORPH_OPEN, kernel_3x3)<br><br>
+                                    # Closing = Dilation + Erosion (fill holes)<br>
+                                    closed = cv2.morphologyEx(binary_image, cv2.MORPH_CLOSE, kernel_5x5)<br><br>
+                                    # Morphological Gradient = Dilation - Erosion (edges)<br>
+                                    gradient = cv2.morphologyEx(binary_image, cv2.MORPH_GRADIENT, kernel_3x3)
+                                </div>
+
+                                <h5>Advanced: Multi-Level Morphology</h5>
+                                <div class="formula-box">
+                                    # Remove noise, then refine lesions<br>
+                                    step1_denoise = cv2.morphologyEx(binary, cv2.MORPH_OPEN,
+                                    cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3,3)))<br>
+                                    step2_merge = cv2.morphologyEx(step1_denoise, cv2.MORPH_CLOSE,
+                                    cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5,5)))<br>
+                                    step3_edges = cv2.morphologyEx(step2_merge, cv2.MORPH_GRADIENT,
+                                    cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3,3)))<br><br>
+                                    # Result: Clean, connected lesions with defined boundaries
+                                </div>
+
+                                <div class="insight-box">
+                                    <strong>💡 Pro Strategy for DR:</strong><br>
+                                    After thresholding lesions, always apply Opening first (removes noise), then Closing
+                                    (connects fragments). This 2-step approach handles most artifacts while preserving
+                                    pathology.
+                                </div>
+
+                                <div class="decision-box">
+                                    <strong>Complete Preprocessing Pipeline for Production:</strong><br><br>
+                                    1. Bilateral Filter (preserve lesions, smooth noise)<br>
+                                    2. CLAHE (enhance contrast)<br>
+                                    3. Adaptive Threshold (segment)<br>
+                                    4. Opening 3×3 (remove false positives)<br>
+                                    5. Closing 5×5 (connect fragments)<br>
+                                    6. Canny Edge Detection (find boundaries)<br>
+                                    7. Morphological Gradient (extract edges)<br>
+                                    ↓<br>
+                                    Ready for CNN feature extraction!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- EVALUATION METRICS SECTION -->
+            <div class="section" id="evaluation">
+                <h2 class="section-title">📈 Comprehensive Evaluation Metrics</h2>
+
+                <div class="mistake-box">
+                    <strong>⚠️ Critical Insight:</strong><br>
+                    Accuracy ALONE is misleading for medical AI!<br>
+                    Model predicting "No-DR" for everything → 80% accuracy but catches 0% of disease
+                </div>
+
+                <h3 class="subsection-title">Why Multiple Metrics Matter</h3>
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>What It Measures</th>
+                            <th>Clinical Significance</th>
+                            <th>When to Use</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Accuracy</strong></td>
+                            <td>Overall correctness</td>
+                            <td>Easy to communicate</td>
+                            <td>Initial sanity check</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Precision</strong></td>
+                            <td>False alarm rate</td>
+                            <td>Of positive predictions, how many correct?</td>
+                            <td>Avoid unnecessary follow-ups</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Recall (Sensitivity)</strong></td>
+                            <td>Miss rate</td>
+                            <td>Of actual disease, what % caught?</td>
+                            <td><strong>PRIMARY METRIC for DR (must be ≥90%)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Specificity</strong></td>
+                            <td>True negative rate</td>
+                            <td>Of healthy people, how many correctly ruled out?</td>
+                            <td>Balance with sensitivity</td>
+                        </tr>
+                        <tr>
+                            <td><strong>F1-Score</strong></td>
+                            <td>Harmonic mean P&R</td>
+                            <td>Balanced metric</td>
+                            <td>When P and R equally important</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ROC-AUC</strong></td>
+                            <td>Ranking ability</td>
+                            <td>Most important for medical AI (FDA standard)</td>
+                            <td><strong>GOLD STANDARD (target ≥0.90)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Quadratic Kappa</strong></td>
+                            <td>Expert agreement</td>
+                            <td>Accounts for ordinal nature (Mild vs Severe)</td>
+                            <td>Grading tasks (target ≥0.85)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Confusion Matrix</strong></td>
+                            <td>All prediction types</td>
+                            <td>Shows confusion patterns</td>
+                            <td>Debugging & error analysis</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="subsection-title">Understanding ROC-AUC (Most Important)</h3>
+                <div class="card-box info">
+                    <strong>Formula:</strong> Area under curve of TPR vs FPR<br>
+                    <strong>Interpretation:</strong> Probability model ranks positive sample higher than negative<br>
+                    <strong>Benchmark:</strong> 0.5 = random, 0.9+ = excellent<br>
+                    <strong>Why for DR:</strong> Threshold-independent, handles imbalance, FDA requirement
+                </div>
+
+                <h3 class="subsection-title">Understanding Precision vs Recall Trade-off</h3>
+                <div class="highlight-box">
+                    <strong>Precision (Low False Alarms):</strong><br>
+                    Of our positive predictions, how many actually DR?<br>
+                    When to prioritize: Administrative (reduce unnecessary referrals)<br><br>
+
+                    <strong>Recall (Low Misses):</strong><br>
+                    Of actual DR cases, how many did we catch?<br>
+                    When to prioritize: Clinical (MUST catch disease)
+                </div>
+
+                <div class="decision-box">
+                    <strong>DR Detection Priority:</strong><br>
+                    False Negative (miss Severe) = Patient blindness = CATASTROPHIC ❌❌❌<br>
+                    False Positive (false alarm) = Doctor reviews = ACCEPTABLE ✅<br>
+                    <br>
+                    <strong>Decision: Optimize for RECALL ≥ 90%</strong>
+                </div>
+
+                <h3 class="subsection-title">Clinical Acceptance Criteria (Must ALL Pass)</h3>
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Minimum</th>
+                            <th>Target Excellence</th>
+                            <th>Clinical Requirement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Overall Accuracy</strong></td>
+                            <td>≥ 85%</td>
+                            <td>≥ 90%</td>
+                            <td>Basic competency</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ROC-AUC</strong></td>
+                            <td>≥ 0.90</td>
+                            <td>≥ 0.95</td>
+                            <td>Gold standard</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sensitivity (Recall)</strong></td>
+                            <td>≥ 90%</td>
+                            <td>≥ 95%</td>
+                            <td>MUST catch disease</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Specificity</strong></td>
+                            <td>≥ 80%</td>
+                            <td>≥ 90%</td>
+                            <td>Reasonable false alarms</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Quadratic Kappa</strong></td>
+                            <td>≥ 0.85</td>
+                            <td>≥ 0.90</td>
+                            <td>Expert-level agreement</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Severe/Proliferative Recall</strong></td>
+                            <td>≥ 85%</td>
+                            <td>≥ 95%</td>
+                            <td>Catch critical cases</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Worst Class Recall</strong></td>
+                            <td>No class < 70%</td>
+                            <td>All ≥ 80%</td>
+                            <td>Balanced performance</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <a href="preprocessing_evaluation_matrixs.ipynb" class="notebook-link" style="margin-top: 20px;">📖 Open
+                    Full Preprocessing & Evaluation Notebook</a>
+
+            </div>
+
+            <!-- DATASET DOWNLOADER -->
+            <div class="section">
+                <h2 class="section-title">📥 Dataset Downloader & Preparation</h2>
+                <div class="phase-badge">Notebook: dataset_downloader.ipynb</div>
+
+                <div class="card-box success">
+                    <h5>What This Notebook Does:</h5>
+                    <ul class="list-styled">
+                        <li>Downloads APTOS 2019 dataset (~3.6K images)</li>
+                        <li>Downloads Messidor dataset for validation</li>
+                        <li>Creates synthetic DR dataset for quick prototyping</li>
+                        <li>Generates CSV labels with 5-class mapping</li>
+                        <li>Verifies dataset integrity and visualizes samples</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">Output Directory Structure</h3>
+                <div class="formula-box">
+                    data/dr_dataset/<br>
+                    ├── aptos_2019/ (Real clinical images)<br>
+                    │ ├── 0_no_dr/ (Grade 0: No DR)<br>
+                    │ ├── 1_mild/ (Grade 1: Mild)<br>
+                    │ ├── 2_moderate/ (Grade 2: Moderate)<br>
+                    │ ├── 3_severe/ (Grade 3: Severe)<br>
+                    │ ├── 4_proliferative/ (Grade 4: Proliferative)<br>
+                    │ └── labels.csv<br>
+                    ├── messidor/ (Benchmark)<br>
+                    └── synthetic/ (For testing)
+                </div>
+
+                <a href="dataset_downloader.ipynb" class="notebook-link">📖 Open Dataset Downloader</a>
+
+            </div>
+
+            <!-- DOCUMENTATION -->
+            <div class="section">
+                <h2 class="section-title">📚 Technical Documentation</h2>
+
+                <h3 class="subsection-subtitle">Complete Technology Report</h3>
+                <div class="card-box info">
+                    File: <strong>diabetic_retinopathy_detection_process_technology_report.md</strong><br><br>
+                    Covers:
+                    <ul class="list-styled">
+                        <li>Historical evolution of DR detection (Classical ML → Deep Learning)</li>
+                        <li>Data collection from 6 datasets + Apollo Sage Hospital</li>
+                        <li>Complete preprocessing specifications</li>
+                        <li>Phase-by-phase architecture details</li>
+                        <li>Clinical validation protocols</li>
+                        <li>Production deployment considerations</li>
+                        <li>Performance results for each phase</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">Comprehensive Conclusion</h3>
+                <div class="card-box success">
+                    File: <strong>DRD_COMPREHENSIVE_CONCLUSION.md</strong><br><br>
+                    Includes:
+                    <ul class="list-styled">
+                        <li>Executive summary of entire project</li>
+                        <li>Detailed analysis of each phase's contributions</li>
+                        <li>Performance progression from 70% → 97%</li>
+                        <li>Clinical implications and limitations</li>
+                        <li>Future research directions</li>
+                        <li>Best practices and lessons learned</li>
+                        <li>Notebook-by-notebook breakdown</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- DEPLOYMENT -->
+            <div class="section" id="deployment">
+                <h2 class="section-title">🌐 Production Deployment Considerations</h2>
+
+                <h3 class="subsection-subtitle">Deployment Pipeline</h3>
+                <div class="flow-diagram">
+                    Retinal Image (Hospital/Clinic/Mobile Camera)
+                    ↓
+                    Preprocessing (Resize, Normalize, etc.)
+                    ↓
+                    Model Inference (ViT or Ensemble)
+                    ↓
+                    Generate Prediction + Confidence Score
+                    ↓
+                    Lesion Segmentation (Show WHERE)
+                    ↓
+                    Attention Visualization (Explain prediction)
+                    ↓
+                    Clinical Report Generation
+                    ↓
+                    Doctor Review Interface
+                </div>
+
+                <h3 class="subsection-subtitle">Key Deployment Decisions</h3>
+                <div class="card-box">
+                    <strong>Model Choice:</strong><br>
+                    • Hospital/Clinic setting: ViT (95-97% accuracy, interpretable)<br>
+                    • Mobile screening: EfficientNet-B2 (91% accuracy, lightweight)<br>
+                    • Mission-critical: Ensemble (multiple models, highest confidence)<br><br>
+
+                    <strong>Confidence Thresholding:</strong><br>
+                    • High confidence (>0.95): Auto-approve<br>
+                    • Medium confidence (0.80-0.95): Human review<br>
+                    • Low confidence (<0.80): Refer to specialist<br><br>
+
+                        <strong>Continuous Monitoring:</strong><br>
+                        • Track prediction distribution over time<br>
+                        • Monitor for data drift (new camera, new hospital)<br>
+                        • Regular retraining with new labeled data<br>
+                        • A/B testing: New model vs current model
+                </div>
+
+            </div>
+
+            <!-- MODEL SELECTION GUIDE -->
+            <div class="section" id="model-selection">
+                <h2 class="section-title">🎯 Model Selection Guide by Use Case</h2>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Use Case</th>
+                            <th>Recommended Model</th>
+                            <th>Why Choose This</th>
+                            <th>Trade-offs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Mobile/Rural Screening</strong></td>
+                            <td>MobileNetV3</td>
+                            <td>5.4M params, 45ms inference, 88% accuracy, battery-efficient</td>
+                            <td>Slightly lower accuracy (-2%) but works offline on smartphones</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Local Hospital (Moderate Data)</strong></td>
+                            <td>EfficientNet-B2 + Ensemble</td>
+                            <td>9M params, 92% accuracy, clinically proven, reasonable compute</td>
+                            <td>Needs 3x inference for ensemble voting</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Large Hospital (>10k images)</strong></td>
+                            <td>Ensemble (ResNet50 + EfficientNet-B4 + DenseNet121)</td>
+                            <td>95% accuracy, most robust, clinically proven</td>
+                            <td>3x computational cost, slower deployment</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Research/Teaching Hospital</strong></td>
+                            <td>Vision Transformer + Lesion Segmentation</td>
+                            <td>96%+ accuracy, explainability, attention visualizations for trainees</td>
+                            <td>Requires 24GB GPU, 20+ hours training, complex implementation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Regulatory Approval (FDA)</strong></td>
+                            <td>ResNet50 or EfficientNet Pipeline</td>
+                            <td>Well-studied architectures, lower approval friction, 510(k) pathway</td>
+                            <td>May not be absolute highest accuracy but proven safe</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <!-- CURRENT LIMITATIONS -->
+            <div class="section" id="limitations">
+                <h2 class="section-title">⚠️ Current Limitations & Where We Are Tight</h2>
+
+                <h3 class="subsection-subtitle">Data Challenges</h3>
+                <div class="card-box danger">
+                    <ul class="list-styled">
+                        <li><strong>Lack of diverse ethnic data:</strong> Most datasets from USA/Europe/India.
+                            African/Asian/Latin American populations underrepresented</li>
+                        <li><strong>Annotation is expensive & slow:</strong> Expert ophthalmologist annotation = $8-16
+                            per image, takes weeks for 1000 images</li>
+                        <li><strong>Severe DR samples rare:</strong> Only 2-3% of real-world data, hard to train models
+                            with high recall for critical cases</li>
+                        <li><strong>Camera-specific artifacts:</strong> Zeiss vs Topcon vs other brands have different
+                            illumination, contrast profiles</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">Clinical Deployment Issues</h3>
+                <div class="card-box danger">
+                    <ul class="list-styled">
+                        <li><strong>Domain shift between hospitals:</strong> Model trained on EyePACS → deployed at
+                            Apollo Sage Hospital → 5-10% accuracy drop due to different cameras, demographics, lighting
+                        </li>
+                        <li><strong>Trust & explainability requirements:</strong> Doctors refuse to use "black box" AI.
+                            Need attention maps, segmentation masks, or other explanations</li>
+                        <li><strong>Regulatory approvals:</strong> FDA 510(k) approval requires 1-2 years, multi-center
+                            validation on 1000+ subjects</li>
+                        <li><strong>Data privacy regulations:</strong> GDPR, HIPAA require explicit consent, secure
+                            storage, right-to-deletion protocols</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">Technical Limitations</h3>
+                <div class="card-box danger">
+                    <ul class="list-styled">
+                        <li><strong>Models fail on poor-quality images:</strong> Motion blur, cataracts, floaters →
+                            10-15% accuracy degradation</li>
+                        <li><strong>Difficulty distinguishing adjacent grades:</strong> 85% of classification errors are
+                            Mild↔Moderate or Moderate↔Severe (ordinal adjacency)</li>
+                        <li><strong>Vision Transformers need large datasets:</strong> ViT requires 10k+ images for
+                            stable fine-tuning. With <5k images, overfits to patch tokens</li>
+                        <li><strong>Inference latency:</strong> ViT (250ms) much slower than MobileNet (50ms) - not
+                            suitable for real-time screening booths</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">Ethical & Legal Issues</h3>
+                <div class="card-box danger">
+                    <ul class="list-styled">
+                        <li><strong>Bias in datasets:</strong> EyePACS ~88k images mostly from USA diabetics
+                            (predominantly African American, Hispanic). Different ethnic backgrounds have different
+                            vessel patterns</li>
+                        <li><strong>Liability in misdiagnosis:</strong> If model misses Severe DR → patient goes blind →
+                            hospital legally responsible. Insurance may not cover AI-caused errors</li>
+                        <li><strong>De-anonymization risk:</strong> Fundus images have unique vessel patterns → can
+                            identify individual even with name removed</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- TECHNOLOGY STACK -->
+            <div class="section" id="tech-stack">
+                <h2 class="section-title">🛠️ Technology Stack & Infrastructure</h2>
+
+                <h3 class="subsection-subtitle">Data & Training</h3>
+                <div class="card-box info">
+                    <ul class="list-styled">
+                        <li><strong>Python 3.8+</strong> - Primary development language</li>
+                        <li><strong>PyTorch / TensorFlow</strong> - Deep learning frameworks</li>
+                        <li><strong>OpenCV, PIL, Scikit-Image</strong> - Image preprocessing (CLAHE, resizing,
+                            augmentation)</li>
+                        <li><strong>Albumentations</strong> - Fast augmentation library (specialized for medical images)
+                        </li>
+                        <li><strong>Pandas, NumPy</strong> - Data manipulation and analysis</li>
+                        <li><strong>Scikit-learn</strong> - Classical ML metrics (confusion matrix, ROC-AUC, Kappa)</li>
+                        <li><strong>Roboflow</strong> - Annotation platform for lesion segmentation</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">Compute Infrastructure</h3>
+                <div class="card-box success">
+                    <ul class="list-styled">
+                        <li><strong>NVIDIA GPUs:</strong> 8-24 GB VRAM needed (RTX 3060 Ti, A100, V100 depending on
+                            model)</li>
+                        <li><strong>Local Workstation:</strong> 2× RTX 4090 for Phase 6 ViT training</li>
+                        <li><strong>Cloud Platforms:</strong> AWS (SageMaker), GCP (Vertex AI), Azure (ML Studio) for
+                            scalable training</li>
+                        <li><strong>Batch Processing:</strong> Kubernetes or Slurm for multi-GPU distributed training
+                        </li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">Model Deployment</h3>
+                <div class="card-box info">
+                    <ul class="list-styled">
+                        <li><strong>ONNX:</strong> Open Neural Network Exchange format for model portability (train in
+                            PyTorch, deploy in TensorFlow)</li>
+                        <li><strong>TensorRT:</strong> NVIDIA's inference optimization (3-8x faster on GPU, 50% smaller
+                            model)</li>
+                        <li><strong>Flask / FastAPI:</strong> REST API for hospital integration (expose model as HTTP
+                            endpoint)</li>
+                        <li><strong>Docker:</strong> Containerize entire pipeline (image preprocessing + inference +
+                            reporting)</li>
+                        <li><strong>Mobile/Edge:</strong> TensorFlow Lite (< 5 MB model) for Android/iOS apps, ONNX
+                                Runtime for edge servers</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- FUTURE DIRECTIONS -->
+            <div class="section" id="future">
+                <h2 class="section-title">🚀 Future Research Directions</h2>
+
+                <h3 class="subsection-subtitle">Multimodal Learning</h3>
+                <div class="card-box info">
+                    <strong>Vision + Medical Data:</strong><br>
+                    Combine fundus photos + OCT scans + patient EHR (diabetes duration, HbA1c, blood pressure) → Unified
+                    model<br>
+                    <strong>Expected improvement:</strong> 98%+ accuracy vs 97% with fundus alone<br>
+                    <strong>Clinical value:</strong> Predict progression 6-12 months earlier
+                </div>
+
+                <h3 class="subsection-subtitle">Longitudinal Analysis (Temporal)</h3>
+                <div class="card-box success">
+                    <strong>Track same patient over years:</strong><br>
+                    • Current: Single snapshot → Grade at this moment<br>
+                    • Future: Patient history (visit 1: No-DR, visit 2: Mild, visit 3: Moderate) → Predict Grade at
+                    visit 4<br>
+                    • Use LSTM/Transformer temporal models to learn progression patterns<br>
+                    • <strong>Clinical impact:</strong> Intervene before patient worsens
+                </div>
+
+                <h3 class="subsection-subtitle">Foundation Models (Self-Supervised)</h3>
+                <div class="card-box warning">
+                    <strong>Problem:</strong> Current models require 1000+ labeled images per hospital<br>
+                    <strong>Solution:</strong> Pretrain on 100k+ unlabeled fundus images using contrastive learning
+                    (SimCLR, MoCo)<br>
+                    <strong>Benefit:</strong> Transfer to new hospitals with only 100 labeled images needed (not
+                    1000+)<br>
+                    <strong>Timeline:</strong> 2-3 years for mature implementation
+                </div>
+
+                <h3 class="subsection-subtitle">Federated Learning (Privacy-Preserving)</h3>
+                <div class="card-box info">
+                    <strong>Traditional:</strong> Send all images to cloud → Model improves<br>
+                    <strong>Problem:</strong> GDPR violation, privacy risk, slow upload from rural hospitals<br>
+                    <strong>Federated approach:</strong><br>
+                    1. Each hospital trains model locally on its patients<br>
+                    2. Only send model weight updates (not raw images) to central server<br>
+                    3. Aggregate updates (Federated Averaging) → global model improves<br>
+                    4. Each hospital downloads improved global model<br>
+                    <strong>Advantage:</strong> Data never leaves hospital, privacy protected, continuous learning
+                </div>
+
+                <h3 class="subsection-subtitle">Real-Time Video Analysis</h3>
+                <div class="card-box success">
+                    <strong>Current:</strong> Single static fundus photo → Classification<br>
+                    <strong>Future:</strong> Continuous video stream during retinal examination → Process 30 fps<br>
+                    <strong>Benefit:</strong> More spatial information, temporal consistency, detect rare lesions across
+                    multiple frames<br>
+                    <strong>Challenge:</strong> Requires optical flow networks to align frames
+                </div>
+
+                <h3 class="subsection-subtitle">Explainable AI (XAI) - Enhanced</h3>
+                <div class="card-box info">
+                    <strong>Current explanations:</strong> Attention maps (which patches matter)<br><br>
+                    <strong>Future XAI methods:</strong><br>
+                    <ul class="list-styled">
+                        <li><strong>Grad-CAM:</strong> Gradient-weighted class activation mapping - shows which pixels
+                            influenced prediction</li>
+                        <li><strong>LIME:</strong> Local Interpretable Model-agnostic Explanations - approximate model
+                            locally with interpretable model</li>
+                        <li><strong>Shapley Values:</strong> Game theory approach - quantify contribution of each image
+                            region to prediction</li>
+                        <li><strong>Concept Activation Vectors (CAVs):</strong> "This image has prominent hemorrhages"
+                            (human-interpretable concepts, not pixels)</li>
+                        <li><strong>Counterfactual Explanations:</strong> "If hemorrhage was 5 pixels smaller, grade
+                            would be Moderate not Severe"</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- CLINICAL DECISION THRESHOLDS -->
+            <div class="section" id="thresholds">
+                <h2 class="section-title">📊 Clinical Decision Thresholds & Confidence</h2>
+
+                <h3 class="subsection-subtitle">How to Set Thresholds for Real-World Deployment</h3>
+                <div class="card-box warning">
+                    <strong>Problem:</strong> Model outputs softmax probabilities [0, 1] per class. What threshold for
+                    deciding "DR present"?<br><br>
+                    <strong>Example:</strong><br>
+                    Image A: P(No-DR)=0.51, P(Mild)=0.30, P(Moderate)=0.19<br>
+                    → Default: Predict "No-DR" (highest probability)<br>
+                    → But only 51% confident!<br><br>
+                    <strong>Clinical question:</strong> Is 51% confidence enough to tell patient "you're healthy"?
+                </div>
+
+                <h3 class="subsection-subtitle">Three-Tier Clinical Triage System</h3>
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Confidence Level</th>
+                            <th>Threshold</th>
+                            <th>Action</th>
+                            <th>Clinical Rationale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>High Confidence</strong></td>
+                            <td>> 0.95</td>
+                            <td>✅ Auto-approve & process (document result)</td>
+                            <td>Model very sure. Surgeon rarely needed to review.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Medium Confidence</strong></td>
+                            <td>0.80-0.95</td>
+                            <td>⚠️ Flag for human review (doctor validates)</td>
+                            <td>Uncertain cases. Domain expert must verify before release.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Low Confidence</strong></td>
+                            <td>
+                                < 0.80</td>
+                            <td>❌ Refer to ophthalmologist (always review)</td>
+                            <td>Model unclear. Specialist diagnosis required.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="subsection-subtitle">Sensitivity vs Specificity Trade-off</h3>
+                <div class="highlight-box">
+                    <strong>Clinical Priority: Catch disease first, false alarms second</strong><br><br>
+                    <strong>Scenario 1: Conservative (High Sensitivity)</strong><br>
+                    • Threshold = 0.4 (aggressive)<br>
+                    • Sensitivity: 95% (catch 95% of DR cases)<br>
+                    • Specificity: 70% (but 30% false alarms on healthy patients)<br>
+                    • Cost: Extra specialist reviews but saves sight<br><br>
+
+                    <strong>Scenario 2: Balanced</strong><br>
+                    • Threshold = 0.5 (default)<br>
+                    • Sensitivity: 90%, Specificity: 88%<br>
+                    • Reasonable for most hospitals<br><br>
+
+                    <strong>Scenario 3: Aggressive (High Specificity)</strong><br>
+                    • Threshold = 0.7 (conservative)<br>
+                    • Sensitivity: 70% (miss 30% of DR cases!)<br>
+                    • Specificity: 95% (few false alarms)<br>
+                    • ❌ NOT RECOMMENDED: Too many misses = preventable blindness
+                </div>
+
+                <div class="decision-box">
+                    <strong>Clinical Recommendation:</strong><br>
+                    Always optimize for SENSITIVITY ≥ 90% in clinical deployment<br>
+                    Missing DR = patient blindness<br>
+                    False alarm = doctor reviews (low cost)
+                </div>
+
+            </div>
+
+            <!-- RECOMMENDATIONS FOR PRODUCTION -->
+            <div class="section" id="recommendations">
+                <h2 class="section-title">📋 Recommendations for Production Deployment</h2>
+
+                <h3 class="subsection-subtitle">Immediate (Next 2-3 months)</h3>
+                <div class="card-box success">
+                    <ul class="list-styled">
+                        <li><strong>Select EfficientNet-B2 ensemble</strong> for hospital deployment (best
+                            accuracy-latency-interpretability balance: 92% accuracy, 150ms inference)</li>
+                        <li><strong>Build quality assessment module:</strong> Image quality classifier to flag < 10%
+                                low-quality images for manual review (handles blur, media opacity)</li>
+                        <li><strong>Implement confidence thresholding:</strong> Only auto-approve predictions with > 95%
+                            confidence, flag 0.80-0.95 for review, refer < 0.80 to specialist</li>
+                        <li><strong>Conduct multi-center validation:</strong> Test on 2-3 hospital datasets to quantify
+                            domain shift. Target: ≥ 90% sensitivity across all centers</li>
+                        <li><strong>Create clinical interface:</strong> Simple Web UI showing patient result, model
+                            confidence, ensemble voting breakdown, option for manual override</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">Medium-term (3-6 months)</h3>
+                <div class="card-box info">
+                    <ul class="list-styled">
+                        <li><strong>Seek FDA 510(k) approval:</strong> Submit ResNet50 + validation dataset from Phase
+                            5-6 testing. Use equivalent-to standard pathway (compare to gold-standard ophthalmologist
+                            grading)</li>
+                        <li><strong>Develop mobile app:</strong> MobileNetV3 (5.4M params, 88% accuracy) for rural
+                            screening. Offline capability (no internet required), runs on any smartphone</li>
+                        <li><strong>Build lesion counting module:</strong> Use Phase 5 U-Net segmentation to quantify
+                            lesion count. Allow tracking severity improvement over time</li>
+                        <li><strong>Integrate EHR:</strong> Connect to hospital systems (Cerner, Epic) for automatic
+                            patient demographic + diabetes duration lookup</li>
+                        <li><strong>Establish retraining pipeline:</strong> Monthly updates: collect new labeled images
+                            from hospital, retrain model, validate against holdout set before deployment</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">Long-term (6-12 months)</h3>
+                <div class="card-box warning">
+                    <ul class="list-styled">
+                        <li><strong>Federated learning system:</strong> Deploy model to multiple hospitals locally. Each
+                            hospital trains on its patients, sends weight updates (not raw images) to central server.
+                            Aggregate → improved global model sent back</li>
+                        <li><strong>Multimodal foundation model:</strong> Incorporate OCT (optical coherence tomography)
+                            + EHR data (HbA1c, blood pressure, diabetes duration). Target: 98%+ accuracy, predict
+                            progression 12 months ahead</li>
+                        <li><strong>Real-time video predictions:</strong> Process fundus exam video stream at 30 fps.
+                            Accumulate evidence across 300+ frames → more robust prediction than single static photo
+                        </li>
+                        <li><strong>Explainability dashboard:</strong> Grad-CAM heatmaps, Shapley value breakdowns,
+                            concept activation vectors. Doctors understand "why Grade 3" at pixel level</li>
+                        <li><strong>Privacy-preserving deployment:</strong> On-device inference using TensorFlow Lite.
+                            Model runs entirely on hospital server or patient device. Zero images sent to cloud</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- ADVANCED PREPROCESSING DETAILS -->
+            <div class="section" id="advanced">
+                <h2 class="section-title">🔬 Advanced Preprocessing Techniques</h2>
+
+                <h3 class="subsection-subtitle">Contrast Enhancement (CLAHE)</h3>
+                <div class="card-box">
+                    <strong>What:</strong> Contrast Limited Adaptive Histogram Equalization<br><br>
+                    <strong>How:</strong> Divide image into 8×8 tile regions. Apply histogram equalization
+                    locally.<br><br>
+                    <strong>Benefits:</strong><br>
+                    ✓ Restores vessel visibility in poorly lit images<br>
+                    ✓ Increases contrast of hard exudates (appear brighter, more distinct)<br>
+                    ✓ Reduces impact of illumination variation across retina<br><br>
+                    <strong>Risk:</strong> Over-enhancement amplifies image noise, makes artifacts look like
+                    lesions<br><br>
+                    <strong>Best Practice:</strong> CLAHE with clip_limit=2.0, tile_size=8×8 (OpenCV defaults)
+                </div>
+
+                <h3 class="subsection-subtitle">Gaussian Filtering for Noise Removal</h3>
+                <div class="card-box">
+                    <strong>What:</strong> Low-pass filter to remove high-frequency noise<br><br>
+                    <strong>Sigma parameter:</strong> Gaussian standard deviation<br>
+                    • Sigma=0.5: Minimal smoothing, preserves all details<br>
+                    • Sigma=1.5: Good balance (recommended)<br>
+                    • Sigma=3.0: Heavy smoothing, loses fine details<br><br>
+                    <strong>Challenge:</strong> Must be light enough to preserve microaneurysms (15-30 pixels) but heavy
+                    enough to remove camera noise<br><br>
+                    <strong>Solution:</strong> Sigma=1.5 → microaneurysms (15px) preserved, noise (1-2px) removed
+                </div>
+
+                <h3 class="subsection-subtitle">Illumination Normalization</h3>
+                <div class="card-box">
+                    <strong>Problem:</strong> Different cameras, lighting conditions create brightness variation across
+                    image<br><br>
+                    <strong>Solution approaches:</strong><br>
+                    1. <strong>Global normalization:</strong> Divide each pixel by average brightness<br>
+                    2. <strong>Local normalization:</strong> Divide by local mean (background removal)<br>
+                    3. <strong>Gamma correction:</strong> Adjust pixel^gamma to match reference brightness<br><br>
+                    <strong>Applied in preprocessing:</strong> After resize, before augmentation, to stabilize lighting
+                </div>
+
+                <h3 class="subsection-subtitle">Focal Loss for Class Imbalance</h3>
+                <div class="card-box warning">
+                    <strong>Problem:</strong> Class weighting helps but doesn't focus enough on hard negatives<br><br>
+                    <strong>Example:</strong><br>
+                    • Easy negative: No-DR image clearly has no lesions (model predicts correctly with 0.98
+                    confidence)<br>
+                    • Hard negative: No-DR image with small vessels mimicking microaneurysms (model confused, 0.55
+                    confidence)<br><br>
+                    <strong>Standard loss:</strong> Penalizes all errors equally<br>
+                    <strong>Focal loss:</strong> Down-weights easy examples, focuses on hard ones<br><br>
+                    <strong>Formula:</strong> FL = -α(1-p)^γ * log(p)<br>
+                    • γ=2 focuses on hard examples<br>
+                    • γ=0 reduces to standard cross-entropy<br><br>
+                    <strong>Result:</strong> +2-3% improvement on hard cases
+                </div>
+
+            </div>
+
+            <!-- FINAL CHECKLIST -->
+            <div class="section" id="checklist">
+                <h2 class="section-title">✅ Complete Implementation Checklist</h2>
+
+                <h3 class="subsection-subtitle">Data Preprocessing ✓</h3>
+                <div class="card-box">
+                    <ul class="list-styled">
+                        <li>☐ All images converted to RGB</li>
+                        <li>☐ Resized to consistent dimensions (224×224)</li>
+                        <li>☐ Normalized using ImageNet statistics</li>
+                        <li>☐ Train set only has augmentations applied</li>
+                        <li>☐ No data leakage between train/val/test</li>
+                        <li>☐ Class imbalance handled (weighting)</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">Data Splits ✓</h3>
+                <div class="card-box">
+                    <ul class="list-styled">
+                        <li>☐ Stratified split used (not random)</li>
+                        <li>☐ Train: Val: Test ratio 70:15:15</li>
+                        <li>☐ Each class in all splits</li>
+                        <li>☐ Random seed fixed for reproducibility</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">Performance Metrics ✓</h3>
+                <div class="card-box">
+                    <ul class="list-styled">
+                        <li>☐ Accuracy computed</li>
+                        <li>☐ Precision & Recall per class</li>
+                        <li>☐ F1-Score reported</li>
+                        <li>☐ ROC-AUC computed ⭐</li>
+                        <li>☐ Sensitivity & Specificity reported</li>
+                        <li>☐ Confusion Matrix visualized</li>
+                        <li>☐ Quadratic Kappa computed</li>
+                        <li>☐ All metrics on TEST set only</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">Clinical Validation ✓</h3>
+                <div class="card-box">
+                    <ul class="list-styled">
+                        <li>☐ Sensitivity ≥ 90%</li>
+                        <li>☐ Specificity ≥ 80%</li>
+                        <li>☐ Severe DR recall ≥ 85%</li>
+                        <li>☐ Proliferative DR recall ≥ 85%</li>
+                        <li>☐ Kappa ≥ 0.85</li>
+                        <li>☐ No class with recall < 70%</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-subtitle">Documentation ✓</h3>
+                <div class="card-box">
+                    <ul class="list-styled">
+                        <li>☐ Preprocessing steps documented</li>
+                        <li>☐ Metrics explained</li>
+                        <li>☐ Why metrics chosen (clinical context)</li>
+                        <li>☐ Trade-offs explained</li>
+                        <li>☐ Failure cases analyzed</li>
+                        <li>☐ Recommendations for improvement</li>
+                    </ul>
+                </div>
+
+                <div class="insight-box" style="margin-top: 30px;">
+                    <strong>🎯 Ready for Clinical Deployment?</strong><br>
+                    All checklists passed + all clinical criteria met → Deploy with confidence!<br>
+                    Some items unchecked → Back to Phase 2-4 for improvement
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <h5>👁️ Diabetic Retinopathy Detection: Complete Comprehensive Guide</h5>
+            <p><strong>6-Phase Progressive Development</strong> | 70% → 97% Accuracy | Clinical Partnership: Apollo Sage
+                Hospital</p>
+            <p style="margin-top: 15px; font-size: 0.95rem;">
+                Medical AI + Computer Vision | Comprehensive, clinical-grade validation framework
+            </p>
+            <p style="margin-top: 20px; font-size: 0.85rem; opacity: 0.8;">
+                Latest Update: April 22, 2026 | All information preserved from comprehensive documentation
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- Back to Top -->
+    <div class="back-to-top" id="backToTop">⬆️</div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const backToTopBtn = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

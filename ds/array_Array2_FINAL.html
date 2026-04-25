@@ -1,0 +1,1983 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Problems 26-50 | Interactive Learning Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --light-bg: #f8fafc;
+            --dark-bg: #0f172a;
+            --easy: #84fab0;
+            --medium: #ffa502;
+            --hard: #ff6b6b;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Learning Streak Bar */
+        .learning-bar {
+            background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+            padding: 12px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .streak-info {
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .streak-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .streak-item i {
+            font-size: 1.3rem;
+        }
+
+        .streak-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white !important;
+            animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .main-wrapper {
+            background: white;
+            margin: 30px auto;
+            max-width: 1400px;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: slideInDown 0.8s ease;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
+            opacity: 0.95;
+        }
+
+        .filter-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .filter-title {
+            color: white;
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn.active {
+            background: white;
+            color: #f5576c;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .content-wrapper {
+            padding: 50px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .problem-count {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        .accordion {
+            border: none;
+            margin-bottom: 15px;
+        }
+
+        .accordion-button {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            padding: 18px 20px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+            position: relative;
+        }
+
+        .accordion-button:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .problem-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            letter-spacing: 0.3px;
+        }
+
+        .accordion-button:not(.collapsed) .problem-title {
+            color: white;
+        }
+
+        .difficulty-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .difficulty-medium {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: #333;
+        }
+
+        .difficulty-easy {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            color: #333;
+        }
+
+        .difficulty-hard {
+            background: linear-gradient(135deg, #fa709a 0%, #ff6b6b 100%);
+            color: white;
+        }
+
+        .accordion-body {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        /* Creative Learning Elements */
+        .memory-anchor {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #ff6b35;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .memory-anchor i {
+            font-size: 1.5rem;
+            color: #ffd700;
+            animation: bounce 2s infinite;
+        }
+
+        .pro-tip {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #00b894;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .pro-tip i {
+            color: #00b894;
+            margin-right: 8px;
+        }
+
+        .common-mistake {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #ef5350;
+            color: #c62828;
+            font-weight: 500;
+        }
+
+        .common-mistake i {
+            color: #ef5350;
+            margin-right: 8px;
+        }
+
+        .pattern-box {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #667eea;
+            color: #333;
+            font-weight: 500;
+            font-family: 'Courier New', monospace;
+        }
+
+        .pattern-box i {
+            color: #667eea;
+            margin-right: 8px;
+        }
+
+        .learn-key {
+            background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .visual-mnemonic {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .approach-box {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--warning);
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .approach-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #ff8c00;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        .approach-steps {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .approach-steps li {
+            padding: 8px 0;
+            padding-left: 35px;
+            position: relative;
+            color: #333;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .approach-steps li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #ff8c00;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .code-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--primary);
+            margin-top: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .code-container {
+            position: relative;
+            margin: 10px 0;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #e0e0e0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            line-height: 1.7;
+            border-left: 5px solid var(--primary);
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .code-copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .code-copy-btn:hover {
+            background: var(--secondary);
+            transform: scale(1.05);
+        }
+
+        .code-copy-btn.copied {
+            background: var(--success);
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .function {
+            color: #dcdcaa;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .complexity-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .complexity-card {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--success);
+            transition: all 0.3s ease;
+        }
+
+        .complexity-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .complexity-card.space {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-left-color: var(--info);
+        }
+
+        .complexity-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #555;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .complexity-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.3px;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+            border: none;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        footer {
+            background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .filter-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .content-wrapper {
+                padding: 25px;
+            }
+
+            .complexity-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+                overflow: hidden;
+            }
+
+            to {
+                opacity: 1;
+                max-height: 2000px;
+                overflow: visible;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 1;
+                max-height: 2000px;
+                overflow: visible;
+            }
+
+            to {
+                opacity: 0;
+                max-height: 0;
+                overflow: hidden;
+            }
+        }
+
+        .problem-header-toggle {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .problem-header-toggle:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem.learned {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%) !important;
+            border-left-color: #10b981 !important;
+        }
+
+        .problem.learned .problem-header-toggle {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%) !important;
+        }
+
+        .btn-mark-learned:hover {
+            background: #059669 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-take-quiz:hover {
+            background: #2563eb !important;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-mark-learned.marked {
+            background: #10b981 !important;
+        }
+
+        .quiz-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .quiz-modal {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideInDown 0.4s ease;
+        }
+
+        .quiz-modal h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .quiz-option {
+            padding: 15px;
+            margin: 10px 0;
+            background: #f5f7fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quiz-option:hover {
+            background: #e3f2fd;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <!-- Learning Streak Bar -->
+    <div class="learning-bar">
+        <div class="streak-info">
+            <div class="streak-item">
+                <i class="fas fa-fire" style="color: #ff6b6b;"></i>
+                <span>Streak: <span class="streak-value" id="streak">0</span> days</span>
+            </div>
+            <div class="streak-item">
+                <i class="fas fa-clock" style="color: #ffa502;"></i>
+                <span>Study Time: <span class="streak-value" id="studyTime">0</span> min</span>
+            </div>
+            <div class="streak-item">
+                <i class="fas fa-brain" style="color: #667eea;"></i>
+                <span>Learned: <span class="streak-value" id="learned">0</span>/25</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top">
+                <i class="fas fa-brain"></i> 🚀 Array Mastery 26-50
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Hero Section -->
+        <div class="hero" id="top">
+            <h1>💡 Learn Array Problems Like A Pro 🧠</h1>
+            <p class="hero-subtitle">Interactive learning with memory techniques, mnemonics & spaced repetition</p>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-title"><i class="fas fa-filter"></i> 🎨 Filter by Difficulty</div>
+            <div class="filter-buttons">
+                <button class="filter-btn active">📚 All</button>
+                <button class="filter-btn">🟢 Easy</button>
+                <button class="filter-btn">🟡 Medium</button>
+                <button class="filter-btn">🔴 Hard</button>
+            </div>
+        </div>
+
+        <!-- Progress & Learning Stats -->
+        <div
+            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px 40px; color: white; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 700;"><span id="completedProblems">0</span>/25</div>
+                <div style="font-size: 0.9rem; opacity: 0.9;">Problems Learned</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 700;">🔥 <span id="currentStreak">0</span></div>
+                <div style="font-size: 0.9rem; opacity: 0.9;">Learning Streak</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; font-weight: 700;">⭐ <span id="masteredCount">0</span></div>
+                <div style="font-size: 0.9rem; opacity: 0.9;">Mastered</div>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="content-wrapper">
+            <h2 class="section-title">
+                <i class="fas fa-th"></i> 🎯 Core Problems (Click to Expand/Collapse)
+                <span class="problem-count">25</span>
+            </h2>
+
+            <!-- Accordion for Problems -->
+            <div class="accordion accordion-flush" id="problemsAccordion"
+                style="border: 2px solid #e0e0e0; border-radius: 12px; overflow: hidden;">
+                <!-- Problem 26 -->
+                <div class="problem" data-difficulty="medium" data-problem-id="26"
+                    style="position: relative; transition: all 0.3s ease;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 15px; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border-radius: 10px; margin-bottom: 15px;"
+                        class="problem-header-toggle" onclick="toggleProblem(this)">
+                        <div>
+                            <span class="difficulty-badge difficulty-medium" style="margin-right: 15px;">Medium</span>
+                            <strong style="font-size: 1.1rem;">26. Move Zeroes</strong>
+                        </div>
+                        <span style="font-size: 1.5rem; transition: transform 0.3s;">▼</span>
+                    </div>
+                    <div class="problem-content" style="display: none; animation: slideDown 0.3s ease;">
+                        <span class="difficulty-badge difficulty-medium" style="display: none;">Medium</span>
+                        <div class="problem-title" style="display: none;">26. Move Zeroes</div>
+                        <div class="problem-description">Move all zeros to the end while keeping non-zero elements in
+                            original
+                            relative order. Must do this IN-PLACE.</div>
+                        <div class="insight-box"><strong>💡 Key:</strong> Two-pointer approach where j tracks position
+                            for next
+                            non-zero element</div>
+                        <div class="approach-box">
+                            <div class="approach-title">Approach: Two Pointers</div>
+                            <ul class="approach-steps">
+                                <li>j tracks position for next non-zero</li>
+                                <li>For each non-zero at i, swap with j position</li>
+                                <li>Only increment j when placing non-zero</li>
+                            </ul>
+                        </div>
+                        <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                        <div class="code-container">
+                            <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                Copy</button>
+                            <pre>def move_zeroes(nums):
+    j = 0
+    for i in range(len(nums)):
+        if nums[i] != 0:
+            nums[j], nums[i] = nums[i], nums[j]
+            j += 1
+
+# Example: [0, 1, 0, 3, 12] → [1, 3, 12, 0, 0]</pre>
+                        </div>
+                        <div class="complexity">
+                            <div class="complexity-card">
+                                <div class="complexity-label">⏱️ Time</div>
+                                <div class="complexity-value">O(n)</div>
+                            </div>
+                            <div class="complexity-card">
+                                <div class="complexity-label">💾 Space</div>
+                                <div class="complexity-value">O(1)</div>
+                            </div>
+                        </div>
+                        <div
+                            style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #e0e0e0; display: flex; gap: 10px;">
+                            <button class="btn-mark-learned" onclick="markProblemLearned(this, 26)"
+                                style="background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; flex: 1; transition: all 0.3s;"><i
+                                    class="fas fa-check"></i> Mark as Learned</button>
+                            <button class="btn-take-quiz" onclick="takeQuiz(26)"
+                                style="background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; flex: 1; transition: all 0.3s;"><i
+                                    class="fas fa-brain"></i> Quick Quiz</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="problem" data-difficulty="medium">
+                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                    <div class="problem-title">27. Can Jump (Jump Game)</div>
+                    <div class="problem-description">From each position, you can jump UP TO nums[i] steps forward.
+                        Determine if
+                        you can reach the last index starting from index 0.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Greedy approach - track farthest reachable
+                        position at
+                        each step</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def can_jump(nums):
+    reach = 0
+    for i, num in enumerate(nums):
+        if i > reach:
+            return False
+        reach = max(reach, i + num)
+    return True
+
+# Example: [2, 3, 1, 1, 4] → True</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 28 -->
+                <div class="problem" data-difficulty="hard">
+                    <span class="difficulty-badge difficulty-hard">Hard</span>
+                    <div class="problem-title">28. Jump Game II (Minimum Jumps)</div>
+                    <div class="problem-description">Find MINIMUM number of jumps to reach last index. Guaranteed
+                        you can always
+                        reach the end.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Track 'end' of current jump range and
+                        'farthest' reachable
+                        position</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def jump_game_ii(nums):
+    jumps = end = farthest = 0
+    for i in range(len(nums) - 1):
+        farthest = max(farthest, i + nums[i])
+        if i == end:
+            jumps += 1
+            end = farthest
+    return jumps
+
+# Example: [2, 3, 1, 1, 4] → 2 jumps</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 29 -->
+                <div class="problem" data-difficulty="medium">
+                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                    <div class="problem-title">29. Pivot Index (Balance Point)</div>
+                    <div class="problem-description">Find the pivot index where sum of left elements equals sum of
+                        right
+                        elements.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Formula: left_sum == total - left_sum -
+                        nums[i]</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def pivot_index(nums):
+    total = sum(nums)
+    left = 0
+    for i, x in enumerate(nums):
+        if left == total - left - x:
+            return i
+        left += x
+    return -1
+
+# Example: [1, 7, 3, 6, 5, 6] → 3</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 30 -->
+                <div class="problem" data-difficulty="medium">
+                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                    <div class="problem-title">30. Maximum Length Subarray with Positive Product</div>
+                    <div class="problem-description">Find max length subarray with positive product.
+                        Negative×Negative=Positive,
+                        Zero resets.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Track two states: pos (positive) and neg
+                        (negative)
+                        lengths</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def max_len_positive_product(nums):
+    pos = neg = ans = 0
+    for num in nums:
+        if num == 0:
+            pos = neg = 0
+        elif num > 0:
+            pos += 1
+            neg = neg + 1 if neg else 0
+        else:
+            new_pos = neg + 1 if neg else 0
+            new_neg = pos + 1
+            pos, neg = new_pos, new_neg
+        ans = max(ans, pos)
+    return ans</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 31 -->
+                <div class="problem" data-difficulty="medium">
+                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                    <div class="problem-title">31. Remove Duplicates from Sorted Array II</div>
+                    <div class="problem-description">Remove duplicates in-place, allowing each element to appear at
+                        most TWICE.
+                        Return new length.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Compare current element with element 2
+                        positions back
+                    </div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def remove_duplicates_ii(nums):
+    if len(nums) <= 2:
+        return len(nums)
+    idx = 2
+    for i in range(2, len(nums)):
+        if nums[i] != nums[idx - 2]:
+            nums[idx] = nums[i]
+            idx += 1
+    return idx
+
+# Example: [1,1,1,2,2,3] → [1,1,2,2,3,...], length=5</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 32 -->
+                <div class="problem" data-difficulty="easy">
+                    <span class="difficulty-badge difficulty-easy">Easy</span>
+                    <div class="problem-title">32. Remove Element</div>
+                    <div class="problem-description">Remove all instances of a value in-place and return new length.
+                        Order
+                        doesn't matter.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Two pointers - k tracks write position for
+                        valid elements
+                    </div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def remove_element(nums, val):
+    k = 0
+    for num in nums:
+        if num != val:
+            nums[k] = num
+            k += 1
+    return k
+
+# Example: [3,2,2,3], val=3 → [2,2,...], length=2</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 33 -->
+                <div class="problem" data-difficulty="easy">
+                    <span class="difficulty-badge difficulty-easy">Easy</span>
+                    <div class="problem-title">33. Maximum Average Subarray I</div>
+                    <div class="problem-description">Find maximum average of any contiguous subarray of exactly k
+                        elements.
+                    </div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Sliding window - remove left element, add new
+                        right
+                        element</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def find_max_average(nums, k):
+    window_sum = sum(nums[:k])
+    max_sum = window_sum
+    for i in range(k, len(nums)):
+        window_sum += nums[i] - nums[i - k]
+        max_sum = max(max_sum, window_sum)
+    return max_sum / k
+
+# Example: [1,12,-5,-6,50,3], k=4 → 12.75</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 34 -->
+                <div class="problem" data-difficulty="hard">
+                    <span class="difficulty-badge difficulty-hard">Hard</span>
+                    <div class="problem-title">34. Count Number of Nice Subarrays (Exactly K Odds)</div>
+                    <div class="problem-description">Count subarrays that contain EXACTLY k odd numbers.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Use hash map to track prefix odd counts</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>from collections import defaultdict
+def number_of_nice_subarrays(nums, k):
+    cnt = defaultdict(int)
+    cnt[0] = 1
+    odd = res = 0
+    for num in nums:
+        odd += num & 1
+        res += cnt[odd - k]
+        cnt[odd] += 1
+    return res
+
+# Example: [1,1,2,1,1], k=3 → 2</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 35 -->
+                <div class="problem" data-difficulty="medium">
+                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                    <div class="problem-title">35. Minimum Size Subarray Sum</div>
+                    <div class="problem-description">Find minimum length subarray whose sum >= target value.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Sliding window - expand right, shrink left
+                        while sum >=
+                        target</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def min_sub_array_len(target, nums):
+    left = total = 0
+    min_len = float('inf')
+    for right in range(len(nums)):
+        total += nums[right]
+        while total >= target:
+            min_len = min(min_len, right - left + 1)
+            total -= nums[left]
+            left += 1
+    return 0 if min_len == float('inf') else min_len
+
+# Example: target=7, [2,3,1,2,4,3] → 2</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 36 -->
+                <div class="problem" data-difficulty="medium">
+                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                    <div class="problem-title">36. Spiral Matrix II</div>
+                    <div class="problem-description">Generate an n×n matrix filled with numbers 1 to n² in spiral
+                        order
+                        (clockwise).</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Track boundaries (left, right, top, bottom)
+                        and shrink
+                        after each direction</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def generate_matrix(n):
+    res = [[0]*n for _ in range(n)]
+    left, right, top, bottom = 0, n-1, 0, n-1
+    num = 1
+    
+    while left <= right and top <= bottom:
+        for j in range(left, right+1):
+            res[top][j] = num
+            num += 1
+        top += 1
+        for i in range(top, bottom+1):
+            res[i][right] = num
+            num += 1
+        right -= 1
+        if top <= bottom:
+            for j in range(right, left-1, -1):
+                res[bottom][j] = num
+                num += 1
+            bottom -= 1
+        if left <= right:
+            for i in range(bottom, top-1, -1):
+                res[i][left] = num
+                num += 1
+            left += 1
+    return res</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n²)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(n²)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 37 -->
+                <div class="problem" data-difficulty="medium">
+                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                    <div class="problem-title">37. Diagonal Traverse</div>
+                    <div class="problem-description">Traverse all elements of m×n matrix diagonally, alternating
+                        up-right then
+                        down-left directions.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Group elements by (row+col) sum - same sum =
+                        same diagonal
+                    </div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def find_diagonal_order(mat):
+    if not mat or not mat[0]:
+        return []
+    m, n = len(mat), len(mat[0])
+    res = []
+    
+    for diag_sum in range(m + n - 1):
+        diagonal = []
+        for i in range(m):
+            j = diag_sum - i
+            if 0 <= j < n:
+                diagonal.append(mat[i][j])
+        if diag_sum % 2 == 1:
+            diagonal.reverse()
+        res.extend(diagonal)
+    return res</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(m×n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(m×n)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 38 -->
+                <div class="problem" data-difficulty="easy">
+                    <span class="difficulty-badge difficulty-easy">Easy</span>
+                    <div class="problem-title">38. Matrix Reshape</div>
+                    <div class="problem-description">Reshape m×n matrix into p×q dimensions while maintaining
+                        element order
+                        (row-major).</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Index conversion: original[i][j] = flat[i*n+j]
+                    </div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def matrix_reshape(nums, r, c):
+    if len(nums) != r * c:
+        return nums
+    res = []
+    for i in range(r):
+        row = []
+        for j in range(c):
+            row.append(nums[i * c + j])
+        res.append(row)
+    return res</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(m×n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(p×q)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 39 -->
+                <div class="problem" data-difficulty="medium">
+                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                    <div class="problem-title">39. Search 2D Matrix</div>
+                    <div class="problem-description">Search for value in m×n matrix where rows and columns are
+                        sorted in
+                        ascending order.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Start from top-right corner - move left if
+                        target is
+                        smaller, down if larger</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def search_matrix(matrix, target):
+    if not matrix or not matrix[0]:
+        return False
+    row, col = 0, len(matrix[0]) - 1
+    while row < len(matrix) and col >= 0:
+        if matrix[row][col] == target:
+            return True
+        elif matrix[row][col] > target:
+            col -= 1
+        else:
+            row += 1
+    return False</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(m+n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 40 -->
+                <div class="problem" data-difficulty="easy">
+                    <span class="difficulty-badge difficulty-easy">Easy</span>
+                    <div class="problem-title">40. Toeplitz Matrix</div>
+                    <div class="problem-description">Check if matrix is Toeplitz (all diagonals have same element).
+                        Diagonals go
+                        from top-left to bottom-right.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Key property: mat[i][j] == mat[i-1][j-1]</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def is_toeplitz_matrix(matrix):
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
+            if i > 0 and j > 0:
+                if matrix[i][j] != matrix[i-1][j-1]:
+                    return False
+    return True</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(m×n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 41 -->
+                <div class="problem" data-difficulty="medium">
+                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                    <div class="problem-title">41. Maximum Sum Circular Subarray</div>
+                    <div class="problem-description">Find maximum sum of subarray in circular array (can wrap around
+                        from end to
+                        start).</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Two Kadane passes: linear max and circular max
+                        (total -
+                        min subarray)</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def max_subarray_sum_circular(nums):
+    def kadane(arr, is_min=False):
+        current = total = arr[0]
+        for num in arr[1:]:
+            current = min(num, current + num) if is_min else max(num, current + num)
+            total = min(total, current) if is_min else max(total, current)
+        return total
+    
+    linear_max = kadane(nums)
+    circular_max = sum(nums) - kadane(nums, is_min=True)
+    
+    if circular_max == 0:
+        return linear_max
+    return max(linear_max, circular_max)</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 42 -->
+                <div class="problem" data-difficulty="medium">
+                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                    <div class="problem-title">42. Rearrange Array Elements by Sign</div>
+                    <div class="problem-description">Rearrange array to alternate positive and negative numbers.
+                        Assume equal
+                        count.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Separate into two lists, then merge
+                        alternately</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def rearrange_by_sign(nums):
+    pos = [x for x in nums if x > 0]
+    neg = [x for x in nums if x < 0]
+    res = []
+    i = j = 0
+    while i < len(pos) and j < len(neg):
+        res.append(pos[i])
+        res.append(neg[j])
+        i += 1
+        j += 1
+    res.extend(pos[i:])
+    res.extend(neg[j:])
+    return res</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 43 -->
+                <div class="problem" data-difficulty="medium">
+                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                    <div class="problem-title">43. Find All Numbers Disappeared in Array</div>
+                    <div class="problem-description">Find all numbers from 1 to n that don't appear in array. Use
+                        in-place
+                        marking with O(1) space.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Use array itself as hash - negate values at
+                        indices</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def find_disappeared_numbers(nums):
+    for num in nums:
+        idx = abs(num) - 1
+        nums[idx] = -abs(nums[idx])
+    res = []
+    for i in range(len(nums)):
+        if nums[i] > 0:
+            res.append(i + 1)
+    return res</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 44 -->
+                <div class="problem" data-difficulty="easy">
+                    <span class="difficulty-badge difficulty-easy">Easy</span>
+                    <div class="problem-title">44. Check If N and Its Double Exist</div>
+                    <div class="problem-description">Check if array contains i where 2*i or i/2 also exists in
+                        array.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Hash set for O(1) lookup of doubles and halves
+                    </div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def check_if_exist(arr):
+    nums_set = set(arr)
+    for num in arr:
+        if 2 * num in nums_set or (num % 2 == 0 and num // 2 in nums_set):
+            return True
+    return False</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 45 -->
+                <div class="problem" data-difficulty="easy">
+                    <span class="difficulty-badge difficulty-easy">Easy</span>
+                    <div class="problem-title">45. Reshape 1D Array into 2D Array</div>
+                    <div class="problem-description">Reshape 1D array into m×n 2D array following row-major order.
+                    </div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Validate length, then use index conversion: i
+                        → (i//n,
+                        i%n)</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def construct_2d_array(original, m, n):
+    if len(original) != m * n:
+        return original
+    res = []
+    for i in range(m):
+        row = []
+        for j in range(n):
+            row.append(original[i * n + j])
+        res.append(row)
+    return res</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(m×n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(m×n)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 46 -->
+                <div class="problem" data-difficulty="medium">
+                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                    <div class="problem-title">46. Shortest Unsorted Continuous Subarray</div>
+                    <div class="problem-description">Find shortest subarray that, if sorted, would make entire array
+                        sorted.
+                    </div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Find leftmost and rightmost breaks, then
+                        expand boundaries
+                    </div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def find_unsorted_subarray(nums):
+    if len(nums) <= 1:
+        return 0
+    n = len(nums)
+    left, right = 0, n - 1
+    
+    while left < n - 1 and nums[left] <= nums[left + 1]:
+        left += 1
+    if left == n - 1:
+        return 0
+    
+    while right > 0 and nums[right] >= nums[right - 1]:
+        right -= 1
+    
+    sub_min = min(nums[left:right + 1])
+    sub_max = max(nums[left:right + 1])
+    
+    while left > 0 and nums[left - 1] > sub_min:
+        left -= 1
+    while right < n - 1 and nums[right + 1] < sub_max:
+        right += 1
+    
+    return right - left + 1</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 47 -->
+                <div class="problem" data-difficulty="medium">
+                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                    <div class="problem-title">47. Longest Mountain in Array</div>
+                    <div class="problem-description">Find length of longest contiguous subarray forming mountain
+                        (strictly
+                        increase then strictly decrease).</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> For each peak, expand left (increase) and
+                        right (decrease)
+                    </div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def longest_mountain(arr):
+    if len(arr) < 3:
+        return 0
+    max_len = 0
+    for i in range(1, len(arr) - 1):
+        if arr[i - 1] < arr[i] > arr[i + 1]:
+            left = i - 1
+            right = i + 1
+            while left > 0 and arr[left - 1] < arr[left]:
+                left -= 1
+            while right < len(arr) - 1 and arr[right] > arr[right + 1]:
+                right += 1
+            max_len = max(max_len, right - left + 1)
+    return max_len</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 48 -->
+                <div class="problem" data-difficulty="easy">
+                    <span class="difficulty-badge difficulty-easy">Easy</span>
+                    <div class="problem-title">48. Replace Elements with Greatest on Right Side</div>
+                    <div class="problem-description">Replace each element with greatest element to its right
+                        (rightmost element
+                        becomes -1).</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Traverse right-to-left, track running maximum
+                    </div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def replace_elements(arr):
+    result = []
+    max_on_right = -1
+    for i in range(len(arr) - 1, -1, -1):
+        result.append(max_on_right)
+        max_on_right = max(max_on_right, arr[i])
+    return result[::-1]</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(n)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 49 -->
+                <div class="problem" data-difficulty="easy">
+                    <span class="difficulty-badge difficulty-easy">Easy</span>
+                    <div class="problem-title">49. Count Negative Numbers in Sorted Matrix</div>
+                    <div class="problem-description">Count total negative numbers in m×n matrix where rows and
+                        columns are
+                        sorted in descending order.</div>
+                    <div class="insight-box"><strong>💡 Key:</strong> Start top-right, move left if negative (all
+                        left are
+                        negative too)</div>
+                    <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                    <div class="code-container">
+                        <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                            Copy</button>
+                        <pre>def count_negatives(grid):
+    count = 0
+    row, col = 0, len(grid[0]) - 1
+    while row < len(grid) and col >= 0:
+        if grid[row][col] < 0:
+            count += col + 1
+            row += 1
+        else:
+            col -= 1
+    return count</pre>
+                    </div>
+                    <div class="complexity">
+                        <div class="complexity-card">
+                            <div class="complexity-label">⏱️ Time</div>
+                            <div class="complexity-value">O(m+n)</div>
+                        </div>
+                        <div class="complexity-card">
+                            <div class="complexity-label">💾 Space</div>
+                            <div class="complexity-value">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem 50 -->
+                <div class="problem" data-difficulty="hard">
+                    <span class="difficulty-badge difficulty-hard">Hard</span>
+                    <div class="problem-title">50. Count Good Triplets</div>
+                    <div class="problem-description">Count triplets (i,j,k) where i<j<k and |arr[i]-arr[j]| +
+                            |arr[j]-arr[k]| + |arr[i]-arr[k]| <=distance.</div>
+                            <div class="insight-box"><strong>💡 Key:</strong> Brute force approach checking all
+                                triplets</div>
+                            <div class="code-label"><i class="fas fa-code"></i> Solution</div>
+                            <div class="code-container">
+                                <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                    Copy</button>
+                                <pre>def count_triplets(arr, distance):
+    count = 0
+    n = len(arr)
+    for i in range(n):
+        for j in range(i + 1, n):
+            for k in range(j + 1, n):
+                dist = abs(arr[i]-arr[j]) + abs(arr[j]-arr[k]) + abs(arr[i]-arr[k])
+                if dist <= distance:
+                    count += 1
+    return count</pre>
+                            </div>
+                            <div class="complexity">
+                                <div class="complexity-card">
+                                    <div class="complexity-label">⏱️ Time</div>
+                                    <div class="complexity-value">O(n³)</div>
+                                </div>
+                                <div class="complexity-card">
+                                    <div class="complexity-label">💾 Space</div>
+                                    <div class="complexity-value">O(1)</div>
+                                </div>
+                            </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+                <footer>
+                    <h5><i class="fas fa-book"></i> Complete Array Problems 26-50</h5>
+                    <p style="margin-bottom: 5px;">✓ All 25 Medium-Level Problems | ✓ Complete Solutions | ✓ Code
+                        Examples | ✓
+                        Complexity Analysis</p>
+                    <p style="color: #aaa; margin-bottom: 15px;">Master arrays: Two-Pointers | Sliding Window |
+                        Greedy | Matrix
+                        Operations | State Tracking | Hash Maps</p>
+                    <p style="font-size: 0.9rem; color: #999;">🚀 LeetCode DSA Mastery Series | Array Problem Set 2
+                        | April 2026
+                    </p>
+                </footer>
+
+                <!-- Back to Top Button -->
+                <button class="back-to-top" id="backToTop" onclick="scrollToTop()">
+                    <i class="fas fa-arrow-up"></i>
+                </button>
+
+                <script>
+                    // Copy Code Function
+                    function copyCode(btn) {
+                        const code = btn.nextElementSibling.innerText;
+                        navigator.clipboard.writeText(code).then(() => {
+                            const original = btn.innerHTML;
+                            btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                            setTimeout(() => {
+                                btn.innerHTML = original;
+                            }, 2000);
+                        }).catch(() => {
+                            alert('Failed to copy code');
+                        });
+                    }
+
+                    // Toggle Problem Expansion
+                    function toggleProblem(element) {
+                        const problemDiv = element.parentElement;
+                        const content = problemDiv.querySelector('.problem-content');
+                        const arrow = element.querySelector('span:last-child');
+
+                        if (content.style.display === 'none') {
+                            content.style.display = 'block';
+                            content.style.animation = 'slideDown 0.3s ease';
+                            arrow.style.transform = 'rotate(180deg)';
+                        } else {
+                            content.style.animation = 'slideUp 0.3s ease';
+                            arrow.style.transform = 'rotate(0deg)';
+                            setTimeout(() => {
+                                content.style.display = 'none';
+                            }, 300);
+                        }
+                    }
+
+                    // Mark Problem as Learned
+                    function markProblemLearned(btn, problemId) {
+                        const problemDiv = btn.closest('.problem');
+                        const learned = JSON.parse(localStorage.getItem('learnedProblems') || '[]');
+
+                        if (!learned.includes(problemId)) {
+                            learned.push(problemId);
+                            btn.innerHTML = '<i class="fas fa-check-circle"></i> ✓ Learned!';
+                            btn.style.background = '#10b981';
+                            problemDiv.classList.add('learned');
+                            problemDiv.style.background = 'linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%)';
+                            problemDiv.style.borderLeft = '5px solid #10b981';
+                        }
+
+                        localStorage.setItem('learnedProblems', JSON.stringify(learned));
+                        updateProgressStats();
+                    }
+
+                    // Take Quick Quiz
+                    function takeQuiz(problemId) {
+                        const quizzes = {
+                            26: { question: '🎯 What data structure is used in Move Zeroes?', options: ['Two Pointers', 'Stack', 'Queue', 'HashMap'], answer: 0 },
+                            27: { question: '🎯 What approach works for Can Jump?', options: ['Greedy', 'DP', 'BFS', 'DFS'], answer: 0 },
+                            28: { question: '🎯 How do we track jump range in Jump Game II?', options: ['Single pointer', 'Two pointers (end, farthest)', 'Queue', 'Set'], answer: 1 }
+                        };
+
+                        if (!quizzes[problemId]) return alert('Quiz not available');
+
+                        const q = quizzes[problemId];
+                        const overlay = document.createElement('div');
+                        overlay.className = 'quiz-overlay';
+                        overlay.innerHTML = `
+                                <div class="quiz-modal">
+                                    <h3>${q.question}</h3>
+                                    ${q.options.map((opt, idx) => `
+                                        <div class="quiz-option" onclick="checkQuizAnswer(${idx}, ${q.answer}, this)">
+                                            ${String.fromCharCode(65 + idx)}. ${opt}
+                                        </div>
+                                    `).join('')}
+                                    <button onclick="this.closest('.quiz-overlay').remove()" style="margin-top: 20px; width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Close</button>
+                                </div>
+                            `;
+                        document.body.appendChild(overlay);
+                    }
+
+                    // Check Quiz Answer
+                    function checkQuizAnswer(selected, correct, element) {
+                        if (selected === correct) {
+                            element.style.background = '#d4edda';
+                            element.style.borderColor = '#28a745';
+                            element.innerHTML += ' ✓ Correct!';
+                            setTimeout(() => {
+                                document.querySelector('.quiz-overlay').remove();
+                            }, 1500);
+                        } else {
+                            element.style.background = '#f8d7da';
+                            element.style.borderColor = '#f5576c';
+                            element.innerHTML += ' ✗ Try again!';
+                        }
+                    }
+
+                    // Update Progress Statistics
+                    function updateProgressStats() {
+                        const learned = JSON.parse(localStorage.getItem('learnedProblems') || '[]');
+                        document.getElementById('completedProblems').textContent = learned.length;
+                        document.getElementById('masteredCount').textContent = Math.floor(learned.length / 5);
+
+                        // Update streak
+                        const lastDate = localStorage.getItem('lastLearningDate');
+                        const today = new Date().toDateString();
+                        if (lastDate !== today && learned.length > 0) {
+                            const streak = parseInt(localStorage.getItem('learningStreak') || '0') + 1;
+                            localStorage.setItem('learningStreak', streak);
+                            localStorage.setItem('lastLearningDate', today);
+                            document.getElementById('currentStreak').textContent = streak;
+                        } else if (lastDate === today) {
+                            document.getElementById('currentStreak').textContent = localStorage.getItem('learningStreak') || '0';
+                        }
+                    }
+
+                    // Initialize on page load
+                    window.addEventListener('load', () => {
+                        updateProgressStats();
+                        const learned = JSON.parse(localStorage.getItem('learnedProblems') || '[]');
+                        learned.forEach(id => {
+                            const problemDiv = document.querySelector(`[data-problem-id="${id}"]`);
+                            if (problemDiv) {
+                                problemDiv.classList.add('learned');
+                                problemDiv.style.background = 'linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%)';
+                            }
+                        });
+                    });
+
+                    // Filter Problems Function
+                    function filterProblems(difficulty) {
+                        const problems = document.querySelectorAll('.problem');
+                        document.querySelectorAll('.filter-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        event.target.classList.add('active');
+
+                        problems.forEach(problem => {
+                            if (difficulty === 'all' || problem.dataset.difficulty === difficulty) {
+                                problem.classList.remove('hidden');
+                            } else {
+                                problem.classList.add('hidden');
+                            }
+                        });
+                    }
+
+                    // Back to Top Functionality
+                    const backToTopBtn = document.getElementById('backToTop');
+                    window.addEventListener('scroll', () => {
+                        if (window.pageYOffset > 300) {
+                            backToTopBtn.classList.add('show');
+                        } else {
+                            backToTopBtn.classList.remove('show');
+                        }
+                    });
+
+                    function scrollToTop() {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    }
+                </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

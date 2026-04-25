@@ -1,0 +1,1649 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS Microservices Architecture - Complete Technical Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --light-bg: #f8fafc;
+            --dark-bg: #0f172a;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white !important;
+        }
+
+        .main-wrapper {
+            background: white;
+            margin: 30px auto;
+            max-width: 1400px;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .toc-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px;
+            margin: 0;
+        }
+
+        .toc-section h2 {
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .toc-item {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid white;
+        }
+
+        .toc-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            background: white;
+        }
+
+        .toc-item a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .toc-item small {
+            display: block;
+            margin-top: 8px;
+            color: #666;
+        }
+
+        .content-wrapper {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 3px solid var(--light-bg);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-bottom: 4px solid var(--info);
+            padding-bottom: 15px;
+        }
+
+        .subsection-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-left: 5px solid var(--info);
+            padding-left: 20px;
+        }
+
+        .subsection-subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 5px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card.critical {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            border-left-color: var(--warning);
+        }
+
+        .service-card.data {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-left-color: var(--info);
+        }
+
+        .service-card.processing {
+            background: linear-gradient(135deg, #d4fc79 0%, #96f97b 100%);
+            border-left-color: var(--success);
+        }
+
+        .card-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 5px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .card-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-box.success {
+            background: linear-gradient(135deg, #d4fc79 0%, #96f97b 100%);
+            border-left-color: var(--success);
+        }
+
+        .card-box.warning {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            border-left-color: var(--warning);
+        }
+
+        .card-box.info {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-left-color: var(--info);
+        }
+
+        .card-box.danger {
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);
+            border-left-color: var(--danger);
+        }
+
+        .architecture-box {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 20px 0;
+            line-height: 1.6;
+            border-left: 5px solid var(--info);
+        }
+
+        .table-custom {
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        .table-custom thead th {
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            color: white;
+            font-weight: 700;
+            border: none;
+            padding: 15px;
+        }
+
+        .table-custom td {
+            padding: 12px 15px;
+            border-color: #e2e8f0;
+        }
+
+        .table-custom tbody tr:hover {
+            background: var(--light-bg);
+        }
+
+        .key-point {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe0b2 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .emoji-flow {
+            font-size: 1.5rem;
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+
+        .badge-custom {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin: 5px;
+            font-size: 0.9rem;
+        }
+
+        .badge-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .badge-success {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            color: #333;
+        }
+
+        .badge-warning {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: #333;
+        }
+
+        .badge-info {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+        }
+
+        .list-styled {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-styled li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .list-styled li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .hierarchy-tree {
+            background: #f8f9fa;
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .comparison-item strong {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        footer {
+            background: #1a202c;
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 50px;
+        }
+
+        .code-inline {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .highlight {
+            background: #ffd700;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* Enhanced Readability Styles */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .section-header::before {
+            content: '';
+            width: 5px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            border-radius: 3px;
+        }
+
+        .subsection-box {
+            background: #f9fafb;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .subsection-box:hover {
+            background: #f3f4f6;
+            border-left-color: var(--info);
+        }
+
+        .service-item {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .service-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .service-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .service-item h4 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .service-port {
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .feature-item {
+            background: rgba(102, 126, 234, 0.05);
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid var(--primary);
+            font-size: 0.95rem;
+        }
+
+        .tech-stack {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: #e2e8f0;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-top: 12px;
+        }
+
+        .flow-diagram {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px dashed #dee2e6;
+            text-align: center;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--info) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-box-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-box-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .tabs-container {
+            margin: 20px 0;
+        }
+
+        .tab-content {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 3px solid var(--primary);
+        }
+
+        .colored-section {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            display: inline-block;
+            margin: 2px;
+        }
+
+        .section-category-auth {
+            background: linear-gradient(135deg, #fee140 0%, #fa709a 100%);
+            color: #333;
+        }
+
+        .section-category-data {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            color: #333;
+        }
+
+        .section-category-processing {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: #333;
+        }
+
+        .section-category-ai {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .content-wrapper {
+                padding: 25px;
+            }
+
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top">🏢 ATS Microservices Architecture</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#microservices">Microservices</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#jenkins-pipeline">Jenkins CI/CD</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#deployment">Deployment</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Hero Section -->
+        <div class="hero" id="top">
+            <h1>🔬 ATS Microservices: Complete Architecture Guide</h1>
+            <p>15 Microservices | Jenkins CI/CD Pipeline | Enterprise Recruitment Platform</p>
+        </div>
+
+        <!-- Table of Contents Section -->
+        <div class="toc-section">
+            <div class="container-fluid">
+                <h2>📑 Contents Overview</h2>
+                <div class="toc-grid">
+                    <div class="toc-item">
+                        <a href="#microservices">🛠️ Microservices Overview</a>
+                        <small>15 core services for recruitment</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#services-detailed">📋 Service Descriptions</a>
+                        <small>Detailed functionality breakdown</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#jenkins-pipeline">🔄 Jenkins CI/CD Pipeline</a>
+                        <small>Build & deployment automation</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#deployment">🚀 Deployment Strategy</a>
+                        <small>Environment configuration & ports</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#credentials">🔐 Credentials & Security</a>
+                        <small>Jenkins secrets management</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#monitoring">📊 Monitoring & Logging</a>
+                        <small>Observability & troubleshooting</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="content-wrapper">
+
+            <!-- MICROSERVICES OVERVIEW -->
+            <div class="section" id="microservices">
+                <h2 class="section-title">🛠️ Microservices Architecture Overview</h2>
+
+                <div class="key-point">
+                    <strong>🎯 Core Purpose:</strong> 15 loosely-coupled microservices form a comprehensive Applicant
+                    Tracking System (ATS) with AI-powered recruitment capabilities
+                </div>
+
+                <h3 class="subsection-title">Architecture Layers</h3>
+
+                <div class="hierarchy-tree">
+                    ├── <strong>Authentication & Authorization (Layer 1)</strong>
+                    │ ├── Login Service (8500)
+                    │ └── RBAC Service (8504)
+                    │
+                    ├── <strong>Core Data Management (Layer 2)</strong>
+                    │ ├── Candidate Service (8503)
+                    │ ├── Company Service (8506)
+                    │ ├── Job Service (8507)
+                    │ └── Job Description Service (8084, 8509)
+                    │
+                    ├── <strong>Document Processing (Layer 3)</strong>
+                    │ ├── File Handler Service (8501)
+                    │ ├── Resume Analyzer (8512)
+                    │ └── Web Scraping Service (8502)
+                    │
+                    ├── <strong>AI Processing (Layer 4)</strong>
+                    │ ├── Candidate Recommendation (AI-powered matching)
+                    │ ├── Skill Assessment Service (8084)
+                    │ └── Job Agents Service (8510)
+                    │
+                    ├── <strong>Orchestration (Layer 5)</strong>
+                    │ ├── Pipeline Service (8505)
+                    │ └── Status Service (8515)
+                    │
+                    └── <strong>Infrastructure</strong>
+                    ├── MySQL Database
+                    ├── Redis Cache
+                    ├── Celery Task Queue
+                    └── Docker Containers
+                </div>
+
+                <h3 class="subsection-title">Service Communication Flow</h3>
+
+                <div class="emoji-flow">
+                    📝 Resume Upload → 📂 File Handler → 🧠 Resume Analyzer → 💾 Candidate Service → 🤖 Recommendation
+                    Engine
+                </div>
+
+                <div class="emoji-flow">
+                    📋 Job Posted → 🔍 Web Scraper → 💼 Job Service → 📊 Pipeline Orchestration → ✉️ Job Agents
+                    (Marketing)
+                </div>
+
+            </div> <!-- End Microservices Overview -->
+
+            <!-- DETAILED SERVICE DESCRIPTIONS -->
+            <div class="section" id="services-detailed">
+                <h2 class="section-title">📋 15 Microservices - Organized by Function</h2>
+
+                <!-- Statistics -->
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <div class="stat-box-value">15</div>
+                        <div class="stat-box-label">Microservices</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-box-value">13</div>
+                        <div class="stat-box-label">Ports (8500-8515)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-box-value">5</div>
+                        <div class="stat-box-label">Service Layers</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-box-value">100%</div>
+                        <div class="stat-box-label">Containerized</div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Authentication & Security Services -->
+                <h3 class="subsection-title">🔐 Authentication & Security Services</h3>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>🔑 AI_AGENT_LOGIN1_Service</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">Critical authentication and user
+                                management</p>
+                        </div>
+                        <span class="service-port">Port 8500</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ JWT token generation</div>
+                        <div class="feature-item">✓ Role-based access (Admin, User, Moderator, Guest)</div>
+                        <div class="feature-item">✓ MySQL persistent storage</div>
+                        <div class="feature-item">✓ Account status validation</div>
+                        <div class="feature-item">✓ Audit trails</div>
+                        <div class="feature-item">✓ Soft delete support</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Python 3.8+ • MySQL • JWT • bcrypt</div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>🛡️ AI_AGENT11_RBAC_Service</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">Role-Based Access Control
+                                enforcement</p>
+                        </div>
+                        <span class="service-port">Port 8504</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Hierarchical roles</div>
+                        <div class="feature-item">✓ Fine-grained permissions</div>
+                        <div class="feature-item">✓ Permission validation</div>
+                        <div class="feature-item">✓ Custom role creation</div>
+                        <div class="feature-item">✓ Compliance audit trails</div>
+                        <div class="feature-item">✓ Login Service integration</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Poetry • Python 3.13</div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Core Data Management Services -->
+                <h3 class="subsection-title">💾 Core Data Management Services</h3>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>👥 AI_AGENT6_Candidate_Service</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">Central candidate data repository
+                            </p>
+                        </div>
+                        <span class="service-port">Port 8503</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Complete candidate profiles</div>
+                        <div class="feature-item">✓ Qualifications tracking</div>
+                        <div class="feature-item">✓ CRUD operations</div>
+                        <div class="feature-item">✓ Resume Analyzer integration</div>
+                        <div class="feature-item">✓ Complex filtering</div>
+                        <div class="feature-item">✓ Application management</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Python 3.8+ • MySQL</div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>🏢 AI_AGENT9_COMPANY_SERVICE</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">Company and organizational
+                                management</p>
+                        </div>
+                        <span class="service-port">Port 8506</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Company profiles</div>
+                        <div class="feature-item">✓ SPOC assignments</div>
+                        <div class="feature-item">✓ Contact management</div>
+                        <div class="feature-item">✓ Hierarchy tracking</div>
+                        <div class="feature-item">✓ Audit trails</div>
+                        <div class="feature-item">✓ Multi-org support</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Python 3.8+ • MySQL</div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>📋 AI_AGENT10_JOB_SERVICE</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">Job posting and lifecycle
+                                management</p>
+                        </div>
+                        <span class="service-port">Port 8507</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Full CRUD operations</div>
+                        <div class="feature-item">✓ Metadata management</div>
+                        <div class="feature-item">✓ JWT authentication</div>
+                        <div class="feature-item">✓ User assignments</div>
+                        <div class="feature-item">✓ Pipeline tracking</div>
+                        <div class="feature-item">✓ SQLAlchemy ORM</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Python 3.13 • MySQL • SQLAlchemy</div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Document Processing Services -->
+                <h3 class="subsection-title">📂 Document Processing Services</h3>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>📁 AI_AGENT1_File_Handler</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">File upload and document
+                                management</p>
+                        </div>
+                        <span class="service-port">Port 8501</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ File upload handling</div>
+                        <div class="feature-item">✓ Document parsing</div>
+                        <div class="feature-item">✓ OCR processing</div>
+                        <div class="feature-item">✓ Llama Parse API</div>
+                        <div class="feature-item">✓ Storage management</div>
+                        <div class="feature-item">✓ Detailed logging</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Python 3.8+ • Llama Parse API</div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>📄 AI_AGENT3_Resume_Analyzer</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">AI-powered resume processing</p>
+                        </div>
+                        <span class="service-port">Port 8512</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Resume extraction</div>
+                        <div class="feature-item">✓ OCR for scanned documents</div>
+                        <div class="feature-item">✓ Position recommendations</div>
+                        <div class="feature-item">✓ Base64 input support</div>
+                        <div class="feature-item">✓ Celery background workers</div>
+                        <div class="feature-item">✓ Concurrent processing</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Python 3.8+ • Celery • NLP/OCR</div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>🕷️ AI_AGENT1_WEB_SCRAPE_SERVICE</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">Web data extraction and
+                                intelligence</p>
+                        </div>
+                        <span class="service-port">Port 8502</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Multi-tech support (Scrapy, Firecrawl)</div>
+                        <div class="feature-item">✓ Website crawling</div>
+                        <div class="feature-item">✓ Data extraction</div>
+                        <div class="feature-item">✓ Data preprocessing</div>
+                        <div class="feature-item">✓ Chrome driver compatible</div>
+                        <div class="feature-item">✓ Job posting scraping</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Python 3.8+ • Scrapy • Firecrawl</div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- AI & Intelligent Processing Services -->
+                <h3 class="subsection-title">🤖 AI & Intelligent Processing Services</h3>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>🧠 AI_AGENT_CANDIDATE_RECOMMENDATION_SYSTEM</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">Semantic candidate-to-job
+                                matching</p>
+                        </div>
+                        <span class="service-port">ML Engine</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Sentence-BERT semantic matching</div>
+                        <div class="feature-item">✓ Cross-encoder reranking</div>
+                        <div class="feature-item">✓ Structured field matching</div>
+                        <div class="feature-item">✓ Role-based access</div>
+                        <div class="feature-item">✓ GPU acceleration (5-10x faster)</div>
+                        <div class="feature-item">✓ Sub-5-second responses</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Sentence-BERT • Python 3.8+ • GPU (optional)</div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>📝 AI_AGENT5_SKILL_ASSESSMENT</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">Comprehensive skill testing</p>
+                        </div>
+                        <span class="service-port">Port 8084</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Test creation</div>
+                        <div class="feature-item">✓ Multiple question types</div>
+                        <div class="feature-item">✓ Time limits & marks</div>
+                        <div class="feature-item">✓ Result tracking</div>
+                        <div class="feature-item">✓ Soft deletes</div>
+                        <div class="feature-item">✓ Skill gap analysis</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Python 3.8+ • MySQL</div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>📢 AIAGENT14_JOB_AGENTS_SERVICE</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">AI job post generation</p>
+                        </div>
+                        <span class="service-port">Port 8510</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Google Gemini AI</div>
+                        <div class="feature-item">✓ HTML generation</div>
+                        <div class="feature-item">✓ Multi-platform optimization</div>
+                        <div class="feature-item">✓ Multiple languages</div>
+                        <div class="feature-item">✓ Celery background tasks</div>
+                        <div class="feature-item">✓ WebSocket real-time updates</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Python 3.13 • Google Gemini • Celery • Redis</div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Job Description Services -->
+                <h3 class="subsection-title">📋 Job Description Services</h3>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>💼 AI_AGENT2_Job_Description_Service</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">Job description storage &
+                                retrieval</p>
+                        </div>
+                        <span class="service-port">Port 8084</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ REST APIs</div>
+                        <div class="feature-item">✓ CRUD operations</div>
+                        <div class="feature-item">✓ Service integration</div>
+                        <div class="feature-item">✓ Audit trails</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Python 3.8+ • MySQL</div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>✨ AI_AGENT2_Job_Description_Svc</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">AI job description generation</p>
+                        </div>
+                        <span class="service-port">Port 8509</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ AI generation</div>
+                        <div class="feature-item">✓ Celery background tasks</div>
+                        <div class="feature-item">✓ Real-time progress</div>
+                        <div class="feature-item">✓ Iterative refinement</div>
+                        <div class="feature-item">✓ Market data gathering</div>
+                        <div class="feature-item">✓ WebSocket updates</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Poetry • Python 3.8+ • Celery • Redis</div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Orchestration & Monitoring Services -->
+                <h3 class="subsection-title">🎯 Orchestration & Monitoring Services</h3>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>🔗 AGENT11_PIPELINE_SERVICE</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">Workflow orchestration</p>
+                        </div>
+                        <span class="service-port">Port 8505</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Pipeline management</div>
+                        <div class="feature-item">✓ Workflow coordination</div>
+                        <div class="feature-item">✓ Multi-step orchestration</div>
+                        <div class="feature-item">✓ Swagger documentation</div>
+                        <div class="feature-item">✓ Execution monitoring</div>
+                        <div class="feature-item">✓ Agent coordination</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Python 3.8+</div>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-item-header">
+                        <div>
+                            <h4>📊 AI_AGENT15_STATUS_SERVICE</h4>
+                            <p style="margin: 5px 0; color: #666; font-size: 0.95rem;">Real-time task monitoring</p>
+                        </div>
+                        <span class="service-port">Port 8515</span>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Celery task tracking</div>
+                        <div class="feature-item">✓ WebSocket connections</div>
+                        <div class="feature-item">✓ Redis integration</div>
+                        <div class="feature-item">✓ Task history storage</div>
+                        <div class="feature-item">✓ REST APIs</div>
+                        <div class="feature-item">✓ Live progress updates</div>
+                    </div>
+                    <div class="tech-stack">📦 FastAPI • Python 3.13 • Redis • MySQL • WebSocket</div>
+                </div>
+
+            </div> <!-- End Service Descriptions -->
+
+            <!-- JENKINS CI/CD PIPELINE -->
+            <div class="section" id="jenkins-pipeline">
+                <h2 class="section-title">🔄 Jenkins CI/CD Pipeline Architecture</h2>
+
+                <div class="key-point">
+                    <strong>🎯 Purpose:</strong> Automated build, test, and deployment for all 13 ATS microservices with
+                    Docker containerization
+                </div>
+
+                <div class="stats-container" style="margin-bottom: 30px;">
+                    <div class="stat-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div class="stat-box-value">1</div>
+                        <div class="stat-box-label">Active Branch (QA)</div>
+                    </div>
+                    <div class="stat-box" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <div class="stat-box-value">7</div>
+                        <div class="stat-box-label">Pipeline Stages</div>
+                    </div>
+                    <div class="stat-box" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <div class="stat-box-value">0</div>
+                        <div class="stat-box-label">Concurrent Builds</div>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">📊 Pipeline Flow Overview</h3>
+
+                <div class="flow-diagram">
+                    🔗 GitHub Webhook → 🔐 Guard Branch → ⚙️ Init → 📥 Checkout →<br>
+                    🐳 Build Image → 🛑 Stop Container → 🚀 Run Container → ✅ Done
+                </div>
+
+                <h3 class="subsection-title">🎯 Pipeline Stages (Detailed)</h3>
+
+                <div class="service-item">
+                    <h4 style="margin-top: 0;">1️⃣ Guard Branch - Validation</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Checks if branch is 'qa'</div>
+                        <div class="feature-item">✓ Skips non-qa commits</div>
+                        <div class="feature-item">✓ Prevents unexpected deployments</div>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <h4 style="margin-top: 0;">2️⃣ Init - Environment Setup</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Loads environment variables</div>
+                        <div class="feature-item">✓ Loads Jenkins credentials</div>
+                        <div class="feature-item">✓ Sets APP_ENV, APP_PORT</div>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <h4 style="margin-top: 0;">3️⃣ Checkout - Source Code</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Clones from repository</div>
+                        <div class="feature-item">✓ Fetches latest changes</div>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <h4 style="margin-top: 0;">4️⃣ Build Image - Docker Build</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Creates Docker image</div>
+                        <div class="feature-item">✓ Tags with environment</div>
+                        <div class="feature-item">✓ Runs on 'qa' branch only</div>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <h4 style="margin-top: 0;">5️⃣ Stop Old Container - Cleanup</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Gracefully stops container</div>
+                        <div class="feature-item">✓ Removes old resources</div>
+                        <div class="feature-item">✓ Ignores if not running</div>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <h4 style="margin-top: 0;">6️⃣ Run Container - Deployment</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Launches new container</div>
+                        <div class="feature-item">✓ Injects credentials</div>
+                        <div class="feature-item">✓ Mounts volumes</div>
+                        <div class="feature-item">✓ Connects to network</div>
+                        <div class="feature-item">✓ Maps ports</div>
+                        <div class="feature-item">✓ Auto-restart on failure</div>
+                    </div>
+                </div>
+
+                <div class="service-item">
+                    <h4 style="margin-top: 0;">7️⃣ Post - Reporting & Cleanup</h4>
+                    <div class="features-grid">
+                        <div class="feature-item">✓ Generates build report</div>
+                        <div class="feature-item">✓ Sends notifications</div>
+                        <div class="feature-item">✓ Performs cleanup</div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <h3 class="subsection-title">⚙️ Build Configuration</h3>
+
+                <div class="subsection-box">
+                    <strong style="color: var(--primary); font-size: 1.05rem;">🔒 Concurrent Builds: DISABLED</strong>
+                    <p style="margin: 10px 0 0 0;">Prevents simultaneous deployments of the same service, ensuring
+                        sequential and ordered execution</p>
+                </div>
+
+                <div class="subsection-box">
+                    <strong style="color: var(--primary); font-size: 1.05rem;">🌿 Branch Filtering: QA ONLY</strong>
+                    <p style="margin: 10px 0 0 0;">Only commits to 'qa' branch trigger builds. Guard stage validates
+                        branch name early</p>
+                </div>
+
+            </div> <!-- End Jenkins Pipeline -->
+
+            <!-- DEPLOYMENT STRATEGY -->
+            <div class="section" id="deployment">
+                <h2 class="section-title">🚀 Deployment Strategy & Environment Configuration</h2>
+
+                <h3 class="subsection-title">📊 Environment Status Overview</h3>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item"
+                        style="border: 3px solid #10b981; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(132, 250, 176, 0.1) 100%);">
+                        <strong style="color: #10b981; font-size: 1.1rem;">✅ QA (Active)</strong>
+                        <p style="margin: 10px 0; font-size: 1.3rem; font-weight: 700; color: #0d8659;">Ports: 8500-8515
+                        </p>
+                        <small>Currently Deployed & Operating</small>
+                    </div>
+                    <div class="comparison-item" style="border: 3px solid #f59e0b;">
+                        <strong style="color: #f59e0b; font-size: 1.1rem;">⏸️ Dev (Disabled)</strong>
+                        <p style="margin: 10px 0; font-size: 1.3rem; font-weight: 700; color: #d97706;">Ports: 8400-8415
+                        </p>
+                        <small>Configured but Not Active</small>
+                    </div>
+                    <div class="comparison-item" style="border: 3px solid #ef4444;">
+                        <strong style="color: #ef4444; font-size: 1.1rem;">⏸️ Prod (Disabled)</strong>
+                        <p style="margin: 10px 0; font-size: 1.3rem; font-weight: 700; color: #b91c1c;">Ports: 8600-8615
+                        </p>
+                        <small>Configured but Not Active</small>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <h3 class="subsection-title">🐳 Docker Networking & Services</h3>
+
+                <div class="subsection-box">
+                    <strong style="color: var(--primary);">Network: <span
+                            class="code-inline">ats-qa-network</span></strong>
+                    <p style="margin: 10px 0 0 0;">All 15 microservices connected to a shared Docker network for
+                        inter-service communication using container names as hostnames</p>
+                </div>
+
+                <h3 class="subsection-title">📋 Service Port Mapping (QA Environment)</h3>
+
+                <table class="table table-hover table-custom">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">Service Name</th>
+                            <th style="width: 25%;">Container Name</th>
+                            <th style="width: 15%;">Port</th>
+                            <th style="width: 35%;">Docker Image</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #f0f9ff;">
+                            <td><strong>🔑 Login Service</strong></td>
+                            <td><code>ats-agent-login1-qa</code></td>
+                            <td><span class="badge badge-primary" style="padding: 5px 10px;">8500</span></td>
+                            <td><code>ats-agent-login1-service:qa</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>📁 File Handler</strong></td>
+                            <td><code>ats-agent-file1-qa</code></td>
+                            <td><span class="badge badge-primary" style="padding: 5px 10px;">8501</span></td>
+                            <td><code>ats-agent-file1-service:qa</code></td>
+                        </tr>
+                        <tr style="background: #f0f9ff;">
+                            <td><strong>🕷️ Web Scraping</strong></td>
+                            <td><code>ats-agent1-web-scrape-qa</code></td>
+                            <td><span class="badge badge-primary" style="padding: 5px 10px;">8502</span></td>
+                            <td><code>ats-agent1-web-scrape-service:qa</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>👥 Candidate Service</strong></td>
+                            <td><code>ats-agent-candidate1-qa</code></td>
+                            <td><span class="badge badge-primary" style="padding: 5px 10px;">8503</span></td>
+                            <td><code>ats-agent-candidate1-service:qa</code></td>
+                        </tr>
+                        <tr style="background: #f0f9ff;">
+                            <td><strong>🛡️ RBAC Service</strong></td>
+                            <td><code>ats-agent11-rbac-qa</code></td>
+                            <td><span class="badge badge-primary" style="padding: 5px 10px;">8504</span></td>
+                            <td><code>ats-agent11-rbac-service:qa</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>🔗 Pipeline Service</strong></td>
+                            <td><code>ats-agent11-pipeline-qa</code></td>
+                            <td><span class="badge badge-primary" style="padding: 5px 10px;">8505</span></td>
+                            <td><code>ats-agent11-pipeline-service:qa</code></td>
+                        </tr>
+                        <tr style="background: #f0f9ff;">
+                            <td><strong>🏢 Company Service</strong></td>
+                            <td><code>ats-agent-company1-qa</code></td>
+                            <td><span class="badge badge-primary" style="padding: 5px 10px;">8506</span></td>
+                            <td><code>ats-agent-company1-service:qa</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>📋 Job Service</strong></td>
+                            <td><code>ats-agent10-job-qa</code></td>
+                            <td><span class="badge badge-primary" style="padding: 5px 10px;">8507</span></td>
+                            <td><code>ats-agent10-job-service:qa</code></td>
+                        </tr>
+                        <tr style="background: #f0f9ff;">
+                            <td><strong>✨ Job Description Svc</strong></td>
+                            <td><code>ats-agent-jd-qa</code></td>
+                            <td><span class="badge badge-primary" style="padding: 5px 10px;">8509</span></td>
+                            <td><code>ats-agent-jd-service:qa</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>📢 Job Agents Service</strong></td>
+                            <td><code>ats-agent-job-agents1-qa</code></td>
+                            <td><span class="badge badge-primary" style="padding: 5px 10px;">8510</span></td>
+                            <td><code>ats-agent-job-agents1-service:qa</code></td>
+                        </tr>
+                        <tr style="background: #f0f9ff;">
+                            <td><strong>📄 Resume Analyzer</strong></td>
+                            <td><code>ats-agent-resume-qa</code></td>
+                            <td><span class="badge badge-primary" style="padding: 5px 10px;">8512</span></td>
+                            <td><code>ats-agent-resume-analyzer:qa</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>📊 Status Service</strong></td>
+                            <td><code>ats-agent15-status-qa</code></td>
+                            <td><span class="badge badge-primary" style="padding: 5px 10px;">8515</span></td>
+                            <td><code>ats-agent15-status-service:qa</code></td>
+                        </tr>
+                        <tr style="background: #f0f9ff;">
+                            <td><strong>📝 Skill Assessment</strong></td>
+                            <td><code>ats-agent5-skill-assessment-qa</code></td>
+                            <td><span class="badge badge-primary" style="padding: 5px 10px;">8084</span></td>
+                            <td><code>ats-agent5-skill-assessment:qa</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="divider"></div>
+
+                <h3 class="subsection-title">🔢 Port Numbering Scheme</h3>
+
+                <div class="subsection-box">
+                    <strong style="color: var(--primary); font-family: 'Courier New', monospace;">Format: 8 [ENV]
+                        [SERVICE]</strong>
+                    <div style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <strong>Environment Codes:</strong>
+                            <ul class="list-styled" style="font-size: 0.95rem;">
+                                <li>4 = Dev</li>
+                                <li>5 = QA (Active)</li>
+                                <li>6 = Production</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <strong>Service Codes:</strong>
+                            <ul class="list-styled" style="font-size: 0.95rem;">
+                                <li>00-99 = Different services</li>
+                                <li>Range: 8500-8515</li>
+                                <li>Example: 8500 = QA + Login</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <h3 class="subsection-title">📦 Volume Mount Strategy</h3>
+
+                <div class="service-item">
+                    <h4 style="margin-top: 0;">Persistent Data Mapping</h4>
+                    <div class="architecture-box" style="padding: 15px;">
+                        <strong style="display: block; margin-bottom: 12px;">📂 Mounted Directories:</strong>
+                        <div style="font-size: 0.9rem; line-height: 1.9;">
+                            <div>📋 <strong>/LOGS</strong> → Application & service logs</div>
+                            <div>📁 <strong>/FILES</strong> → Uploaded & processed documents</div>
+                            <div>📊 <strong>/EXCELS</strong> → Excel file storage</div>
+                            <div>🖼️ <strong>/IMAGES</strong> → Image files & assets</div>
+                        </div>
+                    </div>
+                    <div class="features-grid" style="margin-top: 12px;">
+                        <div class="feature-item">✓ Persist across restarts</div>
+                        <div class="feature-item">✓ Shared access from Jenkins</div>
+                        <div class="feature-item">✓ Centralized storage</div>
+                        <div class="feature-item">✓ Easy independent backups</div>
+                    </div>
+                </div>
+
+            </div> <!-- End Deployment -->
+
+            <!-- CREDENTIALS & SECURITY -->
+            <div class="section" id="credentials">
+                <h2 class="section-title">🔐 Jenkins Credentials & Security Management</h2>
+
+                <h3 class="subsection-title">Credential Storage Pattern</h3>
+
+                <!-- CREDENTIALS & SECURITY -->
+                <div class="section" id="credentials">
+                    <h2 class="section-title">🔐 Jenkins Credentials & Security Management</h2>
+
+                    <div class="key-point">
+                        <strong>🔒 Security Model:</strong> All sensitive data stored in Jenkins Credentials Manager,
+                        injected at runtime via withCredentials block, never exposed in logs
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <h3 class="subsection-title">💾 Database Credentials (Shared)</h3>
+
+                    <div class="service-item"
+                        style="background: linear-gradient(135deg, #fee140 0%, #fa709a 100%); border-left-color: #f59e0b;">
+                        <div class="features-grid">
+                            <div class="feature-item">🔑 AI-DB-HOST - Database host</div>
+                            <div class="feature-item">🔑 AI-DB-PORT - Port (3306)</div>
+                            <div class="feature-item">🔑 AI-DB-NAME-QA - QA db</div>
+                            <div class="feature-item">🔑 AI-DB-QA-USER - Username</div>
+                            <div class="feature-item">🔑 AI-DB-QA-PASS - Password</div>
+                        </div>
+                    </div>
+
+                    <h3 class="subsection-title">🛡️ Authentication & Security Credentials</h3>
+
+                    <div class="service-item"
+                        style="background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%); border-left-color: #ef4444;">
+                        <div class="features-grid">
+                            <div class="feature-item">🔐 AI-JWT-SECRET-KEY - JWT signing</div>
+                            <div class="feature-item">🔐 AI-JWT-ALGO - HS256 algorithm</div>
+                            <div class="feature-item">🔐 AI-HASHING-ALGO - bcrypt hashing</div>
+                        </div>
+                    </div>
+
+                    <h3 class="subsection-title">🌐 Service-Specific Credentials</h3>
+
+                    <div class="service-item">
+                        <h4 style="margin-top: 0;">🔑 Login & RBAC Services</h4>
+                        <div class="features-grid">
+                            <div class="feature-item">📌 AI-LOGIN-DOCS_USERNAME</div>
+                            <div class="feature-item">📌 AI-LOGIN-DOCS-PASSWORD</div>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <h4 style="margin-top: 0;">🕷️ Web Scraping Service</h4>
+                        <div class="features-grid">
+                            <div class="feature-item">📌 QA-FIRECRAWL - API key</div>
+                            <div class="feature-item">📌 QA_ANTHROPIC_API_KEY</div>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <h4 style="margin-top: 0;">📢 Job Agents Service</h4>
+                        <div class="features-grid">
+                            <div class="feature-item">📌 QA_GEMINI_API_KEY</div>
+                            <div class="feature-item">📌 QA-FILE-HANDLING-API</div>
+                            <div class="feature-item">📌 QA-AUTH-URL</div>
+                            <div class="feature-item">📌 QA-SMTP-EMAIL</div>
+                            <div class="feature-item">📌 QA-SMTP-PASSWORD</div>
+                            <div class="feature-item">📌 QA-SMTP-SERVER</div>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <h4 style="margin-top: 0;">⚙️ Redis Configuration</h4>
+                        <div class="features-grid">
+                            <div class="feature-item">📌 REDIS-HOST - Server host</div>
+                            <div class="feature-item">📌 REDIS-PORT - Port (6379)</div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <h3 class="subsection-title">🛡️ Security Best Practices</h3>
+
+                    <div class="insight-box">
+                        <ul class="list-styled">
+                            <li>Rotate credentials quarterly</li>
+                            <li>Restrict Jenkins UI access to authorized personnel</li>
+                            <li>Monitor audit logs for unauthorized access attempts</li>
+                            <li>Use dedicated service accounts with minimal privileges</li>
+                            <li>Rotate external API keys per provider recommendations</li>
+                            <li>Never commit credentials to version control</li>
+                        </ul>
+                    </div>
+
+                </div> <!-- End Credentials -->
+
+                <!-- MONITORING & LOGGING -->
+                <div class="section" id="monitoring">
+                    <h2 class="section-title">📊 Monitoring, Logging & Troubleshooting</h2>
+
+                    <h3 class="subsection-title">📊 Log Collection Points</h3>
+
+                    <div class="service-grid">
+                        <div class="service-item">
+                            <h4 style="margin-top: 0;">🔧 Jenkins Build Logs</h4>
+                            <div class="features-grid">
+                                <div class="feature-item">✓ Full pipeline execution</div>
+                                <div class="feature-item">✓ Stage-by-stage details</div>
+                                <div class="feature-item">✓ Success/failure status</div>
+                            </div>
+                            <p style="margin: 10px 0 0 0; font-size: 0.9rem; color: #666;">Available in Jenkins UI under
+                                Build History</p>
+                        </div>
+
+                        <div class="service-item">
+                            <h4 style="margin-top: 0;">📁 Container Logs (Host)</h4>
+                            <div class="features-grid">
+                                <div class="feature-item">✓ Mounted persistent volumes</div>
+                                <div class="feature-item">✓ Survives container restarts</div>
+                                <div class="feature-item">✓ Jenkins agent accessible</div>
+                            </div>
+                            <p style="margin: 10px 0 0 0; font-size: 0.9rem; color: #666;">
+                                /home/supriyo/ai_agents_qa/LOGS</p>
+                        </div>
+
+                        <div class="service-item">
+                            <h4 style="margin-top: 0;">🐳 Docker Logs</h4>
+                            <div class="features-grid">
+                                <div class="feature-item">✓ Real-time output</div>
+                                <div class="feature-item">✓ Streaming details</div>
+                                <div class="feature-item">✓ Live debugging</div>
+                            </div>
+                            <p style="margin: 10px 0 0 0; font-size: 0.9rem; color: #666;">
+                                <code>docker logs &lt;container-name&gt;</code></p>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <h3 class="subsection-title">🔧 Troubleshooting Guide</h3>
+
+                    <div class="service-item"
+                        style="background: linear-gradient(135deg, #fee140 0%, #fa709a 100%); border-left-color: #f59e0b;">
+                        <h4 style="margin-top: 0;">❌ Build Failed: "Only QA branch allowed"</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <strong style="color: #d97706;">Cause:</strong>
+                                <p style="margin: 5px 0; font-size: 0.9rem;">Commit pushed to non-qa branch</p>
+                            </div>
+                            <div>
+                                <strong style="color: #10b981;">Solution:</strong>
+                                <p style="margin: 5px 0; font-size: 0.9rem;">Merge or rebase to qa branch</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-item"
+                        style="background: linear-gradient(135deg, #fee140 0%, #fa709a 100%); border-left-color: #f59e0b;">
+                        <h4 style="margin-top: 0;">❌ Container Failed to Start</h4>
+                        <strong style="display: block; margin-bottom: 10px; color: #d97706;">Debugging
+                            Commands:</strong>
+                        <div class="features-grid">
+                            <div class="feature-item">🔍 docker inspect &lt;container&gt;</div>
+                            <div class="feature-item">🔍 docker logs &lt;container&gt;</div>
+                            <div class="feature-item">🔍 netstat -tuln | grep 8500</div>
+                            <div class="feature-item">🔍 docker network inspect ats-qa-network</div>
+                        </div>
+                    </div>
+
+                    <div class="service-item"
+                        style="background: linear-gradient(135deg, #fee140 0%, #fa709a 100%); border-left-color: #f59e0b;">
+                        <h4 style="margin-top: 0;">❌ Service Communication Failure</h4>
+                        <strong style="display: block; margin-bottom: 10px; color: #d97706;">Verification
+                            Steps:</strong>
+                        <div class="features-grid">
+                            <div class="feature-item">✓ Ping service containers</div>
+                            <div class="feature-item">✓ Check network connection</div>
+                            <div class="feature-item">✓ Verify DNS resolution</div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <h3 class="subsection-title">🚀 Multi-Environment Support (Future Roadmap)</h3>
+
+                    <div class="insight-box">
+                        <strong>🎯 Objective:</strong> Enable Dev and Prod environments by uncommenting environment
+                        mapping in Jenkinsfiles and creating environment-specific credentials
+                    </div>
+
+                    <div class="service-item">
+                        <h4 style="margin-top: 0;">Migration Steps</h4>
+                        <div class="features-grid">
+                            <div class="feature-item">📌 Uncomment branch-to-env mappings</div>
+                            <div class="feature-item">📌 Update Guard Branch logic</div>
+                            <div class="feature-item">📌 Create env-specific credentials</div>
+                            <div class="feature-item">📌 Update log path mapping</div>
+                            <div class="feature-item">📌 Consider Kubernetes migration</div>
+                        </div>
+                    </div>
+
+                </div> <!-- End Monitoring -->
+
+            </div> <!-- End Content Wrapper -->
+
+            <!-- Footer -->
+            <footer>
+                <h5>🏢 ATS Microservices Architecture: Complete Technical Guide</h5>
+                <p>15 Microservices | 13 Jenkins Pipelines | Enterprise Recruitment Platform</p>
+                <p style="margin-top: 20px; color: #999;">Comprehensive documentation with architecture specifications,
+                    service descriptions, deployment procedures, and operational guidelines</p>
+                <p style="margin-top: 20px; font-size: 0.9rem;">Last Updated: April 2026</p>
+            </footer>
+
+        </div> <!-- End Main Wrapper -->
+
+        <!-- Back to Top Button -->
+        <div class="back-to-top" id="backToTop">⬆️</div>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            // Back to top button functionality
+            const backToTopBtn = document.getElementById('backToTop');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            });
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Smooth scrolling for all anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

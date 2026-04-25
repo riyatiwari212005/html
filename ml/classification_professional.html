@@ -1,0 +1,1629 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Classification - Professional Learning Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #0ea5e9;
+            --light-bg: #f8fafc;
+            --dark-bg: #0f172a;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        html,
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.65;
+            font-size: 14px;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        li {
+            font-size: 0.9rem;
+            line-height: 1.65;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 0.8rem 0;
+        }
+
+        .navbar-brand {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white !important;
+            letter-spacing: -0.4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8) !important;
+            transition: all 0.3s ease;
+            padding: 0.4rem 0.9rem !important;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* MAIN WRAPPER */
+        .main-wrapper {
+            background: white;
+            margin: 30px auto;
+            max-width: 1280px;
+            border-radius: 24px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 90px 45px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -30%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(20px);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            letter-spacing: -0.6px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            margin-bottom: 35px;
+            opacity: 0.95;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge-hero {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 0 6px;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .badge-hero:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* TOC SECTION */
+        .toc-section {
+            background: linear-gradient(135deg, #f472b6 0%, #ec4899 100%);
+            color: white;
+            padding: 50px 45px;
+            margin: 0;
+        }
+
+        .toc-section h2 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            margin-bottom: 35px;
+            font-size: 1.8rem;
+            letter-spacing: -0.4px;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+        }
+
+        .toc-item {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--text-dark);
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 4px solid white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toc-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+            border-left-color: var(--primary);
+        }
+
+        .toc-item a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 700;
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toc-item small {
+            display: block;
+            margin-top: 10px;
+            color: var(--text-light);
+            font-size: 0.78rem;
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
+        }
+
+        /* CONTENT WRAPPER */
+        .content-wrapper {
+            padding: 55px 45px;
+        }
+
+        .section {
+            margin-bottom: 65px;
+            padding-bottom: 35px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        /* SECTION TITLES */
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subsection-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 30px;
+            margin-bottom: 18px;
+            padding-bottom: 8px;
+            border-left: 4px solid var(--info);
+            padding-left: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        /* CARDS */
+        .card-box {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin: 18px 0;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-box:hover {
+            transform: translateX(4px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.12);
+        }
+
+        .card-box p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .card-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .card-box.success {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border-left-color: var(--success);
+        }
+
+        .card-box.info {
+            background: linear-gradient(135deg, #cffafe 0%, #a5f3fc 100%);
+            border-left-color: var(--info);
+        }
+
+        /* KEY POINTS & INSIGHTS */
+        .key-point {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffe082 100%);
+            border-left: 4px solid var(--warning);
+            padding: 16px 18px;
+            margin: 18px 0;
+            border-radius: 10px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+            font-size: 0.9rem;
+        }
+
+        .key-point strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-left: 4px solid var(--success);
+            padding: 16px 18px;
+            margin: 18px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+            font-size: 0.9rem;
+        }
+
+        .insight-box strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: var(--success);
+        }
+
+        .learning-tip {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            border-left: 4px solid var(--info);
+            padding: 16px 18px;
+            margin: 18px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+            font-size: 0.9rem;
+        }
+
+        .learning-tip strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: var(--info);
+        }
+
+        /* ACCORDION STYLES */
+        .accordion-button {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 16px 22px;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+            letter-spacing: -0.2px;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .accordion-button:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+        }
+
+        .accordion-body {
+            padding: 22px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-top: none;
+            font-size: 0.9rem;
+        }
+
+        .accordion-item {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.12);
+            border-color: var(--primary);
+        }
+
+        .accordion {
+            border: none;
+        }
+
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 35px 0;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 20px 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.35);
+        }
+
+        .stat-box-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            letter-spacing: -0.4px;
+        }
+
+        .stat-box-label {
+            font-size: 0.78rem;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        /* CODE HIGHLIGHT */
+        .code-highlight {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px 16px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.82rem;
+            line-height: 1.55;
+            border-left: 4px solid var(--info);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* TIP BOX */
+        .tip-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            border-left: 4px solid #ff9800;
+            padding: 16px 18px;
+            border-radius: 10px;
+            margin: 18px 0;
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.15);
+            font-size: 0.9rem;
+        }
+
+        .tip-box strong {
+            color: #d97706;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        /* LISTS */
+        .list-styled {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-styled li {
+            padding: 7px 0;
+            padding-left: 26px;
+            position: relative;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .list-styled li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--info);
+            font-weight: 700;
+            font-size: 0.9rem;
+            top: 2px;
+        }
+
+        /* WORKFLOW PIPELINE */
+        .workflow-pipeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin: 30px 0;
+        }
+
+        .workflow-step {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .workflow-step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--info));
+        }
+
+        .workflow-step:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.15);
+            border-color: var(--primary);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .step-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 14px;
+            letter-spacing: -0.2px;
+        }
+
+        .step-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 5px 0;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .step-item::before {
+            content: '→';
+            color: var(--info);
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        .step-item span {
+            flex: 1;
+            line-height: 1.5;
+            font-size: 0.85rem;
+        }
+
+        /* COMPARISON GRID */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border: 2px solid transparent;
+        }
+
+        .comparison-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.12);
+            border-color: var(--primary);
+        }
+
+        .comparison-item strong {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+
+        .comparison-item p {
+            font-size: 0.8rem;
+        }
+
+        /* TABLE */
+        .table-custom {
+            margin: 20px 0;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            font-size: 0.9rem;
+        }
+
+        .table-custom thead th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 700;
+            border: none;
+            padding: 14px;
+            font-size: 0.85rem;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.2px;
+        }
+
+        .table-custom td {
+            padding: 12px 14px;
+            border-color: var(--border-color);
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .table-custom tbody tr:hover {
+            background: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
+        }
+
+        /* FOOTER */
+        footer {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 60px;
+        }
+
+        footer h5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            letter-spacing: -0.4px;
+        }
+
+        footer p {
+            margin: 8px 0;
+            opacity: 0.85;
+            line-height: 1.7;
+            font-size: 0.9rem;
+        }
+
+        /* BACK TO TOP */
+        .back-to-top {
+            position: fixed;
+            bottom: 35px;
+            right: 35px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.4rem;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+            border: none;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                padding: 60px 30px;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .subsection-title {
+                font-size: 1.05rem;
+            }
+
+            .content-wrapper {
+                padding: 35px 25px;
+            }
+
+            .toc-section {
+                padding: 35px 25px;
+            }
+
+            .toc-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .accordion-button {
+                padding: 14px 18px;
+                font-size: 0.9rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .workflow-pipeline {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top"><i class="fas fa-graduation-cap"></i> ML Classification</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#workflow">Workflow</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#models">Models</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#metrics">Metrics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tips">Tips</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Hero Section -->
+        <div class="hero" id="top">
+            <h1>ML Classification Learning Guide</h1>
+            <p>Master Machine Learning Classification: From Data to Production</p>
+            <div style="margin-top: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px;">
+                <span class="badge-hero"><i class="fas fa-cogs"></i> 7-Step Process</span>
+                <span class="badge-hero"><i class="fas fa-brain"></i> 7+ Algorithms</span>
+                <span class="badge-hero"><i class="fas fa-chart-line"></i> Best Practices</span>
+            </div>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc-section">
+            <div class="container-fluid">
+                <h2><i class="fas fa-list-check"></i> Learning Path</h2>
+                <div class="toc-grid">
+                    <div class="toc-item">
+                        <a href="#overview"><i class="fas fa-book"></i> Overview</a>
+                        <small>7 Concepts</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#workflow"><i class="fas fa-arrow-right"></i> Workflow</a>
+                        <small>7 Steps</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#models"><i class="fas fa-cube"></i> Models</a>
+                        <small>7+ Algorithms</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#metrics"><i class="fas fa-chart-pie"></i> Metrics</a>
+                        <small>Evaluation</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#datasets"><i class="fas fa-database"></i> Datasets</a>
+                        <small>Data Sources</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#tips"><i class="fas fa-lightbulb"></i> Pro Tips</a>
+                        <small>Best Practices</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content-wrapper">
+
+            <!-- OVERVIEW SECTION -->
+            <div class="section" id="overview">
+                <h2 class="section-title"><i class="fas fa-book"></i> Overview & Concepts</h2>
+
+                <div class="learning-tip">
+                    <strong><i class="fas fa-graduation-cap"></i> What You'll Learn</strong>
+                    Complete machine learning classification workflow from raw data to production models with MLflow
+                    experiment tracking.
+                </div>
+
+                <div class="accordion" id="learningAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#concept1">
+                                <i class="fas fa-database"></i> 1. Data Acquisition & Preprocessing
+                            </button>
+                        </h2>
+                        <div id="concept1" class="accordion-collapse collapse show" data-bs-parent="#learningAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li>Download datasets from Kaggle using API authentication</li>
+                                    <li>Implement smart fallback mechanisms (sklearn, seaborn datasets)</li>
+                                    <li>Sample large datasets for faster experimentation (MAX_ROWS)</li>
+                                    <li>Detect and handle missing values strategically</li>
+                                    <li>Automatically identify target column for classification</li>
+                                </ul>
+                                <div class="code-highlight">
+                                    # Load dataset with fallbacks
+                                    try:
+                                    df = pd.read_csv('kaggle_data.csv')
+                                    except:
+                                    from sklearn.datasets import load_iris
+                                    df = load_iris(as_frame=True).frame
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#concept2">
+                                <i class="fas fa-chart-bar"></i> 2. Exploratory Data Analysis (EDA)
+                            </button>
+                        </h2>
+                        <div id="concept2" class="accordion-collapse collapse" data-bs-parent="#learningAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li>Analyze target distribution → detect class imbalance</li>
+                                    <li>Identify feature types: categorical vs numerical</li>
+                                    <li>Calculate missing value percentages per feature</li>
+                                    <li>Generate correlation analysis and statistics</li>
+                                    <li>Create visualizations for insights</li>
+                                </ul>
+                                <div class="learning-tip">
+                                    <strong><i class="fas fa-bulb"></i> Tip:</strong>
+                                    Check class distribution first—imbalanced data needs special handling!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#concept3">
+                                <i class="fas fa-tools"></i> 3. Feature Engineering
+                            </button>
+                        </h2>
+                        <div id="concept3" class="accordion-collapse collapse" data-bs-parent="#learningAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li>One-Hot Encoding: convert categorical features to binary columns</li>
+                                    <li>StandardScaler: normalize features (mean=0, std=1)</li>
+                                    <li>Handle mixed data types seamlessly in pipelines</li>
+                                    <li>Feature selection and dimensionality reduction</li>
+                                </ul>
+                                <div class="tip-box">
+                                    <strong><i class="fas fa-warning"></i> Critical:</strong>
+                                    Fit scalers ONLY on training data, then apply to test set!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#concept4">
+                                <i class="fas fa-brain"></i> 4. Model Training & Selection
+                            </button>
+                        </h2>
+                        <div id="concept4" class="accordion-collapse collapse" data-bs-parent="#learningAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li>Train 7+ algorithms: LogReg, Tree, SVM, RF, GB, XGBoost, Ensemble</li>
+                                    <li>Use stratified train/test split (80/20) to preserve class distribution</li>
+                                    <li>Build sklearn Pipeline with proper preprocessing</li>
+                                    <li>Evaluate using: Accuracy, F1-score (macro), ROC-AUC</li>
+                                    <li>Apply cross-validation for robust estimates</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#concept5">
+                                <i class="fas fa-star"></i> 5. Advanced Techniques
+                            </button>
+                        </h2>
+                        <div id="concept5" class="accordion-collapse collapse" data-bs-parent="#learningAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li>Ensemble methods: Voting Classifier with soft voting</li>
+                                    <li>Hyperparameter tuning using RandomizedSearchCV</li>
+                                    <li>Stratified K-Fold cross-validation for robustness</li>
+                                    <li>Model stacking and blending combinations</li>
+                                    <li>Handle imbalanced datasets with SMOTE or class weights</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#concept6">
+                                <i class="fas fa-flask"></i> 6. Experiment Tracking (MLflow)
+                            </button>
+                        </h2>
+                        <div id="concept6" class="accordion-collapse collapse" data-bs-parent="#learningAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li>Log hyperparameters before training</li>
+                                    <li>Track metrics after each model run</li>
+                                    <li>Save model artifacts and metadata</li>
+                                    <li>Compare experiments in MLflow UI</li>
+                                    <li>Register best model for production deployment</li>
+                                </ul>
+                                <div class="code-highlight">
+                                    mlflow.set_experiment('classification')
+                                    mlflow.log_param('max_depth', 10)
+                                    mlflow.log_metric('accuracy', 0.95)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#concept7">
+                                <i class="fas fa-check-circle"></i> 7. Production Readiness
+                            </button>
+                        </h2>
+                        <div id="concept7" class="accordion-collapse collapse" data-bs-parent="#learningAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li>Write modular, reusable code with functions</li>
+                                    <li>Build proper pipelines with preprocessing included</li>
+                                    <li>Implement comprehensive error handling (try-except)</li>
+                                    <li>Add graceful fallback mechanisms</li>
+                                    <li>Save models and scalers using joblib</li>
+                                    <li>Document code with clear comments</li>
+                                    <li>Use version control to track changes</li>
+                                </ul>
+                                <div class="insight-box">
+                                    <strong><i class="fas fa-target"></i> Production Rule:</strong>
+                                    Anticipate failures and handle them gracefully.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-box-value">7</div>
+                            <div class="stat-box-label">Concepts</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-box-value">7+</div>
+                            <div class="stat-box-label">Models</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-box-value">4</div>
+                            <div class="stat-box-label">Metrics</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-box-value">✓</div>
+                            <div class="stat-box-label">Ready</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WORKFLOW SECTION -->
+            <div class="section" id="workflow">
+                <h2 class="section-title"><i class="fas fa-arrow-right"></i> 7-Step Workflow Pipeline</h2>
+
+                <div class="workflow-pipeline">
+                    <div class="workflow-step">
+                        <div class="step-number">1️⃣</div>
+                        <div class="step-title">Setup & Acquisition</div>
+                        <div class="step-content">
+                            <div class="step-item"><span>Import libraries</span></div>
+                            <div class="step-item"><span>Create directories</span></div>
+                            <div class="step-item"><span>Load dataset</span></div>
+                            <div class="step-item"><span>Setup fallbacks</span></div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step">
+                        <div class="step-number">2️⃣</div>
+                        <div class="step-title">Data Exploration</div>
+                        <div class="step-content">
+                            <div class="step-item"><span>Analyze target</span></div>
+                            <div class="step-item"><span>Check missing values</span></div>
+                            <div class="step-item"><span>Identify types</span></div>
+                            <div class="step-item"><span>Generate stats</span></div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step">
+                        <div class="step-number">3️⃣</div>
+                        <div class="step-title">Train/Test Split</div>
+                        <div class="step-content">
+                            <div class="step-item"><span>Stratified split</span></div>
+                            <div class="step-item"><span>80/20 ratio</span></div>
+                            <div class="step-item"><span>Preserve distribution</span></div>
+                            <div class="step-item"><span>Apply scaling</span></div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step">
+                        <div class="step-number">4️⃣</div>
+                        <div class="step-title">Baseline Models</div>
+                        <div class="step-content">
+                            <div class="step-item"><span>LogisticRegression</span></div>
+                            <div class="step-item"><span>DecisionTree</span></div>
+                            <div class="step-item"><span>SVM, RF, GB</span></div>
+                            <div class="step-item"><span>XGBoost</span></div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step">
+                        <div class="step-number">5️⃣</div>
+                        <div class="step-title">Advanced Tech</div>
+                        <div class="step-content">
+                            <div class="step-item"><span>Voting Ensemble</span></div>
+                            <div class="step-item"><span>Hyperparameter tune</span></div>
+                            <div class="step-item"><span>Cross-validation</span></div>
+                            <div class="step-item"><span>Model stacking</span></div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step">
+                        <div class="step-number">6️⃣</div>
+                        <div class="step-title">MLflow Tracking</div>
+                        <div class="step-content">
+                            <div class="step-item"><span>Log parameters</span></div>
+                            <div class="step-item"><span>Track metrics</span></div>
+                            <div class="step-item"><span>Save artifacts</span></div>
+                            <div class="step-item"><span>Compare runs</span></div>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step">
+                        <div class="step-number">7️⃣</div>
+                        <div class="step-title">Production</div>
+                        <div class="step-content">
+                            <div class="step-item"><span>Save models</span></div>
+                            <div class="step-item"><span>Export metrics</span></div>
+                            <div class="step-item"><span>Document setup</span></div>
+                            <div class="step-item"><span>Deploy ready</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection-title">When to Use StandardScaler?</div>
+
+                <table class="table table-striped table-custom">
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>Requires Scaling</th>
+                            <th>Why</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Logistic Regression</strong></td>
+                            <td><span style="color: var(--success); font-weight: 700;">✓ YES</span></td>
+                            <td>Distance-based gradient descent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SVM</strong></td>
+                            <td><span style="color: var(--success); font-weight: 700;">✓ YES</span></td>
+                            <td>Kernel computation sensitive to scale</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Decision Tree</strong></td>
+                            <td><span style="color: var(--danger); font-weight: 700;">✗ NO</span></td>
+                            <td>Splits based on values, not distances</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Random Forest</strong></td>
+                            <td><span style="color: var(--danger); font-weight: 700;">✗ NO</span></td>
+                            <td>Ensemble of trees, scale-invariant</td>
+                        </tr>
+                        <tr>
+                            <td><strong>XGBoost</strong></td>
+                            <td><span style="color: var(--danger); font-weight: 700;">✗ NO</span></td>
+                            <td>Handles scaling internally</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- MODELS SECTION -->
+            <div class="section" id="models">
+                <h2 class="section-title"><i class="fas fa-brain"></i> Models & Algorithms</h2>
+
+                <div class="subsection-title">7+ Classification Algorithms</div>
+
+                <div class="accordion" id="modelsAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#model1">
+                                1️⃣ Logistic Regression
+                            </button>
+                        </h2>
+                        <div id="model1" class="accordion-collapse collapse" data-bs-parent="#modelsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li><strong>Use Case:</strong> Binary classification, interpretable models</li>
+                                    <li><strong>Pros:</strong> Fast, simple, probabilistic outputs</li>
+                                    <li><strong>Cons:</strong> Assumes linear decision boundary</li>
+                                    <li><strong>Requires Scaling:</strong> YES (critical)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#model2">
+                                2️⃣ Decision Tree
+                            </button>
+                        </h2>
+                        <div id="model2" class="accordion-collapse collapse" data-bs-parent="#modelsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li><strong>Use Case:</strong> Non-linear patterns, feature importance</li>
+                                    <li><strong>Pros:</strong> Interpretable, no scaling needed</li>
+                                    <li><strong>Cons:</strong> Prone to overfitting</li>
+                                    <li><strong>Requires Scaling:</strong> NO</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#model3">
+                                3️⃣ Support Vector Machine (SVM)
+                            </button>
+                        </h2>
+                        <div id="model3" class="accordion-collapse collapse" data-bs-parent="#modelsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li><strong>Use Case:</strong> High-dimensional data, clear margins</li>
+                                    <li><strong>Pros:</strong> Effective in high dimensions</li>
+                                    <li><strong>Cons:</strong> Slow on large datasets</li>
+                                    <li><strong>Requires Scaling:</strong> YES (critical)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#model4">
+                                4️⃣ Random Forest
+                            </button>
+                        </h2>
+                        <div id="model4" class="accordion-collapse collapse" data-bs-parent="#modelsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li><strong>Use Case:</strong> General purpose, fast training</li>
+                                    <li><strong>Pros:</strong> Reduces overfitting, handles outliers</li>
+                                    <li><strong>Cons:</strong> Less interpretable than single tree</li>
+                                    <li><strong>Requires Scaling:</strong> NO</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#model5">
+                                5️⃣ Gradient Boosting
+                            </button>
+                        </h2>
+                        <div id="model5" class="accordion-collapse collapse" data-bs-parent="#modelsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li><strong>Use Case:</strong> High accuracy, complex patterns</li>
+                                    <li><strong>Pros:</strong> Often highest accuracy</li>
+                                    <li><strong>Cons:</strong> Slower, requires tuning</li>
+                                    <li><strong>Requires Scaling:</strong> NO</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#model6">
+                                6️⃣ XGBoost
+                            </button>
+                        </h2>
+                        <div id="model6" class="accordion-collapse collapse" data-bs-parent="#modelsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li><strong>Use Case:</strong> Maximum accuracy, production models</li>
+                                    <li><strong>Pros:</strong> Optimized, GPU support, fast</li>
+                                    <li><strong>Cons:</strong> Requires careful tuning</li>
+                                    <li><strong>Requires Scaling:</strong> NO</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#model7">
+                                7️⃣ Voting Ensemble
+                            </button>
+                        </h2>
+                        <div id="model7" class="accordion-collapse collapse" data-bs-parent="#modelsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li><strong>Hard Voting:</strong> Majority class wins</li>
+                                    <li><strong>Soft Voting:</strong> Average probabilities (preferred)</li>
+                                    <li><strong>Best Combination:</strong> LogReg + RF + XGBoost</li>
+                                    <li><strong>Pros:</strong> Often beats individual models</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- METRICS SECTION -->
+            <div class="section" id="metrics">
+                <h2 class="section-title"><i class="fas fa-chart-pie"></i> Evaluation Metrics</h2>
+
+                <div class="subsection-title">Performance Measurement Methods</div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <strong>📊 Accuracy</strong>
+                        <p>(TP+TN)/(Total)</p>
+                        <small>Overall correctness</small>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>📈 Precision</strong>
+                        <p>TP/(TP+FP)</p>
+                        <small>Positive accuracy</small>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>🎯 Recall</strong>
+                        <p>TP/(TP+FN)</p>
+                        <small>Coverage</small>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>⚖️ F1-Score</strong>
+                        <p>2×(P×R)/(P+R)</p>
+                        <small>Balanced metric</small>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>📉 ROC-AUC</strong>
+                        <p>Area under curve</p>
+                        <small>Threshold-independent</small>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>🔄 Cross-Val</strong>
+                        <p>k-Fold average</p>
+                        <small>Robust estimate</small>
+                    </div>
+                </div>
+
+                <div class="learning-tip">
+                    <strong><i class="fas fa-star"></i> Metric Selection:</strong>
+                    Use F1-score (macro) for imbalanced data, Accuracy for balanced, ROC-AUC for probabilistic outputs.
+                </div>
+            </div>
+
+            <!-- DATASETS SECTION -->
+            <div class="section" id="datasets">
+                <h2 class="section-title"><i class="fas fa-database"></i> Datasets & Sources</h2>
+
+                <div class="subsection-title">Available Datasets</div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <strong>🎯 Adult Income</strong>
+                        <p>Census income</p>
+                        <small>Kaggle</small>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>🍄 Mushroom</strong>
+                        <p>Edible vs Poison</p>
+                        <small>Kaggle</small>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>🔬 Iris</strong>
+                        <p>Flower species</p>
+                        <small>Sklearn</small>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>🏥 Breast Cancer</strong>
+                        <p>Cancer detection</p>
+                        <small>Sklearn</small>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <strong><i class="fas fa-magic"></i> Smart Fallback:</strong>
+                    If Kaggle unavailable → sklearn datasets → seaborn datasets. Never fails!
+                </div>
+            </div>
+
+            <!-- PRO TIPS SECTION -->
+            <div class="section" id="tips">
+                <h2 class="section-title"><i class="fas fa-lightbulb"></i> Pro Tips & Best Practices</h2>
+
+                <div class="subsection-title">Production Deployment Tips</div>
+
+                <div class="accordion" id="tipsAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tip1">
+                                💻 Modular Code Structure
+                            </button>
+                        </h2>
+                        <div id="tip1" class="accordion-collapse collapse show" data-bs-parent="#tipsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li>Separate functions for data loading, preprocessing, training, evaluation</li>
+                                    <li>Use config objects or dictionaries for hyperparameters</li>
+                                    <li>Write docstrings for all functions</li>
+                                    <li>Make code reusable across different datasets</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tip2">
+                                🛡️ Error Handling & Robustness
+                            </button>
+                        </h2>
+                        <div id="tip2" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li>Wrap external API calls in try-except blocks</li>
+                                    <li>Implement smart fallback mechanisms</li>
+                                    <li>Log warnings and errors for debugging</li>
+                                    <li>Check for missing files before processing</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tip3">
+                                📊 MLflow Experiment Tracking
+                            </button>
+                        </h2>
+                        <div id="tip3" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li>Always set experiment name for organization</li>
+                                    <li>Log hyperparameters BEFORE training</li>
+                                    <li>Log metrics after training with consistent names</li>
+                                    <li>Save model artifacts with tags</li>
+                                    <li>Run <code>mlflow ui</code> to compare experiments</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tip4">
+                                💾 Model Persistence & Deployment
+                            </button>
+                        </h2>
+                        <div id="tip4" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li>Save models as joblib (smaller than pickle)</li>
+                                    <li>Save preprocessing objects alongside model</li>
+                                    <li>Document feature names and order</li>
+                                    <li>Version models with timestamps</li>
+                                    <li>Create metadata JSON with model info</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tip5">
+                                ⚖️ Handling Class Imbalance
+                            </button>
+                        </h2>
+                        <div id="tip5" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li>Use stratified train/test split to preserve distribution</li>
+                                    <li>Use F1-score (macro) instead of accuracy</li>
+                                    <li>Consider SMOTE for severe imbalance</li>
+                                    <li>Adjust class weights: <code>class_weight='balanced'</code></li>
+                                    <li>Use ROC-AUC which is threshold-independent</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tip6">
+                                🎯 Hyperparameter Tuning
+                            </button>
+                        </h2>
+                        <div id="tip6" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li>Start with default parameters as baseline</li>
+                                    <li>Use RandomizedSearchCV for large spaces</li>
+                                    <li>Define meaningful search ranges</li>
+                                    <li>Use cross-validation within tuning (cv=5)</li>
+                                    <li>Compare tuned vs baseline for improvement</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tip7">
+                                🚀 Continuous Learning
+                            </button>
+                        </h2>
+                        <div id="tip7" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-styled">
+                                    <li>Remove steps intentionally to see impact</li>
+                                    <li>Try different random states for stability</li>
+                                    <li>Visualize feature importance from trees</li>
+                                    <li>Compare metrics across datasets</li>
+                                    <li>Test with different data sizes</li>
+                                    <li>Document all findings in notebooks</li>
+                                </ul>
+                                <div class="insight-box">
+                                    <strong><i class="fas fa-target"></i> Golden Rule:</strong>
+                                    Failed experiments teach as much as successful ones!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point" style="margin-top: 30px;">
+                    <strong><i class="fas fa-crown"></i> Production Checklist:</strong>
+                    <ul class="list-styled" style="margin-top: 12px;">
+                        <li>✅ Code is modular & documented</li>
+                        <li>✅ Error handling for dependencies</li>
+                        <li>✅ Experiments tracked with MLflow</li>
+                        <li>✅ Best model saved as joblib</li>
+                        <li>✅ Preprocessing objects saved</li>
+                        <li>✅ Metadata JSON with specs</li>
+                        <li>✅ Performance validated on test set</li>
+                        <li>✅ Code version controlled</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <h5><i class="fas fa-graduation-cap"></i> ML Classification Learning Guide</h5>
+            <p>Data Acquisition → EDA → Feature Engineering → Training → Evaluation → MLflow Tracking → Production</p>
+            <p style="margin-top: 12px; font-size: 0.85rem;">Professional Learning Material | 7-Step Pipeline | 7+
+                Algorithms | Production Ready</p>
+        </footer>
+
+    </div>
+
+    <!-- Back to Top -->
+    <div class="back-to-top" id="backToTop">⬆️</div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const backToTopBtn = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

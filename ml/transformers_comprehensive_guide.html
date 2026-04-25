@@ -1,0 +1,2297 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformers Complete Learning Guide - 7 Paradigms</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5b7cfa;
+            --secondary: #748ffc;
+            --success: #12b886;
+            --warning: #f59f00;
+            --danger: #fa5252;
+            --info: #339af0;
+            --multimodal: #d946a6;
+            --small: #06b6d4;
+            --longformer: #8b5cf6;
+            --light-bg: #f8f9fa;
+            --dark-bg: #1a1a2e;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(90deg, var(--dark-bg) 0%, #2d2d54 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+
+        .nav-link {
+            font-size: 1rem;
+            color: #ddd !important;
+            margin: 0 12px;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #5b7cfa !important;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            margin: 30px auto;
+            padding: 0;
+            max-width: 1200px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .hero-banner h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .hero-banner p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 50px 40px;
+        }
+
+        /* Sections */
+        .learning-section {
+            margin-bottom: 50px;
+            padding-bottom: 40px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .learning-section:last-child {
+            border-bottom: none;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .learning-section.multimodal .section-header {
+            border-bottom-color: var(--multimodal);
+        }
+
+        .learning-section.multimodal .section-header h2 {
+            color: var(--multimodal);
+        }
+
+        .learning-section.small .section-header {
+            border-bottom-color: var(--small);
+        }
+
+        .learning-section.small .section-header h2 {
+            color: var(--small);
+        }
+
+        .learning-section.longformer .section-header {
+            border-bottom-color: var(--longformer);
+        }
+
+        .learning-section.longformer .section-header h2 {
+            color: var(--longformer);
+        }
+
+        .section-header h2 {
+            font-size: 2.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0;
+            flex: 1;
+        }
+
+        .section-emoji {
+            font-size: 2.5rem;
+            margin-right: 15px;
+        }
+
+        /* Info Boxes */
+        .info-card {
+            background: linear-gradient(135deg, #f0f4ff 0%, #f9f9ff 100%);
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            font-size: 1.05rem;
+        }
+
+        .info-card.success {
+            background: linear-gradient(135deg, #e7f5ea 0%, #f0fdf4 100%);
+            border-left-color: var(--success);
+        }
+
+        .info-card.warning {
+            background: linear-gradient(135deg, #fff3bf 0%, #fffbea 100%);
+            border-left-color: var(--warning);
+        }
+
+        .info-card.danger {
+            background: linear-gradient(135deg, #ffe7e7 0%, #fff5f5 100%);
+            border-left-color: var(--danger);
+        }
+
+        .info-card.multimodal {
+            background: linear-gradient(135deg, #f3e7ff 0%, #faf0ff 100%);
+            border-left-color: var(--multimodal);
+        }
+
+        .info-card.small {
+            background: linear-gradient(135deg, #e0f7ff 0%, #f0faff 100%);
+            border-left-color: var(--small);
+        }
+
+        .info-card.longformer {
+            background: linear-gradient(135deg, #f0e7ff 0%, #faf5ff 100%);
+            border-left-color: var(--longformer);
+        }
+
+        .info-card strong {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-size: 1.15rem;
+        }
+
+        /* Subsections */
+        .subsection {
+            margin: 40px 0;
+        }
+
+        .subsection h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            padding-left: 20px;
+            border-left: 4px solid var(--info);
+        }
+
+        .learning-section.multimodal .subsection h3 {
+            border-left-color: var(--multimodal);
+        }
+
+        .learning-section.small .subsection h3 {
+            border-left-color: var(--small);
+        }
+
+        .learning-section.longformer .subsection h3 {
+            border-left-color: var(--longformer);
+        }
+
+        .subsection h4 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #555;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        /* Lists */
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-list li {
+            padding: 10px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 1.05rem;
+            color: #444;
+        }
+
+        .feature-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        /* Code Blocks */
+        .code-section {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 25px 0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            border-left: 4px solid var(--info);
+        }
+
+        .learning-section.multimodal .code-section {
+            border-left-color: var(--multimodal);
+        }
+
+        .learning-section.small .code-section {
+            border-left-color: var(--small);
+        }
+
+        .learning-section.longformer .code-section {
+            border-left-color: var(--longformer);
+        }
+
+        .code-label {
+            color: #a0aec0;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Formula Box */
+        .formula-box {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            font-family: 'Monaco', monospace;
+            line-height: 1.8;
+        }
+
+        .formula-box strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            margin: 25px 0;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            color: white;
+        }
+
+        .learning-section.multimodal .comparison-table thead {
+            background: linear-gradient(135deg, var(--multimodal), #d946a6);
+        }
+
+        .learning-section.small .comparison-table thead {
+            background: linear-gradient(135deg, var(--small), #06b6d4);
+        }
+
+        .learning-section.longformer .comparison-table thead {
+            background: linear-gradient(135deg, var(--longformer), #8b5cf6);
+        }
+
+        .comparison-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .comparison-table tbody tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .comparison-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Key Concepts */
+        .concept-box {
+            background: linear-gradient(135deg, #fffacd 0%, #fffacd 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            font-size: 1.05rem;
+        }
+
+        .concept-box strong {
+            color: var(--warning);
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.15rem;
+        }
+
+        /* Topics Grid */
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .topic-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            padding: 25px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .topic-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .learning-section.multimodal .topic-card:hover {
+            border-color: var(--multimodal);
+        }
+
+        .learning-section.small .topic-card:hover {
+            border-color: var(--small);
+        }
+
+        .learning-section.longformer .topic-card:hover {
+            border-color: var(--longformer);
+        }
+
+        .topic-card h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .learning-section.multimodal .topic-card h4 {
+            color: var(--multimodal);
+        }
+
+        .learning-section.small .topic-card h4 {
+            color: var(--small);
+        }
+
+        .learning-section.longformer .topic-card h4 {
+            color: var(--longformer);
+        }
+
+        .topic-card p {
+            color: #666;
+            margin: 0;
+        }
+
+        /* Learning Path */
+        .learning-path {
+            background: linear-gradient(135deg, #e7f5ff 0%, #f0f9ff 100%);
+            border: 2px solid var(--info);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .learning-section.multimodal .learning-path {
+            background: linear-gradient(135deg, #f3e7ff 0%, #faf0ff 100%);
+            border-color: var(--multimodal);
+        }
+
+        .learning-section.small .learning-path {
+            background: linear-gradient(135deg, #e0f7ff 0%, #f0faff 100%);
+            border-color: var(--small);
+        }
+
+        .learning-section.longformer .learning-path {
+            background: linear-gradient(135deg, #f0e7ff 0%, #faf5ff 100%);
+            border-color: var(--longformer);
+        }
+
+        .learning-path h4 {
+            color: var(--info);
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+        }
+
+        .learning-section.multimodal .learning-path h4 {
+            color: var(--multimodal);
+        }
+
+        .learning-section.small .learning-path h4 {
+            color: var(--small);
+        }
+
+        .learning-section.longformer .learning-path h4 {
+            color: var(--longformer);
+        }
+
+        .path-step {
+            display: flex;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .path-step-num {
+            background: var(--info);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 20px;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+
+        .learning-section.multimodal .path-step-num {
+            background: var(--multimodal);
+        }
+
+        .learning-section.small .path-step-num {
+            background: var(--small);
+        }
+
+        .learning-section.longformer .path-step-num {
+            background: var(--longformer);
+        }
+
+        .path-step-content h5 {
+            color: #333;
+            margin: 0 0 8px 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .path-step-content p {
+            color: #666;
+            margin: 0;
+            font-size: 1.05rem;
+        }
+
+        /* Footer */
+        .content-footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+            color: #666;
+        }
+
+        .content-footer p {
+            margin: 5px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-banner h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .subsection h3 {
+                font-size: 1.4rem;
+            }
+
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0.5rem 1rem;
+            }
+
+            .nav-link {
+                margin: 0 8px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Scroll to top button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            font-size: 1.5rem;
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        .scroll-to-top.show {
+            display: flex;
+        }
+
+        /* Badge for new sections */
+        .section-badge {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 15px;
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top">🔥 Transformers Learning</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#gpt-style">GPT</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#seq2seq">Seq2Seq</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#vision">Vision</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#efficiency">Efficiency</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#multimodal">Multimodal</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#small">Small</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#longformer">Longformer</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Hero -->
+        <div class="hero-banner" id="top">
+            <h1>🔥 Transformers: Complete Learning Guide</h1>
+            <p>Master All 7 Transformer Paradigms - From GPT to Multimodal</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+
+            <!-- ============ GPT-STYLE TRANSFORMERS ============ -->
+            <div class="learning-section" id="gpt-style">
+                <div class="section-header">
+                    <span class="section-emoji">🎭</span>
+                    <h2>GPT-Style Transformers: Text Generation</h2>
+                </div>
+
+                <div class="info-card">
+                    <strong>🎯 What You'll Learn</strong>
+                    Decoder-only models that predict the next token based on previous tokens. These power ChatGPT, text
+                    completion, and creative writing applications!
+                </div>
+
+                <div class="subsection">
+                    <h3>📚 Core Concepts</h3>
+
+                    <div class="topics-grid">
+                        <div class="topic-card">
+                            <h4>🔄 Autoregressive Generation</h4>
+                            <p>Predict next token based on previous ones. One token at a time, like typing with a
+                                crystal ball predicting what you'll type next!</p>
+                        </div>
+                        <div class="topic-card">
+                            <h4>🔒 Causal Masking</h4>
+                            <p>Future tokens cannot influence past predictions. This creates the left-to-right
+                                sequential pattern essential for generation.</p>
+                        </div>
+                        <div class="topic-card">
+                            <h4>💾 Memory Optimization</h4>
+                            <p>FP16 precision, gradient checkpointing, and batch optimization to fit models on consumer
+                                GPUs.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>🏗️ Models Covered</h3>
+
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Parameters</th>
+                                <th>Memory</th>
+                                <th>Best For</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>GPT-2 Small</strong></td>
+                                <td>124M</td>
+                                <td>~2.5GB</td>
+                                <td>Learning, text generation</td>
+                            </tr>
+                            <tr>
+                                <td><strong>GPT-Neo 125M</strong></td>
+                                <td>125M</td>
+                                <td>~3GB</td>
+                                <td>Open-source GPT, fine-tuning</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3>🔒 Understanding Causal Masking</h3>
+
+                    <p><strong>The Problem:</strong> Without causal masking, a model could "cheat" by looking at future
+                        tokens during training.</p>
+
+                    <div class="concept-box">
+                        <strong>💡 Visual Example (4-token sequence)</strong><br>
+                        Position 0 ("The"): Can attend to [0] ✓<br>
+                        Position 1 ("cat"): Can attend to [0, 1] ✓<br>
+                        Position 2 ("sat"): Can attend to [0, 1, 2] ✓<br>
+                        Position 3 ("down"): Can attend to [0, 1, 2, 3] ✓
+                    </div>
+
+                    <div class="formula-box">
+                        <strong>Attention Mask Matrix:</strong><br>
+                        Lower triangular pattern (1 = can attend, 0 = cannot):<br><br>
+                        [1 0 0 0]<br>
+                        [1 1 0 0]<br>
+                        [1 1 1 0]<br>
+                        [1 1 1 1]
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>🎲 Text Generation Strategies</h3>
+
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Strategy</th>
+                                <th>How It Works</th>
+                                <th>Quality</th>
+                                <th>Diversity</th>
+                                <th>Best Use</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Greedy</strong></td>
+                                <td>Pick highest probability token</td>
+                                <td>Medium</td>
+                                <td>None (repetitive)</td>
+                                <td>Fastest inference</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Top-K (K=40)</strong></td>
+                                <td>Sample from top 40 tokens</td>
+                                <td>High</td>
+                                <td>Good</td>
+                                <td>Balanced generation</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nucleus (Top-p)</strong></td>
+                                <td>Sample from top tokens until cumulative prob reaches p</td>
+                                <td>Very High</td>
+                                <td>Very Good</td>
+                                <td>Creative writing</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p><strong>Temperature Control (Key Insight!):</strong></p>
+                    <ul class="feature-list">
+                        <li><strong>Low Temperature (0.1-0.5):</strong> Very focused, deterministic output. Good for
+                            factual content, code generation</li>
+                        <li><strong>Medium Temperature (0.7-1.0):</strong> Balanced creativity and coherence. Default
+                            for most tasks</li>
+                        <li><strong>High Temperature (1.2-2.0):</strong> More random and creative. For poetry,
+                            storytelling, brainstorming</li>
+                    </ul>
+
+                    <div class="concept-box">
+                        <strong>💡 Temperature Effect: How It Works</strong><br>
+                        Temperature scales logits before softmax: softmax(logits / T)<br>
+                        • T = 0.1: Sharp distribution, high probability on top token<br>
+                        • T = 1.0: Original distribution<br>
+                        • T = 2.0: Flat distribution, all tokens equally likely
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>🔓 GPT-Neo: Open-Source Generation</h3>
+
+                    <p><strong>EleutherAI's open-source alternative to GPT-2</strong> - perfect for learning and easy
+                        fine-tuning!</p>
+
+                    <ul class="feature-list">
+                        <li><strong>Open Source:</strong> Fully accessible model and training code</li>
+                        <li><strong>Easy Fine-tuning:</strong> Well-documented procedures and examples</li>
+                        <li><strong>Community Driven:</strong> Active community support and development</li>
+                        <li><strong>Transparent Training:</strong> Open training data and methodologies</li>
+                        <li><strong>Available Sizes:</strong> 125M, 350M, 1.3B, 2.7B parameters</li>
+                    </ul>
+
+                    <div class="info-card success">
+                        <strong>🎯 GPT-Neo vs GPT-2</strong><br>
+                        • GPT-Neo: Licensed under MIT, easy to use<br>
+                        • GPT-2: Licensed by OpenAI, more restrictive<br>
+                        • Both achieve similar generation quality<br>
+                        • GPT-Neo has better fine-tuning documentation
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>💻 Code Example: Generate Text with GPT-2</h3>
+
+                    <div class="code-section">
+                        <div class="code-label">Python - Load and Generate</div>
+                        from transformers import GPT2LMHeadModel, GPT2Tokenizer
+                        import torch
+
+                        # Load model and tokenizer
+                        model_name = "gpt2"
+                        tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+                        model = GPT2LMHeadModel.from_pretrained(model_name)
+
+                        # Set to evaluation mode
+                        model.eval()
+
+                        # Generate text
+                        prompt = "The future of artificial intelligence"
+                        input_ids = tokenizer.encode(prompt, return_tensors='pt')
+
+                        output = model.generate(
+                        input_ids,
+                        max_length=50,
+                        num_return_sequences=2,
+                        temperature=0.8,
+                        top_p=0.95, # Nucleus sampling
+                        do_sample=True,
+                        pad_token_id=tokenizer.eos_token_id
+                        )
+
+                        # Decode and print
+                        for i, seq in enumerate(output):
+                        text = tokenizer.decode(seq, skip_special_tokens=True)
+                        print(f"Generation {i+1}:\n{text}\n")
+                    </div>
+                </div>
+
+                <div class="learning-path">
+                    <h4>📖 Recommended Learning Path</h4>
+                    <div class="path-step">
+                        <div class="path-step-num">1</div>
+                        <div class="path-step-content">
+                            <h5>Understand Causal Attention</h5>
+                            <p>Learn why future tokens must be masked and how this enables generation</p>
+                        </div>
+                    </div>
+                    <div class="path-step">
+                        <div class="path-step-num">2</div>
+                        <div class="path-step-content">
+                            <h5>Load and Use GPT-2 Small</h5>
+                            <p>Load a pre-trained model and generate text with different strategies</p>
+                        </div>
+                    </div>
+                    <div class="path-step">
+                        <div class="path-step-num">3</div>
+                        <div class="path-step-content">
+                            <h5>Compare Generation Methods</h5>
+                            <p>Try greedy, sampling, top-k, nucleus sampling. Observe differences</p>
+                        </div>
+                    </div>
+                    <div class="path-step">
+                        <div class="path-step-num">4</div>
+                        <div class="path-step-content">
+                            <h5>Fine-tune on Custom Data</h5>
+                            <p>Train GPT-Neo on your own text data for domain-specific generation</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ============ SEQ2SEQ TRANSFORMERS ============ -->
+            <div class="learning-section" id="seq2seq">
+                <div class="section-header">
+                    <span class="section-emoji">🔄</span>
+                    <h2>Seq2Seq Transformers: Text Transformation</h2>
+                </div>
+
+                <div class="info-card success">
+                    <strong>🎯 What You'll Learn</strong>
+                    Encoder-Decoder architecture for translation, summarization, and text transformation. The encoder
+                    understands the input, the decoder generates the output!
+                </div>
+
+                <div class="subsection">
+                    <h3>🏗️ Encoder-Decoder Architecture</h3>
+
+                    <p>Unlike GPT-style models with only a decoder, Seq2Seq has two main parts:</p>
+
+                    <ul class="feature-list">
+                        <li><strong>Encoder:</strong> Bidirectional processing of input. Each token sees all other
+                            tokens. Creates rich context representations.</li>
+                        <li><strong>Decoder:</strong> Autoregressive generation with causal masking. But also has
+                            <strong>cross-attention</strong> to encoder!
+                        </li>
+                        <li><strong>Cross-Attention:</strong> Decoder queries ask "which encoder tokens are relevant to
+                            me?" This is how translation works!</li>
+                    </ul>
+
+                    <div class="formula-box">
+                        <strong>Cross-Attention Formula:</strong><br><br>
+                        Q (Query) = Decoder representations<br>
+                        K (Key) = Encoder representations<br>
+                        V (Value) = Encoder representations<br><br>
+                        Attention = softmax(Q·K^T / √d_k) · V
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>🤖 Models Covered</h3>
+
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Encoder Layers</th>
+                                <th>Decoder Layers</th>
+                                <th>Best For</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>T5-Small</strong></td>
+                                <td>6</td>
+                                <td>6</td>
+                                <td>All text-to-text tasks with unified framework</td>
+                            </tr>
+                            <tr>
+                                <td><strong>BART-base</strong></td>
+                                <td>6</td>
+                                <td>6</td>
+                                <td>Denoising, summarization, translation</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3>📝 T5: Text-to-Text Transfer Transformer</h3>
+
+                    <p><strong>Key Innovation:</strong> Everything is text-to-text. Classification? Summarization?
+                        Translation? Same architecture!</p>
+
+                    <div class="concept-box">
+                        <strong>🎯 T5 Task Examples</strong><br>
+                        • <code>translate English to French: Hello</code> → Bonjour<br>
+                        • <code>summarize: [article text]</code> → [summary]<br>
+                        • <code>question: What? context: [text]</code> → [answer]<br>
+                        • <code>classify: [text]</code> → [label]
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>🎨 BART: Bidirectional Encoder + Autoregressive Decoder</h3>
+
+                    <p><strong>Key Innovation:</strong> Combines BERT-style bidirectional encoding with GPT-style
+                        autoregressive decoding using denoising autoencoder pretraining.</p>
+
+                    <p><strong>Pretraining Strategy - Denoising Autoencoder:</strong></p>
+                    <ul class="feature-list">
+                        <li>Corrupt text using multiple strategies (masking, deletion, permutation)</li>
+                        <li>Train encoder to process corrupted input</li>
+                        <li>Train decoder to reconstruct original text</li>
+                        <li>Result: Robust representations for generation tasks</li>
+                    </ul>
+
+                    <div class="concept-box">
+                        <strong>🔧 BART Corruption Strategies</strong><br>
+                        • Token Masking: Replace tokens with [MASK]<br>
+                        • Token Deletion: Remove tokens entirely<br>
+                        • Text Infilling: Replace spans with single mask<br>
+                        • Sentence Permutation: Shuffle sentence order<br>
+                        • Document Rotation: Rotate from random position
+                    </div>
+
+                    <p><strong>Why Different Corruption Types?</strong></p>
+                    <ul class="feature-list">
+                        <li><strong>Masking:</strong> Learn to infer masked tokens from context</li>
+                        <li><strong>Deletion:</strong> Model must infer missing information</li>
+                        <li><strong>Infilling:</strong> Predict variable-length spans</li>
+                        <li><strong>Permutation:</strong> Learn document structure and coherence</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3>📊 T5 vs BART: Detailed Comparison</h3>
+
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>T5-Small</th>
+                                <th>BART-base</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Parameters</strong></td>
+                                <td>60M</td>
+                                <td>139M</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pretraining Objective</strong></td>
+                                <td>Span Corruption (T5-style)</td>
+                                <td>Denoising Autoencoder (multiple corruption)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Text Format</strong></td>
+                                <td>Task prefixes: "summarize:", "translate:"</td>
+                                <td>Natural language (no prefixes needed)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Best For</strong></td>
+                                <td>Multi-task learning, unified framework</td>
+                                <td>Summarization, generation tasks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Generation Quality</strong></td>
+                                <td>Very Good</td>
+                                <td>Excellent</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="info-card warning">
+                        <strong>💡 When to Use Which?</strong><br>
+                        Use T5 when: Multiple diverse tasks, classification important, want unified paradigm<br>
+                        Use BART when: Summarization priority, generation quality paramount, bidirectional encoder
+                        benefits needed
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>🔗 Cross-Attention: The Bridge Between Encoder & Decoder</h3>
+
+                    <p><strong>Cross-attention is the key mechanism!</strong> It allows the decoder to "look at" the
+                        encoder output.</p>
+
+                    <div class="formula-box">
+                        <strong>Cross-Attention Formula:</strong><br><br>
+                        Q (Query) = Decoder token representations<br>
+                        K (Key) = Encoder token representations<br>
+                        V (Value) = Encoder token representations<br><br>
+                        Output = softmax(Q·K^T / √d_k) · V
+                    </div>
+
+                    <p><strong>How It Works in Translation:</strong></p>
+                    <ul class="feature-list">
+                        <li>Decoder generates French token "chat" (cat)</li>
+                        <li>Cross-attention queries: "Which source words are relevant?"</li>
+                        <li>High attention weights on English word "cat"</li>
+                        <li>Retrieves features about cats</li>
+                        <li>Generates appropriate French translation</li>
+                    </ul>
+
+                    <div class="concept-box">
+                        <strong>💡 Why Multi-Head Cross-Attention?</strong><br>
+                        Different heads focus on different alignment patterns
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>💻 Code Example: Summarization with T5</h3>
+
+                    <div class="code-section">
+                        <div class="code-label">Python - Summarize Text</div>
+                        from transformers import T5Tokenizer, T5ForConditionalGeneration
+
+                        # Load T5-small
+                        tokenizer = T5Tokenizer.from_pretrained("t5-small")
+                        model = T5ForConditionalGeneration.from_pretrained("t5-small")
+
+                        # Example text to summarize
+                        text = """
+                        Machine learning is rapidly transforming industries.
+                        From healthcare to finance, AI systems are making decisions
+                        that were previously only possible for humans.
+                        """
+
+                        # Encode with "summarize:" prefix (T5 task prefix)
+                        input_ids = tokenizer.encode(
+                        "summarize: " + text,
+                        return_tensors="pt",
+                        max_length=512,
+                        truncation=True
+                        )
+
+                        # Generate summary
+                        summary_ids = model.generate(input_ids, max_length=100, num_beams=4)
+                        summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+
+                        print(f"Summary: {summary}")
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ VISION TRANSFORMERS ============ -->
+            <div class="learning-section" id="vision">
+                <div class="section-header">
+                    <span class="section-emoji">👁️</span>
+                    <h2>Vision Transformers: Image Understanding</h2>
+                </div>
+
+                <div class="info-card success">
+                    <strong>🎯 What You'll Learn</strong>
+                    How to apply transformer architecture to images by splitting them into patches. No CNNs needed!
+                </div>
+
+                <div class="subsection">
+                    <h3>🧩 Patch Embeddings: From Images to Sequences</h3>
+
+                    <p><strong>Key Insight:</strong> Transformers work on sequences. Images are 2D. Solution? Divide
+                        image into patches and flatten them!</p>
+
+                    <div class="concept-box">
+                        <strong>🔲 Patch Process</strong><br>
+                        Input image: 224×224 pixels<br>
+                        Patch size: 16×16 pixels<br>
+                        Number of patches: 14×14 = 196 patches<br>
+                        Patch dimension: 16×16×3 = 768 values<br>
+                        Projected to: 768-dimensional embedding
+                    </div>
+
+                    <p><strong>Why patches?</strong></p>
+                    <ul class="feature-list">
+                        <li>Reduces sequence length (196 tokens vs 50,176 pixels)</li>
+                        <li>Maintains spatial information through positioning</li>
+                        <li>Enables processing of larger images</li>
+                        <li>More efficient than pixel-level processing</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3>🏗️ Vision Transformer (ViT) Architecture</h3>
+
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Layers</th>
+                                <th>Hidden Dim</th>
+                                <th>Heads</th>
+                                <th>Parameters</th>
+                                <th>Best For</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>ViT-Tiny</strong></td>
+                                <td>12</td>
+                                <td>192</td>
+                                <td>3</td>
+                                <td>5.7M</td>
+                                <td>Learning, edge devices</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ViT-Small</strong></td>
+                                <td>12</td>
+                                <td>384</td>
+                                <td>6</td>
+                                <td>22M</td>
+                                <td>Production use</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ViT-Base</strong></td>
+                                <td>12</td>
+                                <td>768</td>
+                                <td>12</td>
+                                <td>86M</td>
+                                <td>High accuracy</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3>💻 Code Example: Image Classification with ViT</h3>
+
+                    <div class="code-section">
+                        <div class="code-label">Python - Classify Image with ViT</div>
+                        from transformers import ViTImageProcessor, ViTForImageClassification
+                        from PIL import Image
+                        import requests
+
+                        # Load model and processor
+                        processor = ViTImageProcessor.from_pretrained("google/vit-base-patch16-224")
+                        model = ViTForImageClassification.from_pretrained("google/vit-base-patch16-224")
+
+                        # Load image
+                        image_url = "https://example.com/image.jpg"
+                        image = Image.open(requests.get(image_url, stream=True).raw)
+
+                        # Preprocess
+                        inputs = processor(images=image, return_tensors="pt")
+
+                        # Forward pass
+                        outputs = model(**inputs)
+                        logits = outputs.logits
+
+                        # Get prediction
+                        predicted_class_idx = logits.argmax(-1).item()
+                        predicted_class = model.config.id2label[predicted_class_idx]
+
+                        print(f"Predicted class: {predicted_class}")
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>🪟 Swin Transformer: Hierarchical Attention</h3>
+
+                    <p><strong>Key Innovation:</strong> Window-based attention that shifts between layers, enabling
+                        efficient hierarchical feature learning!</p>
+
+                    <ul class="feature-list">
+                        <li><strong>Window Attention:</strong> Attention computed within local windows (7×7 or 14×14)
+                        </li>
+                        <li><strong>Shifted Windows:</strong> Windows shift by half their size between layers</li>
+                        <li><strong>Hierarchical Blocks:</strong> Creates pyramid of features like CNNs</li>
+                        <li><strong>O(n) Complexity:</strong> Linear complexity through window-based attention</li>
+                        <li><strong>Multi-Scale:</strong> Natural multi-scale feature representation</li>
+                    </ul>
+
+                    <div class="concept-box">
+                        <strong>💡 Window Shifting Pattern</strong><br>
+                        Layer 1: Normal windows [0-7, 8-15, 16-23, ...]<br>
+                        Layer 2: Shifted windows [-3-4, 5-12, 13-20, ...]<br>
+                        Benefit: Information flows between regions!
+                    </div>
+
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Aspect</th>
+                                <th>ViT-Base</th>
+                                <th>Swin-Base</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Attention Type</strong></td>
+                                <td>Global (Full image)</td>
+                                <td>Local (Windows)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Complexity</strong></td>
+                                <td>O(n²)</td>
+                                <td>O(n)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Feature Hierarchy</strong></td>
+                                <td>Flat tokens</td>
+                                <td>4-level pyramid</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ImageNet Top-1</strong></td>
+                                <td>88.6%</td>
+                                <td>90.3%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3>⚡ Performance Analysis: ViT vs Swin vs CNNs</h3>
+
+                    <p><strong>Comprehensive comparison across multiple dimensions:</strong></p>
+
+                    <div class="topics-grid">
+                        <div class="topic-card">
+                            <h4>📊 Data Efficiency</h4>
+                            <p>CNNs win - Strong inductive biases. ViT needs large datasets (ImageNet-21K)</p>
+                        </div>
+                        <div class="topic-card">
+                            <h4>🚀 Scalability</h4>
+                            <p>Vision Transformers win - Scale better with data and model size</p>
+                        </div>
+                        <div class="topic-card">
+                            <h4>🔍 Interpretability</h4>
+                            <p>ViT wins - Attention maps provide clear feature attribution</p>
+                        </div>
+                        <div class="topic-card">
+                            <h4>⚡ Inference Speed</h4>
+                            <p>Swin/CNNs win - Window attention faster than ViT global attention</p>
+                        </div>
+                    </div>
+
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Top-1 Accuracy</th>
+                                <th>FLOPs</th>
+                                <th>Best For</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>ViT-Base</strong></td>
+                                <td>88.6%</td>
+                                <td>17.6G</td>
+                                <td>Research, global patterns</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Swin-Base</strong></td>
+                                <td>90.3%</td>
+                                <td>15.5G</td>
+                                <td>Production, detection, segmentation</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ResNet-50</strong></td>
+                                <td>76.1%</td>
+                                <td>4.1G</td>
+                                <td>Fast inference, resource-constrained</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="info-card success">
+                        <strong>🎯 Model Selection Guidelines</strong><br>
+                        • ViT: Learning transformers, research, interpretability crucial<br>
+                        • Swin: Production apps, high accuracy, balanced efficiency<br>
+                        • CNN: Small datasets, real-time inference, mobile deployment
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ EFFICIENT TRANSFORMERS ============ -->
+            <div class="learning-section" id="efficiency">
+                <div class="section-header">
+                    <span class="section-emoji">⚡</span>
+                    <h2>Efficient Transformers: Handling Long Sequences</h2>
+                </div>
+
+                <div class="info-card danger">
+                    <strong>🎯 The Problem</strong>
+                    Standard transformers have O(n²) attention complexity. For 4K tokens: 16M computations. This
+                    explodes memory and computation!
+                </div>
+
+                <div class="subsection">
+                    <h3>📊 The Attention Complexity Crisis</h3>
+
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Sequence Length</th>
+                                <th>Standard Attention (O(n²))</th>
+                                <th>Memory (GB)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>512</td>
+                                <td>262K</td>
+                                <td>0.001</td>
+                            </tr>
+                            <tr>
+                                <td>2,048</td>
+                                <td>4.2M</td>
+                                <td>0.016</td>
+                            </tr>
+                            <tr>
+                                <td>4,096</td>
+                                <td>16.8M</td>
+                                <td>0.064</td>
+                            </tr>
+                            <tr>
+                                <td>16,384</td>
+                                <td>268M</td>
+                                <td>1.0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3>🔍 Solutions: Quantization & Pruning</h3>
+
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Technique</th>
+                                <th>Memory Saving</th>
+                                <th>Speed Improvement</th>
+                                <th>Best For</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>FP16</strong></td>
+                                <td>50%</td>
+                                <td>~2×</td>
+                                <td>GPU training</td>
+                            </tr>
+                            <tr>
+                                <td><strong>INT8 Quantization</strong></td>
+                                <td>75%</td>
+                                <td>~2×</td>
+                                <td>Inference</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Knowledge Distillation</strong></td>
+                                <td>80%</td>
+                                <td>~3×</td>
+                                <td>Production models</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ============ MULTIMODAL TRANSFORMERS ============ -->
+            <div class="learning-section multimodal" id="multimodal">
+                <div class="section-header">
+                    <span class="section-emoji">🎥</span>
+                    <h2>Multimodal Transformers: Text + Image + Audio + Video <span class="section-badge">NEW</span>
+                    </h2>
+                </div>
+
+                <div class="info-card multimodal">
+                    <strong>🎯 What You'll Learn</strong>
+                    Combine complementary signals from multiple modalities (text, image, audio, video). Build systems
+                    for text-image retrieval, captioning, VQA, and speech recognition!
+                </div>
+
+                <div class="subsection">
+                    <h3>🧠 Core Building Blocks</h3>
+
+                    <ul class="feature-list">
+                        <li><strong>Modality Encoders:</strong> Turn raw inputs into embeddings (Text: tokenization →
+                            BERT, Image: patches → ViT, Audio: spectrograms → Whisper)</li>
+                        <li><strong>Alignment & Fusion:</strong> Combine representations across modalities (Joint
+                            embedding space like CLIP, Cross-attention like BLIP)</li>
+                        <li><strong>Positional/Temporal Encoding:</strong> Spatial information for images, temporal for
+                            audio/video sequences</li>
+                    </ul>
+                </div>
+
+                <div class="subsection">
+                    <h3>🤖 Multimodal Models</h3>
+
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Modalities</th>
+                                <th>Architecture</th>
+                                <th>Best For</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>CLIP</strong></td>
+                                <td>Text + Image</td>
+                                <td>Dual encoders (contrastive)</td>
+                                <td>Text-image retrieval, zero-shot classification</td>
+                            </tr>
+                            <tr>
+                                <td><strong>BLIP</strong></td>
+                                <td>Text + Image</td>
+                                <td>Encoder-decoder with cross-attention</td>
+                                <td>Image captioning, visual question answering</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ViLT</strong></td>
+                                <td>Text + Image</td>
+                                <td>Unified transformer (minimal visual backbone)</td>
+                                <td>Efficient VQA with minimal parameters</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Whisper</strong></td>
+                                <td>Audio + Text</td>
+                                <td>Encoder-decoder (speech-to-text)</td>
+                                <td>Automatic speech recognition (ASR), transcription</td>
+                            </tr>
+                            <tr>
+                                <td><strong>TimeSformer</strong></td>
+                                <td>Video frames</td>
+                                <td>Spatio-temporal attention</td>
+                                <td>Video action recognition, classification</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="subsection">
+                    <h3>🔗 Understanding Multimodal Attention</h3>
+
+                    <p><strong>Self-Attention:</strong> Within a single modality (e.g., image patches attending to each
+                        other)</p>
+                    <p><strong>Cross-Attention:</strong> Between modalities (e.g., text tokens querying image features)
+                    </p>
+                    <p><strong>Co-Attention:</strong> Bidirectional attention between two modalities simultaneously</p>
+
+                    <div class="concept-box">
+                        <strong>💡 How Cross-Attention Works in BLIP (Image Captioning)</strong><br>
+                        Text Token: "cat"<br>
+                        ↓ (Query)<br>
+                        Attention Map: High weights on cat region patches<br>
+                        ↓ (Retrieve)<br>
+                        Visual Features: Cat appearance, texture, pose
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>📊 Key Pipelines</h3>
+
+                    <div class="topics-grid">
+                        <div class="topic-card">
+                            <h4>🔍 Retrieval (CLIP)</h4>
+                            <p>Encode image & text → joint space. Similarity (cosine) → ranking, Recall@K metrics.</p>
+                        </div>
+                        <div class="topic-card">
+                            <h4>📝 Captioning (BLIP)</h4>
+                            <p>Encode image → decoder generates caption tokens. Evaluate with BLEU/CIDEr/SPICE.</p>
+                        </div>
+                        <div class="topic-card">
+                            <h4>❓ VQA (ViLT)</h4>
+                            <p>Encode (image, question) → classify answer. Accuracy on VQA datasets.</p>
+                        </div>
+                        <div class="topic-card">
+                            <h4>🎙️ ASR (Whisper)</h4>
+                            <p>Audio → features → decoder predicts text. Word Error Rate (WER) metric.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>💻 Code Example: CLIP Text-Image Retrieval</h3>
+
+                    <div class="code-section">
+                        <div class="code-label">Python - CLIP Image-Text Matching</div>
+                        import torch
+                        from transformers import CLIPProcessor, CLIPModel
+                        from PIL import Image
+                        import requests
+
+                        # Load CLIP model
+                        model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
+                        processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+
+                        # Load image
+                        image_url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+                        image = Image.open(requests.get(image_url, stream=True).raw)
+
+                        # Text candidates
+                        texts = ["a photo of a cat", "a photo of a dog", "a photo of a car"]
+
+                        # Process inputs
+                        inputs = processor(text=texts, images=image, return_tensors="pt", padding=True)
+
+                        # Forward pass
+                        outputs = model(**inputs)
+                        logits_per_image = outputs.logits_per_image
+                        probs = logits_per_image.softmax(dim=1) # normalize
+
+                        # Display probabilities
+                        for i, text in enumerate(texts):
+                        print(f"{text}: {probs[0][i].item():.2%}")
+                    </div>
+                </div>
+
+                <div class="learning-path">
+                    <h4>📖 Multimodal Learning Path</h4>
+                    <div class="path-step">
+                        <div class="path-step-num">1</div>
+                        <div class="path-step-content">
+                            <h5>Week 1: Run CLIP/BLIP Demos</h5>
+                            <p>Understand text-image alignment and basic retrieval metrics</p>
+                        </div>
+                    </div>
+                    <div class="path-step">
+                        <div class="path-step-num">2</div>
+                        <div class="path-step-content">
+                            <h5>Week 2: Add VQA with ViLT</h5>
+                            <p>Structure an evaluation loop and add visual question answering</p>
+                        </div>
+                    </div>
+                    <div class="path-step">
+                        <div class="path-step-num">3</div>
+                        <div class="path-step-content">
+                            <h5>Week 3: Integrate Whisper for ASR</h5>
+                            <p>Compute WER on audio transcription samples</p>
+                        </div>
+                    </div>
+                    <div class="path-step">
+                        <div class="path-step-num">4</div>
+                        <div class="path-step-content">
+                            <h5>Week 4: Explore Video (TimeSformer)</h5>
+                            <p>Benchmark video action recognition on sample clips</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ SMALL TRANSFORMERS ============ -->
+            <div class="learning-section small" id="small">
+                <div class="section-header">
+                    <span class="section-emoji">🎯</span>
+                    <h2>Small Transformers: Lightweight & Efficient <span class="section-badge">NEW</span></h2>
+                </div>
+
+                <div class="info-card small">
+                    <strong>🎯 What You'll Learn</strong>
+                    Perfect starting point for learning transformers! Lightweight models with <1.5GB memory
+                        requirements. Learn core concepts without massive computational resources! </div>
+
+                        <div class="subsection">
+                            <h3>🚀 Why Start with Small Transformers?</h3>
+
+                            <ul class="feature-list">
+                                <li><strong>Low Memory:</strong> ~1-1.5GB VRAM (fits on consumer GPUs)</li>
+                                <li><strong>Fast Training & Inference:</strong> Minutes instead of hours</li>
+                                <li><strong>Core Concepts:</strong> Learn fundamentals without complexity</li>
+                                <li><strong>Cost-Effective:</strong> No expensive hardware needed</li>
+                                <li><strong>Real-World Deployable:</strong> Fast enough for production!</li>
+                            </ul>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>📊 Model Comparison</h3>
+
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>Model</th>
+                                        <th>Parameters</th>
+                                        <th>VRAM</th>
+                                        <th>Speed</th>
+                                        <th>Key Innovation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>DistilBERT</strong></td>
+                                        <td>66M</td>
+                                        <td>~1.2-1.5GB</td>
+                                        <td>60% faster</td>
+                                        <td>Knowledge Distillation</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ALBERT-base</strong></td>
+                                        <td>12M</td>
+                                        <td>~1GB</td>
+                                        <td>Very fast</td>
+                                        <td>Parameter Sharing</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>TinyBERT</strong></td>
+                                        <td>14-22M</td>
+                                        <td>
+                                            <1GB< /td>
+                                        <td>Fastest</td>
+                                        <td>Student-Teacher Training</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>MiniLM</strong></td>
+                                        <td>33M</td>
+                                        <td>~1GB</td>
+                                        <td>Very fast</td>
+                                        <td>Attention Distillation</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>🧬 Key Techniques</h3>
+
+                            <div class="topics-grid">
+                                <div class="topic-card">
+                                    <h4>📚 Knowledge Distillation</h4>
+                                    <p>Student model learns from larger teacher model. Compresses knowledge into smaller
+                                        model.</p>
+                                </div>
+                                <div class="topic-card">
+                                    <h4>🔄 Parameter Sharing</h4>
+                                    <p>Same weights across transformer layers (ALBERT). Drastically reduces parameters
+                                        with minimal performance loss.</p>
+                                </div>
+                                <div class="topic-card">
+                                    <h4>✂️ Layer Reduction</h4>
+                                    <p>6 layers instead of 12 (DistilBERT). Still captures key semantic information.</p>
+                                </div>
+                                <div class="topic-card">
+                                    <h4>🎯 Attention Head Pruning</h4>
+                                    <p>Remove redundant attention heads. Keep most important attention patterns.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>🏗️ DistilBERT: Your First Transformer</h3>
+
+                            <p><strong>DistilBERT</strong> is BERT made 60% smaller while retaining 97% of performance!
+                                Perfect starting point.</p>
+
+                            <ul class="feature-list">
+                                <li>6 transformer layers (vs 12 in BERT-base)</li>
+                                <li>66M parameters (vs 110M in BERT-base)</li>
+                                <li>Knowledge distillation from BERT teacher</li>
+                                <li>Bidirectional self-attention mechanism</li>
+                            </ul>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>🧬 Knowledge Distillation: Core Technique</h3>
+
+                            <p><strong>How a large teacher model teaches a small student model!</strong></p>
+
+                            <ul class="feature-list">
+                                <li><strong>Teacher Model:</strong> Large, accurate BERT-base (110M parameters)</li>
+                                <li><strong>Student Model:</strong> Small, fast DistilBERT (66M parameters)</li>
+                                <li><strong>Knowledge Transfer:</strong> Student learns both from task labels AND
+                                    teacher outputs</li>
+                                <li><strong>Soft Targets:</strong> Temperature-scaled probability distributions from
+                                    teacher</li>
+                                <li><strong>Result:</strong> 60% faster, 40% smaller, 97% performance retained!</li>
+                            </ul>
+
+                            <div class="concept-box">
+                                <strong>💡 Why Soft Targets Matter</strong><br>
+                                Hard target: [0, 1, 0, 0] (one-hot encoded answer)<br>
+                                Soft target: [0.01, 0.92, 0.05, 0.02] (reveals teacher confidence)<br>
+                                Student learns: Not just correct answer, but WHY it's correct!
+                            </div>
+
+                            <div class="formula-box">
+                                <strong>Distillation Loss Combination:</strong><br><br>
+                                Total Loss = α * Task Loss + (1-α) * Distillation Loss<br><br>
+                                Where:<br>
+                                • Task Loss: Standard classification loss<br>
+                                • Distillation Loss: KL divergence from teacher outputs<br>
+                                • α: Balance parameter (typically 0.3-0.7)
+                            </div>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>🤖 TinyBERT: Multi-Layer Distillation</h3>
+
+                            <p><strong>TinyBERT</strong> goes beyond DistilBERT with two-stage learning:</p>
+
+                            <ul class="feature-list">
+                                <li><strong>Stage 1: General Distillation</strong> - Distill from pre-trained BERT on
+                                    unlabeled data</li>
+                                <li><strong>Stage 2: Task-specific Fine-tuning</strong> - Fine-tune on downstream task
+                                    with task-specific data</li>
+                                <li><strong>Attention Transfer:</strong> Learn to copy teacher's attention patterns</li>
+                                <li><strong>Hidden State Matching:</strong> Align internal layer representations</li>
+                                <li><strong>Only 14-22M parameters</strong> with excellent performance!</li>
+                            </ul>
+
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>Aspect</th>
+                                        <th>DistilBERT</th>
+                                        <th>TinyBERT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Parameters</strong></td>
+                                        <td>66M</td>
+                                        <td>14-22M</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Layers</strong></td>
+                                        <td>6</td>
+                                        <td>4</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Training Stages</strong></td>
+                                        <td>Single</td>
+                                        <td>Two (general + task-specific)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Attention Transfer</strong></td>
+                                        <td>No</td>
+                                        <td>Yes (key innovation)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Speed vs BERT</strong></td>
+                                        <td>2.7×</td>
+                                        <td>9-15×</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>✨ MiniLM: Attention Distillation Master</h3>
+
+                            <p><strong>MiniLM</strong> focuses specifically on distilling attention mechanisms for
+                                excellent embeddings!</p>
+
+                            <ul class="feature-list">
+                                <li><strong>Deep Self-Attention Distillation:</strong> Focus on attention transfer
+                                    across all layers</li>
+                                <li><strong>Last-Layer Attention Transfer:</strong> Preserve final attention patterns
+                                </li>
+                                <li><strong>Value-Relation Preservation:</strong> Maintain semantic relationships</li>
+                                <li><strong>Excellent for Embeddings:</strong> Outstanding sentence representations for
+                                    semantic search</li>
+                                <li><strong>33M parameters</strong> with state-of-the-art embedding quality</li>
+                            </ul>
+
+                            <div class="info-card success">
+                                <strong>🎯 When to Use Which?</strong><br>
+                                DistilBERT: General NLP tasks, text classification, all-around good<br>
+                                TinyBERT: Maximum compression, mobile deployment, extreme efficiency<br>
+                                MiniLM: Semantic search, similarity matching, embedding quality crucial
+                            </div>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>
+
+                                <p><strong>ALBERT</strong> achieves massive parameter reduction through clever parameter
+                                    sharing!</p>
+
+                                <ul class="feature-list">
+                                    <li><strong>Cross-layer Parameter Sharing:</strong> Same weights across transformer
+                                        layers</li>
+                                    <li><strong>Factorized Embeddings:</strong> Separates vocabulary size from hidden
+                                        size
+                                    </li>
+                                    <li><strong>Only 12M parameters!</strong> 90% smaller than BERT-base</li>
+                                    <li><strong>Sentence Order Prediction:</strong> Additional training task for
+                                        robustness
+                                    </li>
+                                </ul>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>💻 Code Example: Load DistilBERT</h3>
+
+                            <div class="code-section">
+                                <div class="code-label">Python - Load and Use DistilBERT</div>
+                                from transformers import DistilBertTokenizer, DistilBertModel
+                                import torch
+
+                                # Load model and tokenizer
+                                tokenizer = DistilBertTokenizer.from_pretrained("distilbert-base-uncased")
+                                model = DistilBertModel.from_pretrained("distilbert-base-uncased")
+
+                                print(f"Parameters: {model.num_parameters():,}")
+                                print(f"Layers: {model.config.n_layers}")
+                                print(f"Hidden size: {model.config.dim}")
+
+                                # Encode text
+                                text = "The transformer architecture revolutionized NLP."
+                                inputs = tokenizer(text, return_tensors="pt")
+
+                                # Get embeddings
+                                with torch.no_grad():
+                                outputs = model(**inputs)
+                                last_hidden_state = outputs.last_hidden_state
+                                cls_embedding = last_hidden_state[0, 0, :] # CLS token
+
+                                print(f"Output shape: {last_hidden_state.shape}")
+                                print(f"CLS embedding shape: {cls_embedding.shape}")
+                            </div>
+                        </div>
+
+                        <div class="learning-path">
+                            <h4>📖 Small Transformer Learning Path</h4>
+                            <div class="path-step">
+                                <div class="path-step-num">1</div>
+                                <div class="path-step-content">
+                                    <h5>Load DistilBERT & Understand Architecture</h5>
+                                    <p>6 layers, bidirectional attention, self-attention mechanism fundamentals</p>
+                                </div>
+                            </div>
+                            <div class="path-step">
+                                <div class="path-step-num">2</div>
+                                <div class="path-step-content">
+                                    <h5>Explore ALBERT Parameter Sharing</h5>
+                                    <p>How same weights work across layers, massive parameter reduction benefits</p>
+                                </div>
+                            </div>
+                            <div class="path-step">
+                                <div class="path-step-num">3</div>
+                                <div class="path-step-content">
+                                    <h5>Fine-tune on Classification Task</h5>
+                                    <p>Sentiment analysis, text classification using small transformers</p>
+                                </div>
+                            </div>
+                            <div class="path-step">
+                                <div class="path-step-num">4</div>
+                                <div class="path-step-content">
+                                    <h5>Deploy for Production</h5>
+                                    <p>Fast inference, low memory requirements, perfect for edge devices</p>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+                <!-- ============ LONGFORMER ============ -->
+                <div class="learning-section longformer" id="longformer">
+                    <div class="section-header">
+                        <span class="section-emoji">📜</span>
+                        <h2>Longformer: Long Document Processing <span class="section-badge">NEW</span></h2>
+                    </div>
+
+                    <div class="info-card longformer">
+                        <strong>🎯 What You'll Learn</strong>
+                        Process documents up to 4096 tokens efficiently! Using sparse attention patterns (O(n) instead
+                        of O(n²)), handle research papers, legal documents, books!
+                    </div>
+
+                    <div class="subsection">
+                        <h3>🔍 The Attention Problem</h3>
+
+                        <p><strong>Standard BERT:</strong> O(n²) complexity for sequence length n</p>
+                        <ul class="feature-list">
+                            <li>512 tokens = 262K attention operations</li>
+                            <li>4096 tokens = 16.8M operations ❌ (explodes memory)</li>
+                            <li>16384 tokens = 268M operations ❌ (impossible!)</li>
+                        </ul>
+
+                        <p><strong>Real-world documents:</strong> Legal contracts (10K+ tokens), Books (100K+ tokens),
+                            Code files (30K+ lines)</p>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>⚡ Longformer's Sparse Attention Solution</h3>
+
+                        <p><strong>Three types of attention patterns:</strong></p>
+
+                        <div class="topics-grid">
+                            <div class="topic-card">
+                                <h4>🔄 Sliding Window Attention</h4>
+                                <p>Each token attends to w/2 tokens on each side (local context). O(n·w) complexity.</p>
+                            </div>
+                            <div class="topic-card">
+                                <h4>🌍 Global Attention</h4>
+                                <p>Special tokens (CLS, questions) attend to ALL positions. Captures document-wide
+                                    information.</p>
+                            </div>
+                            <div class="topic-card">
+                                <h4>🎯 Dilated Sliding Window</h4>
+                                <p>Some heads use larger gaps between attended positions. Captures long-range
+                                    dependencies.</p>
+                            </div>
+                        </div>
+
+                        <div class="formula-box">
+                            <strong>Result: O(n) Complexity!</strong><br><br>
+                            • BERT (512 tokens): O(n²) = 262K ops<br>
+                            • Longformer (4096 tokens): O(n·w) = ~2M ops (13× fewer!)<br>
+                            • Longformer (16384 tokens): ~8M ops (still manageable!)<br>
+                            • Handles 8× longer sequences with 4× the operations
+                        </div>
+
+                        <div class="subsection">
+                            <h3>💾 Memory Optimization for Long Documents</h3>
+
+                            <p><strong>Practical tips for working with long sequences:</strong></p>
+
+                            <ul class="feature-list">
+                                <li><strong>Start small:</strong> Downsize documents (truncate to 2048 tokens initially)
+                                </li>
+                                <li><strong>Use float16:</strong> Automatic mixed precision reduces memory by 50%</li>
+                                <li><strong>Batch size wisely:</strong> Start with batch_size=1, increase gradually</li>
+                                <li><strong>Gradient accumulation:</strong> Simulate larger batches without memory
+                                    overhead</li>
+                                <li><strong>Cache preprocessors:</strong> Don't re-tokenize documents repeatedly</li>
+                                <li><strong>Monitor memory:</strong> Use torch.cuda.memory_allocated() to track usage
+                                </li>
+                            </ul>
+
+                            <div class="concept-box">
+                                <strong>🔧 Memory Usage Estimate</strong><br>
+                                For sequence length n = 4096 tokens:<br>
+                                • Attention states: ~64MB<br>
+                                • Hidden states: ~128MB<br>
+                                • Gradients: ~256MB<br>
+                                • Total: ~450MB (vs 2+GB for BERT on same length!)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>🤖 Longformer Models</h3>
+
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Model</th>
+                                    <th>Max Tokens</th>
+                                    <th>Complexity</th>
+                                    <th>Window Size</th>
+                                    <th>Use Cases</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>BERT-base</strong></td>
+                                    <td>512</td>
+                                    <td>O(n²)</td>
+                                    <td>Full</td>
+                                    <td>Short documents, classification</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Longformer-base</strong></td>
+                                    <td>4,096</td>
+                                    <td>O(n·w)</td>
+                                    <td>512</td>
+                                    <td>Research papers, long documents</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>BigBird</strong></td>
+                                    <td>4,096</td>
+                                    <td>O(n)</td>
+                                    <td>Variable</td>
+                                    <td>General long document processing</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>🏗️ Longformer Architecture</h3>
+
+                        <p><strong>Combined Attention Strategy:</strong></p>
+
+                        <code
+                            style="display: block; background: #f8f9fa; padding: 15px; margin: 15px 0; border-radius: 5px;">
+                        Input: Long document (up to 4096 tokens)<br>
+                        ↓<br>
+                        Local Attention: Each token looks at nearby tokens<br>
+                        ↓<br>
+                        Global Attention: Special tokens see entire document<br>
+                        ↓<br>
+                        Dilated Attention: Some heads skip positions for long-range deps<br>
+                        ↓<br>
+                        Output: Rich representations with O(n) complexity
+                    </code>
+
+                        <p><strong>Key Features:</strong></p>
+                        <ul class="feature-list">
+                            <li>Pre-trained on long documents</li>
+                            <li>Efficient inference (2-4× faster than BERT on long sequences)</li>
+                            <li>Maintains bidirectional understanding</li>
+                            <li>Works with existing transformer fine-tuning approaches</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>🔄 Attention Patterns Visualization</h3>
+
+                        <p><strong>BERT Full Attention:</strong> Every token attends to every other token. Quadratic
+                            pattern.</p>
+                        <p><strong>Longformer Sparse Attention:</strong> Local window + global attention points. Linear
+                            pattern!</p>
+
+                        <div class="concept-box">
+                            <strong>💡 Attention Pattern Example</strong><br>
+                            Position 0 (CLS): Attends to ALL positions [0-31] (global)<br>
+                            Position 1: Attends to [0-3] (window)<br>
+                            Position 2: Attends to [0-4] (window)<br>
+                            Position 16: Attends to [14-18] (window) + [0] (global)
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>💻 Code Example: Load Longformer</h3>
+
+                        <div class="code-section">
+                            <div class="code-label">Python - Load and Use Longformer</div>
+                            from transformers import (
+                            LongformerTokenizer,
+                            LongformerModel,
+                            LongformerForSequenceClassification
+                            )
+                            import torch
+
+                            # Load tokenizer and model
+                            model_name = "allenai/longformer-base-4096"
+                            tokenizer = LongformerTokenizer.from_pretrained(model_name)
+                            model = LongformerModel.from_pretrained(model_name)
+
+                            print(f"Model: {model_name}")
+                            print(f"Parameters: {model.num_parameters():,}")
+                            print(f"Max sequence length: {tokenizer.model_max_length}")
+
+                            # Long document example
+                            long_doc = "Document text... " * 500 # ~3000 tokens
+
+                            # Tokenize (note: no truncation needed!)
+                            inputs = tokenizer(
+                            long_doc,
+                            return_tensors="pt",
+                            padding=True,
+                            truncation=False
+                            )
+
+                            # Forward pass
+                            with torch.no_grad():
+                            outputs = model(**inputs)
+                            last_hidden_state = outputs.last_hidden_state
+
+                            print(f"Sequence length: {inputs['input_ids'].shape[1]}")
+                            print(f"Output shape: {last_hidden_state.shape}")
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>📋 Applications & Use Cases</h3>
+
+                        <div class="topics-grid">
+                            <div class="topic-card">
+                                <h4>📄 Legal Document Analysis</h4>
+                                <p>Classify contracts, extract clauses, find key terms across full documents</p>
+                            </div>
+                            <div class="topic-card">
+                                <h4>🔬 Research Paper Understanding</h4>
+                                <p>Summarize papers, extract key findings, find related work sections</p>
+                            </div>
+                            <div class="topic-card">
+                                <h4>💼 Business Document Processing</h4>
+                                <p>Analyze reports, extract financial data, find important sections</p>
+                            </div>
+                            <div class="topic-card">
+                                <h4>📚 Books & Literature Analysis</h4>
+                                <p>Understand narrative arc, analyze character development across chapters</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="learning-path">
+                        <h4>📖 Longformer Learning Path</h4>
+                        <div class="path-step">
+                            <div class="path-step-num">1</div>
+                            <div class="path-step-content">
+                                <h5>Understand Sparse Attention Patterns</h5>
+                                <p>Why sliding window + global attention is O(n) not O(n²)</p>
+                            </div>
+                        </div>
+                        <div class="path-step">
+                            <div class="path-step-num">2</div>
+                            <div class="path-step-content">
+                                <h5>Load and Compare with BERT</h5>
+                                <p>Process long documents, measure speedup and memory savings</p>
+                            </div>
+                        </div>
+                        <div class="path-step">
+                            <div class="path-step-num">3</div>
+                            <div class="path-step-content">
+                                <h5>Fine-tune for Long Document Tasks</h5>
+                                <p>Document classification, question answering on long texts</p>
+                            </div>
+                        </div>
+                        <div class="path-step">
+                            <div class="path-step-num">4</div>
+                            <div class="path-step-content">
+                                <h5>Deploy for Real-World Use</h5>
+                                <p>Process entire documents without truncation, maintain context</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============ FINAL SUMMARY ============ -->
+                <div class="learning-section">
+                    <div class="section-header">
+                        <span class="section-emoji">🎓</span>
+                        <h2>Complete Learning Summary</h2>
+                    </div>
+
+                    <div class="info-card success">
+                        <strong>🚀 You've Mastered 7 Transformer Paradigms!</strong><br>
+                        1. ✅ GPT-Style (Decoder-only, generation)<br>
+                        2. ✅ Seq2Seq (Encoder-decoder, transformation)<br>
+                        3. ✅ Vision (Image patches, classification)<br>
+                        4. ✅ Efficiency (Quantization, optimization)<br>
+                        5. ✅ Multimodal (Text+Image+Audio+Video)<br>
+                        6. ✅ Small (Knowledge distillation, parameter sharing)<br>
+                        7. ✅ Longformer (Sparse attention, long documents)
+                    </div>
+
+                    <div class="learning-path">
+                        <h4>📚 8-Week Complete Learning Path</h4>
+                        <div class="path-step">
+                            <div class="path-step-num">1</div>
+                            <div class="path-step-content">
+                                <h5>Week 1-2: Fundamentals (GPT + Small)</h5>
+                                <p>Self-attention, causal masking, DistilBERT, parameter sharing</p>
+                            </div>
+                        </div>
+                        <div class="path-step">
+                            <div class="path-step-num">2</div>
+                            <div class="path-step-content">
+                                <h5>Week 3: Seq2Seq & Efficiency</h5>
+                                <p>Encoder-decoder, cross-attention, quantization, distillation</p>
+                            </div>
+                        </div>
+                        <div class="path-step">
+                            <div class="path-step-num">3</div>
+                            <div class="path-step-content">
+                                <h5>Week 4: Vision Transformers</h5>
+                                <p>Patch embeddings, ViT architecture, image classification</p>
+                            </div>
+                        </div>
+                        <div class="path-step">
+                            <div class="path-step-num">4</div>
+                            <div class="path-step-content">
+                                <h5>Week 5-6: Multimodal Models</h5>
+                                <p>CLIP, BLIP, ViLT, Whisper, cross-modal attention</p>
+                            </div>
+                        </div>
+                        <div class="path-step">
+                            <div class="path-step-num">5</div>
+                            <div class="path-step-content">
+                                <h5>Week 7: Longformer & Long Documents</h5>
+                                <p>Sparse attention, O(n) complexity, document processing</p>
+                            </div>
+                        </div>
+                        <div class="path-step">
+                            <div class="path-step-num">6</div>
+                            <div class="path-step-content">
+                                <h5>Week 8: Integration & Projects</h5>
+                                <p>Build end-to-end systems combining multiple paradigms</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <strong>🔑 Key Insights Across All Paradigms</strong><br>
+                        • Transformers = Attention-based architecture (no RNNs)<br>
+                        • Every variant is optimized for a specific task<br>
+                        • Attention mechanisms are the key innovation<br>
+                        • Trade-offs: Speed vs Accuracy vs Memory<br>
+                        • Scaling laws: Bigger models learn better patterns<br>
+                        • Transfer learning: Pre-train on large data, fine-tune on tasks
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="content-footer">
+                <p><strong>🔥 Transformers: Complete Learning Guide</strong></p>
+                <p>GPT-Style | Seq2Seq | Vision | Efficiency | Multimodal | Small | Longformer</p>
+                <p style="font-size: 0.95rem; margin-top: 15px;">Last Updated: April 2026 | Complete 7-Paradigm Guide
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Scroll to Top Button -->
+        <div class="scroll-to-top" id="scrollToTop">↑</div>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            // Scroll to top functionality
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.classList.add('show');
+                } else {
+                    scrollToTopBtn.classList.remove('show');
+                }
+            });
+
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Smooth scroll for navbar links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

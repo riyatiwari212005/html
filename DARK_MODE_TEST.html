@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Button Test</title>
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: var(--accent-color);
+        }
+
+        .test-box {
+            background-color: var(--bg-primary);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .toggle-icon {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover .toggle-icon {
+            transform: rotate(20deg);
+        }
+
+        .status {
+            background-color: var(--bg-primary);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Toggle Button at Top Right -->
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode (Ctrl+Shift+D)">
+        <span class="toggle-icon">🌙</span>
+        <span class="toggle-text">Dark</span>
+    </button>
+
+    <div class="container">
+        <h1>✅ Dark Mode Button Test</h1>
+
+        <div class="test-box">
+            <h2>Test Instructions</h2>
+            <p>1. Click the 🌙 button in the top right corner</p>
+            <p>2. Or press Ctrl+Shift+D to toggle</p>
+            <p>3. Or click any button below to test</p>
+            <p>4. Check the console (F12) for debug messages</p>
+        </div>
+
+        <div class="status">
+            <strong>Current Theme:</strong> <span id="theme-status">Loading...</span><br>
+            <strong>Button Status:</strong> <span id="button-status">Checking...</span><br>
+            <strong>Manager Status:</strong> <span id="manager-status">Initializing...</span>
+        </div>
+
+        <div class="button-group">
+            <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+            <button onclick="checkStatus()">Check Status</button>
+            <button onclick="showTheme()">Show Current Theme</button>
+            <button onclick="console.log(window.themeManager); alert('Check Console (F12)')">Log Manager</button>
+        </div>
+
+        <div class="test-box">
+            <h2>Features</h2>
+            <ul>
+                <li>✅ Click button to toggle</li>
+                <li>✅ Keyboard shortcut (Ctrl+Shift+D)</li>
+                <li>✅ Preference remembered</li>
+                <li>✅ Mobile responsive</li>
+                <li>✅ Smooth transitions</li>
+            </ul>
+        </div>
+
+        <div
+            style="margin-top: 30px; padding: 20px; background-color: var(--bg-primary); border-radius: 5px; text-align: center; color: var(--text-secondary);">
+            <p>If dark mode toggle works, this background and text colors will change</p>
+        </div>
+    </div>
+
+    <!-- Dark Mode JavaScript -->
+    <script src="js/dark-mode.js"></script>
+
+    <script>
+        // Debug functions
+        function checkStatus() {
+            console.log('Checking status...');
+            console.log('window.themeManager:', window.themeManager);
+            console.log('toggleDarkMode function:', typeof toggleDarkMode);
+            alert('Status logged to console. Press F12 to view.');
+        }
+
+        function showTheme() {
+            const theme = getCurrentTheme();
+            alert('Current Theme: ' + theme);
+        }
+
+        // Update status on load
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                const theme = getCurrentTheme();
+                const hasManager = window.themeManager ? 'YES' : 'NO';
+
+                document.getElementById('theme-status').textContent = theme.toUpperCase();
+                document.getElementById('button-status').textContent = 'Ready';
+                document.getElementById('manager-status').textContent = hasManager;
+
+                console.log('Page loaded. Manager:', hasManager, 'Theme:', theme);
+            }, 500);
+        });
+
+        // Also update immediately
+        setTimeout(function () {
+            const theme = getCurrentTheme();
+            const hasManager = window.themeManager ? 'YES' : 'NO';
+
+            document.getElementById('theme-status').textContent = theme.toUpperCase();
+            document.getElementById('button-status').textContent = 'Ready';
+            document.getElementById('manager-status').textContent = hasManager;
+        }, 100);
+    </script>
+</body>
+
+</html>

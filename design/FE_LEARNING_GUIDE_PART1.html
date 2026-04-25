@@ -1,0 +1,1161 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Engineering & Feature Stores - Part 1 (Papers 1-4)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --paper1-color: #FF6B6B;
+            --paper2-color: #4ECDC4;
+            --paper3-color: #45B7D1;
+            --paper4-color: #96CEB4;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            padding: 20px 0;
+        }
+        
+        .navbar-custom {
+            background: linear-gradient(90deg, #2c3e50 0%, #34495e 100%);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-custom .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5em;
+            letter-spacing: 1px;
+        }
+        
+        .container-main {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 30px;
+        }
+        
+        .header-section h1 {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .header-section p {
+            color: #666;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+        
+        .toc-section {
+            background: #f8f9fa;
+            border-left: 4px solid #2c3e50;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+        
+        .toc-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .toc-list li {
+            padding: 8px 0;
+        }
+        
+        .toc-list a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            padding-left: 10px;
+            display: block;
+        }
+        
+        .toc-list a:hover {
+            color: #e74c3c;
+            border-left-color: #e74c3c;
+        }
+        
+        .paper-section {
+            margin: 50px 0;
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid;
+            background: #fafafa;
+        }
+        
+        .paper1 { border-left-color: var(--paper1-color); }
+        .paper2 { border-left-color: var(--paper2-color); }
+        .paper3 { border-left-color: var(--paper3-color); }
+        .paper4 { border-left-color: var(--paper4-color); }
+        
+        .paper-section h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 2em;
+            font-weight: 700;
+        }
+        
+        .paper1 h2 { color: var(--paper1-color); }
+        .paper2 h2 { color: var(--paper2-color); }
+        .paper3 h2 { color: var(--paper3-color); }
+        .paper4 h2 { color: var(--paper4-color); }
+        
+        .paper-meta {
+            background: rgba(0,0,0,0.05);
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        
+        .badge-custom {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 3px 5px 3px 0;
+        }
+        
+        .theory-badge { background: #e3f2fd; color: #1565c0; }
+        .architecture-badge { background: #f3e5f5; color: #6a1b9a; }
+        .performance-badge { background: #e8f5e9; color: #2e7d32; }
+        
+        .concept-box {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .concept-box:hover {
+            border-color: #2c3e50;
+            box-shadow: 0 4px 12px rgba(44, 62, 80, 0.15);
+        }
+        
+        .concept-box h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .concept-box h4 {
+            color: #34495e;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+        
+        .architecture-box {
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.05), rgba(52, 73, 94, 0.05));
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .performance-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .comparison-grid {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-grid th {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-grid td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .comparison-grid tr:hover {
+            background: #f5f7fa;
+        }
+        
+        .code-block {
+            background: #f5f5f5;
+            border-left: 4px solid #2c3e50;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+        }
+        
+        .emoji-large {
+            font-size: 2em;
+            margin-right: 10px;
+        }
+        
+        .key-insight {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1), rgba(231, 76, 60, 0.1));
+            border-left: 4px solid #e74c3c;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        
+        .key-insight strong {
+            color: #c0392b;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #2c3e50;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5em;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+        
+        .back-to-top:hover {
+            background: #34495e;
+            transform: translateY(-3px);
+        }
+        
+        .back-to-top.show {
+            display: flex;
+        }
+
+        ul, ol {
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top">🏗️ Feature Engineering Research Guide - Part 1</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#toc">Contents</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#paper1">Papers 1-4</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-main container-lg">
+        <div class="header-section" id="top">
+            <h1>📚 Feature Engineering & Feature Stores</h1>
+            <p>Part 1: From Fragmentation to Production Scale Systems</p>
+            <p style="font-size: 0.95em; color: #999; margin-top: 15px;">Papers 1-4 | 2021-2022 | DoorDash, Uber, Lyft, LinkedIn</p>
+        </div>
+
+        <div class="toc-section" id="toc">
+            <h2>📖 Table of Contents</h2>
+            <ul class="toc-list">
+                <li><a href="#paper1">📌 Paper 1: Riviera Framework (DoorDash) 2021</a></li>
+                <li><a href="#paper2">📌 Paper 2: Optimal Feature Discovery (Uber) 2021</a></li>
+                <li><a href="#paper3">📌 Paper 3: Feature Serving Infrastructure (Lyft) 2021</a></li>
+                <li><a href="#paper4">📌 Paper 4: Near Real-Time Features (LinkedIn) 2022</a></li>
+            </ul>
+        </div>
+
+        <!-- Paper 1: DoorDash Riviera -->
+        <div class="paper-section paper1" id="paper1">
+            <h2><span class="emoji-large">🍕</span>Paper 1: Building Riviera - Declarative Real-Time Feature Engineering (DoorDash 2021)</h2>
+            <div class="paper-meta">
+                <strong>Company:</strong> DoorDash | <strong>Year:</strong> 2021 | <strong>Domain:</strong> Feature Framework
+                <span class="badge-custom theory-badge">Declarative</span>
+                <span class="badge-custom architecture-badge">Auto-Generation</span>
+                <span class="badge-custom performance-badge">Deduplication</span>
+            </div>
+
+            <div class="section-title">⚙️ The Problem: Feature Explosion & Fragmentation</div>
+
+            <div class="concept-box">
+                <h3>Scale of the Problem at DoorDash</h3>
+                <p><strong>By 2021, DoorDash had accumulated:</strong> 1,250+ features across 4 ML models with massive inconsistency and waste.</p>
+                
+                <h4>Feature Breakdown:</h4>
+                <ul>
+                    <li><strong>Delivery time prediction:</strong> 300+ features (manual code)</li>
+                    <li><strong>Demand forecasting:</strong> 250+ features (40+ duplicates!)</li>
+                    <li><strong>Merchant ranking:</strong> 400+ features</li>
+                    <li><strong>Customer recommendations:</strong> 300+ features</li>
+                </ul>
+
+                <h4>Cost Analysis - Where Time Goes:</h4>
+                <table class="comparison-grid">
+                    <tr>
+                        <th>Activity</th>
+                        <th>% of Dev Time</th>
+                        <th>Issue</th>
+                    </tr>
+                    <tr>
+                        <td>Feature engineering</td>
+                        <td>60%</td>
+                        <td>Manual coding, no standards</td>
+                    </tr>
+                    <tr>
+                        <td>Debugging features</td>
+                        <td>20%</td>
+                        <td>Finding which feature broke</td>
+                    </tr>
+                    <tr>
+                        <td>Maintaining features</td>
+                        <td>20%</td>
+                        <td>Ownership unclear</td>
+                    </tr>
+                    <tr>
+                        <td>Actual ML building</td>
+                        <td>Only 10%!</td>
+                        <td>Can't innovate on models</td>
+                    </tr>
+                </table>
+
+                <div class="key-insight">
+                    <strong>💡 Key Problem:</strong> Feature engineering takes 2-4 weeks per feature despite many overlaps. Inconsistency causes training-serving skew. Duplication wastes compute (merchant_rating computed 4 times!).
+                </div>
+            </div>
+
+            <div class="section-title">💡 Solution: Riviera Declarative Framework</div>
+
+            <div class="concept-box">
+                <h3>Core Innovation: From Imperative to Declarative</h3>
+                
+                <h4>Traditional Approach (Imperative):</h4>
+                <div class="code-block">
+# Developer writes code for each feature
+def compute_merchant_rating_7d(merchant_id):
+    result = spark.sql("""
+        SELECT AVG(rating) FROM ratings
+        WHERE merchant_id = ? AND timestamp > NOW() - 7 days
+    """)
+    return result
+
+# Different teams write it differently → inconsistency!</div>
+
+                <h4>Riviera Approach (Declarative):</h4>
+                <div class="code-block">
+# Developer writes specification (not code!)
+merchant_rating_7d:
+  entity: merchant_id
+  source: ratings_table
+  aggregation: mean
+  aggregation_field: rating
+  window: 7d
+  filters:
+    - rating > 0
+
+# Riviera generates execution automatically!
+# Same specification → consistent everywhere</div>
+
+                <h4>Key Features of Riviera:</h4>
+                <ul>
+                    <li><strong>YAML-based definitions:</strong> Human-readable, version-controllable</li>
+                    <li><strong>Automatic code generation:</strong> Spark SQL for batch, Flink for streaming</li>
+                    <li><strong>Dual-path execution:</strong> Batch + real-time from single definition</li>
+                    <li><strong>Built-in optimization:</strong> Deduplication, caching, sharing</li>
+                    <li><strong>Automatic testing:</strong> Validates all features for anomalies</li>
+                </ul>
+            </div>
+
+            <div class="section-title">🏗️ System Architecture</div>
+
+            <div class="architecture-box">Riviera Framework Architecture:
+
+┌─────────────────────────────────────────┐
+│  Feature Definition (YAML)              │
+│  • Entity + aggregation + window        │
+│  • Organized, human-readable            │
+└────────────────┬────────────────────────┘
+                 │
+┌────────────────▼──────────────────────┐
+│ Riviera Parser & Optimizer             │
+│ • Validate definitions                 │
+│ • Build dependency graph               │
+│ • Find opportunities for deduplication │
+└────────────────┬──────────────────────┘
+                 │
+    ┌────────────┼────────────────────┐
+    │            │                    │
+ ┌──▼────┐  ┌──▼──────┐        ┌──▼──────┐
+ │ Batch │  │Real-Time│        │ Serving │
+ │(Spark)│  │ (Flink) │        │  Layer  │
+ └┬──────┘  └┬───────┘         └┬───────┘
+  │          │                  │
+  └──────────┼──────────────────┘
+             │
+      ┌──────▼──────────┐
+      │Feature Monitoring│
+      │& Validation      │
+      └──────────────────┘</div>
+
+            <div class="section-title">📊 Performance Results</div>
+
+            <div class="performance-card">
+                <h4>Feature Addition Velocity (Before vs After)</h4>
+                <table class="comparison-grid">
+                    <tr>
+                        <th>Phase</th>
+                        <th>Before Riviera</th>
+                        <th>After Riviera</th>
+                        <th>Improvement</th>
+                    </tr>
+                    <tr>
+                        <td>Define requirement</td>
+                        <td>1 day</td>
+                        <td>1 day</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>Write code/YAML</td>
+                        <td>5 days</td>
+                        <td>2-4 hours</td>
+                        <td>30x faster</td>
+                    </tr>
+                    <tr>
+                        <td>Code review</td>
+                        <td>2 days</td>
+                        <td>Automatic</td>
+                        <td>Skipped</td>
+                    </tr>
+                    <tr>
+                        <td>Testing</td>
+                        <td>2 days</td>
+                        <td>Automatic</td>
+                        <td>Skipped</td>
+                    </tr>
+                    <tr>
+                        <td>Deployment</td>
+                        <td>1 day</td>
+                        <td>1 day</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td><strong>11 days</strong></td>
+                        <td><strong>1.5-2 days</strong></td>
+                        <td><strong>5-7x faster!</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="performance-card">
+                <h4>Cost Savings at DoorDash</h4>
+                <p><strong>Engineering costs:</strong></p>
+                <ul>
+                    <li>Before: 20 data engineers + 80 ML engineers (40% on features) = $20M/year</li>
+                    <li>After: 8 data engineers + 80 ML engineers (10% on features) = $17.6M/year</li>
+                    <li><strong>Annual savings: $2.4M in engineering alone!</strong></li>
+                </ul>
+                
+                <p><strong>Infrastructure costs:</strong></p>
+                <ul>
+                    <li>Duplicate computation (merchant_rating computed 5 times): 50 CPU-hours/day</li>
+                    <li>After deduplication: 10 CPU-hours/day (5x reduction)</li>
+                    <li><strong>Infrastructure savings: $200K/year</strong></li>
+                </ul>
+
+                <p><strong>Model Quality:</strong></p>
+                <ul>
+                    <li>Training-serving skew: 5-10% fixed (now using same code path!)</li>
+                    <li>Model AUC improvement: 0.82 → 0.85 (+3.7%)</li>
+                </ul>
+            </div>
+
+            <div class="key-insight">
+                <strong>💡 Impact:</strong> Riviera migrated 1000+ features in 6 months. 800+ features now managed by declarative framework. Feature velocity increased 5-7x. Consistency guaranteed (training = serving always).
+            </div>
+        </div>
+
+        <!-- Paper 2: Uber Feature Discovery -->
+        <div class="paper-section paper2" id="paper2">
+            <h2><span class="emoji-large">🚗</span>Paper 2: Optimal Feature Discovery - Information Theory Approach (Uber 2021)</h2>
+            <div class="paper-meta">
+                <strong>Company:</strong> Uber | <strong>Year:</strong> 2021 | <strong>Domain:</strong> Feature Selection
+                <span class="badge-custom theory-badge">Information Theory</span>
+                <span class="badge-custom performance-badge">98% Reduction</span>
+            </div>
+
+            <div class="section-title">⚙️ The Problem: Feature Bloat & Redundancy</div>
+
+            <div class="concept-box">
+                <h3>The Paradox: More Features = Lower Performance</h3>
+                
+                <h4>Year-by-Year Feature Count vs. Model AUC:</h4>
+                <table class="comparison-grid">
+                    <tr>
+                        <th>Year</th>
+                        <th>Features</th>
+                        <th>Model AUC</th>
+                        <th>Observation</th>
+                    </tr>
+                    <tr>
+                        <td>2018</td>
+                        <td>2,000</td>
+                        <td>0.820</td>
+                        <td>Baseline</td>
+                    </tr>
+                    <tr>
+                        <td>2019</td>
+                        <td>4,000 (2x)</td>
+                        <td>0.830</td>
+                        <td>+5% AUC only!</td>
+                    </tr>
+                    <tr>
+                        <td>2020</td>
+                        <td>7,000</td>
+                        <td>0.830</td>
+                        <td>No change</td>
+                    </tr>
+                    <tr>
+                        <td>2021</td>
+                        <td>10,000+</td>
+                        <td>0.820</td>
+                        <td>Actually declining!</td>
+                    </tr>
+                </table>
+
+                <div class="key-insight">
+                    <strong>💡 Root Cause:</strong> Most features are redundant! Feature count grew, but true information stayed constant. Multicollinearity confusing the model.
+                </div>
+
+                <h4>Redundancy Analysis:</h4>
+                <ul>
+                    <li><strong>Feature pairs with correlation > 0.95:</strong> 3,000 redundant pairs</li>
+                    <li><strong>Implication:</strong> Of 10,000 features, maybe only 5,000 carry unique information</li>
+                    <li><strong>Example:</strong> user_orders_total, user_orders_1yr, user_orders_6m, user_orders_3m, user_orders_1m all measure same signal (order history)</li>
+                </ul>
+            </div>
+
+            <div class="section-title">💡 Solution: Information Theory-Based Feature Selection</div>
+
+            <div class="concept-box">
+                <h3>Information Theory Approach</h3>
+                
+                <h4>Key Metrics:</h4>
+                <ul>
+                    <li><strong>Mutual Information (MI):</strong> How much does feature X tell us about target Y?</li>
+                    <li><strong>Redundancy:</strong> Do X and Z tell us the same thing? (Is MI(X,Z) high?)</li>
+                    <li><strong>Goal:</strong> Find features with high MI(feature, target) AND low MI(feature, other_features)</li>
+                </ul>
+
+                <h4>Greedy Selection Algorithm:</h4>
+                <div class="code-block">
+# Information theory-based feature selection
+selected = []
+remaining = all_features
+
+# Rank all features by MI(feature, target)
+feature_mi = compute_mutual_information_all()
+
+# Greedy: maximize Information Gain (info not redundant)
+while len(selected) < target_size:
+    best_feature = None
+    best_gain = 0
+    
+    for feat in remaining:
+        # Information gain = 
+        # MI(feat, target) - redundancy_with_existing
+        
+        redundancy = 0
+        for sel_feat in selected:
+            redundancy += MI(feat, sel_feat)
+        
+        gain = MI(feat, target) - redundancy/len(selected)
+        
+        if gain > best_gain:
+            best_gain = gain
+            best_feature = feat
+    
+    selected.append(best_feature)
+    remaining.remove(best_feature)
+
+return selected</div>
+
+                <h4>Example: Why It Works</h4>
+                <p>Traditional importance-based selection (WRONG):</p>
+                <ul>
+                    <li>user_orders_total: importance 0.15 ✓ Keep</li>
+                    <li>user_orders_1yr: importance 0.14 ✓ Keep</li>
+                    <li>user_orders_6m: importance 0.13 ✓ Keep</li>
+                    <li>user_orders_3m: importance 0.12 ✓ Keep</li>
+                    <li><strong>Problem:</strong> All 4 measure same signal (highly correlated, redundant)</li>
+                </ul>
+
+                <p>Information theory selection (CORRECT):</p>
+                <ul>
+                    <li>user_orders_total: MI = 0.20 ✓ Keep (high info!)</li>
+                    <li>user_orders_1yr: MI(given total) = 0.01 ✗ Skip (redundant)</li>
+                    <li>user_orders_6m: MI(given total,1yr) = 0.005 ✗ Skip (redundant)</li>
+                    <li><strong>Result:</strong> Keep 1, discard 3 (cleaner signal)</li>
+                </ul>
+            </div>
+
+            <div class="section-title">📊 Results at Uber</div>
+
+            <div class="performance-card">
+                <h4>Feature Selection Results</h4>
+                <table class="comparison-grid">
+                    <tr>
+                        <th>Metric</th>
+                        <th>Before (10K features)</th>
+                        <th>After (253 features)</th>
+                        <th>Improvement</th>
+                    </tr>
+                    <tr>
+                        <td>Model AUC</td>
+                        <td>0.830</td>
+                        <td>0.841</td>
+                        <td>+1.3% (better!)</td>
+                    </tr>
+                    <tr>
+                        <td>Features</td>
+                        <td>10,000</td>
+                        <td>253</td>
+                        <td>97.5% reduction</td>
+                    </tr>
+                    <tr>
+                        <td>Inference latency</td>
+                        <td>150ms</td>
+                        <td>15ms</td>
+                        <td>10x faster</td>
+                    </tr>
+                    <tr>
+                        <td>Training time</td>
+                        <td>4 hours</td>
+                        <td>15 minutes</td>
+                        <td>16x faster</td>
+                    </tr>
+                    <tr>
+                        <td>Storage</td>
+                        <td>100GB</td>
+                        <td>2.5GB</td>
+                        <td>40x smaller</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="performance-card">
+                <h4>Business Impact</h4>
+                <ul>
+                    <li><strong>Model quality:</strong> +1.3% AUC (significant for Uber scale)</li>
+                    <li><strong>Inference speed:</strong> 10x faster means lower latency for rides</li>
+                    <li><strong>Cost savings:</strong> At 100M queries/day, 10x speedup = ~$1M/day savings</li>
+                    <li><strong>Annual potential:</strong> $365M+ (if applied to 10% of inference)</li>
+                </ul>
+            </div>
+
+            <div class="key-insight">
+                <strong>💡 Key Insight:</strong> Feature importance ≠ Feature uniqueness. High-importance features can be collinear. Information theory finds truly complementary features → smaller models, better quality, faster inference.
+            </div>
+        </div>
+
+        <!-- Paper 3: Lyft Feature Serving -->
+        <div class="paper-section paper3" id="paper3">
+            <h2><span class="emoji-large">🚙</span>Paper 3: ML Feature Serving Infrastructure at Lyft (2021)</h2>
+            <div class="paper-meta">
+                <strong>Company:</strong> Lyft | <strong>Year:</strong> 2021 | <strong>Domain:</strong> Real-Time Feature Serving
+                <span class="badge-custom architecture-badge">Latency <5ms</span>
+                <span class="badge-custom performance-badge">99.99% Uptime</span>
+            </div>
+
+            <div class="section-title">⚙️ The Problem: Real-Time Feature Fetching Latency</div>
+
+            <div class="concept-box">
+                <h3>Strict Time Budget: <100ms for Entire Flow</h3>
+                
+                <h4>Ride Request Flow (Lyft):</h4>
+                <div class="code-block">
+T=0ms: Request received (user taps "request ride")
+└─ Goal: Return matched driver in <100ms (feels instant!)
+   │
+   ├─ T=0-10ms: Feature loading (HARD BUDGET!)
+   │  ├─ Current driver_rating: ?
+   │  ├─ Current driver_location: ?
+   │  ├─ Passenger_rating: ?
+   │  └─ Surge multiplier: ?
+   │
+   ├─ T=10-50ms: Feature serving & formatting
+   ├─ T=50-80ms: Model inference (predict driver match)
+   ├─ T=80-90ms: Post-processing
+   └─ T=90-100ms: Send response (driver selected!)</div>
+
+                <h4>Bottleneck: Database is Too Slow</h4>
+                <div class="code-block">
+Traditional: Fetch from database
+├─ Network to DB: 10-15ms
+├─ Query execution: 5-10ms
+├─ Network return: 10-15ms
+├─ Deserialization: 1-2ms
+└─ Total: 26-42ms (exceeds 10ms budget!)
+
+Result: Feature fetching alone violates time budget.
+Solution: Cache features in Redis (in-memory storage)</div>
+
+                <h4>With Redis Cache:</h4>
+                <ul>
+                    <li>Network latency: 2-3ms (Redis nearby!)</li>
+                    <li>Lookup: 1ms (hash table)</li>
+                    <li>Deserialization: 1ms</li>
+                    <li><strong>Total: 4-5ms (within budget!)</strong></li>
+                </ul>
+            </div>
+
+            <div class="section-title">🏗️ Feature Serving Architecture</div>
+
+            <div class="architecture-box">Real-Time Feature Serving System:
+
+┌─────────────────────────────────────────┐
+│ Raw Data Sources                        │
+│ • Kafka events (driver locations)       │
+│ • User databases                        │
+│ • External APIs                         │
+└────────────┬────────────────────────────┘
+             │
+    ┌────────┼────────┬────────────┐
+    │        │        │            │
+┌───▼────┐ ┌▼────┐ ┌─▼──────┐ ┌──▼──────┐
+│ Batch  │ │Real │ │On-Demand│ │Static  │
+│Features│ │Time │ │Features│ │Data    │
+│(Daily) │ │Feat │ │(Computed)│ │(Lookup)│
+└───┬────┘ │ures │ └───┬──────┘ └──┬─────┘
+    │      │(Strm)│    │           │
+    │      └──┬───┘    │           │
+    └────────┬──────────┴───────────┘
+             │
+        ┌────▼────────────────┐
+        │ Feature Store       │
+        │                    │
+        │ Caching Layer:     │
+        │ • Redis (hot)      │
+        │ • Local cache (hot)│
+        │ • DB (cold/slow)   │
+        └────┬───────────────┘
+             │
+        ┌────▼──────────────┐
+        │ ML Model          │
+        │ Inference         │
+        │ <100ms total      │
+        └───────────────────┘</div>
+
+            <div class="section-title">💡 Freshness vs. Consistency Tradeoff</div>
+
+            <div class="concept-box">
+                <h3>Different Features Need Different Update Frequencies</h3>
+                
+                <h4>Feature Types at Lyft:</h4>
+                <table class="comparison-grid">
+                    <tr>
+                        <th>Feature</th>
+                        <th>Freshness Requirement</th>
+                        <th>Update Frequency</th>
+                        <th>Storage</th>
+                    </tr>
+                    <tr>
+                        <td>driver_location</td>
+                        <td><30 seconds (moving!)</td>
+                        <td>Every 5 seconds</td>
+                        <td>Real-time cache</td>
+                    </tr>
+                    <tr>
+                        <td>driver_rating</td>
+                        <td><1 hour (changes slowly)</td>
+                        <td>Hourly batch</td>
+                        <td>Redis</td>
+                    </tr>
+                    <tr>
+                        <td>surge_multiplier</td>
+                        <td><10 seconds (dynamic!)</td>
+                        <td>Per request</td>
+                        <td>Computed live</td>
+                    </tr>
+                    <tr>
+                        <td>accepted_languages</td>
+                        <td>Days (rarely changes)</td>
+                        <td>On startup</td>
+                        <td>Local memory</td>
+                    </tr>
+                </table>
+
+                <div class="key-insight">
+                    <strong>💡 Strategy:</strong> Match storage tier to freshness requirement. Hot features → Redis. Warm features → batch cache. Cold features → local. Computed features → on-demand.
+                </div>
+            </div>
+
+            <div class="section-title">📊 Production Performance</div>
+
+            <div class="performance-card">
+                <h4>Feature Serving Latency SLA</h4>
+                <table class="comparison-grid">
+                    <tr>
+                        <th>Percentile</th>
+                        <th>SLA Target</th>
+                        <th>Achieved</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>P50</td>
+                        <td>&lt;1ms</td>
+                        <td>0.8ms</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td>P95</td>
+                        <td>&lt;3ms</td>
+                        <td>2.5ms</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td>P99</td>
+                        <td>&lt;5ms</td>
+                        <td>4.2ms</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td>P99.9</td>
+                        <td>&lt;10ms</td>
+                        <td>9.1ms</td>
+                        <td>✓</td>
+                    </tr>
+                </table>
+
+                <p style="margin-top: 15px;"><strong>✓ All SLAs met! Leaves 90ms for model inference + post-processing.</strong></p>
+            </div>
+
+            <div class="performance-card">
+                <h4>Availability & Cost Metrics</h4>
+                <ul>
+                    <li><strong>Uptime:</strong> 99.985% (quarterly) = ~2 hours downtime per quarter</li>
+                    <li><strong>Feature fetch cost per ride:</strong> <$0.0001 (tiny!)</li>
+                    <li><strong>Cost at 1M rides/day:</strong> ~$100/day (totally acceptable)</li>
+                    <li><strong>Fallback mechanism:</strong> Gracefully degrades if cache misses</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Paper 4: LinkedIn Near Real-Time Features -->
+        <div class="paper-section paper4" id="paper4">
+            <h2><span class="emoji-large">💼</span>Paper 4: Near Real-Time Features for Personalization (LinkedIn 2022)</h2>
+            <div class="paper-meta">
+                <strong>Company:</strong> LinkedIn | <strong>Year:</strong> 2022 | <strong>Domain:</strong> Real-Time Personalization
+                <span class="badge-custom architecture-badge">Dual-Path</span>
+                <span class="badge-custom performance-badge">+15% Engagement</span>
+            </div>
+
+            <div class="section-title">⚙️ The Problem: Freshness vs. Consistency Paradox</div>
+
+            <div class="concept-box">
+                <h3>The Core Tension</h3>
+                
+                <h4>Real-Time Personalization Needs BOTH:</h4>
+                <ul>
+                    <li><strong>Freshness:</strong> User just viewed article → system learns immediately → recommend similar (within seconds!)</li>
+                    <li><strong>Consistency:</strong> Training used feature X at version 1 → serving must use same version → no training-serving skew</li>
+                </ul>
+
+                <h4>The Problem:</h4>
+                <p><strong>Fresh but inconsistent (❌):</strong> Serve most recent features but computed differently → skew → bad predictions</p>
+                <p><strong>Consistent but stale (❌):</strong> Serve same as training but batch (overnight) → can't do real-time personalization</p>
+                <p><strong>Fresh AND consistent (✓ but hard!):</strong> How to compute batch + realtime identically?</p>
+            </div>
+
+            <div class="section-title">💡 Solution: Declarative Dual-Path Execution</div>
+
+            <div class="concept-box">
+                <h3>Single Definition, Two Execution Paths</h3>
+                
+                <h4>Feature Definition (Abstract YAML):</h4>
+                <div class="code-block">
+features:
+  user_articles_viewed_1h:
+    entity: user_id
+    event_source: article_view_events
+    aggregation: count
+    time_window: 1h
+    filters:
+      - view_duration > 5s</div>
+
+                <h4>Path A - Batch (Offline):</h4>
+                <div class="code-block">
+Trigger: Hourly job
+Computation: Spark SQL
+Query: SELECT count(*) FROM views 
+       WHERE user_id = X AND time > NOW() - 1h
+Output: Stored in feature store
+Used for: Model training (consistent snapshot)</div>
+
+                <h4>Path B - Real-Time (Online):</h4>
+                <div class="code-block">
+Trigger: Kafka stream (continuous)
+Computation: Flink windowed aggregation
+Logic: Increment counter for 1h window
+Output: Update Redis (instant!)
+Used for: Model serving (most recent!)</div>
+
+                <div class="key-insight">
+                    <strong>💡 Key Insight:</strong> Both paths compute the SAME metric. Same definition = identical logic. Only execution mechanism differs (batch vs stream). Result: Guaranteed consistency!
+                </div>
+            </div>
+
+            <div class="section-title">📊 Real-Time Personalization Flow</div>
+
+            <div class="concept-box">
+                <h3>Step-by-Step Timeline</h3>
+                
+                <h4>User scrolls LinkedIn feed:</h4>
+                <div class="code-block">
+T=0ms: User views article "AI in 2022"
+├─ Event: view_event sent to Kafka
+└─ Payload: {user_id: 123, article_id: 456, timestamp}
+
+T=10ms: Kafka event processed
+├─ Flink job receives event
+├─ Action: Increment user_articles_viewed_1h counter
+├─ Query: "Seen by user 123 in last hour" = 12 (now 13!)
+└─ Storage: redis.incr("user:123:articles_1h") → 13
+
+T=100ms: Personalization needed
+├─ Request: "What article to show next?"
+├─ Model: Content recommendation
+├─ Features needed:
+│  ├─ user_articles_viewed_1h = 13 (FRESH!)
+│  ├─ user_articles_viewed_today = 47
+│  ├─ user_interests (static profile)
+│  └─ article_features
+├─ Feature fetch: <1ms (cached!)
+├─ Model inference: 50ms
+└─ Result: [AI applications (95%), ML tips (92%)]
+
+T=150ms: Response sent
+└─ User sees: New article (feels instant!)
+
+CONTRAST with batch:
+T=0: User views article (event logged)
+T=24h: Batch job runs
+├─ Features computed: Yesterday's snapshot
+└─ Problem: User's current interests NOT reflected!</div>
+            </div>
+
+            <div class="architecture-box">LinkedIn Real-Time Feature Infrastructure:
+
+┌──────────────────────────────────┐
+│ Event Sources                    │
+│ • Kafka: User actions            │
+│ • User DB: Profiles              │
+│ • APIs: External data            │
+└────────────┬────────────────────┘
+             │
+    ┌────────┼────────────┐
+    │        │            │
+┌───▼─────┐ │ ┌────────┐ │
+│ Batch   │ │ │Real-   │ │
+│Spark Job│ │ │Time    │ │
+│(Hourly) │ │ │Flink   │ │
+└────┬────┘ │ └───┬────┘ │
+     │      │     │      │
+     └──────┼─────┘      │
+            │            │
+       ┌────▼─────────────▼──┐
+       │ Feature Store      │
+       │                   │
+       │ Redis (hot):      │
+       │ • <1ms latency   │
+       │ • TTL: minutes   │
+       │                   │
+       │ S3/Hive (batch): │
+       │ • Training data  │
+       │ • Snapshot       │
+       └────┬──────────────┘
+            │
+       ┌────▼───────────┐
+       │ ML Model       │
+       │ Inference      │
+       │ <100ms         │
+       └────────────────┘</div>
+
+            <div class="section-title">📊 Production Results</div>
+
+            <div class="performance-card">
+                <h4>Engagement Impact</h4>
+                <table class="comparison-grid">
+                    <tr>
+                        <th>Metric</th>
+                        <th>Before (Batch)</th>
+                        <th>After (Real-Time)</th>
+                        <th>Improvement</th>
+                    </tr>
+                    <tr>
+                        <td>Feature freshness</td>
+                        <td>Hourly (stale!)</td>
+                        <td><1 minute (fresh!)</td>
+                        <td>60x fresher</td>
+                    </tr>
+                    <tr>
+                        <td>Feed engagement clicks</td>
+                        <td>Baseline</td>
+                        <td>+12-15%</td>
+                        <td>Significant</td>
+                    </tr>
+                    <tr>
+                        <td>Recommendation CTR</td>
+                        <td>Baseline</td>
+                        <td>+40%</td>
+                        <td>Much better</td>
+                    </tr>
+                    <tr>
+                        <td>Feature latency</td>
+                        <td>Batch (slow)</td>
+                        <td>P99: 3.2ms</td>
+                        <td>Sub-ms speed</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="performance-card">
+                <h4>Infrastructure Performance</h4>
+                <ul>
+                    <li><strong>P50 latency:</strong> 0.5ms (super fast!)</li>
+                    <li><strong>P99 latency:</strong> 3.2ms (very fast!)</li>
+                    <li><strong>Uptime:</strong> 99.95% (high availability)</li>
+                    <li><strong>Infrastructure cost:</strong> $2M/year (expensive but justified)</li>
+                    <li><strong>ROI:</strong> Enables $100M+ in engagement improvements → payback <1 month</li>
+                </ul>
+            </div>
+
+            <div class="key-insight">
+                <strong>💡 Impact:</strong> Real-time features enable modern personalization. Single YAML definition powers both batch (training consistency) and streaming (serving freshness). Result: 40% better recommendations and 15% more engagement.
+            </div>
+        </div>
+
+        <!-- Conclusion -->
+        <div style="background: linear-gradient(135deg, rgba(44, 62, 80, 0.1), rgba(52, 73, 94, 0.1)); border-left: 5px solid #2c3e50; padding: 30px; border-radius: 10px; margin-top: 50px;">
+            <h2 style="color: #2c3e50; margin-top: 0;">📚 Evolution of Feature Engineering (2021-2022)</h2>
+            
+            <h4>By Year - Major Innovations:</h4>
+            <ul>
+                <li><strong>DoorDash 2021:</strong> Declarative frameworks eliminate manual coding; 5-7x faster feature velocity</li>
+                <li><strong>Uber 2021:</strong> Information theory finds non-redundant feature sets; 97.5% reduction while improving quality</li>
+                <li><strong>Lyft 2021:</strong> Real-time serving architecture with <5ms latency across millions of features</li>
+                <li><strong>LinkedIn 2022:</strong> Dual-path execution (batch + streaming) enables real-time personalization with training consistency</li>
+            </ul>
+
+            <h4>Key Lessons Learned:</h4>
+            <ol>
+                <li><strong>Declarative > Imperative:</strong> YAML descriptions beat hand-coded features for consistency</li>
+                <li><strong>Redundancy matters:</strong> 97% of features can be noise; information theory finds true signal</li>
+                <li><strong>Freshness hierarchy:</strong> Different features need different update frequencies (hot/warm/cold)</li>
+                <li><strong>Consistency critical:</strong> Training-serving skew kills model quality; use same code paths</li>
+                <li><strong>Scale changes everything:</strong> Feature serving at Lyft/LinkedIn scale requires multi-layer caching</li>
+                <li><strong>Cost-quality tradeoff:</strong> Real-time systems cost $2M+ but enable $100M+ in business impact</li>
+            </ol>
+
+            <h4>Future Directions:</h4>
+            <ul>
+                <li>Automated feature discovery (rather than manual definition)</li>
+                <li>Feature stores as standardized platforms (Riviera, Feathr, etc.)</li>
+                <li>Real-time + batch convergence (streaming all the way)</li>
+                <li>Feature governance and lineage tracking</li>
+                <li>Open-source standardization (Feathr OSS at LinkedIn)</li>
+            </ul>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Back to top button functionality
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+</html>

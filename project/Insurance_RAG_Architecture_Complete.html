@@ -1,0 +1,2619 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance RAG Chatbot - Complete Architecture</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e74c3c;
+            --secondary: #3498db;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --info: #9b59b6;
+            --dark: #2c3e50;
+            --light-bg: #ecf0f1;
+            --insurance-blue: #2980b9;
+            --insurance-green: #16a085;
+            --insurance-orange: #e67e22;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #fff !important;
+            letter-spacing: 1px;
+        }
+
+        .main-wrapper {
+            background: white;
+            margin: 20px auto;
+            max-width: 1400px;
+            border-radius: 12px;
+            box-shadow: 0 2px 24px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 40px 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 1rem;
+            margin-bottom: 0;
+            opacity: 0.9;
+        }
+
+        .toc-section {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 25px 40px;
+        }
+
+        .toc-section h2 {
+            font-weight: 800;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .toc-item {
+            background: rgba(255, 255, 255, 0.95);
+            color: #2c3e50;
+            padding: 14px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--insurance-green);
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .toc-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            background: #ecf0f1;
+        }
+
+        .toc-item a {
+            text-decoration: none;
+            color: #e74c3c;
+            display: block;
+            font-size: 0.85rem;
+        }
+
+        .content-wrapper {
+            padding: 30px 40px;
+            background: white;
+        }
+
+        .section {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #e74c3c;
+            border-left: 5px solid #e74c3c;
+            padding-left: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .subsection-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2980b9;
+            margin-top: 18px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #16a085;
+            padding-bottom: 8px;
+        }
+
+        .subsection-subtitle {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #e67e22;
+            margin-top: 14px;
+            margin-bottom: 10px;
+        }
+
+        .card-box {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8eaf6 100%);
+            border-left: 5px solid #3498db;
+            border-radius: 8px;
+            padding: 18px;
+            margin: 12px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .card-box:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .card-box.success {
+            border-left-color: #2ecc71;
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+        }
+
+        .card-box.warning {
+            border-left-color: #f39c12;
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+        }
+
+        .card-box.danger {
+            border-left-color: #e74c3c;
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+        }
+
+        .card-box.info {
+            border-left-color: #9b59b6;
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+        }
+
+        .database-layer {
+            background: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%);
+            border: 2px solid #34495e;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .database-layer h4 {
+            color: #e74c3c;
+            font-weight: 800;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .database-layer p {
+            color: #2c3e50;
+            font-size: 0.88rem;
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+
+        .code-box {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-left: 4px solid #e74c3c;
+            padding: 14px 16px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.82rem;
+            line-height: 1.4;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        .problem-solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .problem-card {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border: 2px solid #e74c3c;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .problem-card h5 {
+            color: #c0392b;
+            font-weight: 800;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .solution-card {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 2px solid #2ecc71;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .solution-card h5 {
+            color: #27ae60;
+            font-weight: 800;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .table-custom {
+            width: 100%;
+            margin: 12px 0;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .table-custom thead th {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .table-custom td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #ecf0f1;
+            font-size: 0.85rem;
+        }
+
+        .table-custom tr:hover {
+            background: #f8f9fa;
+        }
+
+        .table-custom tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .list-styled {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-styled li {
+            padding: 6px 0 6px 35px;
+            position: relative;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: #2c3e50;
+        }
+
+        .list-styled li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #e74c3c;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .flow-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-left: 4px solid #2980b9;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+            border-left: 4px solid #f39c12;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.88rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+            line-height: 1.5;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 4px solid #2ecc71;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.88rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+            line-height: 1.5;
+        }
+
+        .accordion-button {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%) !important;
+            color: white !important;
+            font-weight: 700;
+            padding: 12px 14px;
+            border: none !important;
+            border-radius: 5px !important;
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #c0392b 0%, #a93226 100%) !important;
+        }
+
+        .accordion-button::after {
+            filter: invert(1) brightness(1.2);
+        }
+
+        .accordion-body {
+            padding: 15px 18px;
+            background: #f8f9fa;
+            border-radius: 0 0 6px 6px;
+            border-top: 2px solid #e74c3c;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #2c3e50;
+        }
+
+        .accordion-body strong {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            color: #e74c3c;
+            font-size: 0.93rem;
+            font-weight: 800;
+            padding-bottom: 4px;
+            border-bottom: 2px solid #e74c3c;
+            letter-spacing: 0.3px;
+        }
+
+        .accordion-body strong:first-child {
+            margin-top: 0;
+        }
+
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+            margin: 20px 0;
+        }
+
+        .arch-card {
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            border: 2px solid #e91e63;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .arch-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .arch-card h5 {
+            color: #c2185b;
+            font-weight: 800;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .arch-card p {
+            font-size: 0.85rem;
+            color: #880e4f;
+            margin: 0;
+        }
+
+        .arch-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .badge-custom {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin: 5px 5px 5px 0;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .badge-db {
+            background: #e3f2fd;
+            color: #1565c0;
+            border: 2px solid #1976d2;
+        }
+
+        .badge-system {
+            background: #fff3e0;
+            color: #e65100;
+            border: 2px solid #ff6f00;
+        }
+
+        .badge-api {
+            background: #f3e5f5;
+            color: #6a1b9a;
+            border: 2px solid #7b1fa2;
+        }
+
+        .badge-monitoring {
+            background: #e0f2f1;
+            color: #004d40;
+            border: 2px solid #00796b;
+        }
+
+        .metric-card {
+            background: white;
+            border: 3px solid #e74c3c;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 15px 0;
+            border-top: 6px solid #e74c3c;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-card h5 {
+            color: #e74c3c;
+            font-weight: 800;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .metric-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #2980b9;
+            margin: 10px 0;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.3rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            text-align: center;
+            padding: 50px;
+            margin-top: 50px;
+            font-weight: 500;
+        }
+
+        .layer-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 3px solid #3498db;
+            border-radius: 10px;
+            padding: 22px;
+            margin: 18px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .layer-box h5 {
+            color: #e74c3c;
+            font-weight: 800;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .layer-box p {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 25px;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .architecture-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .problem-solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-custom {
+                font-size: 0.85rem;
+            }
+
+            .table-custom td {
+                padding: 8px 10px;
+            }
+        }
+
+        .learning-path {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border: 3px solid #16a085;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .learning-path h4 {
+            color: #1a5f4a;
+            font-weight: 800;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .learning-path ol li {
+            margin-bottom: 8px;
+            font-size: 0.88rem;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+
+        .comparison-table {
+            margin: 12px 0;
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .comparison-left {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border: 2px solid #e74c3c;
+            border-radius: 6px;
+            padding: 12px;
+            font-weight: 600;
+            color: #c0392b;
+            font-size: 0.88rem;
+            line-height: 1.4;
+        }
+
+        .comparison-right {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 2px solid #2ecc71;
+            border-radius: 6px;
+            padding: 12px;
+            font-weight: 600;
+            color: #27ae60;
+            font-size: 0.88rem;
+            line-height: 1.4;
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <span class="navbar-brand">🛡️ Insurance RAG Chatbot Architecture</span>
+        </div>
+    </nav>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>🛡️ Insurance RAG Chatbot</h1>
+            <p>Complete Production-Grade Architecture for Enterprise Knowledge Systems</p>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc-section">
+            <h2>📋 Complete Learning Path (15 Comprehensive Sections)</h2>
+            <div class="toc-grid">
+                <div class="toc-item"><a href="#overview">📊 System Overview</a></div>
+                <div class="toc-item"><a href="#database">🗄️ Database Schema</a></div>
+                <div class="toc-item"><a href="#rag-problems">⚠️ RAG Problems</a></div>
+                <div class="toc-item"><a href="#chunking">📦 Data Chunking</a></div>
+                <div class="toc-item"><a href="#retrieval">🔍 Retrieval Strategy</a></div>
+                <div class="toc-item"><a href="#llm">🤖 LLM Quality</a></div>
+                <div class="toc-item"><a href="#system">⚡ System Performance</a></div>
+                <div class="toc-item"><a href="#operations">📈 Operations</a></div>
+                <div class="toc-item"><a href="#learning">🧠 Learning Loop</a></div>
+                <div class="toc-item"><a href="#production">🏭 Production Theory</a></div>
+                <div class="toc-item"><a href="#learning-problems">🎓 Learning Problems</a></div>
+                <div class="toc-item"><a href="#mental-model">🏭 Production Model</a></div>
+                <div class="toc-item"><a href="#kubernetes">☸️ Kubernetes Deploy</a></div>
+                <div class="toc-item"><a href="#scaling">📈 Scaling Strategy</a></div>
+                <div class="toc-item"><a href="#summary">✅ Final Checklist</a></div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content-wrapper">
+
+            <!-- SECTION 1: System Overview -->
+            <div class="section" id="overview">
+                <h2 class="section-title">📊 System Overview</h2>
+
+                <div class="insight-box">
+                    <strong>🎯 Core Concept:</strong><br>
+                    A production RAG (Retrieval-Augmented Generation) system is not just a chatbot. It's a continuously
+                    improving, distributed knowledge system that retrieves relevant information and generates accurate
+                    answers in real-time.
+                </div>
+
+                <h3 class="subsection-title">🔥 The 5 Critical Failure Points</h3>
+
+                <div class="architecture-grid">
+                    <div class="arch-card">
+                        <div class="icon">1️⃣</div>
+                        <h5>Data</h5>
+                        <p>What you store affects what you can retrieve</p>
+                    </div>
+                    <div class="arch-card">
+                        <div class="icon">2️⃣</div>
+                        <h5>Retrieval</h5>
+                        <p>Most important - 70% of problems here</p>
+                    </div>
+                    <div class="arch-card">
+                        <div class="icon">3️⃣</div>
+                        <h5>LLM</h5>
+                        <p>How the model answers (only 10%)</p>
+                    </div>
+                    <div class="arch-card">
+                        <div class="icon">4️⃣</div>
+                        <h5>System</h5>
+                        <p>Speed, cost, and efficiency</p>
+                    </div>
+                    <div class="arch-card">
+                        <div class="icon">5️⃣</div>
+                        <h5>Operations</h5>
+                        <p>Monitoring, debugging, scaling</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>💡 Critical Truth:</strong> Most beginners think "I need a better LLM" but the reality is
+                    70% of problems come from retrieval, 20% from data, and only 10% from the LLM itself.
+                </div>
+
+            </div>
+
+            <!-- SECTION 2: Database Schema -->
+            <div class="section" id="database">
+                <h2 class="section-title">🗄️ Database Schema - 12 Essential Layers</h2>
+
+                <div class="insight-box">
+                    <strong>🎯 Why 12 Layers?</strong> Each layer solves a specific production problem. Missing even one
+                    creates cascading failures in your system.
+                </div>
+
+                <div class="accordion" id="databaseAccordion">
+                    <!-- Layer 1 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db1">
+                                🔑 Layer 1: Identity & Access Control (RBAC)
+                            </button>
+                        </h2>
+                        <div id="db1" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <strong>roles</strong><br>
+                                • id: Unique role identifier<br>
+                                • name: Role name (admin, trader, viewer)<br>
+                                • description: Role purpose and permissions<br><br>
+                                <strong>permissions</strong><br>
+                                • id: Unique permission identifier<br>
+                                • name: Permission action (create_bot, view_logs)<br>
+                                • description: What this permission allows<br><br>
+                                <strong>user_roles</strong><br>
+                                • user_id: References users table<br>
+                                • role_id: References roles table<br><br>
+                                <strong>role_permissions</strong><br>
+                                • role_id: References roles table<br>
+                                • permission_id: References permissions table
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 2 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db2">
+                                💬 Layer 2: Chatbot System (7 Tables)
+                            </button>
+                        </h2>
+                        <div id="db2" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <strong>chat_sessions</strong><br>
+                                • id: Unique session identifier<br>
+                                • user_id: References user who started session<br>
+                                • started_at: When conversation began<br>
+                                • ended_at: When conversation ended<br><br>
+                                <strong>messages</strong><br>
+                                • id: Unique message identifier<br>
+                                • session_id: References chat session<br>
+                                • sender_type: user/bot/system<br>
+                                • message_text: Actual message content<br>
+                                • intent_id: What user wants to do<br>
+                                • created_at: Message timestamp<br><br>
+                                <strong>intents</strong><br>
+                                • id: Unique intent identifier<br>
+                                • name: Intent name (create_bot, check_balance)<br>
+                                • description: Intent purpose<br><br>
+                                <strong>entities</strong><br>
+                                • id: Unique entity identifier<br>
+                                • name: Entity type (exchange, amount)<br>
+                                • value_type: Data type (string, number)<br><br>
+                                <strong>message_entities</strong><br>
+                                • message_id: References message table<br>
+                                • entity_id: References entities table<br>
+                                • value: Extracted entity value<br><br>
+                                <strong>feedback</strong><br>
+                                • id: Unique feedback identifier<br>
+                                • message_id: Which message got feedback<br>
+                                • rating: 1-5 star rating<br>
+                                • comment: User feedback text<br>
+                                • created_at: Feedback timestamp<br><br>
+                                <strong>token_usage</strong><br>
+                                • id: Unique usage record<br>
+                                • user_id: Which user made request<br>
+                                • session_id: Which session<br>
+                                • tokens_used: LLM tokens consumed<br>
+                                • model_name: Which LLM model used<br>
+                                • created_at: Usage timestamp
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 3 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db3">
+                                📊 Layer 3: Audit & Governance
+                            </button>
+                        </h2>
+                        <div id="db3" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <strong>audit_logs</strong><br>
+                                • id: Unique audit log record<br>
+                                • user_id: Who performed the action<br>
+                                • action: What was done (CREATE_BOT, DELETE_USER)<br>
+                                • resource_type: Type of resource (bot, user, credential)<br>
+                                • resource_id: Which specific resource<br>
+                                • old_value: Previous state (JSON)<br>
+                                • new_value: New state (JSON)<br>
+                                • created_at: Action timestamp
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 4 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db4">
+                                🧠 Layer 4: Knowledge Base (RAG Core - 3 Tables)
+                            </button>
+                        </h2>
+                        <div id="db4" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <strong>documents</strong><br>
+                                • id: Unique document identifier<br>
+                                • title: Document title/name<br>
+                                • source: Where from (file, url, api)<br>
+                                • document_type: Format (pdf, webpage, txt)<br>
+                                • created_by: Which user uploaded it<br>
+                                • created_at: Upload timestamp<br><br>
+                                <strong>document_chunks</strong><br>
+                                • id: Unique chunk identifier<br>
+                                • document_id: References parent document<br>
+                                • chunk_text: The actual text chunk (300-800 tokens)<br>
+                                • chunk_index: Order in document<br>
+                                • embedding_id: Vector representation<br>
+                                • metadata: Extra info (page, section)<br><br>
+                                <strong>embeddings</strong><br>
+                                • id: Unique embedding identifier<br>
+                                • vector: The vector data (for similarity search)<br>
+                                • model_name: Which embedding model used<br>
+                                • created_at: Embedding timestamp
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 5 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db5">
+                                🔍 Layer 5: Retrieval Tracking
+                            </button>
+                        </h2>
+                        <div id="db5" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <strong>retrieval_logs</strong><br>
+                                • id: Unique retrieval record<br>
+                                • message_id: Which message triggered retrieval<br>
+                                • query_text: What was searched for<br>
+                                • top_k: How many results requested<br>
+                                • retrieved_at: Retrieval timestamp (critical for debugging)<br><br>
+                                <strong>retrieval_results</strong><br>
+                                • retrieval_id: References retrieval log<br>
+                                • chunk_id: Which chunk was retrieved<br>
+                                • score: Similarity score (0-1)<br>
+                                • rank: Position in results list
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 6 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db6">
+                                🤖 Layer 6: LLM Execution Layer
+                            </button>
+                        </h2>
+                        <div id="db6" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <strong>llm_requests</strong><br>
+                                • id: Unique LLM request identifier<br>
+                                • message_id: Which user message triggered it<br>
+                                • prompt: User prompt sent to LLM<br>
+                                • system_prompt: System instructions used<br>
+                                • temperature: Creativity control (0-1)<br>
+                                • model_name: Which LLM (gpt-4, claude)<br>
+                                • created_at: Request timestamp<br><br>
+                                <strong>llm_responses</strong><br>
+                                • id: Unique response identifier<br>
+                                • request_id: References LLM request<br>
+                                • response_text: LLM's answer<br>
+                                • latency_ms: How long it took<br>
+                                • finish_reason: Why it stopped (length, stop)<br>
+                                • created_at: Response timestamp
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 7 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db7">
+                                🧩 Layer 7: Prompt Management
+                            </button>
+                        </h2>
+                        <div id="db7" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <strong>prompt_templates</strong><br>
+                                • id: Unique template identifier<br>
+                                • name: Template name (e.g., insurance_claim_summary)<br>
+                                • template_text: Template with placeholders<br>
+                                • version: Current version number<br>
+                                • created_at: When created<br><br>
+                                <strong>prompt_versions</strong><br>
+                                • id: Unique version identifier<br>
+                                • template_id: References template<br>
+                                • version: Version number for history<br>
+                                • content: Template content at this version<br>
+                                • created_at: When this version created
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 8 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db8">
+                                📈 Layer 8: Evaluation & Quality
+                            </button>
+                        </h2>
+                        <div id="db8" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <strong>evaluations</strong><br>
+                                • id: Unique evaluation record<br>
+                                • message_id: Which bot response evaluated<br>
+                                • relevance_score: Is answer relevant (0-1)<br>
+                                • grounded_score: Is answer grounded in data (0-1)<br>
+                                • toxicity_score: Does it contain harmful content (0-1)<br>
+                                • evaluated_at: When evaluation done
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 9 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db9">
+                                🔁 Layer 9: Tool Calling (Agent Layer)
+                            </button>
+                        </h2>
+                        <div id="db9" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <strong>tools</strong><br>
+                                • id: Unique tool identifier<br>
+                                • name: Tool name (send_email, query_db)<br>
+                                • description: What tool does<br>
+                                • schema: Expected input/output format (JSON)<br><br>
+                                <strong>tool_calls</strong><br>
+                                • id: Unique tool call record<br>
+                                • message_id: Which message triggered call<br>
+                                • tool_id: References which tool<br>
+                                • input: Parameters passed to tool<br>
+                                • output: Tool execution result<br>
+                                • status: success/failure/pending<br>
+                                • created_at: When tool called
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 10 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db10">
+                                ⚙️ Layer 10: Bot Configuration
+                            </button>
+                        </h2>
+                        <div id="db10" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <strong>bots</strong><br>
+                                • id: Unique bot identifier<br>
+                                • name: Bot name (insurance_bot_v1)<br>
+                                • owner_id: Which user owns this bot<br>
+                                • config: Bot settings (JSON)<br>
+                                • created_at: When bot created<br><br>
+                                <strong>bot_sessions</strong><br>
+                                • bot_id: References which bot<br>
+                                • session_id: References which chat session
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 11 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db11">
+                                📂 Layer 11: Data Source Connectors
+                            </button>
+                        </h2>
+                        <div id="db11" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <strong>data_sources</strong><br>
+                                • id: Unique data source identifier<br>
+                                • name: Source name (s3_documents, gdrive)<br>
+                                • type: Source type (s3, gdrive, api)<br>
+                                • config: Connection settings (JSON)<br>
+                                • created_at: When registered<br><br>
+                                <strong>ingestion_jobs</strong><br>
+                                • id: Unique ingestion job identifier<br>
+                                • data_source_id: References data source<br>
+                                • status: pending/running/completed/failed<br>
+                                • started_at: When ingestion started<br>
+                                • completed_at: When ingestion finished
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layer 12 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#db12">
+                                🔐 Layer 12: API Keys & Secrets
+                            </button>
+                        </h2>
+                        <div id="db12" class="accordion-collapse collapse" data-bs-parent="#databaseAccordion">
+                            <div class="accordion-body">
+                                <strong>api_keys</strong><br>
+                                • id: Unique API key record<br>
+                                • user_id: Which user owns this key<br>
+                                • key_hash: Hashed key (never store plain)<br>
+                                • created_at: When key generated<br>
+                                • revoked: Boolean flag for deactivation
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-box" style="margin-top: 25px;">
+                    <strong>🎯 Schema Summary:</strong><br>
+                    • 12 layers = 12 problems solved<br>
+                    • Total ~35 tables for complete system<br>
+                    • Without any of these, system breaks<br>
+                    • Each layer serves production requirement
+                </div>
+
+            </div>
+
+            <!-- SECTION 3: RAG Problems -->
+            <div class="section" id="rag-problems">
+                <h2 class="section-title">⚠️ 5 Critical RAG Failure Points</h2>
+
+                <div class="insight-box">
+                    <strong>🧠 Mental Model:</strong> Production RAG systems fail in exactly 5 places. Understanding
+                    these separates junior from senior architects.
+                </div>
+
+                <!-- Problem 1: Data -->
+                <h3 class="subsection-title">1️⃣ DATA PROBLEM - Garbage In = Garbage Out</h3>
+
+                <div class="comparison-table">
+                    <div class="comparison-row">
+                        <div class="comparison-left">
+                            ❌ What Goes Wrong<br><br>
+                            • Bad chunking strategy<br>
+                            • Outdated documents<br>
+                            • Duplicate data<br>
+                            • No metadata<br>
+                            • Inconsistent formatting
+                        </div>
+                        <div class="comparison-right">
+                            ✅ Production Solution<br><br>
+                            • Chunk 300-800 tokens<br>
+                            • Small overlap between chunks<br>
+                            • Don't cut in middle of meaning<br>
+                            • Store rich metadata<br>
+                            • Regular data refresh
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>💡 Simple Way to Think:</strong><br>
+                    👉 "Is my data clean, fresh, and meaningful?"<br>
+                    👉 <strong>Rule: Good RAG starts with good chunks</strong>
+                </div>
+
+                <div class="code-box">
+                    # Example: Chunk with Metadata
+                    {
+                    "chunk_text": "Insurance policies cover medical expenses up to $100k...",
+                    "chunk_index": 5,
+                    "metadata": {
+                    "section": "medical_coverage",
+                    "page": 12,
+                    "document_id": "policy_2024",
+                    "source": "pdf",
+                    "confidence": 0.95
+                    }
+                    }
+                </div>
+
+                <!-- Problem 2: Retrieval -->
+                <h3 class="subsection-title">2️⃣ RETRIEVAL PROBLEM - Most Important (70%)</h3>
+
+                <div class="comparison-table">
+                    <div class="comparison-row">
+                        <div class="comparison-left">
+                            ❌ What Goes Wrong<br><br>
+                            • Wrong chunks returned<br>
+                            • Important data missed<br>
+                            • No filtering<br>
+                            • Only semantic search<br>
+                            • Poor ranking
+                        </div>
+                        <div class="comparison-right">
+                            ✅ Production Solution<br><br>
+                            • Hybrid search (semantic + keyword)<br>
+                            • Always use filters<br>
+                            • Retrieve more → rerank → filter<br>
+                            • Use score thresholds<br>
+                            • Tune vector DB (HNSW)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>💡 Simple Way to Think:</strong><br>
+                    👉 "Did I fetch the RIGHT information?"<br>
+                    👉 <strong>Rule: If retrieval is wrong, everything is wrong</strong>
+                </div>
+
+                <div class="insight-box">
+                    <strong>🎯 Hybrid Search Example:</strong><br>
+                    Step 1: Semantic search → top 50 results<br>
+                    Step 2: Keyword search → top 50 results<br>
+                    Step 3: Merge + deduplicate<br>
+                    Step 4: Rerank by relevance<br>
+                    Step 5: Apply filters (user_id, type, date)<br>
+                    Step 6: Return top 5
+                </div>
+
+                <!-- Problem 3: LLM -->
+                <h3 class="subsection-title">3️⃣ LLM PROBLEM - Answer Quality (Only 10%)</h3>
+
+                <div class="comparison-table">
+                    <div class="comparison-row">
+                        <div class="comparison-left">
+                            ❌ What Goes Wrong<br><br>
+                            • Hallucination<br>
+                            • Ignores context<br>
+                            • Too verbose<br>
+                            • Inconsistent tone<br>
+                            • Overconfident wrong answers
+                        </div>
+                        <div class="comparison-right">
+                            ✅ Production Solution<br><br>
+                            • Strict system prompt<br>
+                            • "Only answer from context"<br>
+                            • "If not found, say 'I don't know'"<br>
+                            • Limit context size<br>
+                            • Temperature = 0 for critical
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>💡 Simple Way to Think:</strong><br>
+                    👉 "Did the model follow instructions?"<br>
+                    👉 <strong>Rule: LLM is not the problem—bad context is</strong>
+                </div>
+
+                <div class="code-box">
+                    System Prompt Example:
+
+                    You are an insurance chatbot. Answer ONLY using the provided knowledge base.
+
+                    Rules:
+                    1. Only use information from the provided context
+                    2. If information is not in context, respond: "I don't have this information in my knowledge base"
+                    3. Always cite the source document
+                    4. Be concise (max 2 paragraphs)
+                    5. Never make up policy details
+                </div>
+
+                <!-- Problem 4: System -->
+                <h3 class="subsection-title">4️⃣ SYSTEM PROBLEM - Speed & Cost</h3>
+
+                <div class="comparison-table">
+                    <div class="comparison-row">
+                        <div class="comparison-left">
+                            ❌ What Goes Wrong<br><br>
+                            • Slow responses<br>
+                            • High LLM costs<br>
+                            • Redundant computations<br>
+                            • No caching<br>
+                            • Timeout issues
+                        </div>
+                        <div class="comparison-right">
+                            ✅ Production Solution<br><br>
+                            • Cache embeddings<br>
+                            • Cache responses<br>
+                            • Reduce top_k<br>
+                            • Run operations in parallel<br>
+                            • Use quantization
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <h5>📊 Latency Budget Example</h5>
+                    <table class="table-custom">
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Budget (ms)</th>
+                                <th>Goal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Embedding query</td>
+                                <td>300</td>
+                                <td>Convert query to vector</td>
+                            </tr>
+                            <tr>
+                                <td>Vector search</td>
+                                <td>100</td>
+                                <td>Search Qdrant</td>
+                            </tr>
+                            <tr>
+                                <td>Reranking</td>
+                                <td>200</td>
+                                <td>Score & rank</td>
+                            </tr>
+                            <tr>
+                                <td>LLM call</td>
+                                <td>1500</td>
+                                <td>Generate response</td>
+                            </tr>
+                            <tr>
+                                <td>Buffer</td>
+                                <td>900</td>
+                                <td>Network + misc</td>
+                            </tr>
+                            <tr style="background: #fff9c4; font-weight: bold;">
+                                <td>Total</td>
+                                <td>3000 (3 sec)</td>
+                                <td>✅ Target</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Problem 5: Operations -->
+                <h3 class="subsection-title">5️⃣ OPERATIONS PROBLEM - Debugging & Observability</h3>
+
+                <div class="comparison-table">
+                    <div class="comparison-row">
+                        <div class="comparison-left">
+                            ❌ What Goes Wrong<br><br>
+                            • No logs of decisions<br>
+                            • Data leaks between users<br>
+                            • Can't debug failures<br>
+                            • Scaling breaks silently<br>
+                            • No audit trail
+                        </div>
+                        <div class="comparison-right">
+                            ✅ Production Solution<br><br>
+                            • Log everything: query, retrieval, scores<br>
+                            • Filter by user_id always<br>
+                            • Version control data<br>
+                            • Full request tracing<br>
+                            • Centralized observability
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>💡 Simple Way to Think:</strong><br>
+                    👉 "Can I debug and trust my system?"<br>
+                    👉 <strong>Rule: If you can't debug it, you can't fix it</strong>
+                </div>
+
+                <div class="learning-path">
+                    <h4>🧠 The Production Mindset</h4>
+                    <ol>
+                        <li><strong>Accept that failure is inevitable</strong> - Design systems to degrade gracefully,
+                            not crash</li>
+                        <li><strong>Log first, optimize later</strong> - You need visibility before you can improve</li>
+                        <li><strong>Version everything</strong> - Embeddings, prompts, documents must be versionable
+                        </li>
+                        <li><strong>Measure, don't guess</strong> - Use evaluation layers to quantify quality</li>
+                        <li><strong>Make it reproducible</strong> - Same input should give same output (mostly)</li>
+                    </ol>
+                </div>
+
+            </div>
+
+            <!-- SECTION 4: Chunking Deep Dive -->
+            <div class="section" id="chunking">
+                <h2 class="section-title">📦 Data Chunking Strategy</h2>
+
+                <div class="flow-box">
+                    <strong>Why Chunking Matters:</strong><br>
+                    Documents → Chunks → Embeddings → Vector Search → Retrieval<br>
+                    If chunking is bad, entire pipeline fails
+                </div>
+
+                <h3 class="subsection-title">✅ Perfect Chunk Characteristics</h3>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Characteristic</th>
+                            <th>Requirement</th>
+                            <th>Why</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Size</strong></td>
+                            <td>300-800 tokens</td>
+                            <td>Enough context but not too large for embedding</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Overlap</strong></td>
+                            <td>10-20% overlap with previous</td>
+                            <td>Maintain context continuity between chunks</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Semantic Boundary</strong></td>
+                            <td>Don't cut mid-sentence or mid-concept</td>
+                            <td>Preserve meaning for vector search</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Metadata</strong></td>
+                            <td>Include section, page, source</td>
+                            <td>Essential for filtering and citation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cleaning</strong></td>
+                            <td>Remove boilerplate, fix encoding</td>
+                            <td>Reduce noise in vectors</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="subsection-title">❌ Common Chunking Mistakes</h3>
+
+                <div class="problem-solution-grid">
+                    <div class="problem-card">
+                        <h5>❌ Fixed Size Chunks</h5>
+                        <p>Just split every 500 tokens regardless of meaning</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px; color: #c0392b;"><strong>Result:</strong> Broken
+                            sentences, lost context, poor retrieval</p>
+                    </div>
+                    <div class="solution-card">
+                        <h5>✅ Semantic Chunks</h5>
+                        <p>Split at sentence/paragraph boundaries</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px; color: #27ae60;"><strong>Result:</strong>
+                            Complete meaning preserved, better retrieval</p>
+                    </div>
+                </div>
+
+                <div class="problem-solution-grid">
+                    <div class="problem-card">
+                        <h5>❌ No Metadata</h5>
+                        <p>Just store chunk text, lose source information</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px; color: #c0392b;"><strong>Result:</strong> Can't
+                            cite sources, can't filter, can't update</p>
+                    </div>
+                    <div class="solution-card">
+                        <h5>✅ Rich Metadata</h5>
+                        <p>Store section, page, document_id, timestamp</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px; color: #27ae60;"><strong>Result:</strong>
+                            Traceable, filterable, updatable</p>
+                    </div>
+                </div>
+
+                <div class="code-box">
+                    # Perfect Chunk Example
+                    {
+                    "id": "chunk_12345",
+                    "document_id": "policy_2024_medical",
+                    "chunk_text": "Medical coverage includes hospitalization, emergency care, and preventive services.
+                    Coverage limits are $50,000 per year per person. Pre-authorization is required for elective
+                    procedures.",
+                    "chunk_index": 3,
+                    "tokens": 45,
+                    "metadata": {
+                    "section": "medical_coverage",
+                    "subsection": "coverage_details",
+                    "page": 5,
+                    "paragraph": 2,
+                    "source_type": "pdf",
+                    "created_at": "2024-01-15",
+                    "version": "1.0",
+                    "confidence": 0.98
+                    },
+                    "embedding": [0.123, 0.456, ...], # 1536 dimensions
+                    "embedding_model": "text-embedding-3-small"
+                    }
+                </div>
+
+            </div>
+
+            <!-- SECTION 5: Retrieval -->
+            <div class="section" id="retrieval">
+                <h2 class="section-title">🔍 Retrieval Strategy & Implementation</h2>
+
+                <div class="highlight-box">
+                    <strong>⚠️ CRITICAL:</strong> 70% of RAG problems are retrieval problems. This section is gold.
+                </div>
+
+                <h3 class="subsection-title">🎯 Hybrid Search Architecture</h3>
+
+                <div class="flow-box">
+                    <strong>Step 1: Semantic Search</strong> (Vector similarity)<br>
+                    Query → Embedding → Vector search → Top 50<br><br>
+                    <strong>Step 2: Keyword Search</strong> (BM25)<br>
+                    Query → Tokenize → Lexical search → Top 50<br><br>
+                    <strong>Step 3: Merge Results</strong><br>
+                    Combine and deduplicate → Top 100<br><br>
+                    <strong>Step 4: Reranking</strong><br>
+                    Score by relevance → Top 10<br><br>
+                    <strong>Step 5: Filtering</strong><br>
+                    Apply user_id, date, type filters → Top 5<br><br>
+                    <strong>Step 6: Response</strong><br>
+                    Return top 5 with scores
+                </div>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Search Type</th>
+                            <th>Strength</th>
+                            <th>Weakness</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Semantic (Vector)</strong></td>
+                            <td>Finds similar meaning (synonyms, paraphrasing)</td>
+                            <td>Can miss exact matches, slow on large scale</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Keyword (BM25)</strong></td>
+                            <td>Finds exact terms, IDs, specific phrases</td>
+                            <td>Misses synonyms, less understanding</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hybrid (Both)</strong></td>
+                            <td>Best of both worlds ✅</td>
+                            <td>Slightly more complex, but worth it</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="subsection-title">🎯 Advanced Filtering</h3>
+
+                <div class="code-box">
+                    # Example: Advanced Retrieval with Filters
+                    query = "medical coverage limits"
+                    filters = {
+                    "user_id": "user_123", # Data isolation
+                    "section": "medical_coverage", # Type filtering
+                    "version": "1.0", # Version control
+                    "confidence_min": 0.8, # Quality gate
+                    "date_after": "2024-01-01" # Temporal filtering
+                    }
+
+                    results = retrieve(
+                    query=query,
+                    filters=filters,
+                    top_k=20, # Retrieve more
+                    score_threshold=0.7, # Quality gate
+                    use_hybrid=True, # Semantic + keyword
+                    rerank=True # Score again
+                    )
+                    top_5 = results[:5] # Return top 5
+                </div>
+
+            </div>
+
+            <!-- SECTION 6: LLM -->
+            <div class="section" id="llm">
+                <h2 class="section-title">🤖 LLM & Answer Quality Control</h2>
+
+                <h3 class="subsection-title">🧠 Prompt Engineering for RAG</h3>
+
+                <div class="code-box">
+                    System Prompt for Insurance RAG:
+
+                    You are an expert insurance consultant chatbot. Your role is to help users understand their
+                    insurance policies, coverage details, and claim processes.
+
+                    CRITICAL RULES:
+                    1. ONLY provide information from the provided knowledge base context
+                    2. If the user's question cannot be answered from the context, respond:
+                    "I don't have this specific information in my knowledge base. Please contact our support team."
+                    3. ALWAYS cite the source document when providing specific details
+                    4. Be concise but thorough (max 3 paragraphs)
+                    5. For policy details, always mention coverage limits and exclusions
+                    6. NEVER make up or guess policy details
+                    7. If there's ambiguity, ask clarifying questions
+
+                    Format responses clearly with bullet points for coverage details.
+                </div>
+
+                <h3 class="subsection-title">📊 Temperature Control</h3>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Use Case</th>
+                            <th>Temperature</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Policy details, facts</td>
+                            <td>0.0 (Deterministic)</td>
+                            <td>Must be consistent, no variation</td>
+                        </tr>
+                        <tr>
+                            <td>Claims guidance</td>
+                            <td>0.3 (Low)</td>
+                            <td>Mostly consistent, slight variation OK</td>
+                        </tr>
+                        <tr>
+                            <td>General questions</td>
+                            <td>0.7 (Medium)</td>
+                            <td>Can be creative while staying grounded</td>
+                        </tr>
+                        <tr>
+                            <td>Creative content</td>
+                            <td>1.0+ (High)</td>
+                            <td>Encouraged to be creative</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="subsection-title">🔍 Hallucination Detection</h3>
+
+                <div class="problem-solution-grid">
+                    <div class="problem-card">
+                        <h5>❌ Hallucination Causes</h5>
+                        <p>• Poor retrieval results<br>
+                            • Weak system prompt<br>
+                            • Too much context<br>
+                            • High temperature<br>
+                            • Model over-confidence</p>
+                    </div>
+                    <div class="solution-card">
+                        <h5>✅ Prevention Strategies</h5>
+                        <p>• Excellent retrieval layer<br>
+                            • Strict system prompt<br>
+                            • Limited context (top 3 chunks)<br>
+                            • Temperature = 0<br>
+                            • Evaluation scoring</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SECTION 7: System Performance -->
+            <div class="section" id="system">
+                <h2 class="section-title">⚡ System Performance & Optimization</h2>
+
+                <h3 class="subsection-title">🎯 Caching Strategy</h3>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>What to Cache</th>
+                            <th>TTL</th>
+                            <th>Benefit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Query embeddings</td>
+                            <td>1 hour</td>
+                            <td>Avoid recomputing same query embeddings</td>
+                        </tr>
+                        <tr>
+                            <td>Retrieved chunks</td>
+                            <td>24 hours</td>
+                            <td>Popular documents cached locally</td>
+                        </tr>
+                        <tr>
+                            <td>LLM responses</td>
+                            <td>7 days</td>
+                            <td>Exact same query = instant response</td>
+                        </tr>
+                        <tr>
+                            <td>User sessions</td>
+                            <td>Until closed</td>
+                            <td>Conversation context available</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="subsection-title">📊 Scaling Strategy</h3>
+
+                <div class="architecture-grid">
+                    <div class="arch-card">
+                        <div class="icon">⬇️</div>
+                        <h5>Vertical Scaling</h5>
+                        <p>Bigger machines for Vector DB (Qdrant). For 1M documents.</p>
+                    </div>
+                    <div class="arch-card">
+                        <div class="icon">➡️</div>
+                        <h5>Horizontal Scaling</h5>
+                        <p>More API servers for handling concurrent users</p>
+                    </div>
+                    <div class="arch-card">
+                        <div class="icon">🔀</div>
+                        <h5>Functional Scaling</h5>
+                        <p>Separate services for retrieval, LLM, ingestion</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SECTION 8: Operations -->
+            <div class="section" id="operations">
+                <h2 class="section-title">📈 Operations, Monitoring & Debugging</h2>
+
+                <h3 class="subsection-title">📊 Key Metrics to Track</h3>
+
+                <div class="metric-card">
+                    <h5>1. Retrieval Quality Metrics</h5>
+                    <table class="table-custom">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Target</th>
+                                <th>Meaning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Retrieval Latency</td>
+                                <td>&lt; 200ms</td>
+                                <td>How fast can we find chunks?</td>
+                            </tr>
+                            <tr>
+                                <td>Top-1 Relevance</td>
+                                <td>&gt; 80%</td>
+                                <td>Is first result always relevant?</td>
+                            </tr>
+                            <tr>
+                                <td>Recall@10</td>
+                                <td>&gt; 95%</td>
+                                <td>Do we get relevant chunks in top 10?</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="metric-card">
+                    <h5>2. LLM Quality Metrics</h5>
+                    <table class="table-custom">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Target</th>
+                                <th>Meaning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>User Feedback (1-5)</td>
+                                <td>&gt; 4.0</td>
+                                <td>Are users satisfied?</td>
+                            </tr>
+                            <tr>
+                                <td>Hallucination Rate</td>
+                                <td>&lt; 2%</td>
+                                <td>How often does it make up info?</td>
+                            </tr>
+                            <tr>
+                                <td>Grounding Score</td>
+                                <td>&gt; 90%</td>
+                                <td>Is answer based on retrieved chunks?</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="metric-card">
+                    <h5>3. System Metrics</h5>
+                    <table class="table-custom">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Target</th>
+                                <th>Meaning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>End-to-End Latency</td>
+                                <td>&lt; 3 seconds</td>
+                                <td>Total response time</td>
+                            </tr>
+                            <tr>
+                                <td>API Success Rate</td>
+                                <td>&gt; 99.5%</td>
+                                <td>Uptime</td>
+                            </tr>
+                            <tr>
+                                <td>Cost per Request</td>
+                                <td>&lt; $0.05</td>
+                                <td>LLM + vector DB cost</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="subsection-title">🐛 Debugging Workflow</h3>
+
+                <div class="flow-box">
+                    <strong>User reports: "Bot gave wrong answer"</strong><br><br>
+                    <strong>Step 1:</strong> Check retrieval_logs<br>
+                    👉 "What chunks were retrieved?"<br><br>
+                    <strong>Step 2:</strong> Check retrieval_results<br>
+                    👉 "What were the similarity scores?"<br><br>
+                    <strong>Step 3:</strong> Check llm_requests<br>
+                    👉 "What prompt was sent?"<br><br>
+                    <strong>Step 4:</strong> Check evaluations<br>
+                    👉 "What was the quality score?"<br><br>
+                    <strong>Diagnosis:</strong> Is problem in retrieval or LLM?<br>
+                    <strong>Fix:</strong> Adjust retrieval strategy or prompt
+                </div>
+
+            </div>
+
+            <!-- SECTION 9: Learning & Improvement -->
+            <div class="section" id="learning">
+                <h2 class="section-title">🧠 Learning & Continuous Improvement Loop</h2>
+
+                <div class="insight-box">
+                    <strong>🎯 Core Idea:</strong> A production system doesn't improve itself—YOU must design the
+                    learning loop.
+                </div>
+
+                <h3 class="subsection-title">🔄 The Feedback Loop</h3>
+
+                <div class="flow-box">
+                    <strong>User Query</strong> → Bot Response → User Feedback (👍/👎) <br>
+                    → Evaluation (relevance, grounding, toxicity)<br>
+                    → Analysis (what went wrong?)<br>
+                    → Improvement (fix retrieval, prompt, or data)<br>
+                    → Deploy (A/B test new version)<br>
+                    → Measure → Repeat
+                </div>
+
+                <h3 class="subsection-title">📊 Learning Problems & Solutions</h3>
+
+                <div class="problem-solution-grid">
+                    <div class="problem-card">
+                        <h5>❌ No Training Data</h5>
+                        <p>You don't have examples of good vs bad answers</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px; color: #c0392b;"><strong>Result:</strong> Can't
+                            improve, can't fine-tune</p>
+                    </div>
+                    <div class="solution-card">
+                        <h5>✅ Collect Feedback</h5>
+                        <p>Store every query, response, and feedback rating</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px; color: #27ae60;"><strong>Result:</strong>
+                            Growing dataset for improvement</p>
+                    </div>
+                </div>
+
+                <div class="problem-solution-grid">
+                    <div class="problem-card">
+                        <h5>❌ No Feedback Loop</h5>
+                        <p>Users give feedback but nothing happens</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px; color: #c0392b;"><strong>Result:</strong> Same
+                            mistakes repeat</p>
+                    </div>
+                    <div class="solution-card">
+                        <h5>✅ Act on Feedback</h5>
+                        <p>Low ratings → analyze → fix → test → deploy</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px; color: #27ae60;"><strong>Result:</strong>
+                            Continuous improvement</p>
+                    </div>
+                </div>
+
+                <div class="problem-solution-grid">
+                    <div class="problem-card">
+                        <h5>❌ No A/B Testing</h5>
+                        <p>You don't know which change is better</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px; color: #c0392b;"><strong>Result:</strong> Random
+                            improvements, regressions</p>
+                    </div>
+                    <div class="solution-card">
+                        <h5>✅ A/B Testing</h5>
+                        <p>Prompt v1 vs Prompt v2 → measure → deploy winner</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px; color: #27ae60;"><strong>Result:</strong>
+                            Data-driven decisions</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">📈 Weekly Improvement Cycle</h3>
+
+                <div class="learning-path">
+                    <h4>Continuous Learning Pipeline</h4>
+                    <ol>
+                        <li><strong>Collect</strong> - Gather logs, feedback, metrics from past week</li>
+                        <li><strong>Analyze</strong> - Which questions failed? Why? What patterns?</li>
+                        <li><strong>Identify</strong> - Is problem retrieval, LLM, or data?</li>
+                        <li><strong>Hypothesize</strong> - How would we fix this?</li>
+                        <li><strong>Test</strong> - Create new prompt/retrieval/data version</li>
+                        <li><strong>Measure</strong> - Compare old vs new on test set</li>
+                        <li><strong>Deploy</strong> - If improvement > 5%, deploy to production</li>
+                        <li><strong>Monitor</strong> - Track new metrics for 1 week</li>
+                        <li><strong>Iterate</strong> - Go to step 1</li>
+                    </ol>
+                </div>
+
+            </div>
+
+            <!-- SECTION 10: Production Theory -->
+            <div class="section" id="production">
+                <h2 class="section-title">🏭 Production-Grade System Theory</h2>
+
+                <div class="insight-box">
+                    <strong>🎯 The Shift:</strong> From building features to building reliable systems that scale,
+                    debug, and improve themselves.
+                </div>
+
+                <h3 class="subsection-title">🔐 4 Production Guarantees</h3>
+
+                <div class="architecture-grid">
+                    <div class="arch-card">
+                        <div class="icon">✅</div>
+                        <h5>Correctness</h5>
+                        <p>Answers are right most of the time</p>
+                    </div>
+                    <div class="arch-card">
+                        <div class="icon">🔄</div>
+                        <h5>Consistency</h5>
+                        <p>Same input gives same output (mostly)</p>
+                    </div>
+                    <div class="arch-card">
+                        <div class="icon">🛡️</div>
+                        <h5>Reliability</h5>
+                        <p>System degrades gracefully, never crashes</p>
+                    </div>
+                    <div class="arch-card">
+                        <div class="icon">⚡</div>
+                        <h5>Efficiency</h5>
+                        <p>Fast responses, low cost per request</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">🧠 7 Production Principles</h3>
+
+                <div class="layer-box">
+                    <h5>1️⃣ Separation of Concerns</h5>
+                    <p>Retrieval ≠ LLM ≠ Ingestion. Each owns its domain.</p>
+                </div>
+
+                <div class="layer-box">
+                    <h5>2️⃣ Stateless Execution</h5>
+                    <p>Requests don't depend on memory. Scale horizontally.</p>
+                </div>
+
+                <div class="layer-box">
+                    <h5>3️⃣ Version Everything</h5>
+                    <p>Prompts, embeddings, documents. Never overwrite.</p>
+                </div>
+
+                <div class="layer-box">
+                    <h5>4️⃣ Observability Everywhere</h5>
+                    <p>Log every decision. Trace full request paths.</p>
+                </div>
+
+                <div class="layer-box">
+                    <h5>5️⃣ Async Processing</h5>
+                    <p>Ingestion, evaluation, heavy jobs → background workers.</p>
+                </div>
+
+                <div class="layer-box">
+                    <h5>6️⃣ Graceful Degradation</h5>
+                    <p>Qdrant down? Use cached response. LLM slow? Use fallback.</p>
+                </div>
+
+                <div class="layer-box">
+                    <h5>7️⃣ Data Quality > Model Quality</h5>
+                    <p>Good data beats good models. Always.</p>
+                </div>
+
+                <h3 class="subsection-title">🔄 Production Lifecycle</h3>
+
+                <div class="flow-box">
+                    <strong>Build</strong> → Code locally, test<br>
+                    → <strong>Test</strong> → Run evaluation suite<br>
+                    → <strong>Deploy</strong> → Ship to staging<br>
+                    → <strong>Monitor</strong> → Track metrics<br>
+                    → <strong>Learn</strong> → Analyze failures<br>
+                    → <strong>Improve</strong> → Fix problems<br>
+                    → <strong>Redeploy</strong> → Back to staging<br>
+                    → <strong>Repeat</strong> → Go to Build
+                </div>
+
+                <h3 class="subsection-title">⚠️ Failure Modes to Expect</h3>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Failure Mode</th>
+                            <th>Cause</th>
+                            <th>Prevention</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Wrong chunks retrieved</td>
+                            <td>Poor retrieval tuning</td>
+                            <td>Hybrid search + reranking</td>
+                        </tr>
+                        <tr>
+                            <td>Hallucination</td>
+                            <td>Bad context + high temp</td>
+                            <td>Strict prompt + eval layer</td>
+                        </tr>
+                        <tr>
+                            <td>Slow responses</td>
+                            <td>No caching + large context</td>
+                            <td>Caching + smaller context</td>
+                        </tr>
+                        <tr>
+                            <td>Data leakage</td>
+                            <td>No user_id filtering</td>
+                            <td>Always filter by user</td>
+                        </tr>
+                        <tr>
+                            <td>Can't debug</td>
+                            <td>No logging</td>
+                            <td>Log everything</td>
+                        </tr>
+                        <tr>
+                            <td>Scaling breaks</td>
+                            <td>Monolithic design</td>
+                            <td>Microservices + async</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <strong>🎯 Senior Engineer Mindset:</strong><br>
+                    ✅ "What can go wrong?"<br>
+                    ✅ "How will I know if it breaks?"<br>
+                    ✅ "How will I fix it?"<br>
+                    ✅ "How will I prevent it next time?"
+                </div>
+
+            </div>
+
+            <!-- SECTION 11: Learning & Training Problems Deep Dive -->
+            <div class="section" id="learning-problems">
+                <h2 class="section-title">🎓 10 Critical Learning & Training Problems</h2>
+
+                <div class="insight-box">
+                    <strong>🧠 What This Section Covers:</strong> How your system gets better over time. Most RAG
+                    systems fail here because they never implement the learning layer.
+                </div>
+
+                <h3 class="subsection-title">1️⃣ No Training Data (Hidden Problem)</h3>
+                <div class="problem-solution-grid">
+                    <div class="problem-card">
+                        <h5>❌ Problem</h5>
+                        <p>You don't have real examples of good vs bad answers</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px; color: #c0392b;"><strong>Impact:</strong> Can't
+                            improve prompts, can't evaluate, can't fine-tune</p>
+                    </div>
+                    <div class="solution-card">
+                        <h5>✅ Solution</h5>
+                        <p>Start collecting: user query → bot response → feedback (👍/👎)</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px; color: #27ae60;"><strong>Rule:</strong> If you
+                            don't store data, you can't improve</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">2️⃣ No Feedback Loop (Most Common)</h3>
+                <div class="problem-solution-grid">
+                    <div class="problem-card">
+                        <h5>❌ Problem</h5>
+                        <p>Users give feedback but nothing happens</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px; color: #c0392b;"><strong>Reality:</strong> 90%
+                            of systems collect feedback and never use it</p>
+                    </div>
+                    <div class="solution-card">
+                        <h5>✅ Solution</h5>
+                        <p>Query → Response → Feedback → Analyze → Fix → Deploy</p>
+                        <p style="font-size: 0.85rem; margin-top: 10px; color: #27ae60;"><strong>Action:</strong> Low
+                            rating = check retrieval; High = store as good example</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">3️⃣ Wrong Evaluation Method</h3>
+                <div class="problem-solution-grid">
+                    <div class="problem-card">
+                        <h5>❌ Problem</h5>
+                        <p>You think system is good but it's not. No proper testing.</p>
+                    </div>
+                    <div class="solution-card">
+                        <h5>✅ Solution</h5>
+                        <p>Create evaluation dataset with Question + Expected Answer. Measure: relevance, correctness,
+                            grounding.</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">4️⃣ Over-Reliance on Fine-Tuning</h3>
+                <div class="highlight-box">
+                    <strong>❌ Wrong Belief:</strong> "I'll fine-tune the model to fix RAG"<br><br>
+                    <strong>✅ Reality:</strong> Fine-tuning ≠ fix for bad retrieval<br><br>
+                    <strong>Rule:</strong> Fix RAG first → Only fine-tune when tone/style/domain language needed
+                </div>
+
+                <h3 class="subsection-title">5️⃣ Prompt Drift (Real Problem)</h3>
+                <div class="code-box">
+                    ❌ Problem:
+                    Today: "be concise"
+                    Tomorrow: "be detailed"
+                    Result: inconsistent answers
+
+                    ✅ Solution:
+                    • Version prompts (prompt_v1, prompt_v2, etc.)
+                    • Track performance per version
+                    • A/B test before deploying
+                </div>
+
+                <h3 class="subsection-title">6️⃣ No A/B Testing</h3>
+                <div class="problem-solution-grid">
+                    <div class="problem-card">
+                        <h5>❌ Problem</h5>
+                        <p>You don't know which change is better</p>
+                    </div>
+                    <div class="solution-card">
+                        <h5>✅ Solution</h5>
+                        <p>Run A/B tests: Prompt A vs B, Retrieval method A vs B. Compare feedback + accuracy.</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">7️⃣ Domain Adaptation Problem</h3>
+                <div class="code-box">
+                    ❌ Problem:
+                    Generic embeddings don't understand your domain (insurance, medical, legal)
+                    → Poor retrieval for domain-specific queries
+
+                    ✅ Solution:
+                    • Use domain-specific embeddings (medical-embeddings, legal-embeddings)
+                    • Or fine-tune embedding model on your data
+                    • Or use hybrid approach (both generic + domain-specific)
+                </div>
+
+                <h3 class="subsection-title">8️⃣ Query Understanding Problem</h3>
+                <div class="code-box">
+                    ❌ Problem:
+                    User asks: "cheap plan?"
+                    System searches: "cheap plan"
+                    Should search: "pricing plans cost subscription"
+
+                    ✅ Solution:
+                    • Query rewriting (expand synonyms)
+                    • Multi-query generation (generate multiple search queries)
+                    • Intent detection (what does user really want?)
+                </div>
+
+                <h3 class="subsection-title">9️⃣ Data Imbalance</h3>
+                <div class="problem-solution-grid">
+                    <div class="problem-card">
+                        <h5>❌ Problem</h5>
+                        <p>Some topics have too much data, some have none → Biased answers, missing answers</p>
+                    </div>
+                    <div class="solution-card">
+                        <h5>✅ Solution</h5>
+                        <p>Balance dataset, ensure coverage of all topics, add missing documents</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">🔟 Continuous Learning Problem</h3>
+                <div class="highlight-box">
+                    <strong>❌ Problem:</strong> System never improves after deployment<br><br>
+                    <strong>✅ Solution - Weekly Pipeline:</strong><br>
+                    Collect logs → Analyze → Identify patterns → Fix → Deploy<br><br>
+                    This should be <strong>automated</strong>, not manual
+                </div>
+
+            </div>
+
+            <!-- SECTION 12: Production Mental Model -->
+            <div class="section" id="mental-model">
+                <h2 class="section-title">🏭 Production Mental Model & Architecture</h2>
+
+                <div class="insight-box">
+                    <strong>🧠 The Shift:</strong> At scale, your RAG system is not a "chatbot" anymore.<br><br>
+                    It's a <strong>Distributed AI System</strong> = APIs + Workers + Vector DB + Cache + Queue +
+                    Observability
+                </div>
+
+                <h3 class="subsection-title">🏗️ Complete Production Architecture</h3>
+
+                <div class="code-box">
+                    ┌──────────────┐
+                    │ Client │
+                    └──────┬───────┘
+                    ↓
+                    ┌──────────────┐
+                    │ API Gateway │ (Auth, Rate Limit, Routing)
+                    └──────┬───────┘
+                    ↓
+                    ┌───────────────────────────────┐
+                    │ Orchestrator Service (Brain) │ (Controls RAG Pipeline)
+                    └──────┬───────────────┬────────┘
+                    ↓ ↓
+                    ┌──────────────┐ ┌──────────────┐
+                    │Retrieval Svc │ │ LLM Svc │
+                    └──────┬───────┘ └──────┬──────┘
+                    ↓ ↓
+                    ┌──────────────┐ ┌──────────────┐
+                    │Qdrant(Vector)│ │Model API │
+                    │ + PostgreSQL │ │(OpenAI, etc) │
+                    └──────────────┘ └──────────────┘
+                    ↓
+                    ┌──────────────┐
+                    │ Cache(Redis) │ (Embeddings, responses)
+                    └──────┬───────┘
+                    ↓
+                    ┌──────────────┐
+                    │MessageQueue │ (Kafka/RabbitMQ)
+                    │(Async jobs) │
+                    └──────┬───────┘
+                    ↓
+                    ┌──────────────┐
+                    │Worker Pool │ (Ingestion, Evaluation, Analytics)
+                    └──────────────┘
+                </div>
+
+                <h3 class="subsection-title">🧩 7 Core Microservices</h3>
+
+                <div class="layer-box">
+                    <h5>1️⃣ API Gateway</h5>
+                    <p>
+                        <strong>Responsibility:</strong> Authentication, rate limiting, request routing<br>
+                        <strong>Why separate:</strong> Isolate security concerns from business logic
+                    </p>
+                </div>
+
+                <div class="layer-box">
+                    <h5>2️⃣ Orchestrator (Brain)</h5>
+                    <p>
+                        <strong>Responsibility:</strong> Controls RAG flow - query rewrite, retrieval call, LLM call<br>
+                        <strong>Why separate:</strong> This is where your RAG pipeline lives. Stateless for scaling.
+                    </p>
+                </div>
+
+                <div class="layer-box">
+                    <h5>3️⃣ Retrieval Service</h5>
+                    <p>
+                        <strong>Responsibility:</strong> Talks to Qdrant - hybrid search, filtering, reranking<br>
+                        <strong>Why separate:</strong> Isolates retrieval problems. Easy to debug + improve separately.
+                    </p>
+                </div>
+
+                <div class="layer-box">
+                    <h5>4️⃣ LLM Service</h5>
+                    <p>
+                        <strong>Responsibility:</strong> Prompt building, model selection, token control<br>
+                        <strong>Why separate:</strong> Isolates cost + hallucination issues. Can swap models easily.
+                    </p>
+                </div>
+
+                <div class="layer-box">
+                    <h5>5️⃣ Ingestion Service (Async)</h5>
+                    <p>
+                        <strong>Responsibility:</strong> Document → Chunk → Embed → Store pipeline<br>
+                        <strong>Why separate:</strong> Heavy work, runs via message queue. Doesn't block API.
+                    </p>
+                </div>
+
+                <div class="layer-box">
+                    <h5>6️⃣ Evaluation Service</h5>
+                    <p>
+                        <strong>Responsibility:</strong> Quality checks, scoring, metrics calculation (offline)<br>
+                        <strong>Why separate:</strong> Doesn't need real-time performance. Can run deep analysis.
+                    </p>
+                </div>
+
+                <div class="layer-box">
+                    <h5>7️⃣ Worker Service</h5>
+                    <p>
+                        <strong>Responsibility:</strong> Background jobs - reindexing, analytics, cleanup<br>
+                        <strong>Why separate:</strong> Housekeeping tasks don't interfere with user requests.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- SECTION 13: Kubernetes Deployment -->
+            <div class="section" id="kubernetes">
+                <h2 class="section-title">☸️ Kubernetes Deployment Strategy</h2>
+
+                <div class="insight-box">
+                    <strong>🎯 Core Principle:</strong> Everything is stateless except data layers (Qdrant, Redis,
+                    Kafka)
+                </div>
+
+                <h3 class="subsection-title">🧱 Kubernetes Components</h3>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Type</th>
+                            <th>Examples</th>
+                            <th>Scaling</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Deployments</strong> (Stateless)</td>
+                            <td>Horizontal</td>
+                            <td>API Gateway, Orchestrator, Retrieval Svc, LLM Svc, Workers</td>
+                            <td>Scale by adding pods</td>
+                        </tr>
+                        <tr>
+                            <td><strong>StatefulSets</strong> (Stateful)</td>
+                            <td>Vertical</td>
+                            <td>Qdrant (vector DB), Redis (cache), Kafka (queue)</td>
+                            <td>Scale by adding replicas</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ConfigMap</strong></td>
+                            <td>Configuration</td>
+                            <td>Model names, top_k, thresholds, feature flags</td>
+                            <td>No hardcoding</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Secrets</strong></td>
+                            <td>Sensitive</td>
+                            <td>API keys, DB credentials, LLM API keys</td>
+                            <td>Encrypted storage</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HPA</strong> (Auto-scaling)</td>
+                            <td>Scaling Policy</td>
+                            <td>Scale based on CPU, memory, queue lag</td>
+                            <td>Automatic</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="subsection-title">🚀 Problem-to-Solution Mapping</h3>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Problem</th>
+                            <th>Solution (Kubernetes)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>❌ Poor Retrieval</td>
+                            <td>✅ Dedicated Retrieval Service + hybrid search + reranker layer</td>
+                        </tr>
+                        <tr>
+                            <td>❌ Bad Chunking</td>
+                            <td>✅ Ingestion pipeline (workers) + versioned documents</td>
+                        </tr>
+                        <tr>
+                            <td>❌ Latency</td>
+                            <td>✅ Caching (Redis) + parallel services + autoscaling pods</td>
+                        </tr>
+                        <tr>
+                            <td>❌ High Cost</td>
+                            <td>✅ LLM service controlling tokens + caching responses + batching</td>
+                        </tr>
+                        <tr>
+                            <td>❌ Hallucination</td>
+                            <td>✅ Strict prompt layer (LLM svc) + evaluation service</td>
+                        </tr>
+                        <tr>
+                            <td>❌ No Observability</td>
+                            <td>✅ Centralized logging + request tracing (API → retrieval → LLM)</td>
+                        </tr>
+                        <tr>
+                            <td>❌ Data Leakage</td>
+                            <td>✅ Retrieval service enforcing user_id filters</td>
+                        </tr>
+                        <tr>
+                            <td>❌ Scaling Issues</td>
+                            <td>✅ Kubernetes HPA + sharded vector DB</td>
+                        </tr>
+                        <tr>
+                            <td>❌ No Learning</td>
+                            <td>✅ Evaluation service + feedback ingestion pipeline</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="subsection-title">📊 Observability - 3 Pillars (DON'T SKIP)</h3>
+
+                <div class="architecture-grid">
+                    <div class="arch-card">
+                        <div class="icon">📝</div>
+                        <h5>Logs</h5>
+                        <p>Detailed events: queries, retrieved chunks, scores, errors</p>
+                    </div>
+                    <div class="arch-card">
+                        <div class="icon">📊</div>
+                        <h5>Metrics</h5>
+                        <p>Numbers: latency, cost per request, success rate, error rate</p>
+                    </div>
+                    <div class="arch-card">
+                        <div class="icon">🔗</div>
+                        <h5>Traces</h5>
+                        <p>Full request path: API → retrieval → LLM → response</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>⚠️ Critical:</strong> Without observability, production will fail silently. You won't know
+                    why system broke until users complain.
+                </div>
+
+                <h3 class="subsection-title">🚀 Deployment Flow (Realistic)</h3>
+
+                <div class="flow-box">
+                    <strong>1. Dev Environment</strong><br>
+                    Code locally, test with docker-compose<br><br>
+                    <strong>2. Docker</strong><br>
+                    Build images for each service, tag with version<br><br>
+                    <strong>3. Registry</strong><br>
+                    Push to Docker Hub / ECR / Private registry<br><br>
+                    <strong>4. CI/CD</strong><br>
+                    Automated tests, security scans, build pipeline<br><br>
+                    <strong>5. Kubernetes (Staging)</strong><br>
+                    Deploy manifests via Helm / kubectl<br><br>
+                    <strong>6. Staging Tests</strong><br>
+                    Run integration tests, smoke tests<br><br>
+                    <strong>7. Kubernetes (Production)</strong><br>
+                    Blue-green or canary deployment<br><br>
+                    <strong>8. Monitor</strong><br>
+                    Track metrics, alerts, user feedback<br><br>
+                    <strong>9. Iterate</strong><br>
+                    Go back to Dev
+                </div>
+
+            </div>
+
+            <!-- SECTION 14: Scaling for Scale -->
+            <div class="section" id="scaling">
+                <h2 class="section-title">📈 Scaling Strategy (500+ Users)</h2>
+
+                <div class="metric-card">
+                    <h5>Scaling Approach for Insurance Chatbot</h5>
+                    <table class="table-custom">
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Scaling Strategy</th>
+                                <th>Target Load</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>API Gateway</td>
+                                <td>Horizontal (add pod replicas)</td>
+                                <td>1000 requests/sec</td>
+                            </tr>
+                            <tr>
+                                <td>Orchestrator</td>
+                                <td>Horizontal (high priority)</td>
+                                <td>500 concurrent users</td>
+                            </tr>
+                            <tr>
+                                <td>Retrieval Service</td>
+                                <td>Horizontal (add replicas)</td>
+                                <td>200 searches/sec</td>
+                            </tr>
+                            <tr>
+                                <td>LLM Service</td>
+                                <td>Horizontal + rate limiting</td>
+                                <td>LLM API limits</td>
+                            </tr>
+                            <tr>
+                                <td>Workers</td>
+                                <td>Horizontal (add workers)</td>
+                                <td>Async job queue</td>
+                            </tr>
+                            <tr>
+                                <td>Qdrant (Vector DB)</td>
+                                <td>Vertical + Sharding</td>
+                                <td>100M vectors</td>
+                            </tr>
+                            <tr>
+                                <td>Redis (Cache)</td>
+                                <td>Vertical + Replication</td>
+                                <td>1M+ entries</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- SECTION 15: Final Summary -->
+            <div class="section" id="summary">
+                <h2 class="section-title">🎓 Complete Learning Summary & Checklist</h2>
+
+                <div class="learning-path">
+                    <h4>🏗️ 7-Layer Product Architecture</h4>
+                    <ol>
+                        <li><strong>Knowledge Layer</strong> - Documents, chunks, embeddings (what you know)</li>
+                        <li><strong>Retrieval Layer</strong> - Vector search, filters, reranking (what you see)</li>
+                        <li><strong>Reasoning Layer</strong> - Prompts, LLM, context building (how you think)</li>
+                        <li><strong>Interaction Layer</strong> - Chat, sessions, feedback (how users interact)</li>
+                        <li><strong>Control Layer</strong> - RBAC, audit logs, rate limits (who can do what)</li>
+                        <li><strong>Learning Layer</strong> - Feedback, evaluation, improvement (how you evolve)</li>
+                        <li><strong>Infrastructure Layer</strong> - Compute, scaling, storage (how you run)</li>
+                    </ol>
+                </div>
+
+                <h3 class="subsection-title">🎯 Pre-Production Checklist</h3>
+
+                <div class="learning-path">
+                    <h4>Before Deploying to Production:</h4>
+                    <ol>
+                        <li>✅ <strong>DATA:</strong> Are chunks meaningful? Fresh? Deduplicated? Versioned?</li>
+                        <li>✅ <strong>RETRIEVAL:</strong> Using hybrid search? Filtering correctly? Reranking?
+                            Performance < 200ms?</li>
+                        <li>✅ <strong>LLM:</strong> Is prompt strict? Temperature = 0? Context clean? Hallucination
+                            checked?</li>
+                        <li>✅ <strong>SYSTEM:</strong> Caching implemented? Latency < 3 sec? Costs estimated?
+                                Auto-scaling configured?</li>
+                        <li>✅ <strong>OPERATIONS:</strong> Logging everything? Can I debug? Can I scale? Alerts set?
+                        </li>
+                        <li>✅ <strong>MONITORING:</strong> Metrics tracked? Dashboard built? Traces working? SLA
+                            defined?</li>
+                        <li>✅ <strong>SECURITY:</strong> User filtering? API key protection? Audit logs? RBAC
+                            implemented?</li>
+                        <li>✅ <strong>TESTING:</strong> Evaluation suite built? Baseline metrics set? A/B testing ready?
+                            Failure scenarios covered?</li>
+                        <li>✅ <strong>LEARNING:</strong> Feedback collection? Analysis pipeline? Weekly improvement
+                            cycle? A/B testing framework?</li>
+                        <li>✅ <strong>VERSIONING:</strong> All components versioned? Easy rollback? Zero-downtime
+                            deployment?</li>
+                    </ol>
+                </div>
+
+                <h3 class="subsection-title">🔥 What Separates Good from Great</h3>
+
+                <div class="comparison-table">
+                    <div class="comparison-row">
+                        <div class="comparison-left">
+                            <strong>❌ Beginner System</strong><br><br>
+                            • Works locally<br>
+                            • No observability<br>
+                            • Can't scale<br>
+                            • Breaks in prod<br>
+                            • No learning loop<br>
+                            • Manual fixes
+                        </div>
+                        <div class="comparison-right">
+                            <strong>✅ Production System</strong><br><br>
+                            • Modular microservices<br>
+                            • Full observability<br>
+                            • Auto-scales<br>
+                            • Degrades gracefully<br>
+                            • Continuous learning<br>
+                            • Automated improvements
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-box">
+                    <strong>🏆 The Production Reality:</strong><br>
+                    <strong>Building a working system = 20% effort</strong><br>
+                    Building a production system = 80% effort<br><br>
+                    That 80% covers: monitoring, debugging, scaling, versioning, testing, automation, failure handling,
+                    learning loops, observability.<br><br>
+                    <strong>This entire documentation teaches you exactly those principles that separate real production
+                        systems from prototypes.</strong>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🧠 The Most Important Shift:</strong><br><br>
+                    ❌ Beginner: "I built a chatbot"<br>
+                    ✅ Senior Architect: "I built a self-improving, distributed knowledge system that scales, debugs
+                    itself, and learns from feedback"
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" onclick="scrollToTop()">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>🛡️ Insurance RAG Chatbot</strong></p>
+        <p>Production-Grade Architecture for Enterprise Knowledge Systems</p>
+        <p style="margin-top: 15px; font-size: 0.9rem;">
+            Built with principles from FAANG systems design | Version 1.0 | 2024
+        </p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Back to Top Button
+        window.addEventListener('scroll', function () {
+            const btn = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                btn.classList.add('show');
+            } else {
+                btn.classList.remove('show');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Smooth scroll for TOC links
+        document.querySelectorAll('.toc-item a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

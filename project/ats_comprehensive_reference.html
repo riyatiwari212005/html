@@ -1,0 +1,1229 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS Microservices Architecture - Complete Technical Reference</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --light-bg: #f8fafc;
+            --dark-bg: #0f172a;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white !important;
+        }
+
+        .main-wrapper {
+            background: white;
+            margin: 30px auto;
+            max-width: 1400px;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .toc-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px;
+            margin: 0;
+        }
+
+        .toc-section h2 {
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .toc-item {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid white;
+        }
+
+        .toc-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            background: white;
+        }
+
+        .toc-item a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .toc-item small {
+            display: block;
+            margin-top: 8px;
+            color: #666;
+        }
+
+        .content-wrapper {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 3px solid var(--light-bg);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            border-bottom: 4px solid var(--info);
+            padding-bottom: 15px;
+        }
+
+        .subsection-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-left: 5px solid var(--info);
+            padding-left: 20px;
+        }
+
+        .subsection-subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 5px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card.success {
+            background: linear-gradient(135deg, #d4fc79 0%, #96f97b 100%);
+            border-left-color: var(--success);
+        }
+
+        .service-card.warning {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            border-left-color: var(--warning);
+        }
+
+        .service-card.info {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-left-color: var(--info);
+        }
+
+        .service-card.danger {
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);
+            border-left-color: var(--danger);
+        }
+
+        .code-box {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 20px 0;
+            line-height: 1.6;
+            border-left: 5px solid var(--info);
+        }
+
+        .table-custom {
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        .table-custom thead th {
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            color: white;
+            font-weight: 700;
+            border: none;
+            padding: 15px;
+        }
+
+        .table-custom td {
+            padding: 12px 15px;
+            border-color: #e2e8f0;
+        }
+
+        .table-custom tbody tr:hover {
+            background: var(--light-bg);
+        }
+
+        .key-point {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe0b2 100%);
+            border-left: 5px solid var(--warning);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 5px solid var(--success);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .architecture-flow {
+            font-size: 1.1rem;
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .badge-custom {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin: 5px;
+            font-size: 0.9rem;
+        }
+
+        .badge-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .badge-success {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            color: #333;
+        }
+
+        .badge-warning {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: #333;
+        }
+
+        .list-styled {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-styled li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .list-styled li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .hierarchy-tree {
+            background: #f8f9fa;
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .service-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid var(--info);
+        }
+
+        .service-item h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .service-item small {
+            color: #666;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        footer {
+            background: #1a202c;
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 50px;
+        }
+
+        .code-inline {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .highlight {
+            background: #ffd700;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .content-wrapper {
+                padding: 25px;
+            }
+
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top">🏗️ ATS Microservices Architecture</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#architecture">Architecture</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#jenkins">Jenkins CI/CD</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#deployment">Deployment</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Hero Section -->
+        <div class="hero" id="top">
+            <h1>🔬 ATS Microservices Architecture: Complete Technical Reference</h1>
+            <p>15 Microservices | Jenkins CI/CD Pipeline | Docker Containerization</p>
+        </div>
+
+        <!-- Table of Contents Section -->
+        <div class="toc-section">
+            <div class="container-fluid">
+                <h2>📑 Contents Overview</h2>
+                <div class="toc-grid">
+                    <div class="toc-item">
+                        <a href="#services">🎯 ATS Microservices (15 Services)</a>
+                        <small>Complete service descriptions</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#architecture">🏗️ System Architecture</a>
+                        <small>Architecture overview & design</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#jenkins">🚀 Jenkins CI/CD</a>
+                        <small>Pipeline configuration</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#deployment">📦 Deployment Process</a>
+                        <small>Build, test, deploy workflow</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#ports">🔌 Port Configuration</a>
+                        <small>Service port mapping</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#credentials">🔐 Credentials & Security</a>
+                        <small>Jenkins secrets management</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="content-wrapper">
+
+            <!-- MICROSERVICES SECTION -->
+            <div class="section" id="services">
+                <h2 class="section-title">🎯 ATS Microservices: 15 Core Services</h2>
+
+                <!-- Service 1 -->
+                <div class="service-card">
+                    <h3 class="subsection-title">1. AGENT11_PIPELINE_SERVICE</h3>
+                    <p><strong>Purpose:</strong> Core orchestration service that manages and coordinates workflow
+                        pipelines within the recruitment AI agent system.</p>
+                    <ul class="list-styled">
+                        <li>Built with FastAPI and Python 3.8+</li>
+                        <li>Exposes RESTful APIs on port 8088</li>
+                        <li>Comprehensive Swagger documentation included</li>
+                        <li>Centralized endpoint for pipeline operations</li>
+                        <li>Coordinates multi-step recruitment processes</li>
+                    </ul>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-card info">
+                    <h3 class="subsection-title">2. AI_AGENT_CANDIDATE_RECOMMENDATION_SYSTEM</h3>
+                    <p><strong>Purpose:</strong> Advanced AI-powered matching system that automatically matches
+                        candidates with job openings.</p>
+                    <ul class="list-styled">
+                        <li>Leverages Sentence-BERT for semantic understanding</li>
+                        <li>Cross-encoder reranker for improved accuracy</li>
+                        <li>Structured field matching (skills, experience, education, location)</li>
+                        <li>Role-based access control</li>
+                        <li>Optional GPU acceleration for 5-10x faster inference</li>
+                        <li>Sub-5-second response times</li>
+                    </ul>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-card success">
+                    <h3 class="subsection-title">3. AI_AGENT_LOGIN1_Service</h3>
+                    <p><strong>Purpose:</strong> Critical authentication and user management microservice for the
+                        recruitment platform.</p>
+                    <ul class="list-styled">
+                        <li>Handles all authentication operations</li>
+                        <li>Role-based access control (admin, user, moderator, guest)</li>
+                        <li>JWT token generation and validation</li>
+                        <li>Account status validation (enable/disable)</li>
+                        <li>MySQL database integration</li>
+                        <li>Secure password hashing</li>
+                    </ul>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="service-card warning">
+                    <h3 class="subsection-title">4. AI_AGENT1_File_Handler</h3>
+                    <p><strong>Purpose:</strong> Dedicated file management microservice for document operations.</p>
+                    <ul class="list-styled">
+                        <li>Handles file uploads (resumes, job descriptions)</li>
+                        <li>Integrates with Llama Parse API</li>
+                        <li>Advanced document parsing and OCR processing</li>
+                        <li>Centralized file repository management</li>
+                        <li>Detailed logging for all operations</li>
+                        <li>Configurable file storage paths</li>
+                    </ul>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="service-card danger">
+                    <h3 class="subsection-title">5. AI_AGENT1_WEB_SCRAPE_SERVICE</h3>
+                    <p><strong>Purpose:</strong> Comprehensive web data extraction and crawling microservice.</p>
+                    <ul class="list-styled">
+                        <li>Integrates Scrapy, Firecrawl, and Crawl4ai</li>
+                        <li>Flexible extraction method selection</li>
+                        <li>Website crawling with data cleaning</li>
+                        <li>Text normalization and preprocessing</li>
+                        <li>Chrome driver compatibility</li>
+                        <li>Gathers job postings and market intelligence</li>
+                    </ul>
+                </div>
+
+                <!-- Service 6 -->
+                <div class="service-card">
+                    <h3 class="subsection-title">6. AI_AGENT10_JOB_SERVICE</h3>
+                    <p><strong>Purpose:</strong> Comprehensive job management microservice for all job-related
+                        operations.</p>
+                    <ul class="list-styled">
+                        <li>Complete CRUD operations for job postings</li>
+                        <li>Built with FastAPI and Python 3.13</li>
+                        <li>JWT-based authentication</li>
+                        <li>Job metadata and requirements management</li>
+                        <li>User and candidate assignments</li>
+                        <li>Pipeline and SPOC management</li>
+                    </ul>
+                </div>
+
+                <!-- Service 7 -->
+                <div class="service-card info">
+                    <h3 class="subsection-title">7. AI_AGENT11_RBAC_Service</h3>
+                    <p><strong>Purpose:</strong> Role-Based Access Control and permission management microservice.</p>
+                    <ul class="list-styled">
+                        <li>Enforces access control policies</li>
+                        <li>Hierarchical role system</li>
+                        <li>Fine-grained permission assignments</li>
+                        <li>Custom role definition support</li>
+                        <li>Permission validation before access</li>
+                        <li>Audit trails for all activities</li>
+                    </ul>
+                </div>
+
+                <!-- Service 8 -->
+                <div class="service-card success">
+                    <h3 class="subsection-title">8. AI_AGENT15_STATUS_SERVICE</h3>
+                    <p><strong>Purpose:</strong> Real-time task monitoring and progress tracking microservice.</p>
+                    <ul class="list-styled">
+                        <li>Tracks Celery background task execution</li>
+                        <li>WebSocket for real-time updates</li>
+                        <li>Persistent client connections</li>
+                        <li>Redis backend integration</li>
+                        <li>MySQL for task history</li>
+                        <li>Progress percentage and error tracking</li>
+                    </ul>
+                </div>
+
+                <!-- Service 9 -->
+                <div class="service-card warning">
+                    <h3 class="subsection-title">9. AI_AGENT2_Job_Description_Service</h3>
+                    <p><strong>Purpose:</strong> Foundational microservice for managing job descriptions as structured
+                        documents.</p>
+                    <ul class="list-styled">
+                        <li>REST APIs for CRUD operations</li>
+                        <li>Built with FastAPI and Python 3.8+</li>
+                        <li>Job description metadata management</li>
+                        <li>Operates on port 8084</li>
+                        <li>Audit trails for modifications</li>
+                        <li>Data layer for job processing pipeline</li>
+                    </ul>
+                </div>
+
+                <!-- Service 10 -->
+                <div class="service-card danger">
+                    <h3 class="subsection-title">10. AI_AGENT2_Job_Description_Svc</h3>
+                    <p><strong>Purpose:</strong> AI-powered job description generation with real-time progress tracking.
+                    </p>
+                    <ul class="list-styled">
+                        <li>Generates comprehensive job descriptions</li>
+                        <li>Asynchronous task processing with Celery</li>
+                        <li>WebSocket real-time progress updates</li>
+                        <li>Built with FastAPI and Poetry</li>
+                        <li>Intelligent formatting and content organization</li>
+                        <li>Multiple output format support</li>
+                    </ul>
+                </div>
+
+                <!-- Service 11 -->
+                <div class="service-card">
+                    <h3 class="subsection-title">11. AI_AGENT3_Resume_Analyzer</h3>
+                    <p><strong>Purpose:</strong> AI-powered resume processing and summarization microservice.</p>
+                    <ul class="list-styled">
+                        <li>Supports multiple resume formats</li>
+                        <li>Base64-encoded input support</li>
+                        <li>OCR processing for scanned documents</li>
+                        <li>Advanced NLP capabilities</li>
+                        <li>Celery workers for resource-intensive tasks</li>
+                        <li>Job position recommendations</li>
+                    </ul>
+                </div>
+
+                <!-- Service 12 -->
+                <div class="service-card info">
+                    <h3 class="subsection-title">12. AI_AGENT5_SKILL_ASSESSMENT</h3>
+                    <p><strong>Purpose:</strong> Comprehensive skill-based tests and assessments microservice.</p>
+                    <ul class="list-styled">
+                        <li>Test creation and management</li>
+                        <li>Multiple question types support</li>
+                        <li>Configurable test parameters (time limits, marks)</li>
+                        <li>Assessment results tracking</li>
+                        <li>Soft delete functionality with audit trails</li>
+                        <li>Skill gap analysis capabilities</li>
+                    </ul>
+                </div>
+
+                <!-- Service 13 -->
+                <div class="service-card success">
+                    <h3 class="subsection-title">13. AI_AGENT6_Candidate_Service</h3>
+                    <p><strong>Purpose:</strong> Comprehensive candidate data management microservice.</p>
+                    <ul class="list-styled">
+                        <li>Complete candidate profile management</li>
+                        <li>CRUD operations for candidate records</li>
+                        <li>Resume analyzer service integration</li>
+                        <li>Candidate status tracking</li>
+                        <li>Job application management</li>
+                        <li>Advanced candidate search and filtering</li>
+                    </ul>
+                </div>
+
+                <!-- Service 14 -->
+                <div class="service-card warning">
+                    <h3 class="subsection-title">14. AI_AGENT9_COMPANY_SERVICE</h3>
+                    <p><strong>Purpose:</strong> Company and SPOC information management microservice.</p>
+                    <ul class="list-styled">
+                        <li>Company profile management</li>
+                        <li>SPOC assignment tracking</li>
+                        <li>Organizational hierarchy management</li>
+                        <li>Contact information storage</li>
+                        <li>Audit trails for changes</li>
+                        <li>Integration points for other services</li>
+                    </ul>
+                </div>
+
+                <!-- Service 15 -->
+                <div class="service-card danger">
+                    <h3 class="subsection-title">15. AIAGENT14_JOB_AGENTS_SERVICE</h3>
+                    <p><strong>Purpose:</strong> AI-powered job post generation and marketing content creation.</p>
+                    <ul class="list-styled">
+                        <li>Generates compelling job advertisements</li>
+                        <li>Platform-specific optimization</li>
+                        <li>Built with FastAPI and Python 3.13</li>
+                        <li>Google Gemini AI integration</li>
+                        <li>HTML template generation</li>
+                        <li>Celery background processing</li>
+                    </ul>
+                </div>
+
+            </div> <!-- End Services Section -->
+
+            <!-- ARCHITECTURE SECTION -->
+            <div class="section" id="architecture">
+                <h2 class="section-title">🏗️ System Architecture Overview</h2>
+
+                <h3 class="subsection-title">Architecture Layers</h3>
+
+                <div class="hierarchy-tree">
+                    ├── <strong>Authentication & Authorization Layer</strong>
+                    │ ├── AI_AGENT_LOGIN1_Service
+                    │ └── AI_AGENT11_RBAC_Service
+                    │
+                    ├── <strong>Document Processing Layer</strong>
+                    │ ├── AI_AGENT1_File_Handler
+                    │ ├── AI_AGENT3_Resume_Analyzer
+                    │ └── AI_AGENT2_Job_Description_Service
+                    │
+                    ├── <strong>Core Data Management Layer</strong>
+                    │ ├── AI_AGENT6_Candidate_Service
+                    │ ├── AI_AGENT9_COMPANY_SERVICE
+                    │ └── AI_AGENT10_JOB_SERVICE
+                    │
+                    ├── <strong>Intelligent Processing Layer</strong>
+                    │ ├── AI_AGENT_CANDIDATE_RECOMMENDATION_SYSTEM
+                    │ ├── AI_AGENT5_SKILL_ASSESSMENT
+                    │ └── AIAGENT14_JOB_AGENTS_SERVICE
+                    │
+                    ├── <strong>Integration & Orchestration Layer</strong>
+                    │ ├── AGENT11_PIPELINE_SERVICE
+                    │ ├── AI_AGENT1_WEB_SCRAPE_SERVICE
+                    │ └── AI_AGENT15_STATUS_SERVICE
+                    │
+                    └── <strong>Asynchronous Processing Layer</strong>
+                    ├── Celery Workers
+                    └── Redis Message Queue
+                </div>
+
+                <h3 class="subsection-title">Key Architectural Characteristics</h3>
+
+                <div class="service-grid">
+                    <div class="service-item">
+                        <h4>🔌 Microservices Architecture</h4>
+                        <p>Loosely-coupled, independently deployable services that communicate via APIs and message
+                            queues.</p>
+                    </div>
+                    <div class="service-item">
+                        <h4>📦 Docker Containerization</h4>
+                        <p>All services containerized for consistency, scalability, and easy deployment across
+                            environments.</p>
+                    </div>
+                    <div class="service-item">
+                        <h4>⚡ Asynchronous Processing</h4>
+                        <p>Celery + Redis for background task processing, enabling responsive user interfaces.</p>
+                    </div>
+                    <div class="service-item">
+                        <h4>🌐 Network Isolation</h4>
+                        <p>Shared Docker networks enable inter-service communication while maintaining security
+                            boundaries.</p>
+                    </div>
+                    <div class="service-item">
+                        <h4>🔐 Security</h4>
+                        <p>JWT-based authentication, role-based access control, and credential management via Jenkins.
+                        </p>
+                    </div>
+                    <div class="service-item">
+                        <h4>📊 Database Integration</h4>
+                        <p>MySQL backend with SQLAlchemy ORM for data persistence and complex queries.</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">Technology Stack</h3>
+
+                <div class="service-card success">
+                    <strong>Framework & Language:</strong>
+                    <ul class="list-styled">
+                        <li>FastAPI (REST APIs)</li>
+                        <li>Python 3.8+ (Python 3.13 for newer services)</li>
+                        <li>Pydantic (data validation)</li>
+                    </ul>
+                </div>
+
+                <div class="service-card info">
+                    <strong>Database & Caching:</strong>
+                    <ul class="list-styled">
+                        <li>MySQL (primary data store)</li>
+                        <li>SQLAlchemy ORM</li>
+                        <li>Redis (message queue, caching)</li>
+                    </ul>
+                </div>
+
+                <div class="service-card warning">
+                    <strong>Asynchronous & Messaging:</strong>
+                    <ul class="list-styled">
+                        <li>Celery (background task processing)</li>
+                        <li>WebSocket (real-time communication)</li>
+                        <li>Redis (message broker)</li>
+                    </ul>
+                </div>
+
+                <div class="service-card danger">
+                    <strong>AI & ML Integration:</strong>
+                    <ul class="list-styled">
+                        <li>Sentence-BERT (semantic matching)</li>
+                        <li>Google Gemini AI (content generation)</li>
+                        <li>Llama Parse API (document parsing)</li>
+                        <li>Optional GPU acceleration</li>
+                    </ul>
+                </div>
+
+            </div> <!-- End Architecture Section -->
+
+            <!-- JENKINS CI/CD SECTION -->
+            <div class="section" id="jenkins">
+                <h2 class="section-title">🚀 Jenkins CI/CD Pipeline Management</h2>
+
+                <h3 class="subsection-title">⚙️ Pipeline Architecture</h3>
+
+                <p><strong>All services follow the same standardized Jenkins pipeline with the following
+                        stages:</strong></p>
+
+                <div class="hierarchy-tree">
+                    1️⃣ Guard Branch
+                    ├── Validates that only allowed branches trigger builds
+                    └── Currently configured: qa branch only
+
+                    2️⃣ Init
+                    ├── Initializes environment variables
+                    └── Sets up configurations
+
+                    3️⃣ Checkout
+                    ├── Clones source code from repository
+                    └── Fetches latest branch
+
+                    4️⃣ Build Image
+                    ├── Builds Docker image from Dockerfile
+                    └── Tags with service name and environment
+
+                    5️⃣ Stop Old Container
+                    ├── Gracefully stops previous container
+                    └── Removes associated volumes
+
+                    6️⃣ Run Container
+                    ├── Starts new container with credentials
+                    ├── Mounts volumes for logs and files
+                    └── Connects to shared network
+
+                    7️⃣ Post
+                    ├── Cleanup operations
+                    └── Reports build status
+                </div>
+
+                <h3 class="subsection-title">Build Triggers & Configuration</h3>
+
+                <div class="service-card">
+                    <strong>🔄 Build Triggers:</strong>
+                    <ul class="list-styled">
+                        <li>Branch Filtering: Only <span class="code-inline">qa</span> branch triggers builds</li>
+                        <li>Concurrent Builds: Disabled to prevent simultaneous deployments</li>
+                        <li>Early-stage validation: Prevents builds on non-qa branches</li>
+                    </ul>
+                </div>
+
+                <div class="code-box">stage('Guard Branch') {
+                    when { expression { return env.BRANCH_NAME != null } }
+                    steps {
+                    if (env.BRANCH_NAME != 'qa') {
+                    echo "Skipping build: only qa branch is allowed"
+                    currentBuild.result = 'NOT_BUILT'
+                    }
+                    }
+                    }
+                </div>
+
+                <h3 class="subsection-title">🌍 Environment Configuration</h3>
+
+                <div class="key-point">
+                    <strong>Current Status:</strong> QA environment is active. Dev and Prod environments are configured
+                    but disabled.
+                </div>
+
+                <div class="service-card info">
+                    <strong>Branch to Environment Mapping:</strong>
+                    <div class="code-box">
+                        def envMap = [
+                        'main' : 'prod',
+                        'master' : 'prod',
+                        'qa' : 'qa',
+                        'release' : 'qa',
+                        'develop' : 'dev',
+                        'dev' : 'dev'
+                        ]
+
+                        def portMap = [
+                        dev: '8400', // Dev base port
+                        qa: '8500', // QA base port
+                        prod: '8600' // Prod base port
+                        ]
+                    </div>
+                </div>
+
+            </div> <!-- End Jenkins Section -->
+
+            <!-- DEPLOYMENT SECTION -->
+            <div class="section" id="deployment">
+                <h2 class="section-title">📦 Docker Build & Deployment Process</h2>
+
+                <h3 class="subsection-title">Build Stage</h3>
+
+                <div class="code-box">stage('Build Image') {
+                    when { branch 'qa' }
+                    steps {
+                    sh "docker build -t ${IMAGE_NAME} ."
+                    }
+                    }
+                </div>
+
+                <p>Creates a Docker image from the Dockerfile in the service repository using the image name pattern:
+                    <span class="code-inline">ats-&lt;service&gt;-&lt;env&gt;</span></p>
+
+                <h3 class="subsection-title">Container Lifecycle Management</h3>
+
+                <h4 class="subsection-subtitle">🛑 Stop Old Container</h4>
+
+                <div class="code-box">stage('Stop Old Container') {
+                    steps {
+                    sh """
+                    docker stop ${CONTAINER} 2>/dev/null || true
+                    docker rm -f ${CONTAINER} 2>/dev/null || true
+                    """
+                    }
+                    }
+                </div>
+
+                <div class="key-point">
+                    <strong>Process:</strong> Gracefully stops the running container (if exists), removes the container
+                    and associated volumes, and ignores errors if container doesn't exist.
+                </div>
+
+                <h4 class="subsection-subtitle">🚀 Run New Container</h4>
+
+                <div class="code-box">stage('Run Container') {
+                    steps {
+                    sh """
+                    docker run -d --name ${CONTAINER} --restart unless-stopped \\
+                    --add-host=host.docker.internal:host-gateway \\
+                    --network ${NETWORK} \\
+                    -p ${APP_PORT}:${APP_PORT} \\
+                    -e APP_ENV=${env.APP_ENV} \\
+                    -e APP_PORT=${APP_PORT} \\
+                    [... environment variables ...] \\
+                    -v ${LOG_PATH}:${LOG_PATH} \\
+                    -v ${FILE_PATH}:${FILE_PATH} \\
+                    ${IMAGE_NAME}
+                    """
+                    }
+                    }
+                </div>
+
+                <h3 class="subsection-subtitle">Key Docker Options</h3>
+
+                <table class="table table-hover table-custom">
+                    <thead>
+                        <tr>
+                            <th>Option</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="code-inline">-d</span></td>
+                            <td>Run in detached mode (background)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">--restart unless-stopped</span></td>
+                            <td>Auto-restart container on failure</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">--add-host=host.docker.internal:host-gateway</span></td>
+                            <td>Docker Desktop compatibility</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">--network</span></td>
+                            <td>Connects to shared network for inter-service communication</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">-p</span></td>
+                            <td>Port mapping (host:container)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">-e</span></td>
+                            <td>Environment variables (from Jenkins credentials)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="code-inline">-v</span></td>
+                            <td>Volume mounts for logs and files</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div> <!-- End Deployment Section -->
+
+            <!-- PORT CONFIGURATION SECTION -->
+            <div class="section" id="ports">
+                <h2 class="section-title">🔌 Service Port Configuration (QA Environment)</h2>
+
+                <table class="table table-hover table-custom">
+                    <thead>
+                        <tr>
+                            <th>Service Name</th>
+                            <th>Container Name</th>
+                            <th>Port</th>
+                            <th>Image Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AI_AGENT_LOGIN1_Service</td>
+                            <td>ats-agent-login1-qa</td>
+                            <td>8500</td>
+                            <td>ats-agent-login1-service:qa</td>
+                        </tr>
+                        <tr>
+                            <td>AI_AGENT1_File_Handler</td>
+                            <td>ats-agent-file1-qa</td>
+                            <td>8501</td>
+                            <td>ats-agent-file1-service:qa</td>
+                        </tr>
+                        <tr>
+                            <td>AI_AGENT1_WEB_SCRAPE_SERVICE</td>
+                            <td>ats-agent1-web-scrape-qa</td>
+                            <td>8502</td>
+                            <td>ats-agent1-web-scrape-service:qa</td>
+                        </tr>
+                        <tr>
+                            <td>AI_AGENT6_Candidate_Service</td>
+                            <td>ats-agent-candidate1-qa</td>
+                            <td>8503</td>
+                            <td>ats-agent-candidate1-service:qa</td>
+                        </tr>
+                        <tr>
+                            <td>AI_AGENT11_RBAC_Service</td>
+                            <td>ats-agent11-rbac-qa</td>
+                            <td>8504</td>
+                            <td>ats-agent11-rbac-service:qa</td>
+                        </tr>
+                        <tr>
+                            <td>AGENT11_PIPELINE_SERVICE</td>
+                            <td>ats-agent11-pipeline-qa</td>
+                            <td>8505</td>
+                            <td>ats-agent11-pipeline-service:qa</td>
+                        </tr>
+                        <tr>
+                            <td>AI_AGENT9_COMPANY_SERVICE</td>
+                            <td>ats-agent-company1-qa</td>
+                            <td>8506</td>
+                            <td>ats-agent-company1-service:qa</td>
+                        </tr>
+                        <tr>
+                            <td>AI_AGENT10_JOB_SERVICE</td>
+                            <td>ats-agent10-job-qa</td>
+                            <td>8507</td>
+                            <td>ats-agent10-job-service:qa</td>
+                        </tr>
+                        <tr>
+                            <td>AI_AGENT2_Job_Description_Svc</td>
+                            <td>ats-agent-jd-qa</td>
+                            <td>8509</td>
+                            <td>ats-agent-jd-service:qa</td>
+                        </tr>
+                        <tr>
+                            <td>AIAGENT14_JOB_AGENTS_SERVICE</td>
+                            <td>ats-agent-job-agents1-qa</td>
+                            <td>8510</td>
+                            <td>ats-agent-job-agents1-service:qa</td>
+                        </tr>
+                        <tr>
+                            <td>AI_AGENT3_Resume_Analyzer</td>
+                            <td>ats-agent-resume-qa</td>
+                            <td>8512</td>
+                            <td>ats-agent-resume-analyzer:qa</td>
+                        </tr>
+                        <tr>
+                            <td>AI_AGENT15_STATUS_SERVICE</td>
+                            <td>ats-agent15-status-qa</td>
+                            <td>8515</td>
+                            <td>ats-agent15-status-service:qa</td>
+                        </tr>
+                        <tr>
+                            <td>AI_AGENT5_SKILL_ASSESSMENT</td>
+                            <td>ats-agent5-skill-assessment-qa</td>
+                            <td>8084</td>
+                            <td>ats-agent5-skill-assessment:qa</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="subsection-title">Network Configuration</h3>
+
+                <div class="service-grid">
+                    <div class="service-item">
+                        <h4>🌐 QA Network</h4>
+                        <p><span class="code-inline">ats-qa-network</span></p>
+                        <small>Enables inter-service communication in QA environment</small>
+                    </div>
+                    <div class="service-item">
+                        <h4>🌐 Dev Network</h4>
+                        <p><span class="code-inline">ats-dev-network</span></p>
+                        <small>For future Dev environment deployment</small>
+                    </div>
+                    <div class="service-item">
+                        <h4>🌐 Prod Network</h4>
+                        <p><span class="code-inline">ats-prod-network</span></p>
+                        <small>For future Prod environment deployment</small>
+                    </div>
+                </div>
+
+            </div> <!-- End Port Configuration Section -->
+
+            <!-- CREDENTIALS SECTION -->
+            <div class="section" id="credentials">
+                <h2 class="section-title">🔐 Jenkins Credentials & Security Management</h2>
+
+                <h3 class="subsection-title">Credential Storage Pattern</h3>
+
+                <p>All sensitive data is stored in Jenkins as secrets and injected at runtime:</p>
+
+                <div class="code-box">withCredentials([
+                    string(credentialsId: 'AI-DB-HOST', variable: 'DB_HOST'),
+                    string(credentialsId: 'AI-DB-PORT', variable: 'DB_PORT'),
+                    string(credentialsId: 'AI-DB-NAME-QA', variable: 'DB_NAME'),
+                    string(credentialsId: 'AI-DB-QA-USER', variable: 'DB_USER'),
+                    string(credentialsId: 'AI-DB-QA-PASS', variable: 'DB_PASSWORD'),
+                    string(credentialsId: 'AI-JWT-SECRET-KEY', variable: 'JWT_SECRET_KEY'),
+                    ]) {
+                    // Credentials available as environment variables
+                    sh "docker run -e DB_HOST=$DB_HOST ..."
+                    }
+                </div>
+
+                <h3 class="subsection-title">Required Jenkins Credentials</h3>
+
+                <h4 class="subsection-subtitle">📊 Database Credentials (Shared across services)</h4>
+
+                <div class="service-card info">
+                    <ul class="list-styled">
+                        <li><span class="code-inline">AI-DB-HOST</span> - Database host address</li>
+                        <li><span class="code-inline">AI-DB-PORT</span> - Database port (typically 3306)</li>
+                        <li><span class="code-inline">AI-DB-NAME-QA</span> - QA database name</li>
+                        <li><span class="code-inline">AI-DB-USER-QA</span> or <span
+                                class="code-inline">AI-DB-QA-USER</span> - Database username</li>
+                        <li><span class="code-inline">AI-DB-PASS-QA</span> or <span
+                                class="code-inline">AI-DB-QA-PASS</span> - Database password</li>
+                    </ul>
+                </div>
+
+                <h4 class="subsection-subtitle">🔑 Authentication & Security Credentials</h4>
+
+                <div class="service-card success">
+                    <ul class="list-styled">
+                        <li><span class="code-inline">AI-JWT-SECRET-KEY</span> - JWT signing key for token generation
+                        </li>
+                        <li><span class="code-inline">AI-JWT-ALGO</span> - JWT algorithm (typically HS256)</li>
+                        <li><span class="code-inline">AI-HASHING-ALGO</span> - Password hashing algorithm (bcrypt)</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">🛡️ Security Best Practices</h3>
+
+                <div class="insight-box">
+                    <strong>✓ Implemented Security Measures:</strong>
+                    <ul class="list-styled">
+                        <li>All credentials stored in Jenkins secret store</li>
+                        <li>Credentials injected as environment variables at runtime</li>
+                        <li>JWT-based authentication across services</li>
+                        <li>Role-based access control (RBAC) service</li>
+                        <li>Password hashing with bcrypt</li>
+                        <li>Only QA branch triggers automatic builds</li>
+                        <li>Docker network isolation between environments</li>
+                    </ul>
+                </div>
+
+            </div> <!-- End Credentials Section -->
+
+        </div> <!-- End Content Wrapper -->
+
+        <!-- Footer -->
+        <footer>
+            <h5>🏗️ ATS Microservices Architecture: Complete Technical Reference</h5>
+            <p>15 Microservices | Jenkins CI/CD Pipeline | Docker Containerization</p>
+            <p style="margin-top: 20px; color: #999;">Complete technical breakdown with service specifications,
+                architecture design, deployment process, and security management</p>
+            <p style="margin-top: 20px; font-size: 0.9rem;">Last Updated: April 2026</p>
+        </footer>
+
+    </div> <!-- End Main Wrapper -->
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">⬆️</div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Back to top button functionality
+        const backToTopBtn = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Smooth scrolling for all anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

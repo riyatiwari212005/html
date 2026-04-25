@@ -1,0 +1,1824 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Embeddings - Professional Learning Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #0ea5e9;
+            --light-bg: #f8fafc;
+            --dark-bg: #0f172a;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        html,
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.65;
+            font-size: 14px;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        li {
+            font-size: 0.9rem;
+            line-height: 1.65;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 0.8rem 0;
+        }
+
+        .navbar-brand {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white !important;
+            letter-spacing: -0.4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8) !important;
+            transition: all 0.3s ease;
+            padding: 0.4rem 0.9rem !important;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .main-wrapper {
+            background: white;
+            margin: 30px auto;
+            max-width: 1280px;
+            border-radius: 24px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 90px 45px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -30%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(20px);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            letter-spacing: -0.6px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            margin-bottom: 35px;
+            opacity: 0.95;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge-hero {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 0 6px;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .badge-hero:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .toc-section {
+            background: linear-gradient(135deg, #f472b6 0%, #ec4899 100%);
+            color: white;
+            padding: 50px 45px;
+            margin: 0;
+        }
+
+        .toc-section h2 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            margin-bottom: 35px;
+            font-size: 1.8rem;
+            letter-spacing: -0.4px;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+        }
+
+        .toc-item {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--text-dark);
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 4px solid white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toc-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+            border-left-color: var(--primary);
+        }
+
+        .toc-item a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 700;
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toc-item small {
+            display: block;
+            margin-top: 10px;
+            color: var(--text-light);
+            font-size: 0.78rem;
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
+        }
+
+        .content-wrapper {
+            padding: 55px 45px;
+        }
+
+        .section {
+            margin-bottom: 65px;
+            padding-bottom: 35px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subsection-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 30px;
+            margin-bottom: 18px;
+            padding-bottom: 8px;
+            border-left: 4px solid var(--info);
+            padding-left: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        .card-box {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin: 18px 0;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-box:hover {
+            transform: translateX(4px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.12);
+        }
+
+        .card-box p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .card-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .learning-tip {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            border-left: 4px solid var(--info);
+            padding: 16px 18px;
+            margin: 18px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+            font-size: 0.9rem;
+        }
+
+        .learning-tip strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: var(--info);
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-left: 4px solid var(--success);
+            padding: 16px 18px;
+            margin: 18px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+            font-size: 0.9rem;
+        }
+
+        .insight-box strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: var(--success);
+        }
+
+        .key-point {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffe082 100%);
+            border-left: 4px solid var(--warning);
+            padding: 16px 18px;
+            margin: 18px 0;
+            border-radius: 10px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+            font-size: 0.9rem;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            border-left: 4px solid #ff9800;
+            padding: 16px 18px;
+            border-radius: 10px;
+            margin: 18px 0;
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.15);
+            font-size: 0.9rem;
+        }
+
+        .tip-box strong {
+            color: #d97706;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .accordion-button {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 16px 22px;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+            letter-spacing: -0.2px;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .accordion-button:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+        }
+
+        .accordion-body {
+            padding: 22px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-top: none;
+            font-size: 0.9rem;
+        }
+
+        .accordion-item {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.12);
+            border-color: var(--primary);
+        }
+
+        .accordion {
+            border: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 35px 0;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 20px 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.35);
+        }
+
+        .stat-box-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            letter-spacing: -0.4px;
+        }
+
+        .stat-box-label {
+            font-size: 0.78rem;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        .code-highlight {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px 16px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.82rem;
+            line-height: 1.55;
+            border-left: 4px solid var(--info);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .list-styled {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-styled li {
+            padding: 7px 0;
+            padding-left: 26px;
+            position: relative;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .list-styled li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--info);
+            font-weight: 700;
+            font-size: 0.9rem;
+            top: 2px;
+        }
+
+        .embedding-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 25px 0;
+        }
+
+        .embedding-card {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .embedding-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--info));
+        }
+
+        .embedding-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.15);
+            border-color: var(--primary);
+        }
+
+        .embedding-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+
+        .embedding-feature {
+            font-size: 0.85rem;
+            margin: 8px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .embedding-feature::before {
+            content: "✓";
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border: 2px solid transparent;
+        }
+
+        .comparison-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.12);
+            border-color: var(--primary);
+        }
+
+        .comparison-item strong {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+
+        .comparison-item p {
+            font-size: 0.8rem;
+        }
+
+        .table-custom {
+            margin: 20px 0;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            font-size: 0.9rem;
+        }
+
+        .table-custom thead th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 700;
+            border: none;
+            padding: 14px;
+            font-size: 0.85rem;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.2px;
+        }
+
+        .table-custom td {
+            padding: 12px 14px;
+            border-color: var(--border-color);
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .table-custom tbody tr:hover {
+            background: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 60px;
+        }
+
+        footer h5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            letter-spacing: -0.4px;
+        }
+
+        footer p {
+            margin: 8px 0;
+            opacity: 0.85;
+            line-height: 1.7;
+            font-size: 0.9rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 35px;
+            right: 35px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.4rem;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+            border: none;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                padding: 60px 30px;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .subsection-title {
+                font-size: 1.05rem;
+            }
+
+            .content-wrapper {
+                padding: 35px 25px;
+            }
+
+            .toc-section {
+                padding: 35px 25px;
+            }
+
+            .toc-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .embedding-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top"><i class="fas fa-text-width"></i> Text Embeddings</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#methods">Methods</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#comparison">Comparison</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tips">Tips</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="hero" id="top">
+            <h1>Text Embeddings Learning Guide</h1>
+            <p>Master Text Representation: One-Hot to Transformers</p>
+            <div style="margin-top: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px;">
+                <span class="badge-hero"><i class="fas fa-layer-group"></i> 7+ Methods</span>
+                <span class="badge-hero"><i class="fas fa-brain"></i> Transformers</span>
+                <span class="badge-hero"><i class="fas fa-chart-line"></i> Best Practices</span>
+            </div>
+        </div>
+
+        <div class="toc-section">
+            <div class="container-fluid">
+                <h2><i class="fas fa-list-check"></i> Learning Path</h2>
+                <div class="toc-grid">
+                    <div class="toc-item">
+                        <a href="#overview"><i class="fas fa-book"></i> Overview</a>
+                        <small>7 Concepts</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#methods"><i class="fas fa-layer-group"></i> Methods</a>
+                        <small>7+ Techniques</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#comparison"><i class="fas fa-balance-scale"></i> Comparison</a>
+                        <small>Performance</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#workflow"><i class="fas fa-arrow-right"></i> Workflow</a>
+                        <small>Implementation</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#datasets"><i class="fas fa-database"></i> Datasets</a>
+                        <small>Data Sources</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#tips"><i class="fas fa-lightbulb"></i> Pro Tips</a>
+                        <small>Best Practices</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+
+            <!-- OVERVIEW -->
+            <div class="section" id="overview">
+                <h2 class="section-title"><i class="fas fa-book"></i> Overview & Core Concepts</h2>
+
+                <div class="learning-tip">
+                    <strong><i class="fas fa-graduation-cap"></i> What is Text Embedding?</strong>
+                    Converting text into numerical vectors for machine learning models. Different methods create
+                    different representations with unique strengths.
+                </div>
+
+                <div class="accordion" id="conceptAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#c1">
+                                <i class="fas fa-database"></i> 1. Data Loading & Fallback Strategy
+                            </button>
+                        </h2>
+                        <div id="c1" class="accordion-collapse collapse show" data-bs-parent="#conceptAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Purpose:</strong> Ensure reproducible data loading across different
+                                    environments with graceful degradation.</p>
+                                <ul class="list-styled">
+                                    <li><strong>Priority 1 - Local CSV:</strong> Reproducible, no dependencies, fastest
+                                        (0-5 seconds)</li>
+                                    <li><strong>Priority 2 - Kaggle API:</strong> Requires setup, 50K+ reviews, ~30-60
+                                        seconds</li>
+                                    <li><strong>Priority 3 - Hugging Face:</strong> Public datasets, no credentials,
+                                        auto-download</li>
+                                    <li><strong>Priority 4 - Synthetic Data:</strong> Fallback for demo/testing, fast
+                                        generation</li>
+                                    <li><strong>Configuration:</strong> RUN_QUICK flag (smaller subset for fast
+                                        iteration), MAX_ROWS limit</li>
+                                </ul>
+                                <div class="code-highlight">try:
+                                    data = pd.read_csv('local_data.csv')
+                                    except FileNotFoundError:
+                                    try:
+                                    data = kaggle_download()
+                                    except:
+                                    try:
+                                    data = load_from_huggingface()
+                                    except:
+                                    data = generate_synthetic_data()</div>
+                                <div class="learning-tip">
+                                    <strong><i class="fas fa-star"></i> Best Practice:</strong> Always log which data
+                                    source was loaded for reproducibility and debugging!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#c2">
+                                <i class="fas fa-code"></i> 2. Text Preprocessing & Tokenization
+                            </button>
+                        </h2>
+                        <div id="c2" class="accordion-collapse collapse" data-bs-parent="#conceptAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Purpose:</strong> Convert raw text into tokens for embedding methods to
+                                    process.</p>
+                                <ul class="list-styled">
+                                    <li><strong>Type Conversion:</strong> Ensure all text is string type (handle
+                                        NaN/None)</li>
+                                    <li><strong>Basic Tokenization:</strong> Split by whitespace: "hello world" →
+                                        ["hello", "world"]</li>
+                                    <li><strong>Vocabulary Building:</strong> Collect unique tokens, create
+                                        word-to-index mapping</li>
+                                    <li><strong>OOV Strategy:</strong> Unseen words in test set handled by method
+                                        (Word2Vec averages, DistilBERT has subwords)</li>
+                                    <li><strong>Document Representation:</strong> Aggregate token embeddings to document
+                                        level</li>
+                                </ul>
+                                <div class="code-highlight">text = "This is a sample"
+                                    tokens = text.lower().split() # ["this", "is", "a", "sample"]
+                                    vocab = {word: idx for idx, word in enumerate(set(all_tokens))}
+                                    token_ids = [vocab[t] for t in tokens if t in vocab]</div>
+                                <div class="insight-box">
+                                    <strong><i class="fas fa-info-circle"></i> Key Insight:</strong> Vocabulary size
+                                    heavily impacts embedding dimension for shallow methods (TF-IDF, BoW) but not dense
+                                    methods (Word2Vec, BERT).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#c3">
+                                <i class="fas fa-layer-group"></i> 3. Simple Embeddings (Shallow)
+                            </button>
+                        </h2>
+                        <div id="c3" class="accordion-collapse collapse" data-bs-parent="#conceptAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Purpose:</strong> Fast, interpretable baseline methods using frequency
+                                    statistics.</p>
+                                <ul class="list-styled">
+                                    <li><strong>One-Hot / BoW:</strong> Binary or count presence of words. Example: [1,
+                                        0, 2, 1] for [word1, word2, word3, word4]</li>
+                                    <li><strong>TF-IDF Formula:</strong> TF(t,d) = count(t in d) / total_words(d);
+                                        IDF(t) = log(N / count(d with t))</li>
+                                    <li><strong>Count N-grams:</strong> Captures word sequences: "good movie" as bigram
+                                        weights order</li>
+                                </ul>
+                                <p style="margin-top: 15px;"><strong>Characteristics:</strong></p>
+                                <ul class="list-styled">
+                                    <li>✅ <strong>Pros:</strong> Lightning fast (milliseconds), highly interpretable, no
+                                        training required, works for large vocabularies</li>
+                                    <li>❌ <strong>Cons:</strong> Sparse high-dimensional vectors, no semantic meaning
+                                        ("good" ≠ "great"), ignores word order (BoW)</li>
+                                    <li>📊 <strong>Typical Dimension:</strong> 5K-100K depending on vocabulary size</li>
+                                </ul>
+                                <div class="code-highlight">from sklearn.feature_extraction.text import TfidfVectorizer
+                                    vectorizer = TfidfVectorizer(max_features=1000)
+                                    X = vectorizer.fit_transform(texts)
+                                    # Output shape: (n_samples, 1000) - sparse matrix</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#c4">
+                                <i class="fas fa-brain"></i> 4. Word Embeddings (Dense)
+                            </button>
+                        </h2>
+                        <div id="c4" class="accordion-collapse collapse" data-bs-parent="#conceptAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Purpose:</strong> Neural embeddings capturing semantic relationships in
+                                    low-dimensional space.</p>
+                                <ul class="list-styled">
+                                    <li><strong>Word2Vec (2013):</strong> Skip-gram or CBOW architecture, learns from
+                                        word contexts. Analogy: "king" - "man" + "woman" ≈ "queen"</li>
+                                    <li><strong>FastText (2017):</strong> Extends Word2Vec with subword information,
+                                        handles misspellings and rare words</li>
+                                    <li><strong>GloVe (2014):</strong> Pre-trained on Wikipedia (6B tokens) or Common
+                                        Crawl (840B), immediate use without training</li>
+                                </ul>
+                                <p style="margin-top: 15px;"><strong>Document Representation:</strong> Average word
+                                    vectors: doc_emb = mean([emb(word) for word in doc])</p>
+                                <p style="margin-top: 15px;"><strong>Characteristics:</strong></p>
+                                <ul class="list-styled">
+                                    <li>✅ <strong>Pros:</strong> Dense (low-dim ~300), semantic relationships, fast
+                                        inference, transferable to new tasks</li>
+                                    <li>❌ <strong>Cons:</strong> Same vector per word (no context), averaging loses word
+                                        order, requires pre-training or corpus</li>
+                                    <li>📊 <strong>Typical Dimension:</strong> 100-300, much smaller than TF-IDF</li>
+                                </ul>
+                                <div class="code-highlight">from gensim.models import Word2Vec
+                                    model = Word2Vec(sentences, vector_size=300, window=5, min_count=2)
+                                    emb = model.wv['word'] # Get word embedding
+                                    # doc_embedding = np.mean([model.wv[w] for w in doc_words], axis=0)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#c5">
+                                <i class="fas fa-cube"></i> 5. Transformer Embeddings (Deep)
+                            </button>
+                        </h2>
+                        <div id="c5" class="accordion-collapse collapse" data-bs-parent="#conceptAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Purpose:</strong> Context-aware embeddings using transformer architecture for
+                                    state-of-the-art semantic understanding.</p>
+                                <ul class="list-styled">
+                                    <li><strong>BERT (2018):</strong> 12-24 layers, bidirectional attention, best
+                                        semantic quality but slow</li>
+                                    <li><strong>DistilBERT (2019):</strong> 6 layers, 40% faster, 60% smaller, 97% of
+                                        BERT quality - recommended for production</li>
+                                    <li><strong>Context-Awareness:</strong> Same word ("bank") gets different vectors
+                                        depending on context ("river bank" vs "savings bank")</li>
+                                    <li><strong>Pre-training:</strong> Trained on Wikipedia (12GB) + Books (3.6GB)
+                                        corpus with masked language modeling</li>
+                                </ul>
+                                <p style="margin-top: 15px;"><strong>Document Representation:</strong> Mean pooling of
+                                    all token embeddings: doc_emb = mean(all_token_embeddings)</p>
+                                <p style="margin-top: 15px;"><strong>Characteristics:</strong></p>
+                                <ul class="list-styled">
+                                    <li>✅ <strong>Pros:</strong> Context-aware, superior semantic quality, handles
+                                        complex language, state-of-the-art accuracy</li>
+                                    <li>❌ <strong>Cons:</strong> Computationally expensive (0.5-2s per doc), requires
+                                        GPU for speed, large model size (268MB)</li>
+                                    <li>📊 <strong>Typical Dimension:</strong> 768 (DistilBERT), requires GPU for
+                                        real-time applications</li>
+                                </ul>
+                                <div class="code-highlight">from sentence_transformers import SentenceTransformer
+                                    model = SentenceTransformer('distilbert-base-uncased')
+                                    embedding = model.encode('This is a sample text')
+                                    # Shape: (768,), cached in GPU memory for batch processing</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#c6">
+                                <i class="fas fa-code-branch"></i> 6. Train/Test Stratification
+                            </button>
+                        </h2>
+                        <div id="c6" class="accordion-collapse collapse" data-bs-parent="#conceptAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Purpose:</strong> Fair evaluation where different embeddings are compared on
+                                    identical data, controlling for data randomness.</p>
+                                <ul class="list-styled">
+                                    <li><strong>Split Ratio:</strong> 80/20 (training/test) or 70/30 depending on data
+                                        size</li>
+                                    <li><strong>Stratification:</strong> Preserve class distribution: if 60% positive,
+                                        both splits have 60% positive</li>
+                                    <li><strong>Random Seed:</strong> SEED=42 (arbitrary but widely used) for
+                                        reproducibility across runs</li>
+                                    <li><strong>Single Split:</strong> Use SAME train/test split for all 7+ embedding
+                                        methods</li>
+                                    <li><strong>Rationale:</strong> Isolates embedding quality; eliminates data
+                                        randomness as confounding variable</li>
+                                </ul>
+                                <div class="code-highlight">from sklearn.model_selection import train_test_split
+                                    X_train, X_test, y_train, y_test = train_test_split(
+                                    X, y, test_size=0.2, stratify=y, random_state=42
+                                    )
+                                    # Use SAME split for all embedding methods
+                                    for method in all_methods:
+                                    X_train_emb = embed(X_train, method)
+                                    X_test_emb = embed(X_test, method)
+                                    evaluate(X_train_emb, X_test_emb)</div>
+                                <div class="key-point">
+                                    <strong>Critical:</strong> Do NOT resplit data for each embedding method. This would
+                                    introduce data randomness and make comparison unfair.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#c7">
+                                <i class="fas fa-check-circle"></i> 7. Evaluation & Benchmarking
+                            </button>
+                        </h2>
+                        <div id="c7" class="accordion-collapse collapse" data-bs-parent="#conceptAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Purpose:</strong> Measure embedding quality through downstream task
+                                    performance (classification accuracy).</p>
+                                <ul class="list-styled">
+                                    <li><strong>Classifier:</strong> Logistic Regression (simple, interpretable, not
+                                        method-specific)</li>
+                                    <li><strong>Metrics:</strong> Accuracy (overall), Precision (true positives), Recall
+                                        (coverage), F1 (balance)</li>
+                                    <li><strong>Setup:</strong> Same classifier, same hyperparameters (C=1.0,
+                                        solver='lbfgs'), same train/test data</li>
+                                    <li><strong>Evaluation:</strong> Train on embedding vectors, test accuracy indicates
+                                        embedding quality</li>
+                                </ul>
+                                <p style="margin-top: 15px;"><strong>Typical Results (Sentiment
+                                        Classification):</strong></p>
+                                <ul class="list-styled">
+                                    <li>TF-IDF: 89-91% accuracy (baseline)</li>
+                                    <li>Word2Vec/FastText: 91-93% accuracy</li>
+                                    <li>GloVe: 92-94% accuracy</li>
+                                    <li>DistilBERT: 95-97% accuracy (best)</li>
+                                </ul>
+                                <div class="code-highlight">from sklearn.linear_model import LogisticRegression
+                                    from sklearn.metrics import accuracy_score, f1_score
+
+                                    clf = LogisticRegression(random_state=42, max_iter=1000)
+                                    clf.fit(X_train_emb, y_train)
+                                    preds = clf.predict(X_test_emb)
+                                    acc = accuracy_score(y_test, preds)
+                                    f1 = f1_score(y_test, preds)
+                                    print(f"{method}: Accuracy={acc:.3f}, F1={f1:.3f}")</div>
+                                <div class="insight-box">
+                                    <strong><i class="fas fa-target"></i> Key Insight:</strong>
+                                    Higher quality embeddings → Higher classifier accuracy. This is your primary
+                                    evaluation metric.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-box-value">7+</div>
+                            <div class="stat-box-label">Methods</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-box-value">3</div>
+                            <div class="stat-box-label">Types</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-box-value">4</div>
+                            <div class="stat-box-label">Metrics</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-box-value">✓</div>
+                            <div class="stat-box-label">Ready</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- METHODS -->
+            <div class="section" id="methods">
+                <h2 class="section-title"><i class="fas fa-layer-group"></i> Text Embedding Methods</h2>
+
+                <div class="subsection-title">7+ Embedding Techniques</div>
+
+                <div class="embedding-grid">
+                    <div class="embedding-card">
+                        <div class="embedding-name">1️⃣ One-Hot Encoding</div>
+                        <div class="embedding-feature">Binary presence of words</div>
+                        <div class="embedding-feature">Fast, interpretable</div>
+                        <div class="embedding-feature">Sparse, high-dim</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">2️⃣ Bag of Words (BoW)</div>
+                        <div class="embedding-feature">Word count frequency</div>
+                        <div class="embedding-feature">Simple, baseline</div>
+                        <div class="embedding-feature">No word order info</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">3️⃣ TF-IDF</div>
+                        <div class="embedding-feature">Weighted term frequency</div>
+                        <div class="embedding-feature">Better than BoW</div>
+                        <div class="embedding-feature">Standard baseline</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">4️⃣ Count N-grams</div>
+                        <div class="embedding-feature">Unigrams & bigrams</div>
+                        <div class="embedding-feature">Captures sequences</div>
+                        <div class="embedding-feature">Higher dimensionality</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">5️⃣ Word2Vec</div>
+                        <div class="embedding-feature">Neural word vectors</div>
+                        <div class="embedding-feature">Dense, semantic aware</div>
+                        <div class="embedding-feature">Requires averaging</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">6️⃣ FastText</div>
+                        <div class="embedding-feature">Subword-aware vectors</div>
+                        <div class="embedding-feature">Better OOV handling</div>
+                        <div class="embedding-feature">More computation</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">7️⃣ GloVe</div>
+                        <div class="embedding-feature">Pre-trained embeddings</div>
+                        <div class="embedding-feature">Large vocabulary</div>
+                        <div class="embedding-feature">Transferable</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">8️⃣ DistilBERT</div>
+                        <div class="embedding-feature">Context-aware transformer</div>
+                        <div class="embedding-feature">Best semantic quality</div>
+                        <div class="embedding-feature">Slower, GPU helpful</div>
+                    </div>
+                </div>
+
+                <div class="key-point">
+                    <strong><i class="fas fa-arrow-up"></i> Complexity Progression:</strong>
+                    One-Hot → TF-IDF → Count N-grams → Word2Vec → FastText → GloVe → DistilBERT
+                </div>
+            </div>
+
+            <!-- COMPARISON -->
+            <div class="section" id="comparison">
+                <h2 class="section-title"><i class="fas fa-balance-scale"></i> Comparison & Performance</h2>
+
+                <div class="subsection-title">Method Characteristics</div>
+
+                <table class="table table-striped table-custom">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Type</th>
+                            <th>Dimension</th>
+                            <th>Speed</th>
+                            <th>Semantic</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>One-Hot</strong></td>
+                            <td>Shallow</td>
+                            <td>Sparse, High</td>
+                            <td>⚡⚡⚡ Very Fast</td>
+                            <td>⭐ Minimal</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TF-IDF</strong></td>
+                            <td>Shallow</td>
+                            <td>Sparse, Medium</td>
+                            <td>⚡⚡⚡ Fast</td>
+                            <td>⭐⭐ Basic</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Count N-grams</strong></td>
+                            <td>Shallow</td>
+                            <td>Sparse, Very High</td>
+                            <td>⚡⚡ Medium</td>
+                            <td>⭐⭐ Basic</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Word2Vec</strong></td>
+                            <td>Dense</td>
+                            <td>Dense, Low</td>
+                            <td>⚡⚡⚡ Fast</td>
+                            <td>⭐⭐⭐ Good</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FastText</strong></td>
+                            <td>Dense</td>
+                            <td>Dense, Low</td>
+                            <td>⚡⚡ Medium</td>
+                            <td>⭐⭐⭐ Good</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GloVe</strong></td>
+                            <td>Dense</td>
+                            <td>Dense, Low</td>
+                            <td>⚡⚡⚡ Very Fast</td>
+                            <td>⭐⭐⭐⭐ Excellent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DistilBERT</strong></td>
+                            <td>Deep</td>
+                            <td>Dense, Medium</td>
+                            <td>⚡ Slow</td>
+                            <td>⭐⭐⭐⭐⭐ Best</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="subsection-title">Accuracy Comparison</div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <strong>🎯 Best Accuracy</strong>
+                        <p>DistilBERT</p>
+                        <small>Context-aware</small>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>⚡ Best Speed</strong>
+                        <p>One-Hot / TF-IDF</p>
+                        <small>Shallow methods</small>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>⚖️ Best Balance</strong>
+                        <p>Word2Vec / FastText</p>
+                        <small>Dense, semantic</small>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>🎓 Most Practical</strong>
+                        <p>GloVe</p>
+                        <small>Pre-trained, fast</small>
+                    </div>
+                </div>
+
+                <div class="learning-tip">
+                    <strong><i class="fas fa-star"></i> Key Finding:</strong>
+                    All methods achieve ~100% accuracy on sentiment classification—choose based on speed requirements
+                    and model complexity.
+                </div>
+            </div>
+
+            <!-- WORKFLOW -->
+            <div class="section" id="workflow">
+                <h2 class="section-title"><i class="fas fa-arrow-right"></i> Implementation Workflow</h2>
+
+                <div class="subsection-title">5-Step Process</div>
+
+                <div class="embedding-grid">
+                    <div class="embedding-card">
+                        <div class="embedding-name">Step 1: Load Data</div>
+                        <div class="embedding-feature">Try local CSV</div>
+                        <div class="embedding-feature">Fallback Kaggle</div>
+                        <div class="embedding-feature">Fallback Hugging Face</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">Step 2: Preprocess</div>
+                        <div class="embedding-feature">Convert to strings</div>
+                        <div class="embedding-feature">Tokenize texts</div>
+                        <div class="embedding-feature">Create vocabulary</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">Step 3: Split Data</div>
+                        <div class="embedding-feature">Stratified 80/20</div>
+                        <div class="embedding-feature">Same split for all</div>
+                        <div class="embedding-feature">Fair comparison</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">Step 4: Generate</div>
+                        <div class="embedding-feature">Create embeddings</div>
+                        <div class="embedding-feature">All 7+ methods</div>
+                        <div class="embedding-feature">Save as .npz</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">Step 5: Evaluate</div>
+                        <div class="embedding-feature">Train classifier</div>
+                        <div class="embedding-feature">Measure accuracy</div>
+                        <div class="embedding-feature">Compare results</div>
+                    </div>
+                </div>
+
+                <div class="code-highlight">
+                    # Pseudocode workflow
+                    embeddings = {}
+                    for method in ['onehot', 'tfidf', 'word2vec', 'fasttext', 'glove', 'distilbert']:
+                    X_train_emb = embed_{method}(X_train_texts)
+                    X_test_emb = embed_{method}(X_test_texts)
+
+                    clf = LogisticRegression()
+                    clf.fit(X_train_emb, y_train)
+                    acc = clf.score(X_test_emb, y_test)
+                    embeddings[method] = {'accuracy': acc, 'dim': X_train_emb.shape[1]}
+                </div>
+            </div>
+
+            <!-- DATASETS -->
+            <div class="section" id="datasets">
+                <h2 class="section-title"><i class="fas fa-database"></i> Datasets & Data Sources</h2>
+
+                <div class="learning-tip">
+                    <strong><i class="fas fa-download"></i> Available Datasets:</strong>
+                    Sentiment classification (IMDb) with binary labels (positive/negative).
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <strong>📁 Local CSV</strong>
+                        <p>Reproducible</p>
+                        <small>No API needed</small>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>🔑 Kaggle API</strong>
+                        <p>Requires credentials</p>
+                        <small>50K+ reviews</small>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>🤗 Hugging Face</strong>
+                        <p>Public datasets</p>
+                        <small>No credentials</small>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>🔄 Synthetic</strong>
+                        <p>Quick demos</p>
+                        <small>Fallback option</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LIBRARIES & RESOURCES -->
+            <div class="section" id="resources">
+                <h2 class="section-title"><i class="fas fa-toolbox"></i> Libraries, Tools & Resources</h2>
+
+                <div class="subsection-title">Python Libraries by Method</div>
+
+                <table class="table table-striped table-custom">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Primary Library</th>
+                            <th>Installation</th>
+                            <th>Key Function</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>One-Hot / BoW</strong></td>
+                            <td>scikit-learn</td>
+                            <td>pip install scikit-learn</td>
+                            <td>CountVectorizer()</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TF-IDF</strong></td>
+                            <td>scikit-learn</td>
+                            <td>pip install scikit-learn</td>
+                            <td>TfidfVectorizer()</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Count N-grams</strong></td>
+                            <td>scikit-learn</td>
+                            <td>pip install scikit-learn</td>
+                            <td>CountVectorizer(ngram_range=(1,2))</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Word2Vec</strong></td>
+                            <td>gensim</td>
+                            <td>pip install gensim</td>
+                            <td>Word2Vec(sentences)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FastText</strong></td>
+                            <td>gensim</td>
+                            <td>pip install gensim</td>
+                            <td>FastText(sentences)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GloVe</strong></td>
+                            <td>spacy, glove-python</td>
+                            <td>pip install spacy</td>
+                            <td>en_core_web_md (300D pre-trained)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DistilBERT</strong></td>
+                            <td>sentence-transformers</td>
+                            <td>pip install sentence-transformers</td>
+                            <td>SentenceTransformer('distilbert-base-uncased')</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="subsection-title">Real-World Use Cases</div>
+
+                <div class="embedding-grid">
+                    <div class="embedding-card">
+                        <div class="embedding-name">🔍 Semantic Search</div>
+                        <div class="embedding-feature">Find similar documents</div>
+                        <div class="embedding-feature">Use: GloVe or DistilBERT</div>
+                        <div class="embedding-feature">Rank by cosine similarity</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">💬 Sentiment Analysis</div>
+                        <div class="embedding-feature">Classify reviews/feedback</div>
+                        <div class="embedding-feature">Use: TF-IDF or DistilBERT</div>
+                        <div class="embedding-feature">Train classifier on embeddings</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">🏷️ Text Classification</div>
+                        <div class="embedding-feature">Categorize documents</div>
+                        <div class="embedding-feature">Use: TF-IDF for speed, BERT for accuracy</div>
+                        <div class="embedding-feature">Multi-class or multi-label</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">📝 Duplicate Detection</div>
+                        <div class="embedding-feature">Find similar/duplicate texts</div>
+                        <div class="embedding-feature">Use: Word2Vec, GloVe, DistilBERT</div>
+                        <div class="embedding-feature">Threshold on similarity score</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">🤖 Recommendation System</div>
+                        <div class="embedding-feature">Suggest similar items/content</div>
+                        <div class="embedding-feature">Use: Dense embeddings (Word2Vec, BERT)</div>
+                        <div class="embedding-feature">Nearest neighbor search</div>
+                    </div>
+
+                    <div class="embedding-card">
+                        <div class="embedding-name">🔗 Relation Extraction</div>
+                        <div class="embedding-feature">Extract entity relationships</div>
+                        <div class="embedding-feature">Use: DistilBERT (context-aware)</div>
+                        <div class="embedding-feature">Fine-tune on task-specific data</div>
+                    </div>
+                </div>
+
+                <div class="subsection-title">Selection Criteria Decision Tree</div>
+
+                <div class="card-box">
+                    <strong>Do you have < 1 second latency requirement?</strong>
+                            <p style="margin-top: 10px;">→ <strong>YES:</strong> Use TF-IDF (instant), Word2Vec
+                                (fast)<br />
+                                → <strong>NO:</strong> Can use DistilBERT (0.5-2s) or BERT (2-5s)</p>
+                </div>
+
+                <div class="card-box">
+                    <strong>Do you need interpretability?</strong>
+                    <p style="margin-top: 10px;">→ <strong>YES:</strong> Use TF-IDF (see which words matter)<br />
+                        → <strong>NO:</strong> Use DistilBERT (black-box but powerful)</p>
+                </div>
+
+                <div class="card-box">
+                    <strong>Do you have pre-trained models available?</strong>
+                    <p style="margin-top: 10px;">→ <strong>YES:</strong> Use GloVe or DistilBERT (immediate use)<br />
+                        → <strong>NO:</strong> Train Word2Vec on your domain corpus</p>
+                </div>
+
+                <div class="card-box">
+                    <strong>Is context crucial for your task?</strong>
+                    <p style="margin-top: 10px;">→ <strong>YES:</strong> Use DistilBERT or BERT (handles
+                        ambiguity)<br />
+                        → <strong>NO:</strong> Word2Vec or GloVe sufficient</p>
+                </div>
+            </div>
+
+            <!-- TIPS -->
+            <div class="section" id="tips">
+                <h2 class="section-title"><i class="fas fa-lightbulb"></i> Pro Tips & Best Practices</h2>
+
+                <div class="accordion" id="tipsAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tip1">
+                                💡 Choosing the Right Embedding
+                            </button>
+                        </h2>
+                        <div id="tip1" class="accordion-collapse collapse show" data-bs-parent="#tipsAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Decision Matrix Based on Your Requirements:</strong></p>
+                                <ul class="list-styled">
+                                    <li><strong>Speed Critical (< 100ms):</strong> One-Hot, TF-IDF, Count N-grams
+                                                (sklearn)</li>
+                                    <li><strong>Semantic Quality Important:</strong> Word2Vec, FastText, GloVe,
+                                        DistilBERT</li>
+                                    <li><strong>No Training Time:</strong> GloVe (pre-trained), TF-IDF (no training),
+                                        DistilBERT (pre-trained)</li>
+                                    <li><strong>Custom Domain Data:</strong> Train Word2Vec on your corpus (FastText
+                                        better for rare words)</li>
+                                    <li><strong>Production System:</strong> GloVe (reliable), or DistilBERT (best
+                                        quality)</li>
+                                    <li><strong>Research/Competition:</strong> DistilBERT, BERT, fine-tuned transformers
+                                    </li>
+                                    <li><strong>Resource-Constrained:</strong> TF-IDF (minimal memory), DistilBERT
+                                        (smaller than BERT)</li>
+                                    <li><strong>GPU Available:</strong> Transformers (DistilBERT 0.5s with GPU, 5s
+                                        without)</li>
+                                </ul>
+                                <div class="tip-box">
+                                    <strong><i class="fas fa-lightbulb"></i> Pro Tip:</strong> Start with TF-IDF (fast
+                                    baseline). If accuracy insufficient, try Word2Vec. If still needed, upgrade to
+                                    DistilBERT.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tip2">
+                                🎯 Fair Comparison Guidelines
+                            </button>
+                        </h2>
+                        <div id="tip2" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Essential Steps for Valid Comparison:</strong></p>
+                                <ul class="list-styled">
+                                    <li><strong>1. Single Data Split:</strong> Load data once, split into train/test
+                                        (80/20, stratified, SEED=42), use for ALL embeddings</li>
+                                    <li><strong>2. Same Classifier:</strong> Use LogisticRegression (or any single
+                                        choice) with SAME hyperparameters for all methods</li>
+                                    <li><strong>3. Same Metrics:</strong> Measure Accuracy, Precision, Recall, F1-score
+                                        for each embedding method</li>
+                                    <li><strong>4. Multiple Runs:</strong> Run 3-5 times with different seeds (42, 123,
+                                        456, 789, 999) and report mean ± std</li>
+                                    <li><strong>5. Document Everything:</strong> Log sklearn version, random seeds,
+                                        embedding dimensions, training time, hyperparameters</li>
+                                    <li><strong>6. Statistical Testing:</strong> Use paired t-test to check if accuracy
+                                        differences are statistically significant</li>
+                                </ul>
+                                <div class="code-highlight">results = {}
+                                    for method in all_methods:
+                                    accuracies = []
+                                    for seed in [42, 123, 456, 789, 999]:
+                                    X_train_emb = embed(X_train_texts, method)
+                                    X_test_emb = embed(X_test_texts, method)
+                                    clf = LogisticRegression(random_state=seed, max_iter=1000)
+                                    clf.fit(X_train_emb, y_train)
+                                    acc = clf.score(X_test_emb, y_test)
+                                    accuracies.append(acc)
+                                    results[method] = {'mean': np.mean(accuracies), 'std': np.std(accuracies)}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tip3">
+                                📊 Saving & Loading Embeddings
+                            </button>
+                        </h2>
+                        <div id="tip3" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Recommended Workflow for Data Management:</strong></p>
+                                <ul class="list-styled">
+                                    <li><strong>Format:</strong> .npz (numpy compressed) for fast I/O and small file
+                                        sizes (~50% savings vs .npy)</li>
+                                    <li><strong>Naming Convention:</strong> embeddings_{method}_{date}.npz (e.g.,
+                                        embeddings_tfidf_2024-04-25.npz)</li>
+                                    <li><strong>Metadata File:</strong> Create JSON with shape, method, timestamp,
+                                        sklearn version, layer info</li>
+                                    <li><strong>Save Train & Test Separately:</strong> embeddings_tfidf_train.npz,
+                                        embeddings_tfidf_test.npz</li>
+                                    <li><strong>Version Control:</strong> Track hash (MD5) of files to detect accidental
+                                        modifications</li>
+                                    <li><strong>Documentation:</strong> Include README explaining each embedding file,
+                                        generation parameters, and results achieved</li>
+                                </ul>
+                                <div class="code-highlight">import numpy as np
+                                    import json
+
+                                    # Save training embeddings
+                                    np.savez_compressed(f'embeddings_tfidf_train.npz', X=X_train_tfidf)
+                                    np.savez_compressed(f'embeddings_tfidf_test.npz', X=X_test_tfidf)
+
+                                    # Save metadata
+                                    metadata = {
+                                    'method': 'tfidf',
+                                    'train_shape': X_train_tfidf.shape,
+                                    'test_shape': X_test_tfidf.shape,
+                                    'timestamp': '2024-04-25',
+                                    'sklearn_version': '1.3.0',
+                                    'vectorizer_params': {'max_features': 1000, 'lowercase': True}
+                                    }
+                                    with open('embeddings_metadata.json', 'w') as f:
+                                    json.dump(metadata, f, indent=2)
+
+                                    # Load later
+                                    X_train_loaded = np.load('embeddings_tfidf_train.npz')['X']</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tip4">
+                                ⚡ Performance Optimization
+                            </button>
+                        </h2>
+                        <div id="tip4" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Performance Optimization Techniques by Method:</strong></p>
+                                <ul class="list-styled">
+                                    <li><strong>Shallow Methods (TF-IDF):</strong> Use sparse matrices, max_features
+                                        limit, reduce vocabulary, parallel processing available</li>
+                                    <li><strong>Word2Vec/FastText:</strong> Use workers parameter (multiprocessing),
+                                        increase window size, min_count threshold reduces OOV</li>
+                                    <li><strong>Transformer (DistilBERT):</strong> Use batch_size >= 32, enable GPU
+                                        (CUDA), cache embeddings after first run, reduce sequence length if possible
+                                    </li>
+                                    <li><strong>Global Optimization:</strong> RUN_QUICK=True for dev (smaller dataset,
+                                        e.g., 10K samples), MAX_ROWS parameter, use fp16 precision for transformers</li>
+                                    <li><strong>Cache Strategy:</strong> Pre-compute embeddings once, save to disk,
+                                        reuse for different classifiers</li>
+                                </ul>
+                                <div class="code-highlight">import torch
+                                    from sentence_transformers import SentenceTransformer
+
+                                    # GPU optimization
+                                    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+                                    model = SentenceTransformer('distilbert-base-uncased')
+                                    model = model.to(device)
+
+                                    # Batch processing for speed
+                                    embeddings = model.encode(texts, batch_size=32, show_progress_bar=True)
+                                    # With GPU: ~100 texts/second; Without GPU: ~10 texts/second</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tip5">
+                                🔧 Troubleshooting Common Issues
+                            </button>
+                        </h2>
+                        <div id="tip5" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Debugging Guide for Common Errors:</strong></p>
+                                <ul class="list-styled">
+                                    <li><strong>OOV Words (Out-of-Vocabulary):</strong> Use FastText (handles subwords),
+                                        lower min_count in Word2Vec, or include special [UNK] token. DistilBERT has 30K
+                                        token vocabulary</li>
+                                    <li><strong>Memory Error (MemoryError/CUDA OOM):</strong> Reduce MAX_ROWS, enable
+                                        sparse matrices for TF-IDF, reduce batch size for transformers, use fp16
+                                        precision, delete intermediate arrays explicitly</li>
+                                    <li><strong>Slow Transformer Inference:</strong> Use DistilBERT (6 layers) instead
+                                        of BERT (12), increase batch_size to 64, enable GPU acceleration, cache
+                                        embeddings, reduce sequence length (truncate to 128 tokens)</li>
+                                    <li><strong>Download Failures:</strong> Check internet, verify credentials (Kaggle),
+                                        clear cache (~/.cache/huggingface), use fallback mechanism, manually download
+                                        and use local files</li>
+                                    <li><strong>Non-Reproducible Results:</strong> Set RANDOM_SEED in Python, set
+                                        TensorFlow/PyTorch seeds, fix numpy.random.seed(42), disable hardware
+                                        acceleration randomness (CUDA_LAUNCH_BLOCKING=1)</li>
+                                    <li><strong>Low Accuracy Across All Methods:</strong> Check data quality (NaN
+                                        values), verify labels (y_train distribution), ensure proper preprocessing,
+                                        confirm train/test split working</li>
+                                </ul>
+                                <div class="code-highlight">import numpy as np
+                                    import torch
+                                    import tensorflow as tf
+
+                                    # Ensure reproducibility
+                                    np.random.seed(42)
+                                    torch.manual_seed(42)
+                                    tf.random.set_seed(42)
+
+                                    # GPU reproducibility
+                                    os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':16:8' # TensorFlow
+                                    os.environ['CUDA_LAUNCH_BLOCKING'] = '1' # PyTorch
+
+                                    # Verify no NaN in data
+                                    assert not np.isnan(X_train_emb).any(), "NaN found in embeddings!"
+                                    assert y_train.nunique() > 1, "Only one class in training data!"</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tip6">
+                                📈 Extending for Production
+                            </button>
+                        </h2>
+                        <div id="tip6" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Production Deployment Checklist:</strong></p>
+                                <ul class="list-styled">
+                                    <li><strong>Modular Functions:</strong> Create embed_text(text, method) function
+                                        with error handling, logging, fallbacks</li>
+                                    <li><strong>Configuration:</strong> Store hyperparameters in config.yaml (vocabulary
+                                        size, model path, batch size, timeout)</li>
+                                    <li><strong>Logging & Monitoring:</strong> Log method used, embedding time, errors,
+                                        track service latency, monitor model size in memory</li>
+                                    <li><strong>Versioning:</strong> Version embeddings (v1.0, v1.1), track model
+                                        updates, maintain backward compatibility with old embeddings</li>
+                                    <li><strong>Model Serving:</strong> Use FastAPI or Flask for REST API, containerize
+                                        with Docker, scale with Kubernetes/serverless</li>
+                                    <li><strong>Caching:</strong> Cache embeddings for repeated texts, use
+                                        Redis/memcached, TTL strategy for freshness</li>
+                                    <li><strong>A/B Testing:</strong> Run experiment: 50% users get TF-IDF, 50% get
+                                        DistilBERT, measure impact on key metrics (accuracy, latency, cost)</li>
+                                    <li><strong>CI/CD Pipeline:</strong> Automated tests for accuracy, latency
+                                        benchmarks, data drift detection, model updates triggered by performance drops
+                                    </li>
+                                </ul>
+                                <div class="code-highlight">from fastapi import FastAPI
+                                    from pydantic import BaseModel
+
+                                    app = FastAPI()
+
+                                    class EmbeddingRequest(BaseModel):
+                                    text: str
+                                    method: str = "tfidf" # default method
+
+                                    @app.post("/embed")
+                                    async def embed_text(req: EmbeddingRequest):
+                                    try:
+                                    embedding = embed_text_cached(req.text, req.method)
+                                    return {"embedding": embedding.tolist(), "status": "success"}
+                                    except Exception as e:
+                                    logger.error(f"Embedding failed: {e}")
+                                    return {"error": str(e), "status": "failed"}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-point" style="margin-top: 30px;">
+                    <strong><i class="fas fa-crown"></i> Quality Checklist:</strong>
+                    <ul class="list-styled" style="margin-top: 12px;">
+                        <li>✅ Data loaded with fallback mechanisms</li>
+                        <li>✅ Stratified train/test split</li>
+                        <li>✅ All 7+ methods implemented</li>
+                        <li>✅ Fair comparison setup</li>
+                        <li>✅ Embeddings saved as .npz</li>
+                        <li>✅ Metrics recorded to CSV</li>
+                        <li>✅ Code documented with comments</li>
+                        <li>✅ Results reproducible (SEED fixed)</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <h5><i class="fas fa-text-width"></i> Text Embeddings Learning Guide</h5>
+            <p>Data Loading → Tokenization → Embedding Generation → Evaluation → Production Deployment</p>
+            <p style="margin-top: 12px; font-size: 0.85rem;">7+ Methods | Shallow to Deep | Comprehensive Learning
+                Material</p>
+        </footer>
+
+    </div>
+
+    <div class="back-to-top" id="backToTop">⬆️</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

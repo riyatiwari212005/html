@@ -1,0 +1,1864 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Learning Fundamentals - Professional Learning Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ec4899;
+            --secondary: #d946ef;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+            --light-bg: #f8fafc;
+            --dark-bg: #0f172a;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        html,
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.65;
+            font-size: 14px;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ec4899 0%, #d946ef 100%);
+            min-height: 100vh;
+        }
+
+        p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        li {
+            font-size: 0.9rem;
+            line-height: 1.65;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 0.8rem 0;
+        }
+
+        .navbar-brand {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white !important;
+            letter-spacing: -0.4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8) !important;
+            transition: all 0.3s ease;
+            padding: 0.4rem 0.9rem !important;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .main-wrapper {
+            background: white;
+            margin: 30px auto;
+            max-width: 1280px;
+            border-radius: 24px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #ec4899 0%, #d946ef 100%);
+            color: white;
+            padding: 90px 45px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -30%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(20px);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            letter-spacing: -0.6px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            margin-bottom: 35px;
+            opacity: 0.95;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge-hero {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 0 6px;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .badge-hero:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .toc-section {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 50px 45px;
+            margin: 0;
+        }
+
+        .toc-section h2 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            margin-bottom: 35px;
+            font-size: 1.8rem;
+            letter-spacing: -0.4px;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+        }
+
+        .toc-item {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--text-dark);
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 4px solid white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toc-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+            border-left-color: var(--primary);
+        }
+
+        .toc-item a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 700;
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toc-item small {
+            display: block;
+            margin-top: 10px;
+            color: var(--text-light);
+            font-size: 0.78rem;
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
+        }
+
+        .content-wrapper {
+            padding: 55px 45px;
+        }
+
+        .section {
+            margin-bottom: 65px;
+            padding-bottom: 35px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subsection-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 30px;
+            margin-bottom: 18px;
+            padding-bottom: 8px;
+            border-left: 4px solid var(--info);
+            padding-left: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        .card-box {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin: 18px 0;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-box:hover {
+            transform: translateX(4px);
+            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.12);
+        }
+
+        .card-box p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .card-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .learning-tip {
+            background: linear-gradient(135deg, #cffafe 0%, #a5f3fc 100%);
+            border-left: 4px solid var(--info);
+            padding: 16px 18px;
+            margin: 18px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.15);
+            font-size: 0.9rem;
+        }
+
+        .learning-tip strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: var(--info);
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-left: 4px solid var(--success);
+            padding: 16px 18px;
+            margin: 18px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+            font-size: 0.9rem;
+        }
+
+        .insight-box strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: var(--success);
+        }
+
+        .key-point {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffe082 100%);
+            border-left: 4px solid var(--warning);
+            padding: 16px 18px;
+            margin: 18px 0;
+            border-radius: 10px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+            font-size: 0.9rem;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-left: 4px solid var(--danger);
+            padding: 16px 18px;
+            border-radius: 10px;
+            margin: 18px 0;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+            font-size: 0.9rem;
+        }
+
+        .tip-box strong {
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .accordion-button {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 16px 22px;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2);
+            letter-spacing: -0.2px;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.3);
+        }
+
+        .accordion-button:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(236, 72, 153, 0.25);
+        }
+
+        .accordion-body {
+            padding: 22px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-top: none;
+            font-size: 0.9rem;
+        }
+
+        .accordion-item {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.12);
+            border-color: var(--primary);
+        }
+
+        .accordion {
+            border: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 35px 0;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px 16px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(236, 72, 153, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(236, 72, 153, 0.35);
+        }
+
+        .stat-box-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            letter-spacing: -0.4px;
+        }
+
+        .stat-box-label {
+            font-size: 0.78rem;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        .code-highlight {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px 16px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.82rem;
+            line-height: 1.55;
+            border-left: 4px solid var(--info);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .list-styled {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-styled li {
+            padding: 7px 0;
+            padding-left: 26px;
+            position: relative;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .list-styled li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--info);
+            font-weight: 700;
+            font-size: 0.9rem;
+            top: 2px;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 25px 0;
+        }
+
+        .concept-card {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .concept-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--info));
+        }
+
+        .concept-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(236, 72, 153, 0.15);
+            border-color: var(--primary);
+        }
+
+        .concept-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+
+        .concept-feature {
+            font-size: 0.85rem;
+            margin: 8px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .concept-feature::before {
+            content: "✓";
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin: 25px 0;
+        }
+
+        .comparison-item {
+            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border: 2px solid transparent;
+        }
+
+        .comparison-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(236, 72, 153, 0.12);
+            border-color: var(--primary);
+        }
+
+        .comparison-item strong {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+
+        .comparison-item p {
+            font-size: 0.8rem;
+        }
+
+        .table-custom {
+            margin: 20px 0;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            font-size: 0.9rem;
+        }
+
+        .table-custom thead th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 700;
+            border: none;
+            padding: 14px;
+            font-size: 0.85rem;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.2px;
+        }
+
+        .table-custom td {
+            padding: 12px 14px;
+            border-color: var(--border-color);
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .table-custom tbody tr:hover {
+            background: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 60px;
+        }
+
+        footer h5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            letter-spacing: -0.4px;
+        }
+
+        footer p {
+            margin: 8px 0;
+            opacity: 0.85;
+            line-height: 1.7;
+            font-size: 0.9rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 35px;
+            right: 35px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.4rem;
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+            border: none;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 40px rgba(236, 72, 153, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                padding: 60px 30px;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .subsection-title {
+                font-size: 1.05rem;
+            }
+
+            .content-wrapper {
+                padding: 35px 25px;
+            }
+
+            .toc-section {
+                padding: 35px 25px;
+            }
+
+            .toc-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top"><i class="fas fa-brain"></i> Deep Learning Fundamentals</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#concepts">Concepts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#architecture">Architecture</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#training">Training</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tips">Tips</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-wrapper">
+        <div class="hero" id="top">
+            <h1>Deep Learning Fundamentals</h1>
+            <p>Master Neural Networks: From Activation Functions to Transformers</p>
+            <div style="margin-top: 30px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px;">
+                <span class="badge-hero"><i class="fas fa-sitemap"></i> 6 Core Topics</span>
+                <span class="badge-hero"><i class="fas fa-bolt"></i> Gradient Flow</span>
+                <span class="badge-hero"><i class="fas fa-cube"></i> Architecture</span>
+            </div>
+        </div>
+
+        <div class="toc-section">
+            <div class="container-fluid">
+                <h2><i class="fas fa-list-check"></i> Learning Path</h2>
+                <div class="toc-grid">
+                    <div class="toc-item">
+                        <a href="#overview"><i class="fas fa-book"></i> Overview</a>
+                        <small>Foundations</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#activation"><i class="fas fa-wave-square"></i> Activation</a>
+                        <small>Functions & Flow</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#backprop"><i class="fas fa-arrow-left"></i> Backprop</a>
+                        <small>Gradient Mechanics</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#architecture"><i class="fas fa-sitemap"></i> Architecture</a>
+                        <small>Design Patterns</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#training"><i class="fas fa-chart-line"></i> Training</a>
+                        <small>Optimization & Loss</small>
+                    </div>
+                    <div class="toc-item">
+                        <a href="#tips"><i class="fas fa-lightbulb"></i> Pro Tips</a>
+                        <small>Best Practices</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+
+            <!-- OVERVIEW -->
+            <div class="section" id="overview">
+                <h2 class="section-title"><i class="fas fa-book"></i> Overview & Core Concepts</h2>
+
+                <div class="learning-tip">
+                    <strong><i class="fas fa-graduation-cap"></i> What is Deep Learning?</strong>
+                    Neural networks with multiple hidden layers (depth), learning hierarchical representations from raw
+                    data through backpropagation and gradient descent optimization.
+                </div>
+
+                <div class="accordion" id="overviewAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#o1">
+                                <i class="fas fa-cube"></i> 1. Neural Network Architecture
+                            </button>
+                        </h2>
+                        <div id="o1" class="accordion-collapse collapse show" data-bs-parent="#overviewAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Structure:</strong> Input Layer → Hidden Layers (depth varies) → Output Layer
+                                </p>
+                                <ul class="list-styled">
+                                    <li><strong>Parameters:</strong> Weights (W) and biases (b) learned during training
+                                    </li>
+                                    <li><strong>Capacity:</strong> More layers = higher capacity but risk of gradient
+                                        issues</li>
+                                    <li><strong>Forward Pass:</strong> y = σ(W·x + b) where σ is activation function
+                                    </li>
+                                    <li><strong>Depth Trade-off:</strong> 10-20 layers optimal for most tasks; 50+
+                                        layers need special techniques (skip connections)</li>
+                                </ul>
+                                <div class="code-highlight">import torch.nn as nn
+
+                                    # Simple 3-layer network
+                                    model = nn.Sequential(
+                                    nn.Linear(784, 128), # Input → Hidden1
+                                    nn.ReLU(),
+                                    nn.Linear(128, 64), # Hidden1 → Hidden2
+                                    nn.ReLU(),
+                                    nn.Linear(64, 10) # Hidden2 → Output
+                                    )
+                                    # Total params: 100K+ (increases with depth)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#o2">
+                                <i class="fas fa-gradient"></i> 2. Vanishing Gradient Problem
+                            </button>
+                        </h2>
+                        <div id="o2" class="accordion-collapse collapse" data-bs-parent="#overviewAccordion">
+                            <div class="accordion-body">
+                                <p><strong>The Problem:</strong> With sigmoid/tanh activations, gradients shrink
+                                    exponentially through layers due to chain rule multiplications.</p>
+                                <ul class="list-styled">
+                                    <li><strong>Sigmoid Derivative:</strong> σ'(x) = σ(x)(1-σ(x)) ≤ 0.25 ALWAYS (maximum
+                                        at x=0)</li>
+                                    <li><strong>Concrete Example - 10 Layers:</strong> (0.25)^10 ≈ 9.5 × 10^-7
+                                        (millionth of original!)</li>
+                                    <li><strong>At Extremes:</strong> At x=±5: σ'(x) ≈ 0.0067 | At x=±10: σ'(x) ≈
+                                        0.000045</li>
+                                    <li><strong>Deep Networks (20 layers):</strong> (0.25)^20 ≈ 10^-12 (trillionth!).
+                                        Early layers get NO signal</li>
+                                    <li><strong>Result:</strong> Early layers don't learn (parameters stuck at
+                                        initialization)</li>
+                                </ul>
+                                <div class="subsection-title"
+                                    style="font-size: 1rem; margin-top: 18px; margin-bottom: 12px; border: none; padding: 0;">
+                                    Solutions:</div>
+                                <ul class="list-styled">
+                                    <li><strong>✅ Use ReLU:</strong> f'(x) = 1 for x > 0 (gradient preserved, no
+                                        shrinking!)</li>
+                                    <li><strong>✅ Batch Normalization:</strong> Normalizes inputs to layers, prevents
+                                        saturation</li>
+                                    <li><strong>✅ Skip Connections:</strong> Direct path x → x + f(x) lets gradients
+                                        bypass dense layers</li>
+                                    <li><strong>✅ Good Initialization:</strong> Xavier/He initialization scales weights
+                                        for stable gradients</li>
+                                    <li><strong>❌ Never:</strong> Sigmoid/Tanh in hidden layers when depth > 10</li>
+                                </ul>
+                                <div class="key-point">
+                                    <strong><i class="fas fa-exclamation-triangle"></i> Golden Rule:</strong>
+                                    If your network has 10+ hidden layers, NEVER use sigmoid/tanh activations. Always
+                                    use ReLU + Batch Norm.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#o3">
+                                <i class="fas fa-arrow-right"></i> 3. Forward & Backward Propagation
+                            </button>
+                        </h2>
+                        <div id="o3" class="accordion-collapse collapse" data-bs-parent="#overviewAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Forward Pass:</strong> Input x → Predictions ŷ (compute loss L)</p>
+                                <p style="margin-top: 12px;"><strong>Backward Pass (Backpropagation):</strong> Compute
+                                    dL/dW for each weight using chain rule</p>
+                                <ul class="list-styled">
+                                    <li><strong>Chain Rule:</strong> dL/dW = dL/dŷ × dŷ/dh × dh/dW (multiply derivatives
+                                        across layers)</li>
+                                    <li><strong>Computational Graph:</strong> PyTorch/TensorFlow track all operations
+                                        for autodiff</li>
+                                    <li><strong>Gradient Update:</strong> W ← W - α × dL/dW (α = learning rate)</li>
+                                    <li><strong>Time Complexity:</strong> Forward O(L), Backward O(L) where L = number
+                                        of layers</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#o4">
+                                <i class="fas fa-star"></i> 4. Loss Functions & Objectives
+                            </button>
+                        </h2>
+                        <div id="o4" class="accordion-collapse collapse" data-bs-parent="#overviewAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Purpose:</strong> Quantify error between predictions and ground truth; guide
+                                    optimization toward better parameters.</p>
+                                <ul class="list-styled">
+                                    <li><strong>Regression (MSE):</strong> (1/n)Σ(ŷ-y)² | Penalizes large errors heavily
+                                        (quadratic) | Example: [$300k true, $280k pred] → Error=$20k, Squared=$400M</li>
+                                    <li><strong>Regression (MAE):</strong> (1/n)Σ|ŷ-y| | Linear penalty, robust to
+                                        outliers | Same example → MAE=$20k (interpretable in original units)</li>
+                                    <li><strong>Regression (RMSE):</strong> √MSE | Root of MSE, in original units | Same
+                                        example → RMSE=$20k (easy to interpret)</li>
+                                    <li><strong>Binary Classification (BCE):</strong> -[y·log(ŷ) + (1-y)·log(1-ŷ)] |
+                                        Probability-based, standard for 2 classes</li>
+                                    <li><strong>Multi-Class (Cross-Entropy):</strong> -Σy·log(ŷ) | Classes mutually
+                                        exclusive (3+ classes)</li>
+                                    <li><strong>Multi-Label:</strong> BCE per label independently | Multiple labels
+                                        possible per sample (e.g., image tags)</li>
+                                    <li><strong>Imbalanced Data:</strong> Focal Loss = -α(1-ŷ)^γ·log(ŷ) | Focuses on
+                                        hard examples, γ=2 reduces loss for easy negatives</li>
+                                </ul>
+                                <div class="learning-tip">
+                                    <strong><i class="fas fa-info-circle"></i> Choice Matters:</strong>
+                                    MSE penalizes outliers more, MAE is robust. Cross-Entropy standard for
+                                    classification. Choose based on what errors matter most in your domain.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#o5">
+                                <i class="fas fa-cog"></i> 5. Optimization Algorithms
+                            </button>
+                        </h2>
+                        <div id="o5" class="accordion-collapse collapse" data-bs-parent="#overviewAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Goal:</strong> Update weights efficiently to minimize loss (find optimal
+                                    parameters W* that minimize Loss).</p>
+                                <ul class="list-styled">
+                                    <li><strong>SGD (Stochastic Gradient Descent):</strong> W ← W - α·∇L | Simple,
+                                        stable but slower convergence. With momentum=0.9 accumulates gradients</li>
+                                    <li><strong>Adam (Adaptive Moment Estimation):</strong> Adapts learning rate per
+                                        parameter (betas=(0.9, 0.999)). Fast, usually requires minimal tuning. Default
+                                        choice</li>
+                                    <li><strong>RMSprop:</strong> Normalizes by moving average of squared gradients.
+                                        Good middle ground, prevents exploding gradients</li>
+                                    <li><strong>Learning Rate Scheduling:</strong> Decay LR over epochs | Step decay
+                                        (0.1x every N epochs), Exponential decay, Cosine annealing, Warmup for
+                                        transformers</li>
+                                    <li><strong>Gradient Clipping:</strong> clip_grad_norm_(params, max_norm=1.0) |
+                                        Prevents exploding gradients in RNNs/Transformers</li>
+                                </ul>
+                                <div class="code-highlight">import torch.optim as optim
+                                    from torch.optim.lr_scheduler import StepLR
+
+                                    # Setup optimizer and scheduler
+                                    optimizer = optim.Adam(model.parameters(), lr=0.001, betas=(0.9, 0.999))
+                                    scheduler = StepLR(optimizer, step_size=20, gamma=0.1) # Decay by 0.1x every 20
+                                    epochs
+
+                                    # Training loop
+                                    for epoch in range(100):
+                                    for batch_X, batch_y in train_loader:
+                                    predictions = model(batch_X)
+                                    loss = loss_fn(predictions, batch_y)
+
+                                    optimizer.zero_grad() # Clear old gradients
+                                    loss.backward() # Compute new gradients
+                                    torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+                                    optimizer.step() # Update weights
+
+                                    scheduler.step() # Update learning rate
+                                    print(f"Epoch {epoch}: loss={loss:.4f}, lr={optimizer.param_groups[0]['lr']}")</div>
+                                <div class="learning-tip">
+                                    <strong><i class="fas fa-star"></i> Best Practice:</strong>
+                                    Start with Adam (lr=0.001). If slow, increase lr by 10x. If diverges (NaN), decrease
+                                    lr by 10x. Add LR schedule to improve final performance 2-5%.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#o6">
+                                <i class="fas fa-layer-group"></i> 6. Attention & Transformers
+                            </button>
+                        </h2>
+                        <div id="o6" class="accordion-collapse collapse" data-bs-parent="#overviewAccordion">
+                            <div class="accordion-body">
+                                <p><strong>Core Idea:</strong> Assign importance weights to different positions. When
+                                    processing "cat", focus more on "sat" (subject) and "mat" (location), less on "the"
+                                    (article).</p>
+                                <ul class="list-styled">
+                                    <li><strong>Query (Q):</strong> "What am I looking for?" (current position
+                                        attention)</li>
+                                    <li><strong>Key (K):</strong> "What can I offer?" (indexed properties of all
+                                        positions)</li>
+                                    <li><strong>Value (V):</strong> "What information do I have?" (actual data at each
+                                        position)</li>
+                                    <li><strong>Scaled Dot-Product Formula:</strong> Attention(Q,K,V) =
+                                        softmax(QK^T/√d_k)V</li>
+                                    <li><strong>Why Scale by √d_k?:</strong> Without scaling, large dot products push
+                                        softmax into saturated regions (gradient ≈ 0), destabilizing training</li>
+                                    <li><strong>Multi-Head Attention:</strong> Use 8-16 parallel heads. Each head: d_k =
+                                        d_model / num_heads. Captures diverse patterns (syntax vs semantics)</li>
+                                    <li><strong>Transformers:</strong> Stack of attention layers + feed-forward
+                                        networks. Parallelizable (unlike RNNs), no recurrence</li>
+                                    <li><strong>Examples:</strong> BERT (masked LM), GPT (autoregressive generation),
+                                        Vision Transformers (ViT)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-box-value">6</div>
+                            <div class="stat-box-label">Core Topics</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-box-value">100+</div>
+                            <div class="stat-box-label">Concepts</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-box-value">5</div>
+                            <div class="stat-box-label">Activations</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-box-value">✓</div>
+                            <div class="stat-box-label">Ready</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTIVATION FUNCTIONS -->
+            <div class="section" id="activation">
+                <h2 class="section-title"><i class="fas fa-wave-square"></i> Activation Functions & Gradient Flow</h2>
+
+                <div class="learning-tip">
+                    <strong><i class="fas fa-zap"></i> Key Insight:</strong>
+                    Activation function choice dramatically affects gradient flow and training speed. ReLU enables deep
+                    networks; Sigmoid/Tanh cause vanishing gradients.
+                </div>
+
+                <div class="subsection-title">Activation Functions Comparison</div>
+
+                <table class="table table-striped table-custom">
+                    <thead>
+                        <tr>
+                            <th>Function</th>
+                            <th>Formula</th>
+                            <th>Range</th>
+                            <th>Derivative Max</th>
+                            <th>Saturation</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Sigmoid</strong></td>
+                            <td>σ(x) = 1/(1+e^-x)</td>
+                            <td>[0, 1]</td>
+                            <td>0.25</td>
+                            <td>Severe (flattens at extremes)</td>
+                            <td>Output layer (binary)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tanh</strong></td>
+                            <td>tanh(x) = (e^2x - 1)/(e^2x + 1)</td>
+                            <td>[-1, 1]</td>
+                            <td>1.0</td>
+                            <td>Severe (better than sigmoid)</td>
+                            <td>RNNs, legacy networks</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ReLU</strong></td>
+                            <td>max(0, x)</td>
+                            <td>[0, ∞)</td>
+                            <td>1.0</td>
+                            <td>None (linear for x > 0)</td>
+                            <td>Hidden layers (DEFAULT)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Leaky ReLU</strong></td>
+                            <td>max(0.01x, x)</td>
+                            <td>(-∞, ∞)</td>
+                            <td>1.0</td>
+                            <td>None (always slope)</td>
+                            <td>Prevent dead neurons</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ELU</strong></td>
+                            <td>x if x>0, α(e^x - 1)</td>
+                            <td>[-α, ∞)</td>
+                            <td>1.0</td>
+                            <td>None (smooth)</td>
+                            <td>Smooth gradient, mean-centered</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GELU</strong></td>
+                            <td>x·Φ(x)</td>
+                            <td>Smooth</td>
+                            <td>~1.0</td>
+                            <td>None (smooth)</td>
+                            <td>Transformers, modern models</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="learning-tip" style="margin-top: 20px;">
+                    <strong><i class="fas fa-info-circle"></i> Saturation Effect:</strong>
+                    Sigmoid at x=±5: derivative ≈ 0.0067 (97% reduction!). At x=±10: derivative ≈ 0.000045. This
+                    exponential shrinking across layers causes vanishing gradients in deep networks.
+                </div>
+
+                <div class="subsection-title">Why ReLU Dominates</div>
+
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <div class="concept-name">✓ Derivative = 1</div>
+                        <div class="concept-feature">Gradient preserved through layers</div>
+                        <div class="concept-feature">Enables depth (100+ layers)</div>
+                        <div class="concept-feature">No vanishing gradient</div>
+                    </div>
+
+                    <div class="concept-card">
+                        <div class="concept-name">✓ Computationally Fast</div>
+                        <div class="concept-feature">Simple max(0, x) operation</div>
+                        <div class="concept-feature">No exponentials or lookups</div>
+                        <div class="concept-feature">GPU-friendly</div>
+                    </div>
+
+                    <div class="concept-card">
+                        <div class="concept-name">✗ Dead Neurons</div>
+                        <div class="concept-feature">ReLU(x) = 0 for x < 0 always</div>
+                                <div class="concept-feature">Neuron never activates again</div>
+                                <div class="concept-feature">Solution: Leaky ReLU (0.01x for x<0)< /div>
+                                </div>
+
+                                <div class="concept-card">
+                                    <div class="concept-name">⚠️ Not Mean-Centered</div>
+                                    <div class="concept-feature">Output always ≥ 0 → mean offset</div>
+                                    <div class="concept-feature">Slower convergence in some cases</div>
+                                    <div class="concept-feature">Batch Normalization helps</div>
+                                </div>
+                        </div>
+
+                        <div class="key-point">
+                            <strong><i class="fas fa-check"></i> Best Practice:</strong>
+                            Start with ReLU for hidden layers. Use Sigmoid/Tanh only for output (binary classification).
+                            Use GELU/SwiGLU for transformers.
+                        </div>
+                    </div>
+
+                    <!-- BACKPROPAGATION -->
+                    <div class="section" id="backprop">
+                        <h2 class="section-title"><i class="fas fa-arrow-left"></i> Backpropagation & Gradient Mechanics
+                        </h2>
+
+                        <div class="learning-tip">
+                            <strong><i class="fas fa-history"></i> Historical Context (1986):</strong>
+                            Rumelhart, Hinton, Williams discovered backpropagation in their seminal paper "Learning
+                            Representations by Back-Propagating Errors". Before this, training deep networks was
+                            impossible. This algorithm made modern deep learning possible and enabled the 2012 ImageNet
+                            revolution (AlexNet). Without it, neural networks would be impractical.
+                        </div>
+
+                        <div class="subsection-title">What is Backpropagation?</div>
+
+                        <div class="insight-box">
+                            <strong>Analogy: Hiking Down a Mountain (Blindfolded)</strong>
+                            <p style="margin-top: 10px; margin-bottom: 8px;"><strong>Goal:</strong> Reach the base
+                                (minimize loss).</p>
+                            <ul class="list-styled" style="margin-top: 8px; margin-bottom: 0;">
+                                <li><strong>Forward Pass:</strong> Walk forward, measure height (loss)</li>
+                                <li><strong>Backward Pass:</strong> Feel slope around you (compute gradients), remember
+                                    path taken (store activations), compute contribution of each step (chain rule), take
+                                    step downhill (update weights)</li>
+                                <li><strong>Repeat:</strong> Until you reach base</li>
+                            </ul>
+                        </div>
+
+                        <div class="subsection-title">The Chain Rule - Foundation of Backpropagation</div>
+
+                        <p><strong>Problem:</strong> Deep networks nest functions: Loss = f_n(f_{n-1}(...f_1(x)...)). We
+                            need dLoss/dx to know how to update weights.</p>
+
+                        <p style="margin-top: 15px;"><strong>Solution using Chain Rule:</strong></p>
+                        <div class="key-point" style="margin-top: 10px; margin-bottom: 20px;">
+                            <strong>dLoss/dx = (dLoss/df_n) × (df_n/df_{n-1}) × ... × (df_1/dx)</strong><br />
+                            Multiply derivatives at each layer — exactly what backprop does!
+                        </div>
+
+                        <p><strong>Why Backpropagation is Efficient:</strong></p>
+                        <ul class="list-styled">
+                            <li><strong>Naive Approach:</strong> Recompute entire chain at each layer → exponential time
+                                complexity</li>
+                            <li><strong>Backprop Approach:</strong> Go backwards through network, reuse intermediate
+                                gradients → linear time!</li>
+                            <li><strong>Storage Trade-off:</strong> Store activations from forward pass (uses memory) to
+                                compute gradients in backward pass</li>
+                        </ul>
+
+                        <div class="subsection-title">The Backpropagation Algorithm</div>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-item">
+                                <strong>1️⃣ Forward Pass</strong>
+                                <p>Compute predictions ŷ and loss L through all layers</p>
+                                <small>O(n) time, store activations</small>
+                            </div>
+                            <div class="comparison-item">
+                                <strong>2️⃣ Backward Pass</strong>
+                                <p>Compute dL/dW using chain rule backwards through layers</p>
+                                <small>O(n) time, use stored activations</small>
+                            </div>
+                            <div class="comparison-item">
+                                <strong>3️⃣ Gradient Check</strong>
+                                <p>Verify numerical gradient ≈ backprop gradient (debugging)</p>
+                                <small>Finite difference approximation</small>
+                            </div>
+                            <div class="comparison-item">
+                                <strong>4️⃣ Weight Update</strong>
+                                <p>W ← W - α·dL/dW (apply optimizer)</p>
+                                <small>One SGD step per batch</small>
+                            </div>
+                        </div>
+
+                        <div class="code-highlight">import torch
+                            import torch.nn as nn
+
+                            # Simple 2-layer network: x → hidden → y
+                            x = torch.randn(32, 10, requires_grad=False) # 32 samples, 10 features
+                            y_true = torch.randint(0, 2, (32,)) # Binary labels
+
+                            model = nn.Sequential(
+                            nn.Linear(10, 64),
+                            nn.ReLU(),
+                            nn.Linear(64, 1),
+                            nn.Sigmoid()
+                            )
+
+                            # Forward pass
+                            y_pred = model(x).squeeze()
+                            loss = nn.BCELoss()(y_pred, y_true.float())
+
+                            # Backward pass (automatic differentiation)
+                            loss.backward() # Computes dL/dW for all parameters
+
+                            # Check gradients exist
+                            for name, param in model.named_parameters():
+                            print(f"{name}: grad_norm = {param.grad.norm():.4f}")
+
+                            # Gradient update (one SGD step)
+                            optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+                            optimizer.step()</div>
+
+                        <div class="learning-tip">
+                            <strong><i class="fas fa-info-circle"></i> Autodiff:</strong>
+                            PyTorch/TensorFlow automatically compute gradients via computational graphs. You focus on
+                            forward pass; autodiff handles backprop.
+                        </div>
+                    </div>
+
+                    <!-- ARCHITECTURE & DESIGN PATTERNS -->
+                    <div class="section" id="architecture">
+                        <h2 class="section-title"><i class="fas fa-sitemap"></i> Architecture & Design Patterns</h2>
+
+                        <div class="subsection-title">Modern Network Components</div>
+
+                        <div class="concept-grid">
+                            <div class="concept-card">
+                                <div class="concept-name">Batch Normalization</div>
+                                <div class="concept-feature">Normalize layer inputs (μ=0, σ=1)</div>
+                                <div class="concept-feature">Prevents saturation, stabilizes gradients</div>
+                                <div class="concept-feature">Speeds training 2-5x</div>
+                            </div>
+
+                            <div class="concept-card">
+                                <div class="concept-name">Skip Connections (ResNet)</div>
+                                <div class="concept-feature">Direct path: x → F(x) + x</div>
+                                <div class="concept-feature">Enables very deep networks (100+ layers)</div>
+                                <div class="concept-feature">Gradients flow directly through shortcut</div>
+                            </div>
+
+                            <div class="concept-card">
+                                <div class="concept-name">Dropout</div>
+                                <div class="concept-feature">Random neuron deactivation (prob p)</div>
+                                <div class="concept-feature">Regularization: prevents overfitting</div>
+                                <div class="concept-feature">Use p=0.5 for hidden, disable at test</div>
+                            </div>
+
+                            <div class="concept-card">
+                                <div class="concept-name">Layer Normalization</div>
+                                <div class="concept-feature">Normalize across features (not batch)</div>
+                                <div class="concept-feature">Better than BatchNorm for Transformers</div>
+                                <div class="concept-feature">Works with any batch size</div>
+                            </div>
+
+                            <div class="concept-card">
+                                <div class="concept-name">Attention Heads</div>
+                                <div class="concept-feature">Multiple parallel attention operations</div>
+                                <div class="concept-feature">8-16 heads typical, captures diverse patterns</div>
+                                <div class="concept-feature">Core of Transformers</div>
+                            </div>
+
+                            <div class="concept-card">
+                                <div class="concept-name">Positional Encoding</div>
+                                <div class="concept-feature">Add position info to embeddings</div>
+                                <div class="concept-feature">Transformers have no inherent sequential bias</div>
+                                <div class="concept-feature">Sinusoidal or learned embeddings</div>
+                            </div>
+                        </div>
+
+                        <div class="subsection-title">Architecture Comparison</div>
+
+                        <table class="table table-striped table-custom">
+                            <thead>
+                                <tr>
+                                    <th>Architecture</th>
+                                    <th>Depth</th>
+                                    <th>Speed</th>
+                                    <th>Best For</th>
+                                    <th>Key Challenge</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Simple MLP</strong></td>
+                                    <td>5-10 layers</td>
+                                    <td>⚡⚡⚡ Very Fast</td>
+                                    <td>Tabular data, quick baselines</td>
+                                    <td>Limited feature learning</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CNN</strong></td>
+                                    <td>10-50 layers</td>
+                                    <td>⚡⚡ Fast (GPU)</td>
+                                    <td>Images, spatial data</td>
+                                    <td>Global context (use global avg pool)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>RNN/LSTM</strong></td>
+                                    <td>3-5 layers</td>
+                                    <td>⚡ Medium (sequential)</td>
+                                    <td>Sequences, time series</td>
+                                    <td>Long-term dependencies (gradient vanishing)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Transformer</strong></td>
+                                    <td>6-48 layers</td>
+                                    <td>⚡⚡ Fast (parallel)</td>
+                                    <td>NLP, sequences, multimodal</td>
+                                    <td>Quadratic attention complexity O(n²)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ResNet (Skip Conn)</strong></td>
+                                    <td>50-152 layers</td>
+                                    <td>⚡⚡ Fast</td>
+                                    <td>Very deep networks, images</td>
+                                    <td>Hyperparameter tuning complexity</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- TRAINING DYNAMICS -->
+                    <div class="section" id="training">
+                        <h2 class="section-title"><i class="fas fa-chart-line"></i> Training Dynamics & Optimization
+                        </h2>
+
+                        <div class="subsection-title">Loss Functions by Task</div>
+
+                        <div class="concept-grid">
+                            <div class="concept-card">
+                                <div class="concept-name">📊 Regression (MSE)</div>
+                                <div class="concept-feature">MSE = (1/n)Σ(ŷ - y)²</div>
+                                <div class="concept-feature">Smooth gradients, interpretable</div>
+                                <div class="concept-feature">Penalizes large errors heavily</div>
+                                <div class="concept-feature">Sensitive to outliers</div>
+                            </div>
+
+                            <div class="concept-card">
+                                <div class="concept-name">📏 Regression (MAE)</div>
+                                <div class="concept-feature">MAE = (1/n)Σ|ŷ - y|</div>
+                                <div class="concept-feature">Linear penalty on error</div>
+                                <div class="concept-feature">Robust to outliers</div>
+                                <div class="concept-feature">Less sensitive at zero</div>
+                            </div>
+
+                            <div class="concept-card">
+                                <div class="concept-name">🏷️ Binary Classification</div>
+                                <div class="concept-feature">BCE: -[y·log(ŷ) + (1-y)·log(1-ŷ)]</div>
+                                <div class="concept-feature">Probability-based loss</div>
+                                <div class="concept-feature">Output sigmoid ∈ [0,1]</div>
+                                <div class="concept-feature">Two classes: 0 or 1</div>
+                            </div>
+
+                            <div class="concept-card">
+                                <div class="concept-name">🎯 Multi-Class</div>
+                                <div class="concept-feature">Cross-Entropy: -Σy·log(ŷ)</div>
+                                <div class="concept-feature">Classes mutually exclusive</div>
+                                <div class="concept-feature">Output softmax ∑=1</div>
+                                <div class="concept-feature">N classes (3+)</div>
+                            </div>
+
+                            <div class="concept-card">
+                                <div class="concept-name">🎨 Multi-Label</div>
+                                <div class="concept-feature">BCE per label (independent)</div>
+                                <div class="concept-feature">Multiple labels per sample</div>
+                                <div class="concept-feature">Sigmoid per output</div>
+                                <div class="concept-feature">Parallel classification</div>
+                            </div>
+
+                            <div class="concept-card">
+                                <div class="concept-name">💰 Robust to Outliers</div>
+                                <div class="concept-feature">Huber Loss: MSE for small, MAE for large</div>
+                                <div class="concept-feature">Smooth transition at δ threshold</div>
+                                <div class="concept-feature">Custom loss design</div>
+                                <div class="concept-feature">Domain-specific penalties</div>
+                            </div>
+                        </div>
+
+                        <div class="key-point" style="margin-top: 25px;">
+                            <strong><i class="fas fa-check"></i> Loss Function Selection:</strong>
+                            <ul class="list-styled" style="margin-top: 12px;">
+                                <li><strong>Regression:</strong> Start with MSE, switch to MAE if data has outliers</li>
+                                <li><strong>Binary Classification:</strong> Always BCE (better than MSE)</li>
+                                <li><strong>Multi-Class:</strong> Cross-Entropy is standard, equivalent to softmax + NLL
+                                </li>
+                                <li><strong>Imbalanced Data:</strong> Use Focal Loss (penalizes easy examples), weighted
+                                    BCE, or SMOTE</li>
+                                <li><strong>Custom Scenarios:</strong> Design domain-specific loss (e.g., margin loss
+                                    for ranking)</li>
+                            </ul>
+                            <div class="card-box">
+                                <strong>1. Learning Rate (Most Important)</strong>
+                                <p style="margin-top: 10px;">Too high → divergence; Too low → slow learning. Start
+                                    0.001,
+                                    adjust by 10x if loss doesn't decrease. Use LR schedule (decay by 0.1 every 20
+                                    epochs).
+                                </p>
+                            </div>
+
+                            <div class="card-box">
+                                <strong>2. Batch Size</strong>
+                                <p style="margin-top: 10px;">Larger batches (256, 512) = stable gradients but slow
+                                    convergence. Small (32, 64) = noisy but may generalize better. Trade-off memory vs
+                                    speed.</p>
+                            </div>
+
+                            <div class="card-box">
+                                <strong>3. Network Depth & Width</strong>
+                                <p style="margin-top: 10px;">Start shallow (3 layers, 64-128 units). If underfitting,
+                                    increase depth/width. If overfitting, add dropout (0.3-0.5) or use regularization
+                                    (L2).
+                                </p>
+                            </div>
+
+                            <div class="card-box">
+                                <strong>4. Activation Function</strong>
+                                <p style="margin-top: 10px;">Default: ReLU for hidden layers. For Transformers: GELU.
+                                    For
+                                    stability: ELU. Never Sigmoid/Tanh for hidden layers in deep networks.</p>
+                            </div>
+
+                            <div class="code-highlight">import torch.optim as optim
+                                from torch.optim.lr_scheduler import StepLR
+
+                                # Setup
+                                model = build_model(depth=10, activation='ReLU')
+                                optimizer = optim.Adam(model.parameters(), lr=0.001)
+                                scheduler = StepLR(optimizer, step_size=20, gamma=0.1) # Decay LR by 0.1 every 20 epochs
+
+                                # Training loop
+                                for epoch in range(100):
+                                for batch_idx, (x, y) in enumerate(train_loader):
+                                # Forward
+                                y_pred = model(x)
+                                loss = loss_fn(y_pred, y)
+
+                                # Backward
+                                optimizer.zero_grad()
+                                loss.backward()
+                                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0) # Prevent exploding
+                                gradients
+                                optimizer.step()
+
+                                scheduler.step() # Update learning rate
+
+                                # Validate
+                                val_loss = evaluate(model, val_loader)
+                                print(f"Epoch {epoch}: train_loss={loss:.4f}, val_loss={val_loss:.4f},
+                                lr={optimizer.param_groups[0]['lr']}")</div>
+                        </div>
+
+                        <!-- PRO TIPS -->
+                        <div class="section" id="tips">
+                            <h2 class="section-title"><i class="fas fa-lightbulb"></i> Model Parameters & Pro Tips</h2>
+
+                            <div class="subsection-title">📋 Model Parameters Reference</div>
+
+                            <p><strong>Critical Parameters — What They Mean & Common Mistakes:</strong></p>
+
+                            <div class="card-box" style="margin-top: 15px;">
+                                <strong>1. depth (number of layers)</strong>
+                                <p style="margin-top: 10px; margin-bottom: 8px;"><strong>Purpose:</strong> More layers =
+                                    higher capacity, but risk of vanishing/exploding gradients.</p>
+                                <p style="margin-bottom: 0;"><strong>Typical Range:</strong> 5-20 layers for MLPs, 10-50
+                                    for CNNs, 6-48 for Transformers</p>
+                                <p style="margin-top: 8px; margin-bottom: 0;"><strong>Common Mistake:</strong> Using
+                                    Sigmoid/Tanh with depth > 10 (gradients vanish). Solution: ReLU + Batch Norm + skip
+                                    connections</p>
+                            </div>
+
+                            <div class="card-box">
+                                <strong>2. hidden_dim / hidden_size (layer width)</strong>
+                                <p style="margin-top: 10px; margin-bottom: 8px;"><strong>Purpose:</strong> Controls
+                                    model capacity (parameter count), affects memory and speed.</p>
+                                <p style="margin-bottom: 0;"><strong>Typical Range:</strong> 64-512 for small networks,
+                                    512-2048 for large models</p>
+                                <p style="margin-top: 8px; margin-bottom: 0;"><strong>Common Mistake:</strong> Too small
+                                    → underfitting. Too large → slow, overfitting on small datasets</p>
+                            </div>
+
+                            <div class="card-box">
+                                <strong>3. learning_rate (α in W ← W - α·∇L)</strong>
+                                <p style="margin-top: 10px; margin-bottom: 8px;"><strong>Purpose:</strong> Step size for
+                                    weight updates. Most critical hyperparameter!</p>
+                                <p style="margin-bottom: 0;"><strong>Typical Range:</strong> 0.0001 - 0.1 (usually
+                                    0.001-0.01 good starting point)</p>
+                                <p style="margin-top: 8px; margin-bottom: 0;"><strong>Common Mistake:</strong> Too high
+                                    → divergence/NaN. Too low → training stalls. Fix: If loss doesn't decrease, try LR
+                                    ÷10. If diverges, try LR ÷10</p>
+                            </div>
+
+                            <div class="card-box">
+                                <strong>4. batch_size</strong>
+                                <p style="margin-top: 10px; margin-bottom: 8px;"><strong>Purpose:</strong> Number of
+                                    samples per gradient update. Affects stability and memory.</p>
+                                <p style="margin-bottom: 0;"><strong>Typical Range:</strong> 16-256 (32, 64, 128 common)
+                                </p>
+                                <p style="margin-top: 8px; margin-bottom: 0;"><strong>Common Mistake:</strong> Too small
+                                    (8) → noisy, slow. Too large (1024) → OOM error, smooth but may miss optimal
+                                    solution</p>
+                            </div>
+
+                            <div class="card-box">
+                                <strong>5. activation function</strong>
+                                <p style="margin-top: 10px; margin-bottom: 8px;"><strong>Purpose:</strong> Nonlinearity.
+                                    Controls gradient flow and expressiveness.</p>
+                                <p style="margin-bottom: 0;"><strong>Default Choice:</strong> ReLU for hidden layers,
+                                    Sigmoid/Softmax for output</p>
+                                <p style="margin-top: 8px; margin-bottom: 0;"><strong>Common Mistake:</strong> Using
+                                    Sigmoid for hidden layers in deep networks (vanishing gradient). Solution: Use ReLU,
+                                    then add Batch Norm to stabilize</p>
+                            </div>
+
+                            <div class="card-box">
+                                <strong>6. optimizer</strong>
+                                <p style="margin-top: 10px; margin-bottom: 8px;"><strong>Purpose:</strong> Algorithm to
+                                    update weights. Affects convergence speed and final quality.</p>
+                                <p style="margin-bottom: 0;"><strong>Choice Matrix:</strong> Adam (default, adapts LR
+                                    per parameter), SGD with Momentum (simpler, sometimes better), RMSprop (good middle
+                                    ground)</p>
+                                <p style="margin-top: 8px; margin-bottom: 0;"><strong>Common Mistake:</strong> Adam
+                                    diverges sometimes (rare) → switch to SGD. SGD too slow → try Adam</p>
+                            </div>
+
+                            <div class="card-box">
+                                <strong>7. epochs (training iterations)</strong>
+                                <p style="margin-top: 10px; margin-bottom: 8px;"><strong>Purpose:</strong> Number of
+                                    complete passes through data. More = better fit but risk of overfitting.</p>
+                                <p style="margin-bottom: 0;"><strong>Typical Range:</strong> 10-100 (use early stopping
+                                    to avoid overfitting)</p>
+                                <p style="margin-top: 8px; margin-bottom: 0;"><strong>Common Mistake:</strong> Training
+                                    too long → overfitting. Solution: Monitor val_loss, stop if no improvement for 10
+                                    epochs</p>
+                            </div>
+
+                            <div class="card-box">
+                                <strong>8. weight_decay / L2 regularization</strong>
+                                <p style="margin-top: 10px; margin-bottom: 8px;"><strong>Purpose:</strong> Prevents
+                                    overfitting by penalizing large weights. Loss = original_loss + λ·Σ(W²)</p>
+                                <p style="margin-bottom: 0;"><strong>Typical Range:</strong> 0.0001 - 0.01 (often used
+                                    in Adam)</p>
+                                <p style="margin-top: 8px; margin-bottom: 0;"><strong>Common Mistake:</strong> Too high
+                                    → underfitting. Too low → overfitting. Balance by monitoring train/val gap</p>
+                            </div>
+
+                            <div class="key-point" style="margin-top: 20px;">
+                                <strong><i class="fas fa-check"></i> Parameter Tuning Recipe:</strong>
+                                <ol style="margin-top: 10px; margin-bottom: 0;">
+                                    <li style="margin-bottom: 8px;"><strong>Start Simple:</strong> ReLU, 10 layers,
+                                        hidden_dim=128, learning_rate=0.001, batch_size=32, optimizer=Adam</li>
+                                    <li style="margin-bottom: 8px;"><strong>Check Loss Decreasing:</strong> If not →
+                                        lower LR, check data, increase model capacity</li>
+                                    <li style="margin-bottom: 8px;"><strong>Monitor Train/Val Gap:</strong> If train <<
+                                            val → overfitting (add dropout/L2, reduce depth)</li>
+                                    <li style="margin-bottom: 8px;"><strong>Iterate Systematically:</strong> Change ONE
+                                        parameter at a time, re-run, measure impact</li>
+                                    <li><strong>Early Stopping:</strong> Save best val_loss checkpoint, stop if no
+                                        improvement for patience=10 epochs</li>
+                                </ol>
+                            </div>
+
+                            <div class="subsection-title">Pro Tips & Debugging Guide</div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#t1">
+                                        🔍 Debugging Training: Loss Not Decreasing
+                                    </button>
+                                </h2>
+                                <div id="t1" class="accordion-collapse collapse show" data-bs-parent="#tipsAccordion">
+                                    <div class="accordion-body">
+                                        <ul class="list-styled">
+                                            <li><strong>Check 1 - Data:</strong> Verify X ∈ valid range, y has correct
+                                                labels, no NaNs or Infs</li>
+                                            <li><strong>Check 2 - Learning Rate:</strong> Increase 10x; if loss
+                                                increases dramatically → LR too high. If flat → too low</li>
+                                            <li><strong>Check 3 - Model Capacity:</strong> Can model overfit single
+                                                batch? Create tiny batch (16 samples), train 1000 epochs. If loss
+                                                doesn't → model issue</li>
+                                            <li><strong>Check 4 - Gradient Flow:</strong> Print param.grad.norm() for
+                                                each layer. If any ~0 → vanishing gradient (change activation, add BN,
+                                                reduce depth)</li>
+                                            <li><strong>Check 5 - Loss Function:</strong> Verify loss decreases on known
+                                                predictions (e.g., y_pred=y_true → loss=0)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#t2">
+                                        💥 Exploding Gradients & Instability
+                                    </button>
+                                </h2>
+                                <div id="t2" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                                    <div class="accordion-body">
+                                        <p><strong>Symptom:</strong> Loss becomes NaN/Inf, training diverges.</p>
+                                        <ul class="list-styled">
+                                            <li><strong>Cause:</strong> Large gradients in early layers multiply across
+                                                layers → exponential explosion</li>
+                                            <li><strong>Fix 1 - Gradient Clipping:</strong>
+                                                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0) caps gradient
+                                                magnitude</li>
+                                            <li><strong>Fix 2 - Lower LR:</strong> Reduce learning rate by 10x, more
+                                                conservative updates</li>
+                                            <li><strong>Fix 3 - Batch Norm:</strong> Normalizes gradients, prevents
+                                                explosion. Add BN after heavy layers</li>
+                                            <li><strong>Fix 4 - Initialize Weights:</strong> Poor initialization
+                                                amplifies gradients. Use xavier_uniform or kaiming_uniform</li>
+                                        </ul>
+                                        <div class="code-highlight">torch.nn.init.kaiming_uniform_(layer.weight, a=0,
+                                            mode='fan_in')
+                                            # Prevents vanishing/exploding by scaling variance with fan_in
+
+                                            # During training, clip gradients
+                                            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#t3">
+                                        🎯 Overfitting vs Underfitting
+                                    </button>
+                                </h2>
+                                <div id="t3" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                                    <div class="accordion-body">
+                                        <p><strong>Underfitting:</strong> train_loss ≈ val_loss, both high</p>
+                                        <ul class="list-styled">
+                                            <li>Model too simple / not enough capacity</li>
+                                            <li>Solution: Deeper network, more parameters, reduce regularization, train
+                                                longer</li>
+                                        </ul>
+                                        <p style="margin-top: 15px;"><strong>Overfitting:</strong> train_loss <<
+                                                val_loss (gap widening)</p>
+                                                <ul class="list-styled">
+                                                    <li>Model memorizes training data, poor generalization</li>
+                                                    <li>Solution: Add dropout, L2 regularization, early stopping, more
+                                                        training data, reduce model size</li>
+                                                </ul>
+                                                <div class="learning-tip">
+                                                    <strong><i class="fas fa-star"></i> Ideal:</strong> train_loss
+                                                    slowly decreases, val_loss also decreases but slightly higher. Small
+                                                    constant gap.
+                                                </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#t4">
+                                        ⚡ Speeding Up Training
+                                    </button>
+                                </h2>
+                                <div id="t4" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                                    <div class="accordion-body">
+                                        <ul class="list-styled">
+                                            <li><strong>GPU Acceleration:</strong> Move model/data to GPU: model.cuda(),
+                                                x.cuda(). 10-50x faster for deep networks</li>
+                                            <li><strong>Mixed Precision:</strong> Use float16 instead of float32.
+                                                torch.autocast context manager. ~2x faster, minor accuracy loss</li>
+                                            <li><strong>Batch Size:</strong> Increase batch size (32→256) for better GPU
+                                                utilization, but may need higher LR</li>
+                                            <li><strong>Data Loading:</strong> Use num_workers in DataLoader (2-4),
+                                                pin_memory=True for CPU→GPU transfer</li>
+                                            <li><strong>Model Architecture:</strong> Reduce depth/width for faster
+                                                iteration. Profile: use cProfile or PyTorch Profiler</li>
+                                            <li><strong>Distributed Training:</strong> Multi-GPU:
+                                                DistributedDataParallel. Multi-node: Horovod</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#t5">
+                                        📈 Effective Learning Rate Schedule
+                                    </button>
+                                </h2>
+                                <div id="t5" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                                    <div class="accordion-body">
+                                        <p><strong>Why Decay LR?</strong> Early epochs: large steps for fast
+                                            convergence. Later epochs: small steps for fine-tuning and better minimum.
+                                        </p>
+                                        <ul class="list-styled">
+                                            <li><strong>Step Decay:</strong> LR *= 0.1 every N epochs (standard, simple)
+                                            </li>
+                                            <li><strong>Exponential Decay:</strong> LR *= 0.9 every epoch (smooth decay)
+                                            </li>
+                                            <li><strong>Cosine Annealing:</strong> LR = LR_min + 0.5(LR_max - LR_min)[1
+                                                + cos(πt/T)] (start high, smooth decay, end low)</li>
+                                            <li><strong>Warm Restart:</strong> Restart LR periodically, helps escape
+                                                local minima</li>
+                                            <li><strong>Warmup:</strong> Linear increase from 0 to LR over first epochs,
+                                                stabilizes training with large batches</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#t6">
+                                        🏆 Production Deployment Checklist
+                                    </button>
+                                </h2>
+                                <div id="t6" class="accordion-collapse collapse" data-bs-parent="#tipsAccordion">
+                                    <div class="accordion-body">
+                                        <ul class="list-styled">
+                                            <li>✅ Model in eval mode: model.eval() (dropout off, BN uses running stats)
+                                            </li>
+                                            <li>✅ Quantization: Convert to int8/fp16 for mobile/edge (Nvidia TensorRT,
+                                                ONNX)</li>
+                                            <li>✅ Inference Optimization: Use TorchScript (torch.jit.script) or ONNX for
+                                                faster inference</li>
+                                            <li>✅ Input Validation: Check shape, dtype, value range before prediction
+                                            </li>
+                                            <li>✅ Monitoring: Log prediction confidence, latency, track model drift</li>
+                                            <li>✅ Versioning: Model checkpoints, track hyperparameters, enable rollback
+                                            </li>
+                                            <li>✅ Testing: Unit tests for model behavior, integration tests with data
+                                                pipeline</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="key-point" style="margin-top: 30px;">
+                            <strong><i class="fas fa-crown"></i> Master Checklist:</strong>
+                            <ul class="list-styled" style="margin-top: 12px;">
+                                <li>✅ Architecture chosen (MLP/CNN/RNN/Transformer)</li>
+                                <li>✅ ReLU activation (not Sigmoid for hidden layers)</li>
+                                <li>✅ Batch Normalization added for stability</li>
+                                <li>✅ Learning rate properly tuned (with schedule)</li>
+                                <li>✅ Loss decreasing on training data (no NaN)</li>
+                                <li>✅ Gradient flow verified (gradients non-zero)</li>
+                                <li>✅ Validation set separate, early stopping enabled</li>
+                                <li>✅ Model serialized and reproducibility ensured</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+                <footer>
+                    <h5><i class="fas fa-brain"></i> Deep Learning Fundamentals</h5>
+                    <p>Activation Functions → Backpropagation → Architecture Design → Loss Optimization → Transformers →
+                        Production Deployment</p>
+                    <p style="margin-top: 12px; font-size: 0.85rem;">6 Core Topics | Foundations to Advanced |
+                        Comprehensive Learning Material</p>
+                </footer>
+
+            </div>
+
+            <div class="back-to-top" id="backToTop">⬆️</div>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+                const backToTopBtn = document.getElementById('backToTop');
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        backToTopBtn.classList.add('show');
+                    } else {
+                        backToTopBtn.classList.remove('show');
+                    }
+                });
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
+                });
+            </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

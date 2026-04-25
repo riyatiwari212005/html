@@ -1,0 +1,674 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional English & Office Phrases Master Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #ffffff 0%, #f5f7ff 100%);
+            padding: 50px 40px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 2.8em;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+        }
+
+        header p {
+            color: #666;
+            margin: 12px 0;
+            font-size: 1.15em;
+            font-weight: 500;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin: 35px 0 0 0;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1em;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        button {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.35);
+            transform: translateY(-2px);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        .search-box {
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            font-size: 1.05em;
+            transition: all 0.3s ease;
+            background: white;
+            color: #333;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+            background: #f9faff;
+        }
+
+        .search-box input::placeholder {
+            color: #999;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(102, 126, 234, 0.08);
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.2);
+        }
+
+        .card-title {
+            color: #667eea;
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-meaning {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8f6 100%);
+            padding: 13px 15px;
+            border-radius: 8px;
+            margin: 12px 0;
+            color: #2e7d32;
+            font-weight: 600;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .card-synonyms {
+            background: linear-gradient(135deg, #f3e5f5 0%, #faf6ff 100%);
+            padding: 13px 15px;
+            border-radius: 8px;
+            margin: 12px 0;
+            color: #6a1b9a;
+            font-size: 0.98em;
+            font-weight: 500;
+            border-left: 4px solid #6a1b9a;
+        }
+
+        .card-antonyms {
+            background: linear-gradient(135deg, #ffe0b2 0%, #fff3e0 100%);
+            padding: 13px 15px;
+            border-radius: 8px;
+            margin: 12px 0;
+            color: #e65100;
+            font-size: 0.98em;
+            font-weight: 500;
+            border-left: 4px solid #e65100;
+        }
+
+        .card-examples {
+            background: linear-gradient(135deg, #fff3e0 0%, #fffbf0 100%);
+            padding: 13px 15px;
+            border-radius: 8px;
+            margin: 12px 0;
+            color: #e65100;
+            font-size: 0.98em;
+            border-left: 4px solid #ff9800;
+        }
+
+        .example-item {
+            margin: 8px 0;
+            padding-left: 12px;
+            border-left: 3px solid #667eea;
+            line-height: 1.5;
+        }
+
+        .content-section h2 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin: 30px 0 20px 0;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #667eea;
+            display: block;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #ffffff 0%, #f5f7ff 100%);
+            padding: 40px;
+            text-align: center;
+            border-radius: 15px;
+            margin-top: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        footer p {
+            margin: 12px 0;
+            color: #666;
+            font-size: 1.05em;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+
+            button {
+                padding: 12px 18px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <header>
+        <h1>💼 Professional English & Office Phrases Master Guide</h1>
+        <p>📚 Complete Resource for Workplace & Business Communication</p>
+        <p>200+ Vocabulary Words & 200+ Professional Phrases</p>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">200+</div>
+                <div class="stat-label">Professional Words</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">200+</div>
+                <div class="stat-label">Office Phrases</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Workplace Ready</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="tabs">
+        <button onclick="switchTab('vocab')" class="active" id="btn-vocab">📖 Professional Vocabulary</button>
+        <button onclick="switchTab('phrases1')" id="btn-phrases1">💬 Common Office Phrases (100)</button>
+        <button onclick="switchTab('phrases2')" id="btn-phrases2">💬 Advanced Phrases (100+)</button>
+    </div>
+
+    <!-- VOCABULARY TAB -->
+    <div id="vocab-section" class="content-section">
+        <h2>📖 Professional Vocabulary Words with Synonyms & Antonyms</h2>
+        <div class="search-box">
+            <input type="text" id="vocabSearch" placeholder="Search vocabulary..." onkeyup="filterVocab()">
+        </div>
+        <div id="vocabList" class="cards-container"></div>
+    </div>
+
+    <!-- PHRASES 1 TAB -->
+    <div id="phrases1-section" class="content-section hidden">
+        <h2>💬 Common Office & Daily Phrases (100)</h2>
+        <div class="search-box">
+            <input type="text" id="phrases1Search" placeholder="Search phrases..." onkeyup="filterPhrases1()">
+        </div>
+        <div id="phrases1List" class="cards-container"></div>
+    </div>
+
+    <!-- PHRASES 2 TAB -->
+    <div id="phrases2-section" class="content-section hidden">
+        <h2>💬 Advanced Professional Phrases (100+)</h2>
+        <div class="search-box">
+            <input type="text" id="phrases2Search" placeholder="Search phrases..." onkeyup="filterPhrases2()">
+        </div>
+        <div id="phrases2List" class="cards-container"></div>
+    </div>
+
+    <footer>
+        <p>✨ Master Professional English for Career Success ✨</p>
+        <p>"Transform Your Business Communication Skills"</p>
+    </footer>
+
+    <script>
+        // PROFESSIONAL VOCABULARY DATA
+        var vocab = [
+            { word: 'Assist', meaning: 'To help', synonyms: 'help, support, aid', antonyms: 'hinder, obstruct, prevent', examples: ['Assist the team', 'Assist with the project', 'Assist a colleague', 'Assist customers'] },
+            { word: 'Approve', meaning: 'To officially accept', synonyms: 'accept, permit, authorize', antonyms: 'reject, deny, refuse', examples: ['Approve the proposal', 'Approve the budget', 'Approve the plan', 'Approve the request'] },
+            { word: 'Request', meaning: 'To ask formally', synonyms: 'ask, seek, demand', antonyms: 'offer, give', examples: ['Request a meeting', 'Request support', 'Request information', 'Request approval'] },
+            { word: 'Confirm', meaning: 'To verify as true', synonyms: 'verify, validate, assure', antonyms: 'deny, doubt, cancel', examples: ['Confirm attendance', 'Confirm details', 'Confirm schedule', 'Confirm receipt'] },
+            { word: 'Inform', meaning: 'To give information', synonyms: 'notify, tell, brief', antonyms: 'conceal, hide', examples: ['Inform the team', 'Inform management', 'Inform clients', 'Inform stakeholders'] },
+            { word: 'Delay', meaning: 'To make late', synonyms: 'postpone, defer', antonyms: 'hurry, advance', examples: ['Delay the meeting', 'Delay the project', 'Delay the deadline', 'Delay submission'] },
+            { word: 'Schedule', meaning: 'To plan a time', synonyms: 'plan, arrange, timetable', antonyms: 'cancel, delay', examples: ['Schedule a call', 'Schedule a meeting', 'Schedule training', 'Schedule review'] },
+            { word: 'Arrange', meaning: 'To organize', synonyms: 'organize, plan, set up', antonyms: 'disrupt, disorganize', examples: ['Arrange the meeting', 'Arrange transportation', 'Arrange accommodation', 'Arrange resources'] },
+            { word: 'Maintain', meaning: 'To keep in good condition', synonyms: 'preserve, sustain', antonyms: 'neglect, abandon', examples: ['Maintain standards', 'Maintain records', 'Maintain quality', 'Maintain relationships'] },
+            { word: 'Require', meaning: 'To need something', synonyms: 'need, demand', antonyms: 'avoid, waive', examples: ['Require approval', 'Require documentation', 'Require confirmation', 'Require training'] },
+            { word: 'Provide', meaning: 'To supply something', synonyms: 'supply, offer, give', antonyms: 'withhold, deny', examples: ['Provide support', 'Provide feedback', 'Provide details', 'Provide assistance'] },
+            { word: 'Submit', meaning: 'To present officially', synonyms: 'present, send, file', antonyms: 'withdraw, withhold', examples: ['Submit report', 'Submit proposal', 'Submit application', 'Submit documentation'] },
+            { word: 'Review', meaning: 'To examine carefully', synonyms: 'examine, assess', antonyms: 'ignore, overlook', examples: ['Review document', 'Review performance', 'Review progress', 'Review results'] },
+            { word: 'Update', meaning: 'To make current', synonyms: 'revise, refresh', antonyms: 'stagnate, ignore', examples: ['Update records', 'Update team', 'Update system', 'Update information'] },
+            { word: 'Resolve', meaning: 'To solve a problem', synonyms: 'solve, settle', antonyms: 'complicate, worsen', examples: ['Resolve issues', 'Resolve conflict', 'Resolve problems', 'Resolve concerns'] },
+            { word: 'Manage', meaning: 'To control or handle', synonyms: 'handle, supervise', antonyms: 'mismanage, neglect', examples: ['Manage team', 'Manage project', 'Manage budget', 'Manage resources'] },
+            { word: 'Respond', meaning: 'To reply', synonyms: 'reply, answer', antonyms: 'ignore, disregard', examples: ['Respond quickly', 'Respond professionally', 'Respond promptly', 'Respond thoroughly'] },
+            { word: 'Monitor', meaning: 'To observe regularly', synonyms: 'observe, track', antonyms: 'ignore, neglect', examples: ['Monitor progress', 'Monitor performance', 'Monitor system', 'Monitor trends'] },
+            { word: 'Evaluate', meaning: 'To judge value', synonyms: 'assess, analyze', antonyms: 'guess, ignore', examples: ['Evaluate performance', 'Evaluate options', 'Evaluate results', 'Evaluate impact'] },
+            { word: 'Implement', meaning: 'To put into action', synonyms: 'execute, apply', antonyms: 'cancel, delay', examples: ['Implement strategy', 'Implement changes', 'Implement solution', 'Implement plan'] },
+            { word: 'Comply', meaning: 'To follow rules', synonyms: 'obey, conform', antonyms: 'resist, violate', examples: ['Comply with policy', 'Comply with rules', 'Comply with requirements', 'Comply with standards'] },
+            { word: 'Negotiate', meaning: 'To discuss for agreement', synonyms: 'bargain, discuss', antonyms: 'refuse, demand', examples: ['Negotiate terms', 'Negotiate contract', 'Negotiate deal', 'Negotiate agreement'] },
+            { word: 'Allocate', meaning: 'To distribute resources', synonyms: 'assign, distribute', antonyms: 'withhold, collect', examples: ['Allocate budget', 'Allocate resources', 'Allocate time', 'Allocate staff'] },
+            { word: 'Clarify', meaning: 'To make clear', synonyms: 'explain, simplify', antonyms: 'confuse, complicate', examples: ['Clarify details', 'Clarify expectations', 'Clarify requirements', 'Clarify process'] },
+            { word: 'Recommend', meaning: 'To suggest', synonyms: 'suggest, advise', antonyms: 'discourage, oppose', examples: ['Recommend option', 'Recommend approach', 'Recommend candidate', 'Recommend solution'] },
+            { word: 'Notify', meaning: 'To inform officially', synonyms: 'inform, alert', antonyms: 'conceal, hide', examples: ['Notify team', 'Notify management', 'Notify stakeholders', 'Notify clients'] },
+            { word: 'Authorize', meaning: 'To give power', synonyms: 'permit, approve', antonyms: 'forbid, restrict', examples: ['Authorize spending', 'Authorize access', 'Authorize project', 'Authorize decision'] },
+            { word: 'Coordinate', meaning: 'To organize together', synonyms: 'organize, align', antonyms: 'misalign, disrupt', examples: ['Coordinate efforts', 'Coordinate teams', 'Coordinate schedule', 'Coordinate tasks'] },
+            { word: 'Document', meaning: 'To record in writing', synonyms: 'record, note', antonyms: 'erase, forget', examples: ['Document process', 'Document findings', 'Document decisions', 'Document changes'] },
+            { word: 'Escalate', meaning: 'To increase seriousness', synonyms: 'intensify, raise', antonyms: 'reduce, calm', examples: ['Escalate issue', 'Escalate concern', 'Escalate problem', 'Escalate matter'] },
+            { word: 'Facilitate', meaning: 'To make easier', synonyms: 'assist, enable', antonyms: 'hinder, obstruct', examples: ['Facilitate meeting', 'Facilitate discussion', 'Facilitate process', 'Facilitate collaboration'] },
+            { word: 'Ensure', meaning: 'To make certain', synonyms: 'guarantee, assure', antonyms: 'doubt, risk', examples: ['Ensure quality', 'Ensure compliance', 'Ensure success', 'Ensure accuracy'] },
+            { word: 'Proceed', meaning: 'To continue', synonyms: 'continue, advance', antonyms: 'stop, halt', examples: ['Proceed with plan', 'Proceed with caution', 'Proceed forward', 'Proceed ahead'] },
+            { word: 'Acknowledge', meaning: 'To accept or recognize', synonyms: 'admit, recognize', antonyms: 'deny, ignore', examples: ['Acknowledge receipt', 'Acknowledge contribution', 'Acknowledge effort', 'Acknowledge feedback'] },
+            { word: 'Verify', meaning: 'To check accuracy', synonyms: 'confirm, validate', antonyms: 'doubt, falsify', examples: ['Verify information', 'Verify data', 'Verify details', 'Verify accuracy'] },
+            { word: 'Consult', meaning: 'To seek advice', synonyms: 'advise, discuss', antonyms: 'ignore, decide alone', examples: ['Consult expert', 'Consult team', 'Consult manager', 'Consult stakeholder'] },
+            { word: 'Retain', meaning: 'To keep', synonyms: 'keep, preserve', antonyms: 'lose, discard', examples: ['Retain talent', 'Retain information', 'Retain records', 'Retain customer'] },
+            { word: 'Transfer', meaning: 'To move from one place', synonyms: 'move, shift', antonyms: 'keep, retain', examples: ['Transfer files', 'Transfer responsibility', 'Transfer knowledge', 'Transfer position'] },
+            { word: 'Acquire', meaning: 'To obtain', synonyms: 'obtain, gain', antonyms: 'lose, give up', examples: ['Acquire skills', 'Acquire knowledge', 'Acquire resources', 'Acquire license'] },
+            { word: 'Handle', meaning: 'To deal with', synonyms: 'manage, control', antonyms: 'avoid, mishandle', examples: ['Handle complaint', 'Handle issue', 'Handle task', 'Handle situation'] },
+            { word: 'Support', meaning: 'To give assistance', synonyms: 'assist, back', antonyms: 'oppose, resist', examples: ['Support team', 'Support initiative', 'Support decision', 'Support goal'] },
+            { word: 'Inspect', meaning: 'To examine closely', synonyms: 'examine, check', antonyms: 'ignore, overlook', examples: ['Inspect quality', 'Inspect product', 'Inspect work', 'Inspect site'] },
+            { word: 'Adjust', meaning: 'To change slightly', synonyms: 'modify, adapt', antonyms: 'fix, maintain', examples: ['Adjust schedule', 'Adjust plan', 'Adjust settings', 'Adjust approach'] },
+            { word: 'Prioritize', meaning: 'To give importance', synonyms: 'rank, emphasize', antonyms: 'neglect, ignore', examples: ['Prioritize task', 'Prioritize goal', 'Prioritize project', 'Prioritize work'] },
+            { word: 'Deliver', meaning: 'To bring or send', synonyms: 'send, provide', antonyms: 'withhold, delay', examples: ['Deliver results', 'Deliver service', 'Deliver product', 'Deliver promise'] },
+            { word: 'Organize', meaning: 'To arrange systematically', synonyms: 'arrange, coordinate', antonyms: 'disorganize, scatter', examples: ['Organize meeting', 'Organize team', 'Organize files', 'Organize workflow'] },
+            { word: 'Communicate', meaning: 'To share information', synonyms: 'convey, share', antonyms: 'hide, conceal', examples: ['Communicate clearly', 'Communicate effectively', 'Communicate promptly', 'Communicate openly'] },
+            { word: 'Collaborate', meaning: 'To work together', synonyms: 'cooperate, partner', antonyms: 'compete, oppose', examples: ['Collaborate with team', 'Collaborate on project', 'Collaborate effectively', 'Collaborate closely'] },
+            { word: 'Analyze', meaning: 'To examine carefully', synonyms: 'examine, study', antonyms: 'ignore, overlook', examples: ['Analyze data', 'Analyze results', 'Analyze trends', 'Analyze performance'] },
+            { word: 'Develop', meaning: 'To improve or grow', synonyms: 'build, expand', antonyms: 'destroy, reduce', examples: ['Develop strategy', 'Develop skills', 'Develop solution', 'Develop team'] }
+        ];
+
+        // COMMON OFFICE PHRASES (100)
+        var phrases1 = [
+            { phrase: 'As per your request', meaning: 'according to what you asked', examples: ['As per your request, I have shared the document.', 'As per your request, I am sending the files.', 'As per your request, the changes have been made.'] },
+            { phrase: 'Let me know', meaning: 'tell me', examples: ['Let me know if you need any help.', 'Let me know your availability for the meeting.', 'Let me know the status of the project.'] },
+            { phrase: 'At the moment', meaning: 'right now', examples: ['I am busy at the moment.', 'She is in a meeting at the moment.', 'We cannot proceed at the moment.'] },
+            { phrase: 'In advance', meaning: 'before', examples: ['Thank you in advance for your support.', 'We appreciate your help in advance.', 'We booked the venue in advance.'] },
+            { phrase: 'As soon as possible', meaning: 'very quickly', examples: ['Please reply as soon as possible.', 'We need this completed as soon as possible.', 'Please send the report as soon as possible.'] },
+            { phrase: 'For your reference', meaning: 'for information', examples: ['I am attaching the file for your reference.', 'Here is the document for your reference.', 'Please check the email for your reference.'] },
+            { phrase: 'In my opinion', meaning: 'what I think', examples: ['In my opinion, this plan will work.', 'In my opinion, we should wait.', 'In my opinion, this is the best solution.'] },
+            { phrase: 'To be honest', meaning: 'truthfully', examples: ['To be honest, I didn\'t understand the task.', 'To be honest, this is difficult.', 'To be honest, I disagree with this.'] },
+            { phrase: 'On the other hand', meaning: 'another view', examples: ['This is cheap; on the other hand, it\'s low quality.', 'It\'s fast; on the other hand, it\'s expensive.', 'He is experienced; on the other hand, he lacks training.'] },
+            { phrase: 'In general', meaning: 'usually', examples: ['In general, meetings start at 10 AM.', 'In general, we follow this process.', 'In general, clients prefer this option.'] },
+            { phrase: 'At the same time', meaning: 'together', examples: ['We can discuss both topics at the same time.', 'He works and studies at the same time.', 'Multiple tasks at the same time is challenging.'] },
+            { phrase: 'From time to time', meaning: 'sometimes', examples: ['I visit my hometown from time to time.', 'We update the system from time to time.', 'He sends feedback from time to time.'] },
+            { phrase: 'On a daily basis', meaning: 'every day', examples: ['I check emails on a daily basis.', 'We hold meetings on a daily basis.', 'Reports are generated on a daily basis.'] },
+            { phrase: 'By the way', meaning: 'changing topic', examples: ['By the way, did you finish the report?', 'By the way, I wanted to inform you about the change.', 'By the way, the meeting is rescheduled.'] },
+            { phrase: 'For the time being', meaning: 'temporarily', examples: ['For the time being, work from home.', 'For the time being, this solution will work.', 'For the time being, we will pause the project.'] },
+            { phrase: 'In the meantime', meaning: 'while waiting', examples: ['I\'ll prepare the file in the meantime.', 'In the meantime, please gather the documents.', 'In the meantime, we can discuss the budget.'] },
+            { phrase: 'At your convenience', meaning: 'when suitable', examples: ['Call me at your convenience.', 'Please visit our office at your convenience.', 'Send the documents at your convenience.'] },
+            { phrase: 'In case of', meaning: 'if happens', examples: ['In case of delay, inform me.', 'In case of emergency, call this number.', 'In case of problems, contact support.'] },
+            { phrase: 'As a result', meaning: 'because of that', examples: ['He worked hard; as a result, he succeeded.', 'We improved efficiency; as a result, costs decreased.', 'The system crashed; as a result, data was lost.'] },
+            { phrase: 'In detail', meaning: 'fully', examples: ['Please explain the issue in detail.', 'Describe the process in detail.', 'Let\'s discuss this in detail.'] },
+            { phrase: 'Make sure', meaning: 'ensure', examples: ['Make sure you submit the form.', 'Make sure the document is correct.', 'Make sure everyone is informed.'] },
+            { phrase: 'Take care', meaning: 'be careful', examples: ['Take care while driving.', 'Take care of the equipment.', 'Take care not to spill the liquid.'] },
+            { phrase: 'No worries', meaning: 'it\'s okay', examples: ['No worries, I\'ll manage it.', 'No worries, it\'s not a problem.', 'No worries, we can reschedule.'] },
+            { phrase: 'Sounds good', meaning: 'I agree', examples: ['Sounds good, let\'s proceed.', 'Sounds good, I\'ll get started.', 'Sounds good, see you then.'] },
+            { phrase: 'That makes sense', meaning: 'I understand', examples: ['That makes sense now.', 'That makes sense, thank you for explaining.', 'That makes sense given the circumstances.'] },
+            { phrase: 'I agree with you', meaning: 'same opinion', examples: ['I agree with you completely.', 'I agree with you on this point.', 'I agree with your analysis.'] },
+            { phrase: 'I\'m not sure', meaning: 'uncertain', examples: ['I\'m not sure about the deadline.', 'I\'m not sure if this will work.', 'I\'m not sure of the exact date.'] },
+            { phrase: 'It depends', meaning: 'not fixed', examples: ['It depends on the situation.', 'It depends on the budget.', 'It depends on team availability.'] },
+            { phrase: 'Let\'s get started', meaning: 'begin', examples: ['Let\'s get started with the meeting.', 'Let\'s get started on this project.', 'Let\'s get started immediately.'] },
+            { phrase: 'Take your time', meaning: 'no hurry', examples: ['Take your time to decide.', 'Take your time with the analysis.', 'Take your time, there is no rush.'] },
+            { phrase: 'Follow up', meaning: 'check again', examples: ['I\'ll follow up tomorrow.', 'I\'ll follow up with the client.', 'I\'ll follow up on your request.'] },
+            { phrase: 'Get back to you', meaning: 'reply later', examples: ['I\'ll get back to you soon.', 'I\'ll get back to you within 24 hours.', 'I\'ll get back to you with the information.'] },
+            { phrase: 'Look into it', meaning: 'investigate', examples: ['I\'ll look into the issue.', 'We will look into your complaint.', 'Please look into this matter.'] },
+            { phrase: 'Work on it', meaning: 'start doing', examples: ['I\'m working on it now.', 'We\'re working on the solution.', 'They are working on the improvements.'] },
+            { phrase: 'Figure it out', meaning: 'find solution', examples: ['We\'ll figure it out together.', 'Let\'s figure it out step by step.', 'I\'ll figure it out eventually.'] },
+            { phrase: 'Sort it out', meaning: 'resolve', examples: ['Let\'s sort it out today.', 'We need to sort it out quickly.', 'I\'ll sort it out for you.'] },
+            { phrase: 'Bring it up', meaning: 'mention', examples: ['He brought it up in the meeting.', 'I\'ll bring it up with the manager.', 'Don\'t forget to bring it up tomorrow.'] },
+            { phrase: 'Point it out', meaning: 'highlight', examples: ['She pointed out the mistake.', 'Please point out any errors.', 'I wanted to point out the issue.'] },
+            { phrase: 'Carry on', meaning: 'continue', examples: ['Please carry on with your work.', 'Carry on as usual.', 'You can carry on with the presentation.'] },
+            { phrase: 'Wrap it up', meaning: 'finish', examples: ['Let\'s wrap it up quickly.', 'Wrap up your discussion.', 'We need to wrap it up soon.'] },
+            { phrase: 'On the same page', meaning: 'same understanding', examples: ['We are on the same page now.', 'Are we on the same page?', 'I think we\'re on the same page.'] },
+            { phrase: 'Touch base', meaning: 'contact', examples: ['Let\'s touch base tomorrow.', 'I\'ll touch base with the team.', 'We should touch base regularly.'] },
+            { phrase: 'Keep me posted', meaning: 'update me', examples: ['Keep me posted on progress.', 'Keep me posted about the results.', 'Please keep me posted.'] },
+            { phrase: 'Move forward', meaning: 'progress', examples: ['Let\'s move forward with the plan.', 'We need to move forward.', 'How can we move forward?'] },
+            { phrase: 'Take responsibility', meaning: 'accept duty', examples: ['He took responsibility for the error.', 'I will take responsibility.', 'We must take responsibility.'] },
+            { phrase: 'Meet the deadline', meaning: 'finish on time', examples: ['We must meet the deadline.', 'Can we meet the deadline?', 'We will meet the deadline.'] },
+            { phrase: 'Ahead of schedule', meaning: 'early', examples: ['The work is ahead of schedule.', 'We are ahead of schedule.', 'This project is ahead of schedule.'] },
+            { phrase: 'Behind schedule', meaning: 'late', examples: ['The project is behind schedule.', 'We are behind schedule.', 'Work is behind schedule.'] },
+            { phrase: 'Under control', meaning: 'managed', examples: ['Everything is under control.', 'The situation is under control.', 'Don\'t worry, it\'s under control.'] },
+            { phrase: 'Out of scope', meaning: 'not included', examples: ['This request is out of scope.', 'That is out of scope for now.', 'Additional features are out of scope.'] }
+        ];
+
+        // ADVANCED OFFICE PHRASES (100+)
+        var phrases2 = [
+            { phrase: 'As discussed', meaning: 'as talked', examples: ['As discussed, I\'m sharing details.', 'As discussed in the meeting, we will proceed.', 'As discussed with you earlier, here are the documents.'] },
+            { phrase: 'Based on', meaning: 'according to', examples: ['Based on data, sales increased.', 'Based on feedback, we made changes.', 'Based on the report, we need improvement.'] },
+            { phrase: 'With respect to', meaning: 'regarding', examples: ['With respect to your query, please clarify.', 'With respect to the budget, we have concerns.', 'With respect to the deadline, we need more time.'] },
+            { phrase: 'In line with', meaning: 'matching', examples: ['This is in line with policy.', 'This approach is in line with company values.', 'The plan is in line with expectations.'] },
+            { phrase: 'On behalf of', meaning: 'representing', examples: ['On behalf of the team, thank you.', 'On behalf of management, I approve this.', 'On behalf of the organization, we welcome you.'] },
+            { phrase: 'In terms of', meaning: 'regarding', examples: ['In terms of cost, it\'s high.', 'In terms of performance, it\'s excellent.', 'In terms of timeline, we\'re on track.'] },
+            { phrase: 'Due to', meaning: 'because of', examples: ['Due to rain, work stopped.', 'Due to budget constraints, we cannot proceed.', 'Due to illness, the meeting is postponed.'] },
+            { phrase: 'In addition to', meaning: 'extra', examples: ['In addition to salary, perks are given.', 'In addition to training, we provide support.', 'In addition to benefits, there are bonuses.'] },
+            { phrase: 'Along with', meaning: 'together', examples: ['He came along with his manager.', 'She will attend along with her team.', 'The documents come along with the report.'] },
+            { phrase: 'As usual', meaning: 'normally', examples: ['As usual, he arrived early.', 'As usual, everything went smoothly.', 'As usual, quality is our priority.'] },
+            { phrase: 'At the end of the day', meaning: 'finally', examples: ['At the end of the day, results matter.', 'At the end of the day, we achieved success.', 'At the end of the day, it\'s about teamwork.'] },
+            { phrase: 'For now', meaning: 'currently', examples: ['For now, wait here.', 'For now, we\'ll proceed with this plan.', 'For now, this solution works.'] },
+            { phrase: 'Once again', meaning: 'again', examples: ['Once again, thank you.', 'Once again, let me emphasize the importance.', 'Once again, we appreciate your support.'] },
+            { phrase: 'In short', meaning: 'briefly', examples: ['In short, the plan failed.', 'In short, we need to regroup.', 'In short, the goal is clear.'] },
+            { phrase: 'In summary', meaning: 'conclusion', examples: ['In summary, we need improvement.', 'In summary, this is the best option.', 'In summary, the project is feasible.'] },
+            { phrase: 'To some extent', meaning: 'partially', examples: ['I agree to some extent.', 'This solution works to some extent.', 'To some extent, the problem persists.'] },
+            { phrase: 'By all means', meaning: 'definitely', examples: ['By all means, go ahead.', 'By all means, take the opportunity.', 'By all means, proceed with caution.'] },
+            { phrase: 'Of course', meaning: 'certainly', examples: ['Of course, I\'ll help you.', 'Of course, we\'ll support this initiative.', 'Of course, we understand your concern.'] },
+            { phrase: 'At least', meaning: 'minimum', examples: ['At least try once.', 'At least we can attempt it.', 'At least the basics are covered.'] },
+            { phrase: 'More or less', meaning: 'almost', examples: ['The work is more or less done.', 'The project is more or less on schedule.', 'The analysis is more or less complete.'] },
+            { phrase: 'Make a decision', meaning: 'decide', examples: ['It\'s time to make a decision.', 'We need to make a decision soon.', 'Let\'s make a decision together.'] },
+            { phrase: 'Raise a concern', meaning: 'report issue', examples: ['She raised a concern in meeting.', 'I want to raise a concern about this.', 'Please raise any concerns you have.'] },
+            { phrase: 'Give an update', meaning: 'share progress', examples: ['Please give an update.', 'Can you give an update on the project?', 'I\'ll give an update next week.'] },
+            { phrase: 'Reach out', meaning: 'contact', examples: ['Reach out if needed.', 'Feel free to reach out anytime.', 'I\'ll reach out to you soon.'] },
+            { phrase: 'Take action', meaning: 'do something', examples: ['We must take action now.', 'It\'s time to take action.', 'Let\'s take action immediately.'] },
+            { phrase: 'Have a look', meaning: 'check', examples: ['Have a look at this file.', 'Please have a look and review.', 'Can you have a look at this?'] },
+            { phrase: 'Keep in mind', meaning: 'remember', examples: ['Keep in mind the deadline.', 'Keep in mind the budget limits.', 'Keep in mind the company policies.'] },
+            { phrase: 'Set a goal', meaning: 'decide target', examples: ['Set a goal for this month.', 'Let\'s set a goal together.', 'We need to set realistic goals.'] },
+            { phrase: 'Share feedback', meaning: 'give opinion', examples: ['Please share feedback.', 'Share your feedback with the team.', 'I\'d like to share feedback on this.'] },
+            { phrase: 'Ask for help', meaning: 'request support', examples: ['Don\'t hesitate to ask for help.', 'Ask for help if you need it.', 'It\'s okay to ask for help.'] },
+            { phrase: 'That being said', meaning: 'however', examples: ['That being said, we\'ll try again.', 'That being said, the results are promising.', 'That being said, there are challenges.'] },
+            { phrase: 'As expected', meaning: 'normally', examples: ['As expected, results improved.', 'As expected, the team performed well.', 'As expected, the plan worked out.'] },
+            { phrase: 'To be clear', meaning: 'clarify', examples: ['To be clear, this is final.', 'To be clear, we\'re committed to this.', 'To be clear, the deadline is firm.'] },
+            { phrase: 'If possible', meaning: 'if you can', examples: ['If possible, come early.', 'If possible, send it by tomorrow.', 'If possible, avoid delays.'] },
+            { phrase: 'At this stage', meaning: 'now', examples: ['At this stage, testing begins.', 'At this stage, we can\'t make changes.', 'At this stage, everything looks good.'] },
+            { phrase: 'On short notice', meaning: 'little time', examples: ['Thanks for coming on short notice.', 'On short notice, we called a meeting.', 'This happened on short notice.'] },
+            { phrase: 'Step by step', meaning: 'slowly', examples: ['Learn it step by step.', 'We\'re progressing step by step.', 'Let\'s go through this step by step.'] },
+            { phrase: 'From scratch', meaning: 'from beginning', examples: ['We built it from scratch.', 'We\'ll start from scratch.', 'This was created from scratch.'] },
+            { phrase: 'All of a sudden', meaning: 'suddenly', examples: ['All of a sudden, it rained.', 'All of a sudden, the system crashed.', 'All of a sudden, everything changed.'] },
+            { phrase: 'In the long run', meaning: 'future', examples: ['This helps in the long run.', 'In the long run, it\'s beneficial.', 'In the long run, this pays off.'] },
+            { phrase: 'Make an effort', meaning: 'try', examples: ['Make an effort to improve.', 'Please make an effort to attend.', 'We must make an effort together.'] },
+            { phrase: 'Take a break', meaning: 'rest', examples: ['Take a break after work.', 'Let\'s take a break now.', 'You should take a break.'] },
+            { phrase: 'Call it a day', meaning: 'stop work', examples: ['Let\'s call it a day.', 'Let\'s call it a day and meet tomorrow.', 'I think we should call it a day.'] },
+            { phrase: 'Go through', meaning: 'review', examples: ['Go through the document.', 'Let\'s go through the details.', 'Please go through the proposal.'] },
+            { phrase: 'Deal with', meaning: 'handle', examples: ['I\'ll deal with the client.', 'We need to deal with this issue.', 'How do we deal with this?'] },
+            { phrase: 'Keep track', meaning: 'monitor', examples: ['Keep track of expenses.', 'We keep track of all changes.', 'Keep track of progress.'] },
+            { phrase: 'Pay attention', meaning: 'focus', examples: ['Pay attention to details.', 'Please pay attention to this.', 'Pay attention in the meeting.'] },
+            { phrase: 'Stay in touch', meaning: 'keep contact', examples: ['Let\'s stay in touch.', 'We should stay in touch.', 'Feel free to stay in touch.'] },
+            { phrase: 'Feel free', meaning: 'no hesitation', examples: ['Feel free to ask questions.', 'Feel free to contact me anytime.', 'Feel free to share your ideas.'] },
+            { phrase: 'Looking forward to', meaning: 'expecting', examples: ['Looking forward to your reply.', 'Looking forward to the meeting.', 'We\'re looking forward to it.'] },
+            { phrase: 'As far as I know', meaning: 'to my knowledge', examples: ['As far as I know, meeting is tomorrow.', 'As far as I know, the project is approved.', 'As far as I know, all is well.'] },
+            { phrase: 'For the most part', meaning: 'mostly', examples: ['For the most part, it went well.', 'For the most part, we\'re on track.', 'For the most part, things are good.'] },
+            { phrase: 'In the near future', meaning: 'soon', examples: ['We plan to expand soon.', 'In the near future, we\'ll announce it.', 'In the near future, changes will happen.'] },
+            { phrase: 'At this point', meaning: 'right now', examples: ['At this point, no updates.', 'At this point, we can\'t say more.', 'At this point, we\'re satisfied.'] },
+            { phrase: 'In the past', meaning: 'earlier', examples: ['In the past, we faced similar issues.', 'In the past, this worked well.', 'In the past, we handled it differently.'] },
+            { phrase: 'On time', meaning: 'punctual', examples: ['He always submits work on time.', 'Please submit on time.', 'Everything was delivered on time.'] },
+            { phrase: 'Right away', meaning: 'immediately', examples: ['Please call me right away.', 'Handle this right away.', 'We need it right away.'] },
+            { phrase: 'So far so good', meaning: 'no problems yet', examples: ['The task is tough, but so far so good.', 'So far so good with the project.', 'So far so good, no issues yet.'] },
+            { phrase: 'In other words', meaning: 'said differently', examples: ['In other words, the plan failed.', 'In other words, we need to restart.', 'In other words, it\'s not feasible.'] },
+            { phrase: 'At a glance', meaning: 'quickly', examples: ['At a glance, the report looks fine.', 'At a glance, everything seems correct.', 'At a glance, there are no errors.'] },
+            { phrase: 'From my side', meaning: 'from me', examples: ['From my side, everything is ready.', 'From my side, I have no objections.', 'From my side, we\'re prepared.'] },
+            { phrase: 'As a reminder', meaning: 'to remind', examples: ['As a reminder, tomorrow is holiday.', 'As a reminder, please submit on time.', 'As a reminder, the deadline is Friday.'] },
+            { phrase: 'Without delay', meaning: 'immediately', examples: ['Please act without delay.', 'We need action without delay.', 'This must be done without delay.'] },
+            { phrase: 'In progress', meaning: 'ongoing', examples: ['The work is in progress.', 'The project is in progress.', 'Updates are in progress.'] },
+            { phrase: 'Under review', meaning: 'being checked', examples: ['Your request is under review.', 'The proposal is under review.', 'All applications are under review.'] },
+            { phrase: 'Up to date', meaning: 'latest', examples: ['Keep the records up to date.', 'Our system is up to date.', 'Stay up to date with changes.'] },
+            { phrase: 'Out of order', meaning: 'not working', examples: ['The printer is out of order.', 'The system is out of order.', 'The equipment is out of order.'] },
+            { phrase: 'On hold', meaning: 'paused', examples: ['The project is currently on hold.', 'Your request is on hold.', 'Everything is on hold for now.'] },
+            { phrase: 'In charge of', meaning: 'responsible for', examples: ['She is in charge of finance.', 'I\'m in charge of this project.', 'He is in charge of operations.'] },
+            { phrase: 'As a priority', meaning: 'important first', examples: ['Fix this issue as a priority.', 'This is as a priority for us.', 'Handle it as a priority.'] }
+        ];
+
+        // CARD CREATION FUNCTIONS
+        function createVocabCard(item) {
+            var html = '<div class="card">';
+            html += '<div class="card-title">📚 ' + item.word + '</div>';
+            html += '<div class="card-meaning"><strong>Meaning:</strong> ' + item.meaning + '</div>';
+            if (item.synonyms) {
+                html += '<div class="card-synonyms"><strong>Synonyms:</strong> ' + item.synonyms + '</div>';
+            }
+            if (item.antonyms) {
+                html += '<div class="card-antonyms"><strong>Antonyms:</strong> ' + item.antonyms + '</div>';
+            }
+            if (item.examples && item.examples.length > 0) {
+                html += '<div class="card-examples"><strong>Examples:</strong>';
+                for (var i = 0; i < item.examples.length; i++) {
+                    html += '<div class="example-item">• ' + item.examples[i] + '</div>';
+                }
+                html += '</div>';
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function createPhraseCard(item) {
+            var html = '<div class="card">';
+            html += '<div class="card-title">💬 ' + item.phrase + '</div>';
+            html += '<div class="card-meaning"><strong>Meaning:</strong> ' + item.meaning + '</div>';
+            html += '<div class="card-examples"><strong>Examples:</strong>';
+            var examplesArray = item.examples || [item.example];
+            for (var i = 0; i < examplesArray.length; i++) {
+                html += '<div class="example-item">• ' + examplesArray[i] + '</div>';
+            }
+            html += '</div>';
+            html += '</div>';
+            return html;
+        }
+
+        function displayCards(data, containerId) {
+            var container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].word) {
+                    container.innerHTML += createVocabCard(data[i]);
+                } else {
+                    container.innerHTML += createPhraseCard(data[i]);
+                }
+            }
+        }
+
+        // FILTER FUNCTIONS
+        function filterVocab() {
+            var input = document.getElementById('vocabSearch').value.toLowerCase();
+            var filtered = [];
+            for (var i = 0; i < vocab.length; i++) {
+                if (vocab[i].word.toLowerCase().indexOf(input) > -1) {
+                    filtered.push(vocab[i]);
+                }
+            }
+            displayCards(filtered, 'vocabList');
+        }
+
+        function filterPhrases1() {
+            var input = document.getElementById('phrases1Search').value.toLowerCase();
+            var filtered = [];
+            for (var i = 0; i < phrases1.length; i++) {
+                if (phrases1[i].phrase.toLowerCase().indexOf(input) > -1 ||
+                    phrases1[i].meaning.toLowerCase().indexOf(input) > -1) {
+                    filtered.push(phrases1[i]);
+                }
+            }
+            displayCards(filtered, 'phrases1List');
+        }
+
+        function filterPhrases2() {
+            var input = document.getElementById('phrases2Search').value.toLowerCase();
+            var filtered = [];
+            for (var i = 0; i < phrases2.length; i++) {
+                if (phrases2[i].phrase.toLowerCase().indexOf(input) > -1 ||
+                    phrases2[i].meaning.toLowerCase().indexOf(input) > -1) {
+                    filtered.push(phrases2[i]);
+                }
+            }
+            displayCards(filtered, 'phrases2List');
+        }
+
+        function switchTab(tabName) {
+            var sections = document.querySelectorAll('.content-section');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].classList.add('hidden');
+            }
+            var buttons = document.querySelectorAll('button');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            document.getElementById(tabName + '-section').classList.remove('hidden');
+            document.getElementById('btn-' + tabName).classList.add('active');
+        }
+
+        function initializeCards() {
+            displayCards(vocab, 'vocabList');
+            displayCards(phrases1, 'phrases1List');
+            displayCards(phrases2, 'phrases2List');
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeCards);
+    </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

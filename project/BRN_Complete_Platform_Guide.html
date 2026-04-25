@@ -1,0 +1,3635 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRN Platform - Complete Learning Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0066ff;
+            --secondary: #0052cc;
+            --success: #28a745;
+            --warning: #ff6b35;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #f4f6f9;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #333;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #0066ff, #0052cc) !important;
+            padding: 12px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: white !important;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-weight: 600;
+            margin: 0 10px;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover {
+            color: #ffe08a !important;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0066ff, #0052cc, #003d99);
+            color: white;
+            padding: 50px 45px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 6px 0;
+        }
+
+        .hero small {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .container-main {
+            max-width: 1380px;
+            margin: 30px auto 60px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+        }
+
+        .toc-bar {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 28px 45px;
+        }
+
+        .toc-bar h2 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 12px;
+        }
+
+        .toc-card {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border-left: 5px solid #ff6b35;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .toc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.25);
+        }
+
+        .toc-card a {
+            text-decoration: none;
+            color: #0066ff;
+            display: block;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #e9ecef;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .sec-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 18px;
+            color: #0066ff;
+            border-left: 5px solid #0066ff;
+            padding-left: 12px;
+        }
+
+        .sub-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0052cc;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #0066ff;
+            padding-bottom: 6px;
+        }
+
+        .sub-sub {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #0066ff;
+            background: #f0f7ff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border-left: 4px solid #0066ff;
+            margin: 14px 0 10px;
+        }
+
+        .badge-service {
+            display: inline-block;
+            background: linear-gradient(135deg, #0066ff, #0052cc);
+            color: white;
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 14px;
+        }
+
+        /* Info boxes */
+        .box {
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin: 12px 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .box-blue {
+            background: #e8f4f8;
+            border-left: 6px solid #0066ff;
+        }
+
+        .box-green {
+            background: #e8f5e9;
+            border-left: 6px solid #28a745;
+        }
+
+        .box-orange {
+            background: #fff3e0;
+            border-left: 6px solid #ff6b35;
+        }
+
+        .box-yellow {
+            background: #fffde7;
+            border-left: 5px solid #ffc107;
+            font-weight: 600;
+        }
+
+        .box strong {
+            color: #0052cc;
+        }
+
+        /* Tables */
+        .tbl-wrap {
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .table {
+            margin-bottom: 0;
+            font-size: 0.91rem;
+        }
+
+        .table thead th {
+            background: linear-gradient(135deg, #0066ff, #0052cc);
+            color: white;
+            padding: 11px 12px;
+            font-weight: 700;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .table tbody td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #e9ecef;
+            line-height: 1.5;
+            vertical-align: top;
+        }
+
+        .table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Lists */
+        ul.lst {
+            list-style: none;
+            padding-left: 0;
+            margin: 14px 0;
+        }
+
+        ul.lst li {
+            padding: 7px 0 7px 32px;
+            position: relative;
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        ul.lst li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #0066ff;
+            font-weight: 800;
+        }
+
+        /* Code / diagrams */
+        .code {
+            background: #1e1e1e;
+            color: #e8e8e8;
+            border-left: 5px solid #0066ff;
+            border-radius: 10px;
+            padding: 24px;
+            margin: 18px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.87rem;
+            line-height: 1.85;
+            overflow-x: auto;
+        }
+
+        .diagram {
+            background: #f8f9fa;
+            border: 3px solid #0066ff;
+            border-radius: 10px;
+            padding: 22px 26px;
+            margin: 18px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.87rem;
+            line-height: 1.85;
+            overflow-x: auto;
+            color: #333;
+        }
+
+        /* Step boxes */
+        .steps-wrap {
+            background: #f8f9fa;
+            border: 3px solid #0066ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .step {
+            background: white;
+            border: 2px solid #0066ff;
+            border-radius: 9px;
+            padding: 10px 12px 10px 48px;
+            margin: 8px 0;
+            position: relative;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 7px rgba(0, 102, 255, 0.08);
+        }
+
+        .step-n {
+            position: absolute;
+            left: -10px;
+            top: -10px;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #0066ff, #0052cc);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 10px rgba(0, 102, 255, 0.3);
+        }
+
+        /* Accordion */
+        .accordion-button {
+            background: linear-gradient(135deg, #ff6b35, #f7931e) !important;
+            color: white !important;
+            font-weight: 700;
+            padding: 11px 16px;
+            font-size: 0.94rem;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #f7931e, #e67e22) !important;
+        }
+
+        .accordion-button::after {
+            filter: invert(1);
+        }
+
+        .accordion-body {
+            padding: 18px 20px;
+            background: #fafafa;
+            border-top: 2px solid #ff6b35;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background: linear-gradient(90deg, #0066ff, #0052cc);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        footer h5 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        footer p {
+            font-size: 0.95rem;
+            margin: 7px 0;
+        }
+
+        .back-top {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 46px;
+            height: 46px;
+            background: #0066ff;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 18px rgba(0, 102, 255, 0.4);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .back-top.show {
+            opacity: 1;
+        }
+
+        /* Architecture visual */
+        .arch-wrap {
+            background: #f0f7ff;
+            border: 2px solid #0066ff;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 12px 0;
+        }
+
+        .arch-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 8px 0;
+            align-items: stretch;
+        }
+
+        .arch-node {
+            background: white;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 11px 12px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .arch-node-blue {
+            border-color: #0066ff;
+        }
+
+        .arch-node-green {
+            border-color: #28a745;
+        }
+
+        .arch-node-orange {
+            border-color: #ff6b35;
+        }
+
+        .arch-node-purple {
+            border-color: #9c27b0;
+        }
+
+        .arch-node-gray {
+            background: #f8f9fa;
+            border-color: #aaa;
+        }
+
+        .arch-node h6 {
+            font-weight: 800;
+            font-size: 0.88rem;
+            margin-bottom: 6px;
+        }
+
+        .arch-node-blue h6 {
+            color: #0052cc;
+        }
+
+        .arch-node-green h6 {
+            color: #1b5e20;
+        }
+
+        .arch-node-orange h6 {
+            color: #e65100;
+        }
+
+        .arch-node-purple h6 {
+            color: #6a1b9a;
+        }
+
+        .arch-node-gray h6 {
+            color: #444;
+        }
+
+        .arch-node ul {
+            font-size: 0.82rem;
+            margin: 0;
+            padding-left: 14px;
+            color: #555;
+        }
+
+        .arch-node small {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .arch-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #0066ff;
+            flex-shrink: 0;
+            font-weight: 700;
+        }
+
+        /* Bidirectional comm cards */
+        .comm-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .comm-card {
+            border-radius: 10px;
+            padding: 12px 14px;
+        }
+
+        .comm-card-blue {
+            background: #e8f4ff;
+            border: 2px solid #0066ff;
+        }
+
+        .comm-card-green {
+            background: #e8f5e9;
+            border: 2px solid #28a745;
+        }
+
+        .comm-card h6 {
+            font-weight: 800;
+            margin-bottom: 10px;
+            font-size: 0.92rem;
+        }
+
+        .comm-card-blue h6 {
+            color: #0052cc;
+        }
+
+        .comm-card-green h6 {
+            color: #1b5e20;
+        }
+
+        .comm-ep {
+            background: white;
+            border-radius: 6px;
+            padding: 6px 8px;
+            margin: 4px 0;
+            font-size: 0.82rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .comm-card-blue .comm-ep {
+            border-left: 3px solid #0066ff;
+        }
+
+        .comm-card-green .comm-ep {
+            border-left: 3px solid #28a745;
+        }
+
+        .comm-ep .ep-note {
+            font-family: 'Segoe UI', sans-serif;
+            color: #888;
+            font-size: 0.78rem;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* State machine badges */
+        .state-wrap {
+            margin: 18px 0;
+        }
+
+        .state-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin: 9px 0;
+        }
+
+        .sbox {
+            display: inline-block;
+            padding: 7px 13px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.84rem;
+            border: 2px solid;
+        }
+
+        .sbox-blue {
+            background: #e8f4ff;
+            border-color: #0066ff;
+            color: #0052cc;
+        }
+
+        .sbox-orange {
+            background: #fff3e0;
+            border-color: #ff6b35;
+            color: #e65100;
+        }
+
+        .sbox-red {
+            background: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+
+        .sbox-green {
+            background: #e8f5e9;
+            border-color: #28a745;
+            color: #1b5e20;
+        }
+
+        .sarrow {
+            font-size: 1.1rem;
+            color: #888;
+        }
+
+        .state-label {
+            font-size: 0.8rem;
+            color: #888;
+            font-style: italic;
+        }
+
+        /* Two-path columns */
+        .path-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .path-card {
+            border-radius: 10px;
+            padding: 12px 14px;
+        }
+
+        .path-card-blue {
+            background: #e8f4ff;
+            border: 2px solid #0066ff;
+        }
+
+        .path-card-purple {
+            background: #f3e5f5;
+            border: 2px solid #9c27b0;
+        }
+
+        .path-card h6 {
+            font-weight: 800;
+            margin-bottom: 10px;
+            font-size: 0.92rem;
+        }
+
+        .path-card-blue h6 {
+            color: #0052cc;
+        }
+
+        .path-card-purple h6 {
+            color: #6a1b9a;
+        }
+
+        .path-step {
+            background: white;
+            border-radius: 6px;
+            padding: 6px 8px;
+            margin: 4px 0;
+            font-size: 0.82rem;
+            line-height: 1.4;
+        }
+
+        .path-combined {
+            background: #fff8e1;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #e65100;
+        }
+
+        /* WS channel key list */
+        .chan-list {
+            margin: 10px 0;
+        }
+
+        .chan-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            margin: 4px 0;
+            background: #f0f7ff;
+            border-left: 4px solid #0066ff;
+        }
+
+        .chan-key {
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            color: #0052cc;
+            font-size: 0.86rem;
+            min-width: 200px;
+            flex-shrink: 0;
+        }
+
+        .chan-val {
+            font-size: 0.86rem;
+            color: #444;
+        }
+
+        @media(max-width:768px) {
+
+            .comm-wrap,
+            .path-wrap {
+                grid-template-columns: 1fr;
+            }
+
+            .arch-row {
+                flex-direction: column;
+            }
+        }
+
+        @media(max-width:768px) {
+
+            .content,
+            .toc-bar {
+                padding: 28px;
+            }
+
+            .hero {
+                padding: 50px 25px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .sec-title {
+                font-size: 1.5rem;
+            }
+
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top">🤖 BRN Platform</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#hitl">HITL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#response">Response</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#voice">Voice</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#training">Training</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#data">Data</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero" id="top">
+        <h1>🤖 BRN AI Chatbot Platform</h1>
+        <p><strong>Complete System Architecture & Design Guide</strong></p>
+        <small>4 Integrated Microservices | Enterprise-Grade | Production-Ready</small>
+    </div>
+
+    <div class="container-main">
+
+        <div class="toc-bar">
+            <h2>📚 Quick Navigation</h2>
+            <div class="toc-grid">
+                <div class="toc-card"><a href="#overview">🏗️ Platform Overview</a></div>
+                <div class="toc-card"><a href="#hitl">👤 HITL Service</a></div>
+                <div class="toc-card"><a href="#response">💬 Response Service</a></div>
+                <div class="toc-card"><a href="#voice">🎤 Voice Gateway</a></div>
+                <div class="toc-card"><a href="#training">📚 Training Service</a></div>
+                <div class="toc-card"><a href="#flows">⚙️ Core Flows</a></div>
+                <div class="toc-card"><a href="#data">💾 Data Layer</a></div>
+                <div class="toc-card"><a href="#summary">📊 Quick Reference</a></div>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <!-- ============================================================ -->
+            <!-- OVERVIEW -->
+            <!-- ============================================================ -->
+            <div class="section" id="overview">
+                <h2 class="sec-title">🏗️ Platform Architecture Overview</h2>
+
+                <div class="sub-title">What is BRN?</div>
+                <div class="box box-blue">
+                    <strong>BRN (BRCHAT)</strong> is an <strong>enterprise AI chatbot platform</strong>. Companies build
+                    intelligent conversational agents with human fallback, voice support, and external tool calls.
+                </div>
+                <ul class="lst">
+                    <li><strong>🤖 AI Responses</strong> — Queries Neo4j knowledge graph + Anthropic Claude</li>
+                    <li><strong>👤 Human Escalation</strong> — HITL operators take over when AI can't help</li>
+                    <li><strong>🎤 Voice Channels</strong> — Web mic, WhatsApp, phone calls, ElevenLabs</li>
+                    <li><strong>🔧 External Tools</strong> — MCP (Model Context Protocol) for 3rd-party APIs</li>
+                    <li><strong>📊 Multi-Tenant</strong> — Complete company-level data isolation</li>
+                    <li><strong>⚡ Real-Time</strong> — WebSockets + Redis pub/sub</li>
+                </ul>
+
+                <div class="sub-title">The 4 Microservices</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Port</th>
+                                <th>Role</th>
+                                <th>Technology</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Response Service</strong></td>
+                                <td><code>8029</code> + <code>8030</code></td>
+                                <td>🧠 AI brain — messages, knowledge search, streaming answers</td>
+                                <td>FastAPI, Claude, Neo4j, Redis</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HITL Service</strong></td>
+                                <td><code>8109</code></td>
+                                <td>👤 Human operators — queuing, presence, live chat</td>
+                                <td>FastAPI, WebSockets, MySQL, Redis</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Voice Gateway</strong></td>
+                                <td><code>8060</code></td>
+                                <td>🎤 STT + TTS — web, WhatsApp, phone calls</td>
+                                <td>FastAPI, ElevenLabs, OpenAI, Twilio</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Training Service</strong></td>
+                                <td><code>8026</code></td>
+                                <td>📖 Doc → Knowledge graph pipeline</td>
+                                <td>FastAPI, Celery, Claude, Neo4j</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">Architecture Diagram</div>
+                <div class="arch-wrap">
+                    <div class="arch-row" style="justify-content:center;">
+                        <div class="arch-node arch-node-gray" style="max-width:280px;text-align:center;flex:none;">
+                            <h6>👤 User</h6>
+                            <small>Browser &nbsp;/&nbsp; WhatsApp &nbsp;/&nbsp; Phone</small>
+                        </div>
+                    </div>
+                    <div style="text-align:center;color:#0066ff;font-weight:700;font-size:0.85rem;margin:4px 0;">↕ REST
+                        / WebSocket</div>
+                    <div class="arch-row">
+                        <div class="arch-node arch-node-blue" style="flex:2;">
+                            <h6>🧠 Response Service &nbsp;—&nbsp; Port 8029 / 8030</h6>
+                            <ul>
+                                <li>AI brain + knowledge retrieval (Neo4j + Claude)</li>
+                                <li>MCP external tool calls</li>
+                                <li>HITL escalation decision</li>
+                                <li>Streaming SSE / WebSocket answers</li>
+                            </ul>
+                        </div>
+                        <div class="arch-arrow">⟵⟶</div>
+                        <div class="arch-node arch-node-purple" style="flex:1;">
+                            <h6>🎤 Voice Gateway &nbsp;—&nbsp; Port 8060</h6>
+                            <ul>
+                                <li>STT / TTS (ElevenLabs, OpenAI)</li>
+                                <li>Web / WhatsApp / Phone</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="arch-row">
+                        <div class="arch-node arch-node-green" style="text-align:center;">
+                            <h6>🗄️ Neo4j</h6>
+                            <small>Knowledge Graph</small>
+                        </div>
+                        <div class="arch-node arch-node-orange" style="text-align:center;">
+                            <h6>⚡ Redis</h6>
+                            <small>Cache + Pub/Sub + Celery broker</small>
+                        </div>
+                    </div>
+                    <div class="arch-row">
+                        <div class="arch-node arch-node-orange">
+                            <h6>👤 HITL Service &nbsp;—&nbsp; Port 8109</h6>
+                            <ul>
+                                <li>Operators + Queue management</li>
+                                <li>Live operator ↔ user chat</li>
+                            </ul>
+                        </div>
+                        <div class="arch-node arch-node-green">
+                            <h6>📚 Training Service &nbsp;—&nbsp; Port 8026</h6>
+                            <ul>
+                                <li>Doc → Graph pipeline (Celery)</li>
+                                <li>Wasabi S3 file backup</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="arch-row">
+                        <div class="arch-node arch-node-gray" style="text-align:center;">
+                            <h6>🗃️ MySQL</h6>
+                            <small>Operators, sessions, messages, MCP config</small>
+                        </div>
+                        <div class="arch-node arch-node-gray" style="text-align:center;">
+                            <h6>📦 Wasabi (S3)</h6>
+                            <small>Document &amp; audio file storage</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- HITL SERVICE -->
+            <!-- ============================================================ -->
+            <div class="section" id="hitl">
+                <h2 class="sec-title">👤 HITL Service: Human-in-the-Loop</h2>
+                <div class="badge-service">Port: 8109 | FastAPI + WebSockets + MySQL + Redis | Gemini LLM</div>
+
+                <div class="sub-title">What is HITL?</div>
+                <div class="box box-blue">
+                    <strong>HITL = Human-in-the-Loop.</strong> When the chatbot can't help, this service:<br>
+                    ✅ Puts the user in a <strong>queue</strong> waiting for a human operator<br>
+                    ✅ Notifies available operators <strong>in real-time</strong><br>
+                    ✅ Operator <strong>accepts</strong> the chat and talks live to the user<br>
+                    ✅ Handles <strong>transfers, rejections, notes, resolutions</strong><br>
+                    ✅ Tracks every operator's <strong>online/offline/busy</strong> status<br>
+                    ✅ Provides <strong>AI reply suggestions</strong> powered by Google Gemini
+                </div>
+
+                <div class="sub-title">Folder Structure</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Folder</th>
+                                <th>What lives here</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>app/main.py</code></td>
+                                <td>App entry point</td>
+                                <td>Starts FastAPI, registers all routes, Eureka registration</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/api/endpoints/</code></td>
+                                <td>HTTP route handlers</td>
+                                <td>One file per feature area</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/api/dependencies/</code></td>
+                                <td>Auth &amp; common injectors</td>
+                                <td>Permission checking, user extraction, operator validation</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/websocket/</code></td>
+                                <td>WebSocket handlers</td>
+                                <td>Real-time operator ↔ user chat, queue push notifications</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/services/</code></td>
+                                <td>Business logic</td>
+                                <td>Handoff assignment, Redis pub/sub, AI reply suggestions</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/database_layer/</code></td>
+                                <td>Database layer</td>
+                                <td>MySQL models, schemas, and all store (repository) classes</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/model/</code></td>
+                                <td>AI model</td>
+                                <td>Google Gemini LLM instance for reply suggestions</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/prompt_template/</code></td>
+                                <td>LLM prompts</td>
+                                <td>Prompt template for AI-generated reply suggestions</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/core/</code></td>
+                                <td>Configuration</td>
+                                <td>Environment settings, logging, custom exceptions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">All API Endpoints</div>
+
+                <div class="accordion" id="hitlAccordion">
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ha1">
+                                👥 Operator Management
+                            </button>
+                        </h2>
+                        <div id="ha1" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <div class="tbl-wrap">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Endpoint</th>
+                                                <th>Method</th>
+                                                <th>Who calls</th>
+                                                <th>What it does</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>/operators</code></td>
+                                                <td>POST</td>
+                                                <td>admin</td>
+                                                <td>Create new operator and assign to agents</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/operators</code></td>
+                                                <td>GET</td>
+                                                <td>admin</td>
+                                                <td>List all operators with user details</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/operators/{id}</code></td>
+                                                <td>GET</td>
+                                                <td>admin</td>
+                                                <td>Get a specific operator's details</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/operators/{id}</code></td>
+                                                <td>PUT</td>
+                                                <td>admin</td>
+                                                <td>Update settings (max_chats, routing_priority, skill_tags)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/operators/{id}</code></td>
+                                                <td>DELETE</td>
+                                                <td>admin</td>
+                                                <td>Remove an operator</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ha2">
+                                🟢 Presence Tracking (Online/Offline/Busy)
+                            </button>
+                        </h2>
+                        <div id="ha2" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="tbl-wrap">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Endpoint</th>
+                                                <th>Method</th>
+                                                <th>What it does</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>/presence/my-status</code></td>
+                                                <td>PUT</td>
+                                                <td>Update own status (ONLINE / AWAY / BUSY / BREAK)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/presence/my-status</code></td>
+                                                <td>GET</td>
+                                                <td>Get own current status</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/presence/heartbeat</code></td>
+                                                <td>POST</td>
+                                                <td>Send heartbeat to stay marked ONLINE</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/presence/online</code></td>
+                                                <td>GET</td>
+                                                <td>Get list of all currently ONLINE operators</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="box box-yellow mt-3">
+                                    💡 <strong>Heartbeat rule:</strong> Operator must POST /presence/heartbeat every N
+                                    seconds. If heartbeat stops → marked OFFLINE automatically. Cannot go OFFLINE while
+                                    having an ACCEPTED handoff — must RESOLVE or TRANSFER first.
+                                </div>
+                                <div class="sub-sub">Operator Routing Engine Logic</div>
+                                <ul class="lst"
+                                    style="background:#f0f7ff;border-radius:8px;padding:14px 14px 14px 40px;border:1px solid #cce0ff;">
+                                    <li>Must be <strong>ONLINE</strong></li>
+                                    <li>Must have access to that specific <strong>agent</strong></li>
+                                    <li><code>current_chats &lt; max_chats</code></li>
+                                    <li>Ordered by <code>routing_priority</code> &nbsp;(lower number = higher priority)
+                                    </li>
+                                    <li>First matching operator gets the assignment</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ha3">
+                                📞 Handoff Queue Management
+                            </button>
+                        </h2>
+                        <div id="ha3" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="tbl-wrap">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Endpoint</th>
+                                                <th>Method</th>
+                                                <th>Who calls</th>
+                                                <th>What it does</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>/handoff/create</code></td>
+                                                <td>POST</td>
+                                                <td>Response Service</td>
+                                                <td>Create a new handoff request (user waiting)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/handoff/notify</code></td>
+                                                <td>POST</td>
+                                                <td>Response Service</td>
+                                                <td>Instantly notify operators a new handoff arrived</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/handoff/queue</code></td>
+                                                <td>GET</td>
+                                                <td>operator</td>
+                                                <td>See list of pending handoffs waiting to be picked up</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/handoff/{id}/accept</code></td>
+                                                <td>POST</td>
+                                                <td>operator</td>
+                                                <td>Operator accepts a specific handoff</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/handoff/{id}/reject</code></td>
+                                                <td>POST</td>
+                                                <td>operator</td>
+                                                <td>Operator rejects (returns to queue)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/handoff/{id}/resolve</code></td>
+                                                <td>POST</td>
+                                                <td>operator</td>
+                                                <td>Mark conversation resolved</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/handoff/{id}/transfer</code></td>
+                                                <td>POST</td>
+                                                <td>operator</td>
+                                                <td>Transfer to another operator</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/handoff/{id}/cancel</code></td>
+                                                <td>POST</td>
+                                                <td>operator / system</td>
+                                                <td>Cancel a handoff request</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/handoff/{id}/notes</code></td>
+                                                <td>POST</td>
+                                                <td>operator</td>
+                                                <td>Add a note to handoff</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/handoff/{id}/notes</code></td>
+                                                <td>GET</td>
+                                                <td>operator</td>
+                                                <td>Get all notes for a handoff</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/handoff/history</code></td>
+                                                <td>GET</td>
+                                                <td>operator</td>
+                                                <td>View past completed handoffs</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/handoff/{id}/chat-history</code></td>
+                                                <td>GET</td>
+                                                <td>operator</td>
+                                                <td>See full message history for a session</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="sub-sub">Handoff Status State Machine</div>
+                                <div class="state-wrap">
+                                    <div class="state-row">
+                                        <span class="sbox sbox-blue">PENDING</span>
+                                        <span class="sarrow">→</span>
+                                        <span class="sbox sbox-red">REJECTED</span>
+                                        <span class="state-label">(no operators available)</span>
+                                    </div>
+                                    <div class="state-row">
+                                        <span class="sbox sbox-blue">PENDING</span>
+                                        <span class="sarrow">→</span>
+                                        <span class="sbox sbox-orange">ASSIGNED</span>
+                                        <span class="sarrow">→</span>
+                                        <span class="sbox sbox-red">EXPIRED</span>
+                                        <span class="state-label">(30 min timeout)</span>
+                                    </div>
+                                    <div class="state-row">
+                                        <span class="sbox sbox-orange">ASSIGNED</span>
+                                        <span class="sarrow">→ operator accepts →</span>
+                                        <span class="sbox sbox-orange">ACCEPTED</span>
+                                        <span class="sarrow">→</span>
+                                        <span class="sbox sbox-red">CANCELLED</span>
+                                        <span class="state-label">(user leaves)</span>
+                                    </div>
+                                    <div class="state-row">
+                                        <span class="sbox sbox-orange">ACCEPTED</span>
+                                        <span class="sarrow">→</span>
+                                        <span class="sbox sbox-blue">TRANSFERRED</span>
+                                        <span class="state-label">(new handoff created)</span>
+                                    </div>
+                                    <div class="state-row">
+                                        <span class="sbox sbox-orange">ACCEPTED</span>
+                                        <span class="sarrow">→ operator resolves →</span>
+                                        <span class="sbox sbox-green">RESOLVED</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ha4">
+                                💬 Operator Chat & Events
+                            </button>
+                        </h2>
+                        <div id="ha4" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="tbl-wrap">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Endpoint</th>
+                                                <th>Method</th>
+                                                <th>Who calls</th>
+                                                <th>What it does</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>/operator-chat/user-message</code></td>
+                                                <td>POST</td>
+                                                <td>Response Service</td>
+                                                <td>Forward user message to operator WebSocket</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/operator-chat/user-typing</code></td>
+                                                <td>POST</td>
+                                                <td>Response Service</td>
+                                                <td>Forward user typing indicator to operator</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/events/user/message</code></td>
+                                                <td>POST</td>
+                                                <td>Response Service</td>
+                                                <td>Receive and route user messages to operators</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/events/user/typing</code></td>
+                                                <td>POST</td>
+                                                <td>Response Service</td>
+                                                <td>Receive and route typing indicators</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ha5">
+                                📊 Dashboard, Analytics & AI Suggestions
+                            </button>
+                        </h2>
+                        <div id="ha5" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="tbl-wrap">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Endpoint</th>
+                                                <th>Method</th>
+                                                <th>What it does</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>/dashboard/operator-stats</code></td>
+                                                <td>GET</td>
+                                                <td>Get operator stats (total chats, resolved, active)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/dashboard/queue-stats</code></td>
+                                                <td>GET</td>
+                                                <td>Get live queue statistics per agent</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/suggest/</code></td>
+                                                <td>POST</td>
+                                                <td>Get AI-generated reply suggestions (via Google Gemini)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="sub-sub">AI Suggestions Flow</div>
+                                <div class="steps-wrap">
+                                    <div class="step">
+                                        <div class="step-n">1</div>Operator opens the suggestion panel in the dashboard
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">2</div><code>POST /agent-hitl/suggest/</code> — sends
+                                        <code>session_id</code> + <code>prompt</code> (user's latest message)
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">3</div>Fetches last 2 messages from
+                                        <code>chat_messages</code> table for context
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">4</div>Builds context string: <em>"User: [msg] | Bot:
+                                            [response]"</em>
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">5</div>Google Gemini called: <em>"Given this context,
+                                            suggest 4 reply options for: {user_prompt}"</em>
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">6</div>Returns up to <strong>4 suggested reply
+                                            options</strong> for the operator to click and send
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ha6">
+                                🔌 WebSocket Channels (Real-Time)
+                            </button>
+                        </h2>
+                        <div id="ha6" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="tbl-wrap">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Endpoint</th>
+                                                <th>Who connects</th>
+                                                <th>What it does</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>/ws/handoff-queue</code></td>
+                                                <td>operator</td>
+                                                <td>Real-time push of pending handoff queue updates</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/ws/chat/{session_id}</code></td>
+                                                <td>operator</td>
+                                                <td>Live bidirectional chat between operator and user</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/ws/</code></td>
+                                                <td>any user</td>
+                                                <td>General presence/event subscription by channel</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="sub-sub">WS 1 — Handoff Queue</div>
+                                <div class="steps-wrap">
+                                    <div class="step">
+                                        <div class="step-n">1</div>Operator connects to <code>/ws/handoff-queue</code>
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">2</div>Receives <strong>current pending queue
+                                            immediately</strong> on connect
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">3</div>Stays connected, waiting for events…
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">4</div>New handoff arrives →
+                                        <code>handoff_broadcaster.notify()</code> fires via Redis pub/sub
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">5</div>Operator receives updated queue <strong>within
+                                            milliseconds</strong> — no polling needed
+                                    </div>
+                                </div>
+                                <div class="box box-yellow" style="margin-top:10px;">⚠️ <strong>Safety net:</strong>
+                                    Also polls DB every 10 seconds in case a WebSocket event is missed.</div>
+                                <div class="sub-sub">WS 2 — Operator Chat</div>
+                                <div class="arch-row" style="margin-bottom:12px;">
+                                    <div class="arch-node arch-node-blue" style="text-align:center;">
+                                        <h6>💻 Operator Browser</h6>
+                                        <small>WebSocket client</small>
+                                    </div>
+                                    <div class="arch-arrow">⟵⟶</div>
+                                    <div class="arch-node arch-node-orange" style="text-align:center;">
+                                        <h6>👤 HITL Service</h6>
+                                        <small>Routes messages</small>
+                                    </div>
+                                    <div class="arch-arrow">⟵⟶</div>
+                                    <div class="arch-node arch-node-green" style="text-align:center;">
+                                        <h6>🧠 Response Service</h6>
+                                        <small>Delivers to end-user</small>
+                                    </div>
+                                </div>
+                                <div class="box box-yellow">
+                                    <strong>Heartbeat:</strong> Server sends <code>{"type":"ping"}</code> every 30s
+                                    &nbsp;|
+                                    Client must reply <code>{"type":"pong"}</code> within 60s &nbsp;|
+                                    Failure → operator marked offline, chat returned to bot
+                                </div>
+                                <div class="sub-sub">WS 3 — General Channels</div>
+                                <div class="chan-list">
+                                    <div class="chan-item">
+                                        <span class="chan-key">session:{session_id}</span>
+                                        <span class="chan-val">Events for a specific chat session</span>
+                                    </div>
+                                    <div class="chan-item">
+                                        <span class="chan-key">operator:{operator_id}</span>
+                                        <span class="chan-val">Events targeted to a specific operator</span>
+                                    </div>
+                                    <div class="chan-item">
+                                        <span class="chan-key">agent:{agent_id}</span>
+                                        <span class="chan-val">Events for a specific chatbot agent</span>
+                                    </div>
+                                    <div class="chan-item">
+                                        <span class="chan-key">company:{company_id}</span>
+                                        <span class="chan-val">Company-wide broadcast events</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- end hitl accordion -->
+
+                <div class="sub-title">Handoff Trigger Types</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Trigger Type</th>
+                                <th>What caused it</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>USER_REQUEST</code></td>
+                                <td>User explicitly asked "I want to speak to a human"</td>
+                            </tr>
+                            <tr>
+                                <td><code>SENTIMENT_NEGATIVE</code></td>
+                                <td>Bot detected very negative emotion / frustration</td>
+                            </tr>
+                            <tr>
+                                <td><code>ESCALATION_KEYWORD</code></td>
+                                <td>A specific escalation word was matched</td>
+                            </tr>
+                            <tr>
+                                <td><code>NO_RESPONSE</code></td>
+                                <td>Bot had no answer to the user's question</td>
+                            </tr>
+                            <tr>
+                                <td><code>MANUAL</code></td>
+                                <td>Admin or operator manually initiated transfer</td>
+                            </tr>
+                            <tr>
+                                <td><code>LLM_DECISION</code></td>
+                                <td>The AI itself decided escalation was necessary</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">Session State Values</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>State</th>
+                                <th>Meaning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>BOT</code></td>
+                                <td>Chatbot is handling the conversation normally</td>
+                            </tr>
+                            <tr>
+                                <td><code>HANDOFF_PENDING</code></td>
+                                <td>User is in queue waiting for a human</td>
+                            </tr>
+                            <tr>
+                                <td><code>OPERATOR_ASSIGNED</code></td>
+                                <td>Operator assigned, not yet accepted</td>
+                            </tr>
+                            <tr>
+                                <td><code>OPERATOR_ACTIVE</code></td>
+                                <td>Operator accepted and is live chatting</td>
+                            </tr>
+                            <tr>
+                                <td><code>RESOLVED</code></td>
+                                <td>Operator resolved the conversation</td>
+                            </tr>
+                            <tr>
+                                <td><code>CLOSED</code></td>
+                                <td>Session is fully closed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">How HITL Talks to Response Service (Both Directions)</div>
+                <div class="comm-wrap">
+                    <div class="comm-card comm-card-blue">
+                        <h6>🧠 Response Service → 👤 HITL Service</h6>
+                        <div class="comm-ep"><code>POST /handoff/create</code><span class="ep-note">Escalation triggered
+                                — create a new handoff</span></div>
+                        <div class="comm-ep"><code>POST /handoff/notify</code><span class="ep-note">Signal queue
+                                changed, notify operators</span></div>
+                        <div class="comm-ep"><code>POST /events/user/message</code><span class="ep-note">User sent
+                                message — route to operator</span></div>
+                        <div class="comm-ep"><code>POST /events/user/typing</code><span class="ep-note">User is typing
+                                indicator</span></div>
+                    </div>
+                    <div class="comm-card comm-card-green">
+                        <h6>👤 HITL Service → 🧠 Response Service</h6>
+                        <div class="comm-ep"><code>POST /operator-message</code><span class="ep-note">Operator sent a
+                                reply to user</span></div>
+                        <div class="comm-ep"><code>POST /resolve-session</code><span class="ep-note">Operator resolved —
+                                return to bot</span></div>
+                        <div class="comm-ep"><code>POST /transfer-session</code><span class="ep-note">Session
+                                transferred to another operator</span></div>
+                        <div class="comm-ep"><code>POST /queue-positions</code><span class="ep-note">Update user on
+                                their queue position</span></div>
+                        <div class="comm-ep"><code>POST /return-to-bot</code><span class="ep-note">Handoff rejected or
+                                expired</span></div>
+                    </div>
+                </div>
+
+                <div class="sub-title">Authentication &amp; Permissions</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Permission</th>
+                                <th>What it unlocks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>operator.manage</code></td>
+                                <td>Create / edit / delete operators</td>
+                            </tr>
+                            <tr>
+                                <td><code>operator.view</code></td>
+                                <td>View operator lists and details</td>
+                            </tr>
+                            <tr>
+                                <td><code>chat.takeover</code></td>
+                                <td>Accept handoffs and chat with users</td>
+                            </tr>
+                            <tr>
+                                <td><code>chat.view</code></td>
+                                <td>View chat history and transcripts</td>
+                            </tr>
+                            <tr>
+                                <td><code>dashboard.view</code></td>
+                                <td>See analytics dashboard</td>
+                            </tr>
+                            <tr>
+                                <td><code>admin</code></td>
+                                <td>Full access to company resources</td>
+                            </tr>
+                            <tr>
+                                <td><code>super_admin</code></td>
+                                <td>Cross-company admin access</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box box-orange">
+                    <strong>Header for users:</strong> <code>X-User-Id: 42</code> (injected by API Gateway)<br>
+                    <strong>Header for service-to-service:</strong> <code>X-Internal-API-Key: secret</code>
+                </div>
+
+            </div><!-- end HITL section -->
+
+            <!-- ============================================================ -->
+            <!-- RESPONSE SERVICE -->
+            <!-- ============================================================ -->
+            <div class="section" id="response">
+                <h2 class="sec-title">💬 Response Service: Chatbot Engine</h2>
+                <div class="badge-service">Port: 8029 (main) + 8030 (MCP config) | FastAPI + Claude + Neo4j + MCP</div>
+
+                <div class="sub-title">What is the Response Service?</div>
+                <div class="box box-blue">
+                    The <strong>🧠 BRAIN</strong>. Runs as <strong>two apps in one container</strong>:<br>
+                    • <strong>Port 8029</strong> — Main chatbot (messages, responses, streaming, HITL, MCP)<br>
+                    • <strong>Port 8030</strong> — MCP config validation and server status checks
+                </div>
+                <ul class="lst">
+                    <li>Receives messages via REST or WebSocket</li>
+                    <li>Queries Neo4j knowledge graph (graph + vector search in parallel)</li>
+                    <li>Generates answers with Anthropic Claude Sonnet (streaming)</li>
+                    <li>Decides when to hand off to a human (HITL)</li>
+                    <li>Calls external APIs via MCP (Model Context Protocol)</li>
+                    <li>Tracks every token used and every message stored</li>
+                </ul>
+
+                <div class="sub-title">Folder Structure</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Folder</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>app/main.py</code></td>
+                                <td>App entry (port 8029) — starts FastAPI, routes, Eureka</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/main_mcp.py</code></td>
+                                <td>Separate FastAPI app (port 8030) for MCP config/status</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/api/endpoints/</code></td>
+                                <td>All HTTP/WebSocket route handlers</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/api/clients/</code></td>
+                                <td>HTTP clients for external services (HITL client)</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/models/</code></td>
+                                <td>LLMs, embeddings, chunking, retrieval, graph vectorizer</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/graph_db/</code></td>
+                                <td>Neo4j connection and queries</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/cache_db/</code></td>
+                                <td>Redis — chat history, HITL state, MCP tools, elicitation, prompt cache</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/database_layer/</code></td>
+                                <td>MySQL ORM models, schemas, store classes</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/mcp_internal/</code></td>
+                                <td>MCP protocol: gateway, auth managers, client manager</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/services/</code></td>
+                                <td>MCP catalog, OAuth, marketplace</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/core/</code></td>
+                                <td>Environment settings, logging</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">All API Endpoints</div>
+                <div class="accordion" id="responseAccordion">
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ra1">
+                                💬 Core Chat + Channels
+                            </button>
+                        </h2>
+                        <div id="ra1" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <div class="tbl-wrap">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Endpoint</th>
+                                                <th>Method</th>
+                                                <th>What it does</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>/chatbot/response</code></td>
+                                                <td>POST</td>
+                                                <td>Send user message, get AI response (REST + streaming SSE)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/ws/chat</code></td>
+                                                <td>WebSocket</td>
+                                                <td>Real-time streaming chat over persistent connection</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/channels</code></td>
+                                                <td>POST</td>
+                                                <td>Create a new chat channel (web widget, WhatsApp, etc.)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/channel/whatsapp</code></td>
+                                                <td>POST</td>
+                                                <td>Configure WhatsApp credentials for a channel</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/channel/whatsapp/validate</code></td>
+                                                <td>POST</td>
+                                                <td>Validate WhatsApp channel config</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ra2">
+                                👤 HITL Internal Endpoints
+                            </button>
+                        </h2>
+                        <div id="ra2" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="tbl-wrap">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Endpoint</th>
+                                                <th>Method</th>
+                                                <th>Who calls</th>
+                                                <th>What it does</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>/hitl/unified</code></td>
+                                                <td>POST</td>
+                                                <td>HITL Service</td>
+                                                <td>Single endpoint for all operator events (messages, typing, accept,
+                                                    resolve, transfer)</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/hitl/service-api/*</code></td>
+                                                <td>POST</td>
+                                                <td>HITL Service</td>
+                                                <td>Legacy individual event endpoints</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/hitl/websocket</code></td>
+                                                <td>WebSocket</td>
+                                                <td>HITL Service</td>
+                                                <td>HITL connects here to receive user messages</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/hitl/operator-routing</code></td>
+                                                <td>POST</td>
+                                                <td>Internal</td>
+                                                <td>Route handoff to available operator</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ra3">
+                                🔧 MCP (External Tools) Endpoints
+                            </button>
+                        </h2>
+                        <div id="ra3" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="tbl-wrap">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Endpoint</th>
+                                                <th>Method</th>
+                                                <th>What it does</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>/mcp/agent/{id}/validate</code></td>
+                                                <td>GET</td>
+                                                <td>Validate agent's MCP tool configuration</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/mcp/agent/{id}/status</code></td>
+                                                <td>GET</td>
+                                                <td>Check if MCP servers online, list available tools</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/mcp/agent/{id}/update</code></td>
+                                                <td>POST</td>
+                                                <td>Update MCP config for an agent</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/mcp/catalog/providers</code></td>
+                                                <td>GET/POST</td>
+                                                <td>Browse or add tool providers in marketplace</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/mcp/catalog/servers</code></td>
+                                                <td>GET/POST</td>
+                                                <td>Browse or add MCP servers in marketplace</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/mcp/catalog/install</code></td>
+                                                <td>POST</td>
+                                                <td>Install a marketplace tool for an agent</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/mcp/oauth/start</code></td>
+                                                <td>POST</td>
+                                                <td>Start OAuth2 flow for MCP server</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/mcp/oauth/callback</code></td>
+                                                <td>GET</td>
+                                                <td>OAuth2 callback — exchange code for token</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/mcp/oauth/token</code></td>
+                                                <td>POST</td>
+                                                <td>Resolve/refresh OAuth token for a server</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/mcp/oauth/revoke</code></td>
+                                                <td>POST</td>
+                                                <td>Revoke stored OAuth credentials</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/elicitation/{session_id}</code></td>
+                                                <td>GET</td>
+                                                <td>Get pending MCP form for session</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>/elicitation/{session_id}/respond</code></td>
+                                                <td>POST</td>
+                                                <td>Submit user's form answer to resume MCP tool</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="sub-sub">MCP Authentication Types</div>
+                                <div class="tbl-wrap">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Auth Type</th>
+                                                <th>How it works</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code>bearer</code></td>
+                                                <td>Static API key in headers</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>oauth_hosted</code></td>
+                                                <td>Full OAuth2 with PKCE, tokens stored in DB</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>jwt_passthrough</code></td>
+                                                <td>User's own JWT is forwarded</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>dynamic_jwt_passthrough</code></td>
+                                                <td>JWT generated per-request</td>
+                                            </tr>
+                                            <tr>
+                                                <td><code>oauth</code></td>
+                                                <td>Standard OAuth2 flow</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- end response accordion -->
+
+                <div class="sub-title">WebSocket Message Types</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Direction</th>
+                                <th>Type</th>
+                                <th>When / Meaning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="6" style="font-weight:700;color:#0066ff;background:#f0f7ff;">Client →
+                                    Server</td>
+                                <td><code>init</code></td>
+                                <td>First connection — start or resume a session</td>
+                            </tr>
+                            <tr>
+                                <td><code>message</code></td>
+                                <td>Every user chat message</td>
+                            </tr>
+                            <tr>
+                                <td><code>elicitation_response</code></td>
+                                <td>Submit MCP form answers</td>
+                            </tr>
+                            <tr>
+                                <td><code>handoff_accept</code></td>
+                                <td>User confirms they want an operator</td>
+                            </tr>
+                            <tr>
+                                <td><code>handoff_reject</code></td>
+                                <td>User dismisses the handoff offer</td>
+                            </tr>
+                            <tr>
+                                <td><code>ping</code></td>
+                                <td>Keep connection alive</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="12" style="font-weight:700;color:#28a745;background:#f0fff4;">Server →
+                                    Client</td>
+                                <td><code>session</code></td>
+                                <td>After init — session started, returns session_id</td>
+                            </tr>
+                            <tr>
+                                <td><code>status_event</code></td>
+                                <td>Before MCP tool runs — "Looking up your booking..."</td>
+                            </tr>
+                            <tr>
+                                <td><code>chunk</code></td>
+                                <td>Next piece of the bot's streaming answer</td>
+                            </tr>
+                            <tr>
+                                <td><code>done</code></td>
+                                <td>Streaming complete</td>
+                            </tr>
+                            <tr>
+                                <td><code>response</code></td>
+                                <td>Non-streaming full answer</td>
+                            </tr>
+                            <tr>
+                                <td><code>elicitation</code></td>
+                                <td>MCP needs more info — show user a form</td>
+                            </tr>
+                            <tr>
+                                <td><code>handoff_offer</code></td>
+                                <td>"Would you like to speak to a human?"</td>
+                            </tr>
+                            <tr>
+                                <td><code>handler_changed</code></td>
+                                <td>"You are now chatting with an operator"</td>
+                            </tr>
+                            <tr>
+                                <td><code>operator_message</code></td>
+                                <td>Message from human operator</td>
+                            </tr>
+                            <tr>
+                                <td><code>operator_typing</code></td>
+                                <td>Show typing indicator for operator</td>
+                            </tr>
+                            <tr>
+                                <td><code>operator_offline</code></td>
+                                <td>"Agent left, returning to bot"</td>
+                            </tr>
+                            <tr>
+                                <td><code>error</code></td>
+                                <td>Error message</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">Redis Cache Namespaces</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Key Pattern</th>
+                                <th>What it stores</th>
+                                <th>TTL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>chat_history:{session_id}</code></td>
+                                <td>Recent chat messages for context window</td>
+                                <td>Session lifetime</td>
+                            </tr>
+                            <tr>
+                                <td><code>hitl_state:{session_id}</code></td>
+                                <td>Current HITL state (handler, operator_id)</td>
+                                <td>Session lifetime</td>
+                            </tr>
+                            <tr>
+                                <td><code>handoff_offer:{session_id}</code></td>
+                                <td>Pending "would you like a human?" offer</td>
+                                <td>Minutes</td>
+                            </tr>
+                            <tr>
+                                <td><code>handoff_queue:{session_id}</code></td>
+                                <td>Queue entry for this session's handoff</td>
+                                <td>Until resolved</td>
+                            </tr>
+                            <tr>
+                                <td><code>elicitation:{session_id}</code></td>
+                                <td>Pending MCP form data</td>
+                                <td>Until answered</td>
+                            </tr>
+                            <tr>
+                                <td><code>mcp_tools:{agent_id}</code></td>
+                                <td>Cached list of available tools for agent</td>
+                                <td>Minutes</td>
+                            </tr>
+                            <tr>
+                                <td><code>prompt_cache:{hash}</code></td>
+                                <td>Cached LLM prompt + response</td>
+                                <td>Hours</td>
+                            </tr>
+                            <tr>
+                                <td><code>ws_pending_init:{id}</code></td>
+                                <td>Pending WebSocket init (blank session_id)</td>
+                                <td>1 hour</td>
+                            </tr>
+                            <tr>
+                                <td><code>task_status:{task_id}</code></td>
+                                <td>Training task progress (shared with Training service)</td>
+                                <td>1 hour</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">Knowledge Retrieval — Two Parallel Paths</div>
+                <div class="path-wrap">
+                    <div class="path-card path-card-blue">
+                        <h6>📐 PATH 1 — Graph Retrieval (Structured)</h6>
+                        <div class="path-step">User question</div>
+                        <div class="path-step">↓ Entity extraction via <strong>Claude Haiku</strong></div>
+                        <div class="path-step">Entities: <code>["pricing", "plan A"]</code></div>
+                        <div class="path-step">↓ Cypher query on Neo4j:<br><code
+                                style="font-size:0.8rem;">MATCH (n:__Entity__) WHERE n.id IN [...]<br>MATCH (n)-[r]-(m) RETURN n, r, m</code>
+                        </div>
+                        <div class="path-step" style="background:#e8f4ff;font-weight:600;">✅ Returns: nodes +
+                            relationships (structured knowledge)</div>
+                    </div>
+                    <div class="path-card path-card-purple">
+                        <h6>🔍 PATH 2 — Vector Retrieval (Semantic)</h6>
+                        <div class="path-step">User question</div>
+                        <div class="path-step">↓ <strong>Gemini embedding</strong> → vector representation</div>
+                        <div class="path-step">↓ Similarity search in Neo4j vector index</div>
+                        <div class="path-step">"Find Document nodes closest to question"</div>
+                        <div class="path-step" style="background:#f3e5f5;font-weight:600;">✅ Returns: top-K most
+                            relevant text chunks</div>
+                    </div>
+                </div>
+                <div class="path-combined">Both results COMBINED → fed into Claude Sonnet → final streaming answer</div>
+
+                <div class="sub-title">Fallback / Resilience</div>
+                <div class="box box-orange">
+                    If main answer generation fails (Neo4j error, timeout etc.):<br>
+                    → <code>_generate_fallback_answer_with_haiku()</code> called<br>
+                    → Best-effort context fetch, then Claude Haiku (faster/cheaper) generates a helpful response<br>
+                    → User always gets a response — <strong>never a blank error</strong>
+                </div>
+
+            </div><!-- end Response section -->
+
+            <!-- ============================================================ -->
+            <!-- VOICE GATEWAY -->
+            <!-- ============================================================ -->
+            <div class="section" id="voice">
+                <h2 class="sec-title">🎤 Voice Gateway: Speech &amp; Audio</h2>
+                <div class="badge-service">Port: 8060 | FastAPI + ElevenLabs + OpenAI + Twilio</div>
+
+                <div class="box box-blue">
+                    The <strong>🎤 Ears &amp; Voice</strong>. Converts speech ↔ text across 4 channel types.<br>
+                    <strong>STT</strong> = Speech-to-Text | <strong>TTS</strong> = Text-to-Speech
+                </div>
+
+                <div class="sub-title">Folder Structure</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Folder</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>app/main.py</code></td>
+                                <td>Creates FastAPI, registers routes, registers with Eureka</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/api/endpoints/</code></td>
+                                <td>One file per feature (web, whatsapp, voip, webhook, admin)</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/providers/</code></td>
+                                <td>ElevenLabs + OpenAI STT/TTS provider classes</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/providers/factory.py</code></td>
+                                <td>Decides which provider to use based on model ID</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/providers/registry.py</code></td>
+                                <td>Central list of all supported STT/TTS models and metadata</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/adapters/</code></td>
+                                <td>Channel config loader, Response Service HTTP client</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/services/</code></td>
+                                <td>Voice session manager (Redis), usage tracker</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/database_layer/</code></td>
+                                <td>MySQL models, repositories for voice usage</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/core/</code></td>
+                                <td>Environment settings, security/auth helpers</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">All API Endpoints</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Endpoint</th>
+                                <th>Method</th>
+                                <th>What it does</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="3" style="background:#e8f4f8;font-weight:700;">🌐 Web Voice (Browser)</td>
+                            </tr>
+                            <tr>
+                                <td><code>/web/transcribe</code></td>
+                                <td>POST</td>
+                                <td>Upload browser audio → get transcribed text</td>
+                            </tr>
+                            <tr>
+                                <td><code>/web/synthesize</code></td>
+                                <td>POST</td>
+                                <td>Send text → get streaming MP3 audio</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background:#e8f5e9;font-weight:700;">💬 WhatsApp Voice</td>
+                            </tr>
+                            <tr>
+                                <td><code>/whatsapp/transcribe</code></td>
+                                <td>POST</td>
+                                <td>Download WhatsApp CDN audio URL → transcribe → return text</td>
+                            </tr>
+                            <tr>
+                                <td><code>/whatsapp/synthesize</code></td>
+                                <td>POST</td>
+                                <td>Send text → return base64 OGG audio for WhatsApp</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background:#fff3e0;font-weight:700;">☎️ VoIP Phone (Twilio)</td>
+                            </tr>
+                            <tr>
+                                <td><code>/voip/incoming</code></td>
+                                <td>POST</td>
+                                <td>Twilio webhook — incoming call, return TwiML greeting</td>
+                            </tr>
+                            <tr>
+                                <td><code>/voip/gather</code></td>
+                                <td>POST</td>
+                                <td>Twilio sends user's spoken words (SpeechResult)</td>
+                            </tr>
+                            <tr>
+                                <td><code>/voip/status</code></td>
+                                <td>POST</td>
+                                <td>Twilio call ended status update</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background:#f3e5f5;font-weight:700;">🎙️ ElevenLabs
+                                    Conversational AI</td>
+                            </tr>
+                            <tr>
+                                <td><code>/elevenlabs/llm</code></td>
+                                <td>POST</td>
+                                <td>ElevenLabs webhook — needs AI response (custom LLM hook)</td>
+                            </tr>
+                            <tr>
+                                <td><code>/elevenlabs/voices</code></td>
+                                <td>GET</td>
+                                <td>List all ElevenLabs voices (name, gender, language)</td>
+                            </tr>
+                            <tr>
+                                <td><code>/elevenlabs/models</code></td>
+                                <td>GET</td>
+                                <td>List all ElevenLabs TTS models</td>
+                            </tr>
+                            <tr>
+                                <td><code>/elevenlabs/voices/{voice_id}/preview</code></td>
+                                <td>GET</td>
+                                <td>Stream audio preview of a specific voice</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background:#e8eaf6;font-weight:700;">🔌 WebSocket + Admin</td>
+                            </tr>
+                            <tr>
+                                <td><code>/voice/ws</code></td>
+                                <td>WebSocket</td>
+                                <td>Real-time voice streaming (low-latency web widget)</td>
+                            </tr>
+                            <tr>
+                                <td><code>/health</code></td>
+                                <td>GET</td>
+                                <td>Service status and version</td>
+                            </tr>
+                            <tr>
+                                <td><code>/admin/models/stt</code></td>
+                                <td>GET</td>
+                                <td>List all STT models with pricing and capabilities</td>
+                            </tr>
+                            <tr>
+                                <td><code>/admin/models/tts</code></td>
+                                <td>GET</td>
+                                <td>List all TTS models with pricing and latency</td>
+                            </tr>
+                            <tr>
+                                <td><code>/admin/channels/{id}/config</code></td>
+                                <td>GET/PUT</td>
+                                <td>Get or update channel voice config (voice, speed, language)</td>
+                            </tr>
+                            <tr>
+                                <td><code>/admin/channels/{id}/models</code></td>
+                                <td>POST</td>
+                                <td>Override STT/TTS models for a channel (SuperUser only)</td>
+                            </tr>
+                            <tr>
+                                <td><code>/admin/channels/{id}/usage</code></td>
+                                <td>GET</td>
+                                <td>Voice usage statistics and cost for a channel</td>
+                            </tr>
+                            <tr>
+                                <td><code>/admin/channels/{id}/usage/by-operation</code></td>
+                                <td>GET</td>
+                                <td>Usage breakdown by STT vs TTS</td>
+                            </tr>
+                            <tr>
+                                <td><code>/admin/channels/{id}/usage/by-model</code></td>
+                                <td>GET</td>
+                                <td>Usage breakdown by model used</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">4 Voice Channel Types</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Channel Type</th>
+                                <th>Example</th>
+                                <th>Mode</th>
+                                <th>STT Model</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>voice_widget</code></td>
+                                <td>ElevenLabs widget in web chat</td>
+                                <td>Streaming (real-time)</td>
+                                <td>ElevenLabs Scribe v2</td>
+                            </tr>
+                            <tr>
+                                <td><code>web_voice</code></td>
+                                <td>Microphone button in browser</td>
+                                <td>Batch (upload file)</td>
+                                <td>ElevenLabs Scribe v2</td>
+                            </tr>
+                            <tr>
+                                <td><code>whatsapp_voice</code></td>
+                                <td>Voice note on WhatsApp</td>
+                                <td>Batch (download URL)</td>
+                                <td>OpenAI Whisper</td>
+                            </tr>
+                            <tr>
+                                <td><code>phone</code></td>
+                                <td>User calls phone number</td>
+                                <td>Streaming (Twilio TwiML)</td>
+                                <td>ElevenLabs Scribe v2</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">Detailed Flows for Each Channel</div>
+                <div class="accordion" id="voiceAccordion">
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#va1">
+                                🟢 ElevenLabs Conversational AI — Fully Hosted (Fastest)
+                            </button>
+                        </h2>
+                        <div id="va1" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <div class="box box-green" style="margin-bottom:16px;">ElevenLabs handles ALL audio. We
+                                    only provide the AI brain via webhook.</div>
+                                <div class="steps-wrap">
+                                    <div class="step">
+                                        <div class="step-n">1</div>User speaks to ElevenLabs widget embedded on website
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">2</div>ElevenLabs transcribes speech (their own STT)
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">3</div>ElevenLabs calls our webhook:
+                                        <code>POST /elevenlabs/llm</code> with messages array
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">4</div>Voice Gateway looks up session in Redis by
+                                        conversation_id
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">5</div>Calls Response Service:
+                                        <code>POST /chatbot_response_genrator/</code>
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">6</div>Response Service queries Neo4j + Claude → returns
+                                        answer
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">7</div>We return answer + context to ElevenLabs
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">8</div>ElevenLabs converts text to speech (their TTS)
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">9</div>User hears the answer in natural voice
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#va2">
+                                🌐 Web Voice Widget — Browser Microphone
+                            </button>
+                        </h2>
+                        <div id="va2" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="steps-wrap">
+                                    <div class="step">
+                                        <div class="step-n">1</div>User clicks microphone in browser chat widget
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">2</div>Browser records audio (WebM/MP3 format)
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">3</div>Browser sends: <code>POST /web/transcribe</code>
+                                        {audio, channel_id, language}
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">4</div>Voice Gateway loads channel config from MySQL
+                                        (stt_model, tts_model, voice_id)
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">5</div>Calls ElevenLabs Scribe v2 STT → returns transcribed
+                                        text
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">6</div>Returns text to browser: {text, language, confidence}
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">7</div>Browser calls Response Service → gets AI answer
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">8</div>Browser sends: <code>POST /web/synthesize</code>
+                                        {text, channel_id}
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">9</div>Calls ElevenLabs Flash TTS → streams MP3 back
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">10</div>Browser plays audio, usage tracked in MySQL
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#va3">
+                                💬 WhatsApp Voice Messages — Batch Processing
+                            </button>
+                        </h2>
+                        <div id="va3" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="steps-wrap">
+                                    <div class="step">
+                                        <div class="step-n">1</div>User sends voice note on WhatsApp
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">2</div>WhatsApp Integration Service calls:
+                                        <code>POST /whatsapp/transcribe</code> {audio_url, channel_id, language}
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">3</div>Voice Gateway downloads audio from WhatsApp CDN
+                                        (expires in 24h)
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">4</div>Selects STT: OpenAI Whisper (default, cost-effective
+                                        for batch)
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">5</div>Calls OpenAI Whisper batch STT → returns transcribed
+                                        text
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">6</div>Returns text to WhatsApp Integration Service
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">7</div>WhatsApp service calls Response Service → gets AI
+                                        answer
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">8</div>(Optional) Calls:
+                                        <code>POST /whatsapp/synthesize</code> → ElevenLabs TTS → OGG base64
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">9</div>WhatsApp sends OGG voice reply to user
+                                    </div>
+                                </div>
+                                <div class="box box-yellow mt-2">⚠️ WhatsApp audio format is <strong>OGG</strong>. Does
+                                    NOT support MP3 voice messages.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#va4">
+                                ☎️ Phone Calls via Twilio VoIP — Real-Time Loop
+                            </button>
+                        </h2>
+                        <div id="va4" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="steps-wrap">
+                                    <div class="step">
+                                        <div class="step-n">1</div>User calls phone number (e.g., +971-xxx-xxxx)
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">2</div>Twilio receives call → sends webhook:
+                                        <code>POST /voip/incoming</code> {CallSid, From, To}
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">3</div>Voice Gateway creates voice session in Redis
+                                        (session_type="phone")
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">4</div>Returns TwiML to Twilio: &lt;Say&gt; greeting +
+                                        &lt;Gather input="speech"&gt;
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">5</div>Twilio plays greeting and listens for user speech
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">6</div>User speaks → Twilio detects end → sends:
+                                        <code>POST /voip/gather</code> {SpeechResult}
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">7</div>Voice Gateway calls Response Service → gets AI answer
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">8</div>Returns TwiML: &lt;Say&gt; answer + new
+                                        &lt;Gather&gt;
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">9</div>Twilio speaks answer + listens for next input → loop
+                                        from step 6
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">10</div>User hangs up → Twilio sends:
+                                        <code>POST /voip/status</code>
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">11</div>Voice Gateway removes session from Redis
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- end voice accordion -->
+
+                <div class="sub-title">STT &amp; TTS Models — Full Comparison</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Model ID</th>
+                                <th>Provider</th>
+                                <th>Type</th>
+                                <th>Streaming</th>
+                                <th>Latency</th>
+                                <th>Best For</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>elevenlabs-scribe-v2</code></td>
+                                <td>ElevenLabs</td>
+                                <td>STT</td>
+                                <td>✅ Yes</td>
+                                <td>Real-time</td>
+                                <td>Web voice, phone calls</td>
+                                <td>$0.30/hr</td>
+                            </tr>
+                            <tr>
+                                <td><code>openai-gpt4o-transcribe</code></td>
+                                <td>OpenAI</td>
+                                <td>STT</td>
+                                <td>✅ Yes</td>
+                                <td>Real-time</td>
+                                <td>High accuracy, code-switching</td>
+                                <td>$0.36/hr</td>
+                            </tr>
+                            <tr>
+                                <td><code>openai-whisper</code></td>
+                                <td>OpenAI</td>
+                                <td>STT</td>
+                                <td>❌ Batch</td>
+                                <td>~5 sec</td>
+                                <td>WhatsApp batch (cost-effective)</td>
+                                <td>$0.36/hr</td>
+                            </tr>
+                            <tr>
+                                <td><code>elevenlabs-flash</code></td>
+                                <td>ElevenLabs</td>
+                                <td>TTS</td>
+                                <td>✅ Yes</td>
+                                <td>75ms</td>
+                                <td>Real-time conversations</td>
+                                <td>$0.09/1k chars</td>
+                            </tr>
+                            <tr>
+                                <td><code>elevenlabs-multilingual</code></td>
+                                <td>ElevenLabs</td>
+                                <td>TTS</td>
+                                <td>✅ Yes</td>
+                                <td>~200ms</td>
+                                <td>Better quality, multi-language</td>
+                                <td>$0.18/1k chars</td>
+                            </tr>
+                            <tr>
+                                <td><code>openai-tts-1</code></td>
+                                <td>OpenAI</td>
+                                <td>TTS</td>
+                                <td>✅ Yes</td>
+                                <td>~300ms</td>
+                                <td>Budget option</td>
+                                <td>$0.015/1k chars</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div><!-- end Voice section -->
+
+            <!-- ============================================================ -->
+            <!-- TRAINING SERVICE -->
+            <!-- ============================================================ -->
+            <div class="section" id="training">
+                <h2 class="sec-title">📚 Training Service: Knowledge Base Pipeline</h2>
+                <div class="badge-service">Port: 8026 | FastAPI + Celery + Claude + Gemini + Neo4j</div>
+
+                <div class="box box-blue">
+                    The <strong>📖 Teacher</strong>. Converts raw content into a knowledge graph for the chatbot to
+                    query.<br>
+                    <strong>Input:</strong> PDF, Word, CSV, Excel, URLs<br>
+                    <strong>Output:</strong> Neo4j graph nodes + Gemini embeddings → chatbot can answer questions
+                </div>
+
+                <div class="sub-title">Folder Structure</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Folder</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>app/main.py</code></td>
+                                <td>Starts FastAPI, registers routes, connects to Eureka</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/api/endpoints/</code></td>
+                                <td>Each file = one API feature (train, update, delete, etc.)</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/celery/tasks/</code></td>
+                                <td>Background job workers — heavy processing here</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/database_layer/</code></td>
+                                <td>SQL models, schemas, and all database read/write logic</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/graph_db/</code></td>
+                                <td>Neo4j queries, connections, schema</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/models/</code></td>
+                                <td>Chunking, embeddings, graph transformation, OCR</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/middleware/</code></td>
+                                <td>Document loaders — reads PDF, CSV, Excel into memory</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/web_scraping/</code></td>
+                                <td>Selenium browser automation for scraping web pages</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/web_crawling/</code></td>
+                                <td>Crawls entire websites (multiple pages)</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/cache_db/</code></td>
+                                <td>Redis — caching and real-time task status pub/sub</td>
+                            </tr>
+                            <tr>
+                                <td><code>app/core/</code></td>
+                                <td>Environment variables, logging, settings</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">All API Endpoints</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Endpoint</th>
+                                <th>Method</th>
+                                <th>What it does</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="3" style="background:#e8f4f8;font-weight:700;">📥 Document Training</td>
+                            </tr>
+                            <tr>
+                                <td><code>/doc_train/</code></td>
+                                <td>POST</td>
+                                <td>Upload single file or URL and start training</td>
+                            </tr>
+                            <tr>
+                                <td><code>/bulk_doc_train/</code></td>
+                                <td>POST</td>
+                                <td>Submit list of files for training all at once (parallel)</td>
+                            </tr>
+                            <tr>
+                                <td><code>/bulk_url_train/</code></td>
+                                <td>POST</td>
+                                <td>Submit list of URLs and train each one</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background:#e8f5e9;font-weight:700;">📂 Document Management</td>
+                            </tr>
+                            <tr>
+                                <td><code>/doc_update/</code></td>
+                                <td>POST</td>
+                                <td>Replace existing trained document with new content</td>
+                            </tr>
+                            <tr>
+                                <td><code>/doc_delete/</code></td>
+                                <td>POST</td>
+                                <td>Remove document from knowledge base</td>
+                            </tr>
+                            <tr>
+                                <td><code>/retry_train/</code></td>
+                                <td>POST</td>
+                                <td>Re-run training for a previously failed document</td>
+                            </tr>
+                            <tr>
+                                <td><code>/retry_update/</code></td>
+                                <td>POST</td>
+                                <td>Re-run update for a previously failed document</td>
+                            </tr>
+                            <tr>
+                                <td><code>/graph_enable/</code></td>
+                                <td>POST</td>
+                                <td>Re-activate a disabled document in the graph</td>
+                            </tr>
+                            <tr>
+                                <td><code>/graph_disable/</code></td>
+                                <td>POST</td>
+                                <td>Temporarily hide document from chatbot (without deleting)</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background:#fff3e0;font-weight:700;">📊 Data Retrieval</td>
+                            </tr>
+                            <tr>
+                                <td><code>/get_train_data/</code></td>
+                                <td>POST</td>
+                                <td>Get all trained documents for an agent</td>
+                            </tr>
+                            <tr>
+                                <td><code>/get_file_data/</code></td>
+                                <td>POST</td>
+                                <td>Get file details for a specific document</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background:#f3e5f5;font-weight:700;">🏢 Tenant (Agent) Management
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>/create_tenant</code></td>
+                                <td>POST</td>
+                                <td>Create new agent/tenant space in Neo4j and SQL DB</td>
+                            </tr>
+                            <tr>
+                                <td><code>/delete_tenant/</code></td>
+                                <td>POST</td>
+                                <td>Delete all data for a tenant (all Neo4j nodes + SQL)</td>
+                            </tr>
+                            <tr>
+                                <td><code>/retrieve_tenant/</code></td>
+                                <td>POST</td>
+                                <td>Get tenant information</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="background:#e8eaf6;font-weight:700;">📡 Monitoring</td>
+                            </tr>
+                            <tr>
+                                <td><code>/task_status/{task_id}</code></td>
+                                <td>GET</td>
+                                <td>Check training progress (0–100%)</td>
+                            </tr>
+                            <tr>
+                                <td><code>/task_status/ws/{task_id}</code></td>
+                                <td>WebSocket</td>
+                                <td>Live real-time progress updates</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">The Training Pipeline (All 12 Steps)</div>
+                <div class="steps-wrap">
+                    <div class="step">
+                        <div class="step-n">1</div><strong>API receives request</strong> — file + agent_id + file_name +
+                        options
+                    </div>
+                    <div class="step">
+                        <div class="step-n">2</div><strong>Create database records</strong> — KnowledgeBase (PENDING),
+                        Documents, JobFiles
+                    </div>
+                    <div class="step">
+                        <div class="step-n">3</div><strong>Dispatch Celery task</strong> — return {job_id, task_id} to
+                        client immediately; client polls for progress
+                    </div>
+                    <div class="step">
+                        <div class="step-n">4</div><strong>Celery worker picks up task</strong> — updates status to
+                        "TRAINING"
+                    </div>
+                    <div class="step">
+                        <div class="step-n">5</div><strong>Load document:</strong> URL→Selenium scrape | DOCX→convert to
+                        PDF | image_train→high-res OCR | CSV→table load | PDF→direct
+                    </div>
+                    <div class="step">
+                        <div class="step-n">6</div><strong>Chunk text</strong> into overlapping segments (progress
+                        ~30–40%)
+                    </div>
+                    <div class="step">
+                        <div class="step-n">7</div><strong>Claude LLM graph extraction</strong> — each chunk sent to
+                        Claude; extracts entities + relationships; tokens recorded (progress ~40–80%)
+                    </div>
+                    <div class="step">
+                        <div class="step-n">8</div><strong>Generate embeddings</strong> using Google Gemini (vector
+                        representations)
+                    </div>
+                    <div class="step">
+                        <div class="step-n">9</div><strong>Store in Neo4j</strong> — all nodes tagged with tenant_id for
+                        isolation (progress ~80–90%)
+                    </div>
+                    <div class="step">
+                        <div class="step-n">10</div><strong>Upload to Wasabi S3</strong> — original file backed up, URL
+                        stored in DB
+                    </div>
+                    <div class="step">
+                        <div class="step-n">11</div><strong>Mark TRAINED (100%)</strong> — chatbot can now query this
+                        knowledge
+                    </div>
+                    <div class="step">
+                        <div class="step-n">12</div><strong>If anything fails</strong> — status → FAILED, error stored,
+                        file still on S3, retry without re-uploading
+                    </div>
+                </div>
+
+                <div class="sub-title">Training Status Values</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Meaning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>PENDING</code></td>
+                                <td>Job received, waiting for Celery worker</td>
+                            </tr>
+                            <tr>
+                                <td><code>TRAINING</code></td>
+                                <td>Worker actively processing</td>
+                            </tr>
+                            <tr>
+                                <td><code>TRAINED</code></td>
+                                <td>Successfully completed — queryable</td>
+                            </tr>
+                            <tr>
+                                <td><code>FAILED</code></td>
+                                <td>Something went wrong — see error_message field</td>
+                            </tr>
+                            <tr>
+                                <td><code>DISABLED</code></td>
+                                <td>Stored but hidden from chatbot queries</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">Special Features</div>
+                <div class="accordion" id="trainAccordion">
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ta1">
+                                🖼️ Image Training (OCR for Scanned Documents)
+                            </button>
+                        </h2>
+                        <div id="ta1" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <p>Use when <code>image_train=True</code>: for scanned PDFs or documents where text is
+                                    in images.</p>
+                                <div class="steps-wrap">
+                                    <div class="step">
+                                        <div class="step-n">1</div>Original PDF input
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">2</div>Convert each page to ultra-high-res PNG &nbsp;(4×
+                                        zoom, 300 DPI)
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">3</div>Rebuild a new PDF from those high-res images
+                                        &nbsp;(95% quality)
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">4</div>Run OCR on the rebuilt PDF — extract text that was
+                                        embedded in images
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">5</div>Continue normal pipeline: chunk → Claude graph
+                                        extraction → Gemini embed → Neo4j store
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ta2">
+                                🌐 Web Scraping (URL Training)
+                            </button>
+                        </h2>
+                        <div id="ta2" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="steps-wrap">
+                                    <div class="step">
+                                        <div class="step-n">1</div>URL provided in request with <code>scrapy=True</code>
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">2</div>Selenium opens <strong>headless Chrome</strong>
+                                        browser
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">3</div>Visits URL, waits for page to fully load &nbsp;(uses
+                                        random user-agent to avoid bot detection)
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">4</div>Extracts page title + all body text
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">5</div>Returns content as a Document object
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">6</div>Continues into normal pipeline: chunk → Claude graph
+                                        extraction → Gemini embed → Neo4j store
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ta3">
+                                📦 Bulk Training
+                            </button>
+                        </h2>
+                        <div id="ta3" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <ul class="lst">
+                                    <li><strong>Bulk File:</strong> Send list of file names → one Celery task per file →
+                                        all run in parallel</li>
+                                    <li><strong>Bulk URL:</strong> Send list of URLs → internally calls /doc_train/ once
+                                        per URL</li>
+                                    <li>Returns summary of which submissions succeeded</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#ta4">
+                                🔄 Retry Mechanism
+                            </button>
+                        </h2>
+                        <div id="ta4" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="steps-wrap">
+                                    <div class="step">
+                                        <div class="step-n">1</div>Failed document stays in DB with
+                                        <code>status = "FAILED"</code>
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">2</div>Client calls <code>POST /retry_train/</code> with
+                                        <code>doc_id</code> + <code>agent_id</code>
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">3</div>API looks up original file location from Wasabi S3
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">4</div>Downloads the file back from S3
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">5</div>Dispatches a fresh Celery task — training runs again
+                                        from scratch
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-n">6</div><strong>No re-upload needed</strong> — original file
+                                        is already safely on S3
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- end training accordion -->
+
+                <div class="sub-title">External Services Used</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>What it's used for</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Anthropic Claude</strong></td>
+                                <td>LLM — reads text chunks, extracts entities + relationships (graph transform)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Google Gemini</strong></td>
+                                <td>Generates vector embeddings for semantic search</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Neo4j</strong></td>
+                                <td>Graph database — stores all knowledge nodes and relationships</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Redis</strong></td>
+                                <td>Message broker for Celery + real-time task status tracking</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Celery</strong></td>
+                                <td>Async task queue — runs training in background</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wasabi / S3</strong></td>
+                                <td>Object storage for original document files</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Selenium / Chrome</strong></td>
+                                <td>Headless browser for web scraping</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LlamaCloud</strong></td>
+                                <td>Optional OCR API for text extraction from images</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Eureka</strong></td>
+                                <td>Microservice registry (service discovery)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LangSmith</strong></td>
+                                <td>LLM observability / tracing (optional)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div><!-- end Training section -->
+
+            <!-- ============================================================ -->
+            <!-- CORE FLOWS -->
+            <!-- ============================================================ -->
+            <div class="section" id="flows">
+                <h2 class="sec-title">⚙️ Complete End-to-End Flows</h2>
+
+                <div class="sub-title">Flow 1: Normal Chatbot Conversation (11 Steps)</div>
+                <div class="steps-wrap">
+                    <div class="step">
+                        <div class="step-n">1</div>User sends message via web widget (REST or WebSocket)
+                    </div>
+                    <div class="step">
+                        <div class="step-n">2</div>Auth check: X-API-KEY verified, agent + channel looked up
+                    </div>
+                    <div class="step">
+                        <div class="step-n">3</div>Check Redis semantic cache — if hit, return instantly
+                    </div>
+                    <div class="step">
+                        <div class="step-n">4</div>Load chat history (Redis first, then MySQL)
+                    </div>
+                    <div class="step">
+                        <div class="step-n">5</div>Extract entities from message using Claude Haiku
+                    </div>
+                    <div class="step">
+                        <div class="step-n">6</div>Parallel: Neo4j graph query + Vector similarity search
+                    </div>
+                    <div class="step">
+                        <div class="step-n">7</div>Check HITL escalation (keywords, sentiment, LLM decision)
+                    </div>
+                    <div class="step">
+                        <div class="step-n">8</div>If MCP tools needed: call external API (or trigger Elicitation form)
+                    </div>
+                    <div class="step">
+                        <div class="step-n">9</div>Generate response with Claude Sonnet (all context combined)
+                    </div>
+                    <div class="step">
+                        <div class="step-n">10</div>Stream tokens back to user (SSE / WebSocket)
+                    </div>
+                    <div class="step">
+                        <div class="step-n">11</div>Save to MySQL + Redis cache + llm_token_audit + chat_message_source
+                    </div>
+                </div>
+
+                <div class="sub-title">Flow 2: User Escalates to Human (HITL)</div>
+                <div class="steps-wrap" style="border-color:#ff6b35; background: #fff8f5;">
+                    <div class="step" style="border-color:#ff6b35;">
+                        <div class="step-n" style="background:linear-gradient(135deg,#ff6b35,#f7931e);">1</div>
+                        Escalation triggered: user request / negative sentiment / keyword / no_response / LLM decision
+                    </div>
+                    <div class="step" style="border-color:#ff6b35;">
+                        <div class="step-n" style="background:linear-gradient(135deg,#ff6b35,#f7931e);">2</div>Bot
+                        offers: "Would you like to speak to a human?" — stored in Redis as handoff_offer
+                    </div>
+                    <div class="step" style="border-color:#ff6b35;">
+                        <div class="step-n" style="background:linear-gradient(135deg,#ff6b35,#f7931e);">3</div>User
+                        accepts → Response Service calls HITL: <code>POST /agent-hitl/handoff/create</code>
+                    </div>
+                    <div class="step" style="border-color:#ff6b35;">
+                        <div class="step-n" style="background:linear-gradient(135deg,#ff6b35,#f7931e);">4</div>HITL
+                        creates HandoffQueue → PENDING, 30-min timer starts
+                    </div>
+                    <div class="step" style="border-color:#ff6b35;">
+                        <div class="step-n" style="background:linear-gradient(135deg,#ff6b35,#f7931e);">5</div>
+                        Auto-assignment: find ONLINE operator with capacity, ordered by routing_priority
+                    </div>
+                    <div class="step" style="border-color:#ff6b35;">
+                        <div class="step-n" style="background:linear-gradient(135deg,#ff6b35,#f7931e);">6</div>All
+                        operators notified via Redis pub/sub + WebSocket /ws/handoff-queue
+                    </div>
+                    <div class="step" style="border-color:#ff6b35;">
+                        <div class="step-n" style="background:linear-gradient(135deg,#ff6b35,#f7931e);">7</div>Operator
+                        clicks "Accept" → handoff ACCEPTED, current_chats incremented
+                    </div>
+                    <div class="step" style="border-color:#ff6b35;">
+                        <div class="step-n" style="background:linear-gradient(135deg,#ff6b35,#f7931e);">8</div>HITL
+                        calls Response Service: <code>POST /hitl/unified</code> (event: "accepted")
+                    </div>
+                    <div class="step" style="border-color:#ff6b35;">
+                        <div class="step-n" style="background:linear-gradient(135deg,#ff6b35,#f7931e);">9</div>
+                        session.handler = "human", welcome message sent to user
+                    </div>
+                    <div class="step" style="border-color:#ff6b35;">
+                        <div class="step-n" style="background:linear-gradient(135deg,#ff6b35,#f7931e);">10</div>Live
+                        chat: user messages → Response Service → HITL → operator WS
+                    </div>
+                    <div class="step" style="border-color:#ff6b35;">
+                        <div class="step-n" style="background:linear-gradient(135deg,#ff6b35,#f7931e);">11</div>Operator
+                        resolves → session.handler = "bot", chat count decremented
+                    </div>
+                </div>
+
+                <div class="sub-title">Flow 3: MCP Tool Call + Elicitation</div>
+                <div class="steps-wrap">
+                    <div class="step">
+                        <div class="step-n">1</div>User: "Book me a flight to Dubai next Friday"
+                    </div>
+                    <div class="step">
+                        <div class="step-n">2</div>Claude decides: needs "flights_search_available" tool
+                    </div>
+                    <div class="step">
+                        <div class="step-n">3</div>MCP Gateway parses: server="flights", tool="search_available"
+                    </div>
+                    <div class="step">
+                        <div class="step-n">4</div>Auth Manager gets token for "flights" server (bearer / OAuth / JWT)
+                    </div>
+                    <div class="step">
+                        <div class="step-n">5</div>Tool needs more info → ElicitationPendingError → form stored in Redis
+                    </div>
+                    <div class="step">
+                        <div class="step-n">6</div>User receives elicitation form: {type:"elicitation",
+                        fields:[{name:"class",label:"Seat class?"}]}
+                    </div>
+                    <div class="step">
+                        <div class="step-n">7</div>User submits: <code>POST /elicitation/{session_id}/respond</code>
+                    </div>
+                    <div class="step">
+                        <div class="step-n">8</div>Tool call RESUMED with filled data → executes → returns results
+                    </div>
+                    <div class="step">
+                        <div class="step-n">9</div>Claude generates final answer: "Found 3 flights to Dubai on May 1..."
+                    </div>
+                </div>
+
+            </div><!-- end Flows section -->
+
+            <!-- ============================================================ -->
+            <!-- DATA LAYER -->
+            <!-- ============================================================ -->
+            <div class="section" id="data">
+                <h2 class="sec-title">💾 Data Layer: Databases &amp; Tables</h2>
+
+                <div class="sub-title">Database Architecture</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Database</th>
+                                <th>Purpose</th>
+                                <th>Technology</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Neo4j</strong></td>
+                                <td>Knowledge graphs (entities, relationships, embeddings)</td>
+                                <td>Graph DB</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MySQL / PostgreSQL</strong></td>
+                                <td>Application state (operators, handoffs, sessions, messages, MCP)</td>
+                                <td>Relational DB</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Redis</strong></td>
+                                <td>Real-time cache, pub/sub, Celery broker, session state, elicitation</td>
+                                <td>In-memory + pub/sub</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wasabi (S3)</strong></td>
+                                <td>Original document files, voice recordings</td>
+                                <td>Object storage (S3-compatible)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">MySQL Tables — Full Reference</div>
+
+                <div class="sub-sub">HITL Tables</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Table</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>operators</code></td>
+                                <td>Human operator settings (max_chats, routing_priority, skill_tags)</td>
+                            </tr>
+                            <tr>
+                                <td><code>agent_operators</code></td>
+                                <td>Maps which operators are assigned to which agents (many-to-many)</td>
+                            </tr>
+                            <tr>
+                                <td><code>operator_presence</code></td>
+                                <td>Real-time status of each operator (ONLINE/OFFLINE/BUSY/AWAY/BREAK)</td>
+                            </tr>
+                            <tr>
+                                <td><code>handoff_queue</code></td>
+                                <td>Core handoff table — one row per handoff request with full lifecycle</td>
+                            </tr>
+                            <tr>
+                                <td><code>handoff_operator_rejections</code></td>
+                                <td>Logs which operators rejected which handoffs and why</td>
+                            </tr>
+                            <tr>
+                                <td><code>operator_activity_log</code></td>
+                                <td>Audit trail of every operator action (accept, message, resolve)</td>
+                            </tr>
+                            <tr>
+                                <td><code>handoff_notes</code></td>
+                                <td>Notes attached to handoffs by operators</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-sub">Chat &amp; Response Tables</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Table</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>agents</code></td>
+                                <td>Chatbot agents (name, prompt template, company, MCP config)</td>
+                            </tr>
+                            <tr>
+                                <td><code>agent_prompt_templates</code></td>
+                                <td>System prompt templates per agent</td>
+                            </tr>
+                            <tr>
+                                <td><code>chat_sessions</code></td>
+                                <td>One row per conversation — tracks handler (bot/human), session_state</td>
+                            </tr>
+                            <tr>
+                                <td><code>chat_messages</code></td>
+                                <td>Every message and bot response stored here</td>
+                            </tr>
+                            <tr>
+                                <td><code>chat_message_source</code></td>
+                                <td>Which Neo4j nodes were used to generate each response</td>
+                            </tr>
+                            <tr>
+                                <td><code>chatbot_user</code></td>
+                                <td>End-user who is chatting</td>
+                            </tr>
+                            <tr>
+                                <td><code>channels</code></td>
+                                <td>Chat channels (web widget, WhatsApp) with credentials</td>
+                            </tr>
+                            <tr>
+                                <td><code>company</code></td>
+                                <td>Company/tenant isolation</td>
+                            </tr>
+                            <tr>
+                                <td><code>llm_token_audit</code></td>
+                                <td>Tracks input/output tokens per message per agent (cost tracking)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-sub">MCP Tables</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Table</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>mcp_config</code></td>
+                                <td>MCP JSON config per agent (which servers + auth)</td>
+                            </tr>
+                            <tr>
+                                <td><code>mcp_provider_catalog</code></td>
+                                <td>Marketplace: list of tool providers (Google, Salesforce, etc.)</td>
+                            </tr>
+                            <tr>
+                                <td><code>mcp_server_catalog</code></td>
+                                <td>Marketplace: individual MCP servers available to install</td>
+                            </tr>
+                            <tr>
+                                <td><code>mcp_agent_installations</code></td>
+                                <td>Which marketplace tools each agent has installed</td>
+                            </tr>
+                            <tr>
+                                <td><code>mcp_oauth_credentials</code></td>
+                                <td>Stored OAuth tokens per agent/server (encrypted)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-sub">Training Tables</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Table</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>kb_table</code></td>
+                                <td>Links agent to knowledge base, tracks training status</td>
+                            </tr>
+                            <tr>
+                                <td><code>documents</code></td>
+                                <td>Document metadata (file name, size, S3 URL)</td>
+                            </tr>
+                            <tr>
+                                <td><code>document_training</code></td>
+                                <td>Each individual training job with status + progress</td>
+                            </tr>
+                            <tr>
+                                <td><code>job_files</code></td>
+                                <td>Temporary encoded file data before Celery picks up</td>
+                            </tr>
+                            <tr>
+                                <td><code>kb_status</code></td>
+                                <td>Fine-grained progress tracking per task</td>
+                            </tr>
+                            <tr>
+                                <td><code>ocr_token_audit</code></td>
+                                <td>OCR API credits used per training</td>
+                            </tr>
+                            <tr>
+                                <td><code>web_scrape_usage_logs</code></td>
+                                <td>Web scraping usage per training job</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-sub">Neo4j Graph Node Types</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Node Type</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Document</code></td>
+                                <td>Represents a chunk of a document (text segment)</td>
+                            </tr>
+                            <tr>
+                                <td><code>__Entity__</code></td>
+                                <td>An entity extracted by Claude (person, concept, place, etc.)</td>
+                            </tr>
+                            <tr>
+                                <td>Relationships</td>
+                                <td>Connections between entities as extracted by Claude (e.g., "is_part_of",
+                                    "relates_to")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div><!-- end Data section -->
+
+            <!-- ============================================================ -->
+            <!-- QUICK REFERENCE -->
+            <!-- ============================================================ -->
+            <div class="section" id="summary">
+                <h2 class="sec-title">📊 Quick Reference Summary</h2>
+
+                <div class="sub-title">All Services at a Glance</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Port</th>
+                                <th>Role</th>
+                                <th>Key Tech</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Response Service</strong></td>
+                                <td>8029 / 8030</td>
+                                <td>🧠 AI brain — messages, knowledge, streaming</td>
+                                <td>FastAPI, Claude Sonnet, Neo4j, Redis</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HITL Service</strong></td>
+                                <td>8109</td>
+                                <td>👤 Human operators — live chat, queue</td>
+                                <td>FastAPI, WebSockets, MySQL, Gemini</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Voice Gateway</strong></td>
+                                <td>8060</td>
+                                <td>🎤 STT + TTS — web, WhatsApp, phone</td>
+                                <td>FastAPI, ElevenLabs, OpenAI, Twilio</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Training Service</strong></td>
+                                <td>8026</td>
+                                <td>📖 Doc → Knowledge graph pipeline</td>
+                                <td>FastAPI, Celery, Claude, Gemini, Neo4j</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="sub-title">External Services Master List</div>
+                <div class="tbl-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>What For</th>
+                                <th>Used By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Anthropic Claude Haiku</strong></td>
+                                <td>Fast entity extraction, sentiment checks, HITL decision</td>
+                                <td>Response</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Anthropic Claude Sonnet</strong></td>
+                                <td>Main answer generation, graph extraction from docs</td>
+                                <td>Response, Training</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Google Gemini</strong></td>
+                                <td>Vector embeddings + AI reply suggestions for operators</td>
+                                <td>Training, HITL</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ElevenLabs Scribe v2</strong></td>
+                                <td>STT — real-time transcription (web, phone)</td>
+                                <td>Voice</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ElevenLabs Flash / Multilingual</strong></td>
+                                <td>TTS — ultra-low latency speech synthesis</td>
+                                <td>Voice</td>
+                            </tr>
+                            <tr>
+                                <td><strong>OpenAI Whisper</strong></td>
+                                <td>STT — batch transcription (WhatsApp)</td>
+                                <td>Voice</td>
+                            </tr>
+                            <tr>
+                                <td><strong>OpenAI TTS-1</strong></td>
+                                <td>TTS — budget speech synthesis option</td>
+                                <td>Voice</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Twilio</strong></td>
+                                <td>Phone call infrastructure (VoIP), TwiML</td>
+                                <td>Voice</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Neo4j</strong></td>
+                                <td>Knowledge graph storage and querying</td>
+                                <td>Response, Training</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Redis</strong></td>
+                                <td>Cache, pub/sub, session state, Celery broker</td>
+                                <td>All services</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wasabi (S3-compatible)</strong></td>
+                                <td>Document and audio file storage</td>
+                                <td>Training, Voice</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Celery</strong></td>
+                                <td>Async background task queue</td>
+                                <td>Training</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Selenium / Chrome</strong></td>
+                                <td>Headless web scraping</td>
+                                <td>Training</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LlamaCloud</strong></td>
+                                <td>OCR for image-based documents</td>
+                                <td>Training</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Eureka</strong></td>
+                                <td>Microservice registry / service discovery</td>
+                                <td>All services</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LangSmith</strong></td>
+                                <td>LLM observability and tracing (optional)</td>
+                                <td>Training</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div><!-- end Summary section -->
+
+        </div><!-- end content -->
+    </div><!-- end container-main -->
+
+    <footer>
+        <h5>🤖 BRN AI Chatbot Platform</h5>
+        <p><strong>Complete Learning Guide — All 4 Services | Zero Info Loss</strong></p>
+        <p>Response Service (8029/8030) | HITL Service (8109) | Voice Gateway (8060) | Training Service (8026)</p>
+    </footer>
+
+    <div class="back-top" id="backTop">⬆</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const btn = document.getElementById('backTop');
+        window.addEventListener('scroll', () => {
+            btn.classList.toggle('show', window.pageYOffset > 300);
+        });
+        btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const t = document.querySelector(a.getAttribute('href'));
+                if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+            });
+        });
+    </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

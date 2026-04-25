@@ -1,0 +1,2443 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Problems 51-70 | Interactive Learning Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --light-bg: #f8fafc;
+            --dark-bg: #0f172a;
+            --easy: #84fab0;
+            --medium: #ffa502;
+            --hard: #ff6b6b;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Learning Streak Bar */
+        .learning-bar {
+            background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+            padding: 12px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .streak-info {
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .streak-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .streak-item i {
+            font-size: 1.3rem;
+        }
+
+        .streak-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white !important;
+            animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .main-wrapper {
+            background: white;
+            margin: 30px auto;
+            max-width: 1400px;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: slideInDown 0.8s ease;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes moveBackground {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
+            opacity: 0.95;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease backwards;
+        }
+
+        .stat-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .stat-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .stat-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .stat-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .stat-card .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card .label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .filter-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .filter-title {
+            color: white;
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn.active {
+            background: white;
+            color: #f5576c;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .content-wrapper {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--info));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .problem-count {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        /* Enhanced Card Styles */
+        .accordion {
+            border: none;
+            margin-bottom: 15px;
+        }
+
+        .accordion-button {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            padding: 18px 20px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+            position: relative;
+        }
+
+        .accordion-button:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .problem-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            letter-spacing: 0.3px;
+        }
+
+        .accordion-button:not(.collapsed) .problem-title {
+            color: white;
+        }
+
+        .difficulty-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .difficulty-medium {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: #333;
+        }
+
+        .difficulty-badge:hover {
+            transform: scale(1.1);
+        }
+
+        .accordion-body {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        /* Creative Learning Elements */
+        .memory-anchor {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #ff6b35;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .memory-anchor i {
+            font-size: 1.5rem;
+            color: #ffd700;
+            animation: bounce 2s infinite;
+        }
+
+        .pro-tip {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #00b894;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .pro-tip i {
+            color: #00b894;
+            margin-right: 8px;
+        }
+
+        .common-mistake {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #ef5350;
+            color: #c62828;
+            font-weight: 500;
+        }
+
+        .common-mistake i {
+            color: #ef5350;
+            margin-right: 8px;
+        }
+
+        .pattern-box {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #667eea;
+            color: #333;
+            font-weight: 500;
+            font-family: 'Courier New', monospace;
+        }
+
+        .pattern-box i {
+            color: #667eea;
+            margin-right: 8px;
+        }
+
+        .interactive-quiz {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 2px dashed #f39c12;
+        }
+
+        .quiz-question {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .quiz-option {
+            background: white;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #95a5a6;
+        }
+
+        .quiz-option:hover {
+            background: #f0f0f0;
+            border-left-color: #667eea;
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-left-color: #28a745;
+            color: #155724;
+        }
+
+        .quiz-option.wrong {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+            color: #721c24;
+        }
+
+        .visual-mnemonic {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .code-label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--primary);
+            margin-top: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .code-container {
+            position: relative;
+            margin: 10px 0;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #e0e0e0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            overflow-x: auto;
+            line-height: 1.7;
+            border-left: 5px solid var(--primary);
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .code-copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .code-copy-btn:hover {
+            background: var(--secondary);
+            transform: scale(1.05);
+        }
+
+        .code-copy-btn.copied {
+            background: var(--success);
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .function {
+            color: #dcdcaa;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .complexity-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .complexity-card {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--success);
+            transition: all 0.3s ease;
+        }
+
+        .complexity-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .complexity-card.space {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-left-color: var(--info);
+        }
+
+        .complexity-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #555;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .complexity-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.3px;
+        }
+
+        .approach-box {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--warning);
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .approach-box:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .approach-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #ff8c00;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        .approach-steps {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .approach-steps li {
+            padding: 8px 0;
+            padding-left: 35px;
+            position: relative;
+            color: #333;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .approach-steps li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #ff8c00;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .learn-key {
+            background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .example-section {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .example-section:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #7b1fa2;
+            margin-bottom: 15px;
+            letter-spacing: 0.3px;
+        }
+
+        .visualization {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            border: 2px solid #e0e0e0;
+            overflow-x: auto;
+            line-height: 1.7;
+            letter-spacing: 0.3px;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+            border: none;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        footer {
+            background: linear-gradient(90deg, #1a202c 0%, #0f172a 100%);
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 50px;
+        }
+
+        footer h5 {
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .progress-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(#667eea 0deg, #667eea 180deg, #e0e0e0 180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+        }
+
+        .progress-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .filter-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .content-wrapper {
+                padding: 25px;
+            }
+
+            .complexity-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <!-- Learning Streak Bar -->
+    <div class="learning-bar">
+        <div class="streak-info">
+            <div class="streak-item">
+                <i class="fas fa-fire" style="color: #ff6b6b;"></i>
+                <span>Streak: <span class="streak-value" id="streak">0</span> days</span>
+            </div>
+            <div class="streak-item">
+                <i class="fas fa-clock" style="color: #ffa502;"></i>
+                <span>Study Time: <span class="streak-value" id="studyTime">0</span> min</span>
+            </div>
+            <div class="streak-item">
+                <i class="fas fa-brain" style="color: #667eea;"></i>
+                <span>Learned: <span class="streak-value" id="learned">0</span>/20</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top">
+                <i class="fas fa-brain"></i> 🚀 Array Mastery 51-70
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <!-- Hero Section -->
+        <div class="hero" id="top">
+            <h1>💡 Learn Array Problems Like A Pro 🧠</h1>
+            <p class="hero-subtitle">Interactive learning with memory techniques, mnemonics & spaced repetition</p>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="number">20</div>
+                    <div class="label">🎯 Problems</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">🎬</div>
+                    <div class="label">Visual Examples</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">🧠</div>
+                    <div class="label">Memory Tricks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">⚡</div>
+                    <div class="label">Fast Learning</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-title"><i class="fas fa-filter"></i> 🎨 Filter by Type</div>
+            <div class="filter-buttons">
+                <button class="filter-btn active">📚 All</button>
+                <button class="filter-btn">🔄 Pointers</button>
+                <button class="filter-btn">📊 Math</button>
+                <button class="filter-btn">🏗️ Structure</button>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="content-wrapper">
+
+            <!-- ARRAY PROBLEMS SECTION -->
+            <div class="section" id="arrays">
+                <h2 class="section-title">
+                    <i class="fas fa-th"></i> 🎯 Core Problems
+                    <span class="problem-count">20</span>
+                </h2>
+
+                <!-- Learning Strategy Box -->
+                <div
+                    style="background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%); padding: 20px; border-radius: 12px; margin-bottom: 30px; border-left: 4px solid var(--primary);">
+                    <h4 style="color: var(--primary); margin-bottom: 12px;">🧠 How to Learn Fast (Brain Science):</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div>✅ <strong>Active Recall:</strong> Test yourself before peeking the answer</div>
+                        <div>✅ <strong>Spaced Repetition:</strong> Review problems multiple times</div>
+                        <div>✅ <strong>Chunking:</strong> Break problems into smaller patterns</div>
+                        <div>✅ <strong>Visual Learning:</strong> Use diagrams & emojis as memory anchors</div>
+                        <div>✅ <strong>Mnemonics:</strong> Remember patterns with creative phrases</div>
+                        <div>✅ <strong>Elaboration:</strong> Connect to problems you already know</div>
+                    </div>
+                </div>
+
+                <div class="accordion" id="arrayAccordion">
+
+                    <!-- Problem 51: Sort Colors -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem51">
+                                <div class="problem-header">
+                                    <span class="problem-title">🎨 51. Sort Colors (Dutch Flag)</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem51" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Sort array of 0s, 1s, 2s in-place without library sort.
+                                </p>
+
+                                <!-- Memory Anchor -->
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>🚩 MEMORY TRICK: "L-M-H" (Low-Mid-High) → Three zones like a flag!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 KEY INSIGHT:</strong> Don't sort! Just partition into 3 zones using
+                                    pointers.
+                                </div>
+
+                                <!-- Visual Pattern -->
+                                <div class="pattern-box">
+                                    <i class="fas fa-chess"></i>
+                                    <strong>Pattern Recognition:</strong><br />
+                                    [0s ZONE] | [1s ZONE] | [2s ZONE] ← 3 separate areas!
+                                </div>
+
+                                <div class="approach-box">
+                                    <div class="approach-title"><i class="fas fa-lightbulb"></i> Algorithm: 3-Way
+                                        Partition</div>
+                                    <ul class="approach-steps">
+                                        <li>🔴 <strong>low:</strong> Right boundary of 0s (move right after swapping 0)
+                                        </li>
+                                        <li>🟡 <strong>mid:</strong> Scanner pointer (checks each element)</li>
+                                        <li>🔵 <strong>high:</strong> Left boundary of 2s (move left after swapping 2)
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- Pro Tip -->
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>Pro Tip:</strong> When nums[mid]=0, move BOTH
+                                    low & mid. When nums[mid]=2, move only high. This avoids re-checking!
+                                </div>
+
+                                <!-- Common Mistake -->
+                                <div class="common-mistake">
+                                    <i class="fas fa-exclamation-triangle"></i> <strong>Gotcha:</strong> Don't increment
+                                    mid when swapping with high! You need to check that element again.
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(1)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">sort_colors</span>(nums):
+    low, mid, high = 0, 0, <span class="function">len</span>(nums) - 1
+    
+    <span class="keyword">while</span> mid <= high:
+        <span class="keyword">if</span> nums[mid] == 0:
+            nums[low], nums[mid] = nums[mid], nums[low]
+            low += 1; mid += 1  <span class="comment"># Both move!</span>
+        <span class="keyword">elif</span> nums[mid] == 1:
+            mid += 1  <span class="comment"># Just move mid</span>
+        <span class="keyword">else</span>:
+            nums[mid], nums[high] = nums[high], nums[mid]
+            high -= 1  <span class="comment"># Only high moves!</span></pre>
+                                </div>
+
+                                <div class="example-section">
+                                    <div class="example-title">🎬 Step-by-Step Trace: [2,0,2,1,1,0]</div>
+                                    <div class="visualization">TRACE:
+                                        Start: [2,0,2,1,1,0], low=0, mid=0, high=5
+                                        Step1: nums[0]=2 (swap with high) → [0,0,2,1,1,2], high=4
+                                        Step2: nums[0]=0 (swap with low) → [0,0,2,1,1,2], low=1, mid=1
+                                        Step3: nums[1]=0 (already at low) → [0,0,2,1,1,2], low=2, mid=2
+                                        ...
+                                        Final: [0,0,1,1,2,2] ✅</div>
+                                </div>
+
+                                <!-- Interactive Quiz -->
+                                <div class="interactive-quiz">
+                                    <div class="quiz-question">❓ Quick Check: What happens when nums[mid]=2?</div>
+                                    <div class="quiz-option" onclick="checkAnswer(this, true)">🎯 Only decrement high
+                                        (don't increment mid)</div>
+                                    <div class="quiz-option" onclick="checkAnswer(this, false)">❌ Increment both mid and
+                                        high</div>
+                                    <div class="quiz-option" onclick="checkAnswer(this, false)">❌ Only increment mid
+                                    </div>
+                                </div>
+
+                                <!-- Visual Mnemonic -->
+                                <div class="visual-mnemonic">
+                                    🚩 L-M-H: Like a Traffic Light! 🚦<br />
+                                    🔴 Red (0) on LEFT | 🟡 Yellow (1) MIDDLE | 🟢 Green (2) RIGHT
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 52: Subarray Product < K -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem52">
+                                <div class="problem-header">
+                                    <span class="problem-title">📊 52. Subarray Product < K</span>
+                                            <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem52" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Count subarrays where product < k using sliding
+                                        window.</p>
+
+                                        <div class="memory-anchor">
+                                            <i class="fas fa-star"></i>
+                                            <span>🪟 MEMORY: "Expand Right, Contract Left" → Classic Sliding Window
+                                                Dance!</span>
+                                        </div>
+
+                                        <div class="learn-key">
+                                            <strong>💡 KEY:</strong> For each right position, ALL subarrays in window
+                                            are valid!
+                                        </div>
+
+                                        <div class="pattern-box">
+                                            <i class="fas fa-chess"></i>
+                                            <strong>Math Pattern:</strong><br />
+                                            At position right: Valid subarrays = right - left + 1
+                                        </div>
+
+                                        <div class="pro-tip">
+                                            <i class="fas fa-rocket"></i> <strong>Genius Move:</strong> Once window
+                                            product ≥ k, shrink from LEFT to reduce product. Don't reset, just slide!
+                                        </div>
+
+                                        <div class="complexity-section">
+                                            <div class="complexity-card">
+                                                <div class="complexity-label">⏱️ Time</div>
+                                                <div class="complexity-value">O(n)</div>
+                                            </div>
+                                            <div class="complexity-card space">
+                                                <div class="complexity-label">💾 Space</div>
+                                                <div class="complexity-value">O(1)</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                        <div class="code-container">
+                                            <button class="code-copy-btn" onclick="copyCode(this)"><i
+                                                    class="fas fa-copy"></i> Copy</button>
+                                            <pre class="code-block"><span class="keyword">def</span> <span class="function">num_subarray_product</span>(nums, k):
+    <span class="keyword">if</span> k <= 1: <span class="keyword">return</span> 0
+    
+    prod, left, res = 1, 0, 0
+    
+    <span class="keyword">for</span> right <span class="keyword">in</span> <span class="function">range</span>(<span class="function">len</span>(nums)):
+        prod *= nums[right]  <span class="comment"># Expand</span>
+        
+        <span class="keyword">while</span> prod >= k <span class="keyword">and</span> left <= right:
+            prod //= nums[left]  <span class="comment"># Contract</span>
+            left += 1
+        
+        res += right - left + 1  <span class="comment"># Count all valid!</span>
+    
+    <span class="keyword">return</span> res</pre>
+                                        </div>
+
+                                        <div class="visual-mnemonic">
+                                            🎪 SLIDING WINDOW SONG: 🎵<br />
+                                            "Expand, expand... STOP! Contract, contract... GO!"
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 53: Find Duplicate -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem53">
+                                <div class="problem-header">
+                                    <span class="problem-title">🔍 53. Find Duplicate (Floyd's Cycle)</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem53" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Find duplicate in O(1) space without modifying array.
+                                </p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>🐢🐰 MEMORY: "Tortoise & Hare" → Classic cycle detection algorithm!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 GENIUS:</strong> Treat array as linked list! Values = indices → natural
+                                    cycle!
+                                </div>
+
+                                <div class="pattern-box">
+                                    <i class="fas fa-chess"></i>
+                                    <strong>Cycle Insight:</strong><br />
+                                    Duplicate number = cycle entry point! 🎯
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>Two Phase:</strong> Phase 1: Find collision
+                                    point. Phase 2: Find cycle entry!
+                                </div>
+
+                                <div class="common-mistake">
+                                    <i class="fas fa-exclamation-triangle"></i> <strong>Trap:</strong> Don't use HashSet
+                                    (violates O(1) space requirement)!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(1) 🌟</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">find_duplicate</span>(nums):
+    <span class="comment"># Phase 1: Find meeting point</span>
+    tortoise = hare = nums[0]
+    <span class="keyword">while</span> <span class="keyword">True</span>:
+        tortoise = nums[tortoise]
+        hare = nums[nums[hare]]
+        <span class="keyword">if</span> tortoise == hare: <span class="keyword">break</span>
+    
+    <span class="comment"># Phase 2: Find cycle entry</span>
+    ptr1 = nums[0]
+    ptr2 = tortoise
+    <span class="keyword">while</span> ptr1 != ptr2:
+        ptr1 = nums[ptr1]
+        ptr2 = nums[ptr2]
+    
+    <span class="keyword">return</span> ptr1</pre>
+                                </div>
+
+                                <div class="visual-mnemonic">
+                                    🏃🐢 RACE TRACK ANALOGY: 🏁<br />
+                                    Hare = 2x speed, Tortoise = 1x speed → They ALWAYS meet in a cycle!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 57: Max Product Subarray -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem57">
+                                <div class="problem-header">
+                                    <span class="problem-title">⚡ 57. Maximum Product Subarray</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem57" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Find max product subarray (handle negatives!).</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>⚡ MEMORY: "Negative × Negative = POSITIVE!" → Track both max & min!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 KEY:</strong> A "bad" minimum can become the best maximum after hitting
+                                    negative!
+                                </div>
+
+                                <div class="pattern-box">
+                                    <i class="fas fa-chess"></i>
+                                    <strong>State Machine:</strong><br />
+                                    Two states: cur_max & cur_min. Swap when negative found!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>Swap Magic:</strong> When num < 0, swap
+                                        cur_max ↔ cur_min. The minimum suddenly becomes maximum! </div>
+
+                                        <div class="complexity-section">
+                                            <div class="complexity-card">
+                                                <div class="complexity-label">⏱️ Time</div>
+                                                <div class="complexity-value">O(n)</div>
+                                            </div>
+                                            <div class="complexity-card space">
+                                                <div class="complexity-label">💾 Space</div>
+                                                <div class="complexity-value">O(1)</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                        <div class="code-container">
+                                            <button class="code-copy-btn" onclick="copyCode(this)"><i
+                                                    class="fas fa-copy"></i> Copy</button>
+                                            <pre class="code-block"><span class="keyword">def</span> <span class="function">max_product</span>(nums):
+    res = cur_max = cur_min = nums[0]
+    
+    <span class="keyword">for</span> n <span class="keyword">in</span> nums[1:]:
+        <span class="keyword">if</span> n < 0:  <span class="comment"># Negative coming!</span>
+            cur_max, cur_min = cur_min, cur_max  <span class="comment"># SWAP!</span>
+        
+        cur_max = <span class="function">max</span>(n, cur_max * n)
+        cur_min = <span class="function">min</span>(n, cur_min * n)
+        res = <span class="function">max</span>(res, cur_max)
+    
+    <span class="keyword">return</span> res</pre>
+                                        </div>
+
+                                        <div class="visual-mnemonic">
+                                            🔄 STATE FLIP DANCE: ↔️<br />
+                                            See negative? → SWAP max & min → Minimum becomes tomorrow's maximum!
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Problem 54: Minimum Swaps to Sort -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem54">
+                                <div class="problem-header">
+                                    <span class="problem-title">🔄 54. Minimum Swaps to Sort</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem54" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Find minimum swaps needed to sort array using cycle
+                                    detection.</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>🔁 MEMORY: "Follow the cycles!" → Each cycle needs (size-1) swaps</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 KEY:</strong> Graph each element to its correct position, trace cycles!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>Cycle Formula:</strong> For k-size cycle → k-1
+                                    swaps needed!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n log n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">min_swaps</span>(arr):
+    <span class="comment"># Create (value, index) pairs and sort by value</span>
+    n = <span class="function">len</span>(arr)
+    arrPos = [(arr[i], i) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n)]
+    arrPos.sort()
+    
+    visited = [<span class="keyword">False</span>] * n
+    swaps = 0
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n):
+        <span class="keyword">if</span> visited[i] <span class="keyword">or</span> arrPos[i][1] == i:
+            <span class="keyword">continue</span>
+        
+        <span class="comment"># Count cycle length</span>
+        cycle_len = 0
+        j = i
+        <span class="keyword">while</span> <span class="keyword">not</span> visited[j]:
+            visited[j] = <span class="keyword">True</span>
+            j = arrPos[j][1]
+            cycle_len += 1
+        
+        <span class="keyword">if</span> cycle_len > 1:
+            swaps += (cycle_len - 1)
+    
+    <span class="keyword">return</span> swaps</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 55: Count Inversions -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem55">
+                                <div class="problem-header">
+                                    <span class="problem-title">📈 55. Count Inversions (Merge Sort)</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem55" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Count pairs (i,j) where i < j but arr[i]> arr[j].</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>🔀 MEMORY: "Count while merging!" → Merge sort counts inversions
+                                        automatically</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 KEY:</strong> When left[i] > right[j], ALL remaining left are inversions!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>Trick:</strong> Add (len(left)-i) for each
+                                    inversion found!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n log n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">count_inversions</span>(arr):
+    <span class="comment"># Merge sort approach</span>
+    <span class="keyword">def</span> <span class="function">merge_count</span>(left, right):
+        i = j = 0
+        count = 0
+        merged = []
+        
+        <span class="keyword">while</span> i < <span class="function">len</span>(left) <span class="keyword">and</span> j < <span class="function">len</span>(right):
+            <span class="keyword">if</span> left[i] <= right[j]:
+                merged.append(left[i])
+                i += 1
+            <span class="keyword">else</span>:
+                merged.append(right[j])
+                count += <span class="function">len</span>(left) - i  <span class="comment"># Key: ALL remaining left > right[j]</span>
+                j += 1
+        
+        merged.extend(left[i:])
+        merged.extend(right[j:])
+        <span class="keyword">return</span> merged, count
+    
+    <span class="keyword">def</span> <span class="function">sort_count</span>(arr):
+        <span class="keyword">if</span> <span class="function">len</span>(arr) <= 1:
+            <span class="keyword">return</span> arr, 0
+        
+        mid = <span class="function">len</span>(arr) // 2
+        left, lc = <span class="function">sort_count</span>(arr[:mid])
+        right, rc = <span class="function">sort_count</span>(arr[mid:])
+        merged, mc = <span class="function">merge_count</span>(left, right)
+        
+        <span class="keyword">return</span> merged, lc + rc + mc
+    
+    _, inversions = <span class="function">sort_count</span>(arr)
+    <span class="keyword">return</span> inversions</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 56: Missing Number -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem56">
+                                <div class="problem-header">
+                                    <span class="problem-title">⊕ 56. Missing Number (XOR)</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem56" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Find missing number 0-n using XOR trick.</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>⊕ MEMORY: "a ⊕ a = 0, a ⊕ 0 = a" → Duplicates cancel!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 GENIUS:</strong> XOR all indices with all elements → Duplicate cancels →
+                                    Missing remains!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>No Overflow:</strong> XOR works for large
+                                    numbers (unlike sum approach)!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(1)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">missing_number</span>(nums):
+    <span class="comment"># XOR magic: a ^ a = 0, a ^ 0 = a</span>
+    res = <span class="function">len</span>(nums)
+    
+    <span class="keyword">for</span> i, num <span class="keyword">in</span> <span class="function">enumerate</span>(nums):
+        res ^= i ^ num
+    
+    <span class="keyword">return</span> res</pre>
+                                </div>
+
+                                <div class="visual-mnemonic">
+                                    🎪 XOR SONG: 🎵<br />
+                                    "Self XOR zero, other XOR remains... Missing shows up in the end!"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 58: Third Maximum -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem58">
+                                <div class="problem-header">
+                                    <span class="problem-title">🥉 58. Third Maximum Number</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem58" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Find third max (or max if < 3 unique).</p>
+
+                                        <div class="memory-anchor">
+                                            <i class="fas fa-star"></i>
+                                            <span>🏆 MEMORY: "Podium positions" → 🥇 1st, 🥈 2nd, 🥉 3rd!</span>
+                                        </div>
+
+                                        <div class="learn-key">
+                                            <strong>💡 KEY:</strong> Remove duplicates (set), sort, access index!
+                                        </div>
+
+                                        <div class="pro-tip">
+                                            <i class="fas fa-rocket"></i> <strong>Edge Case:</strong> Less than 3
+                                            unique? Return max!
+                                        </div>
+
+                                        <div class="complexity-section">
+                                            <div class="complexity-card">
+                                                <div class="complexity-label">⏱️ Time</div>
+                                                <div class="complexity-value">O(n log n)</div>
+                                            </div>
+                                            <div class="complexity-card space">
+                                                <div class="complexity-label">💾 Space</div>
+                                                <div class="complexity-value">O(n)</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                        <div class="code-container">
+                                            <button class="code-copy-btn" onclick="copyCode(this)"><i
+                                                    class="fas fa-copy"></i> Copy</button>
+                                            <pre
+                                                class="code-block"><span class="keyword">def</span> <span class="function">third_max</span>(nums):
+    <span class="keyword">return</span> <span class="function">sorted</span>(<span class="function">set</span>(nums), reverse=<span class="keyword">True</span>)[2] <span class="keyword">if</span> <span class="function">len</span>(<span class="function">set</span>(nums)) >= 3 <span class="keyword">else</span> <span class="function">max</span>(nums)</pre>
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 59: Can Place Flowers -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem59">
+                                <div class="problem-header">
+                                    <span class="problem-title">🌻 59. Can Place Flowers</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem59" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Check if n flowers can be planted (no adjacency).</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>🌼 MEMORY: "Lonely flowers only!" → Need empty neighbors!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 KEY:</strong> 3 conditions: current empty AND left empty AND right empty!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>Greedy Works:</strong> Plant whenever possible
+                                    - optimal strategy!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(1)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">can_place_flowers</span>(flowerbed, n):
+    count = 0
+    i = 0
+    
+    <span class="keyword">while</span> i < <span class="function">len</span>(flowerbed):
+        <span class="keyword">if</span> (flowerbed[i] == 0 <span class="keyword">and</span>
+            (i == 0 <span class="keyword">or</span> flowerbed[i-1] == 0) <span class="keyword">and</span>
+            (i == <span class="function">len</span>(flowerbed)-1 <span class="keyword">or</span> flowerbed[i+1] == 0)):
+            
+            flowerbed[i] = 1
+            count += 1
+        
+        i += 1
+    
+    <span class="keyword">return</span> count >= n</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 60: Largest Number -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem60">
+                                <div class="problem-header">
+                                    <span class="problem-title">🔢 60. Largest Number (Custom Sort)</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem60" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Arrange numbers to form largest possible number.</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>🎯 MEMORY: "Compare concatenations!" → "xy" vs "yx"?</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 GENIUS:</strong> Custom comparator: if (x+y > y+x) → x comes first!
+                                </div>
+
+                                <div class="common-mistake">
+                                    <i class="fas fa-exclamation-triangle"></i> <strong>Trap:</strong> Watch "00...0"
+                                    case → return "0"!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n log n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre
+                                        class="code-block"><span class="keyword">from</span> functools <span class="keyword">import</span> cmp_to_key
+
+<span class="keyword">def</span> <span class="function">largest_number</span>(nums):
+    nums = <span class="function">list</span>(<span class="function">map</span>(<span class="function">str</span>, nums))
+    
+    <span class="keyword">def</span> <span class="function">cmp</span>(x, y):
+        <span class="keyword">if</span> x + y > y + x:
+            <span class="keyword">return</span> -1
+        <span class="keyword">elif</span> x + y < y + x:
+            <span class="keyword">return</span> 1
+        <span class="keyword">else</span>:
+            <span class="keyword">return</span> 0
+    
+    nums.sort(key=cmp_to_key(cmp))
+    res = ''.join(nums)
+    
+    <span class="keyword">return</span> '0' <span class="keyword">if</span> res[0] == '0' <span class="keyword">else</span> res</pre>
+                                </div>
+
+                                <div class="visual-mnemonic">
+                                    💬 DECISION RULE: 📝<br />
+                                    "102" vs "210" → "210" bigger → put "2" first!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 61: Contiguous Subarray with Equal 0s and 1s -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem61">
+                                <div class="problem-header">
+                                    <span class="problem-title">⚖️ 61. Equal 0s & 1s Subarray</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem61" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Find max length subarray with equal 0s and 1s.</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>🔑 MEMORY: "Convert 0→-1, find sum=0!" → Prefix sum magic!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 KEY:</strong> If (current_sum - k) exists → found subarray!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>Trick:</strong> Equal count = sum zero!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">find_max_length</span>(nums):
+    count = 0
+    max_len = 0
+    seen = {0: -1}  <span class="comment"># sum -> first index</span>
+    
+    <span class="keyword">for</span> i, num <span class="keyword">in</span> <span class="function">enumerate</span>(nums):
+        <span class="comment"># Convert 0 to -1, so equal count gives sum=0</span>
+        count += 1 <span class="keyword">if</span> num == 1 <span class="keyword">else</span> -1
+        
+        <span class="keyword">if</span> count <span class="keyword">in</span> seen:
+            <span class="comment"># Found subarray with sum=0</span>
+            max_len = <span class="function">max</span>(max_len, i - seen[count])
+        <span class="keyword">else</span>:
+            seen[count] = i
+    
+    <span class="keyword">return</span> max_len</pre>
+                                </div>
+
+                                <div class="visual-mnemonic">
+                                    🧮 EQUATION TRICK: ➕<br />
+                                    If count seen before, subarray between has equal 0s & 1s!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 62: Maximum Average Subarray I -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem62">
+                                <div class="problem-header">
+                                    <span class="problem-title">📊 62. Maximum Average Subarray I</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem62" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Find max average of k consecutive elements.</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>🪟 MEMORY: "Sliding window of fixed size!" → Add new, drop old!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 KEY:</strong> No need to recalculate sum → Just add new, subtract old!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>O(1) Trick:</strong> window_sum += nums[i] -
+                                    nums[i-k]!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(1)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">find_max_average</span>(nums, k):
+    window_sum = <span class="function">sum</span>(nums[:k])
+    max_sum = window_sum
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(k, <span class="function">len</span>(nums)):
+        window_sum += nums[i] - nums[i-k]
+        max_sum = <span class="function">max</span>(max_sum, window_sum)
+    
+    <span class="keyword">return</span> max_sum / k</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 63: Longest Mountain -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem63">
+                                <div class="problem-header">
+                                    <span class="problem-title">⛰️ 63. Longest Mountain in Array</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem63" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Find longest subarray forming mountain (up then down).
+                                </p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>⛰️ MEMORY: "Peak detection!" → Find peak, expand left & right!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 KEY:</strong> Peak = arr[i-1] < arr[i]> arr[i+1]!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>Efficient:</strong> Each element visited once
+                                    → O(n)!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(1)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">longest_mountain</span>(arr):
+    <span class="keyword">if</span> <span class="function">len</span>(arr) < 3:
+        <span class="keyword">return</span> 0
+    
+    ans = 0
+    i = 1
+    
+    <span class="keyword">while</span> i < <span class="function">len</span>(arr) - 1:
+        <span class="keyword">if</span> arr[i-1] < arr[i] > arr[i+1]:
+            l = i - 1
+            <span class="keyword">while</span> l > 0 <span class="keyword">and</span> arr[l-1] < arr[l]:
+                l -= 1
+            
+            r = i + 1
+            <span class="keyword">while</span> r < <span class="function\">len</span>(arr) - 1 <span class="keyword\">and</span> arr[r] > arr[r+1]:
+                r += 1
+            
+            ans = <span class="function">max</span>(ans, r - l + 1)
+            i = r + 1
+        <span class="keyword">else</span>:
+            i += 1
+    
+    <span class="keyword">return</span> ans</pre>
+                                </div>
+
+                                <div class="visual-mnemonic">
+                                    /\ MOUNTAIN SHAPE: /\<br />
+                                    UP (strictly increasing) + DOWN (strictly decreasing) = Valid mountain!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 64: Monotonic Array -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem64">
+                                <div class="problem-header">
+                                    <span class="problem-title">📈📉 64. Monotonic Array Check</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem64" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Check if array is monotonic (all inc OR all dec).</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>🎯 MEMORY: "One direction only!" → Inc OR Dec, never both!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 KEY:</strong> Two flags: inc & dec. Set false when condition breaks!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>Result:</strong> Return (inc OR dec) at end!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(1)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">is_monotonic</span>(nums):
+    inc = dec = <span class="keyword">True</span>
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(1, <span class="function">len</span>(nums)):
+        <span class="keyword">if</span> nums[i] > nums[i-1]:
+            dec = <span class="keyword">False</span>
+        <span class="keyword">if</span> nums[i] < nums[i-1]:
+            inc = <span class="keyword">False</span>
+    
+    <span class="keyword">return</span> inc <span class="keyword">or</span> dec</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 65: Pivot Index -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem65">
+                                <div class="problem-header">
+                                    <span class="problem-title">⚖️ 65. Pivot Index (Prefix Sum)</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem65" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Find index where left sum = right sum.</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>⚖️ MEMORY: "Balance point!" → Weights equal on both sides!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 GENIUS:</strong> right_sum = total - left_sum - current!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>One Pass:</strong> Accumulate left_sum,
+                                    calculate right on the fly!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(1)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">pivot_index</span>(nums):
+    total = <span class="function">sum</span>(nums)
+    left_sum = 0
+    
+    <span class="keyword">for</span> i, x <span class="keyword">in</span> <span class="function">enumerate</span>(nums):
+        <span class="keyword">if</span> left_sum == total - left_sum - x:
+            <span class="keyword">return</span> i
+        left_sum += x
+    
+    <span class="keyword">return</span> -1</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 66: Replace Elements with Greatest on Right -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem66">
+                                <div class="problem-header">
+                                    <span class="problem-title">➡️ 66. Replace Elements with Greatest Right</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem66" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Replace each element with max to its right.</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>🔄 MEMORY: "Right to left traversal!" → Build max backwards!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 KEY:</strong> Process backwards → Each element swaps with running max!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>In-place Trick:</strong> arr[i], max_val =
+                                    max_val, max(max_val, arr[i])!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(1)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">replace_elements</span>(arr):
+    max_val = -1
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="function">len</span>(arr) - 1, -1, -1):
+        arr[i], max_val = max_val, <span class="function">max</span>(max_val, arr[i])
+    
+    <span class="keyword">return</span> arr</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 67: Find All Duplicates -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem67">
+                                <div class="problem-header">
+                                    <span class="problem-title">🔎 67. Find All Duplicates (In-place)</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem67" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Find duplicates in O(1) space using array indices.</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>🚩 MEMORY: "Mark with negativity!" → visited = negative!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 GENIUS:</strong> Use array indices 0-n as hash → Mark with negative!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>Two Passes:</strong> First mark, second
+                                    collect duplicates!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(1)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">find_duplicates</span>(nums):
+    res = []
+    
+    <span class="keyword">for</span> n <span class="keyword">in</span> nums:
+        idx = <span class="function">abs</span>(n) - 1
+        
+        <span class="keyword">if</span> nums[idx] < 0:
+            res.append(<span class="function">abs</span>(n))
+        <span class="keyword">else</span>:
+            nums[idx] = -nums[idx]
+    
+    <span class="keyword">return</span> res</pre>
+                                </div>
+
+                                <div class="visual-mnemonic">
+                                    🔢 MARKING SYSTEM: 🚩<br />
+                                    Positive = unvisited, Negative = visited = duplicate!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 68: Next Greater Element II -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem68">
+                                <div class="problem-header">
+                                    <span class="problem-title">🔄 68. Next Greater Element II (Circular)</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem68" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Find next greater element in circular array.</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>📚 MEMORY: "Monotonic stack!" → Process 2×n elements!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 KEY:</strong> Iterate 2×n times to handle circular. Stack stores indices!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>Stack Trick:</strong> Pop while current >
+                                    stack top!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">next_greater_elements</span>(nums):
+    n = <span class="function">len</span>(nums)
+    res = [-1] * n
+    stack = []
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(2 * n):
+        <span class="keyword">while</span> stack <span class="keyword">and</span> nums[stack[-1]] < nums[i % n]:
+            res[stack.pop()] = nums[i % n]
+        
+        <span class="keyword">if</span> i < n:
+            stack.append(i)
+    
+    <span class="keyword">return</span> res</pre>
+                                </div>
+
+                                <div class="visual-mnemonic">
+                                    🎪 CIRCULAR TRICK: 🔁<br />
+                                    Process 2×n elements → Circular becomes 2 linear scans!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 69: Count Subarrays with Sum = k -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem69">
+                                <div class="problem-header">
+                                    <span class="problem-title">🎯 69. Count Subarrays with Sum = k</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem69" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Count subarrays with specific sum k.</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>🔑 MEMORY: "Check if (prefix - k) exists!" → Prefix sum magic!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 GENIUS:</strong> If (current_sum - k) seen before → found one!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>Count Storage:</strong> Store frequency of
+                                    each sum!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">subarray_sum</span>(nums, k):
+    count = 0
+    prefix_sum = 0
+    sums = {0: 1}  <span class="comment"># sum -&gt; frequency</span>
+    
+    <span class="keyword">for</span> num <span class="keyword">in</span> nums:
+        prefix_sum += num
+        
+        <span class="keyword">if</span> prefix_sum - k <span class="keyword">in</span> sums:
+            count += sums[prefix_sum - k]
+        
+        sums[prefix_sum] = sums.get(prefix_sum, 0) + 1
+    
+    <span class="keyword">return</span> count</pre>
+                                </div>
+
+                                <div class="visual-mnemonic">
+                                    🧮 EQUATION TRICK: ➕<br />
+                                    If prefix_sum - k = old_sum, then subarray between has sum k!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Problem 70: Elements Appearing More Than n/3 Times -->
+                    <div class="accordion-item problem-card" data-difficulty="medium">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#problem70">
+                                <div class="problem-header">
+                                    <span class="problem-title">🏆 70. Elements > n/3 Times (Boyer-Moore)</span>
+                                    <span class="difficulty-badge difficulty-medium">Medium 🔥</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="problem70" class="accordion-collapse collapse" data-bs-parent="#arrayAccordion">
+                            <div class="accordion-body">
+                                <p><strong>💭 Problem:</strong> Find all elements appearing more than n/3 times.</p>
+
+                                <div class="memory-anchor">
+                                    <i class="fas fa-star"></i>
+                                    <span>🎯 MEMORY: "Max 2 candidates!" → Pigeonhole principle!</span>
+                                </div>
+
+                                <div class="learn-key">
+                                    <strong>💡 GENIUS:</strong> At most 2 elements > n/3. Track candidates & counts!
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-rocket"></i> <strong>Two Phases:</strong> Phase 1: Find candidates.
+                                    Phase 2: Verify!
+                                </div>
+
+                                <div class="common-mistake">
+                                    <i class="fas fa-exclamation-triangle"></i> <strong>Gotcha:</strong> Must verify in
+                                    second pass!
+                                </div>
+
+                                <div class="complexity-section">
+                                    <div class="complexity-card">
+                                        <div class="complexity-label">⏱️ Time</div>
+                                        <div class="complexity-value">O(n)</div>
+                                    </div>
+                                    <div class="complexity-card space">
+                                        <div class="complexity-label">💾 Space</div>
+                                        <div class="complexity-value">O(1)</div>
+                                    </div>
+                                </div>
+
+                                <div class="code-label"><i class="fas fa-code"></i> Code Solution</div>
+                                <div class="code-container">
+                                    <button class="code-copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                    <pre class="code-block"><span class="keyword">def</span> <span class="function">majority_element_n3</span>(nums):
+    <span class="keyword">if</span> <span class="keyword">not</span> nums:
+        <span class="keyword\">return</span> []
+    
+    cand1 = cand2 = <span class="keyword">None</span>
+    cnt1 = cnt2 = 0
+    
+    <span class="comment\"># Find candidates</span>
+    <span class="keyword">for</span> n <span class="keyword">in</span> nums:
+        <span class="keyword">if</span> cand1 == n:
+            cnt1 += 1
+        <span class="keyword">elif</span> cand2 == n:
+            cnt2 += 1
+        <span class="keyword">elif</span> cnt1 == 0:
+            cand1, cnt1 = n, 1
+        <span class="keyword">elif</span> cnt2 == 0:
+            cand2, cnt2 = n, 1
+        <span class="keyword">else</span>:
+            cnt1 -= 1
+            cnt2 -= 1
+    
+    <span class="comment\"># Verify candidates</span>
+    res = []
+    <span class=\"keyword\">for</span> c <span class=\"keyword\">in</span> (cand1, cand2):
+        <span class=\"keyword\">if</span> c <span class=\"keyword\">is</span> <span class=\"keyword\">not</span> <span class=\"keyword\">None</span> <span class=\"keyword\">and</span> nums.count(c) > <span class=\"function\">len</span>(nums) // 3:
+            res.append(c)
+    
+    <span class=\"keyword\">return</span> res</pre>
+                                </div>
+
+                                <div class="visual-mnemonic">
+                                    🎪 PIGEONHOLE LAW: 🕳️<br />
+                                    n holes, n+2 pigeons → At most 2 pigeons appear > 3 times!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Summary -->
+                <div
+                    style="background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%); padding: 25px; border-radius: 12px; margin-top: 40px; border-left: 4px solid var(--primary);">
+                    <h4 style="color: var(--primary); margin-bottom: 15px;">✅ All 20 Problems Complete!</h4>
+                    <p style="color: #555; margin: 0;">You now have comprehensive interactive guides for ALL problems
+                        51-70 with memory tricks, pro tips, visual mnemonics, and complexity analysis. Keep practicing!
+                        🚀</p>
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <h5>🚀 Array Problems 51-70 | Interactive Learning Platform</h5>
+                <p>Learn with Memory Tricks, Visual Patterns & Cognitive Science 🧠</p>
+            </footer>
+        </div>
+
+        <!-- Back to Top Button -->
+        <button class="back-to-top" id="backToTop" onclick="scrollToTop()">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+
+        <!-- Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            // Learning stats tracker
+            let streak = parseInt(localStorage.getItem('streak')) || 0;
+            let studyTime = parseInt(localStorage.getItem('studyTime')) || 0;
+            let learned = parseInt(localStorage.getItem('learned')) || 0;
+
+            document.getElementById('streak').textContent = streak;
+            document.getElementById('studyTime').textContent = studyTime;
+            document.getElementById('learned').textContent = learned;
+
+            // Back to top
+            window.addEventListener('scroll', function () {
+                const btn = document.getElementById('backToTop');
+                if (window.pageYOffset > 300) {
+                    btn.classList.add('show');
+                } else {
+                    btn.classList.remove('show');
+                }
+            });
+
+            function scrollToTop() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+
+            // Copy code
+            function copyCode(button) {
+                const codeBlock = button.nextElementSibling;
+                const text = codeBlock.innerText;
+
+                navigator.clipboard.writeText(text).then(() => {
+                    button.classList.add('copied');
+                    button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                    }, 2000);
+                });
+            }
+
+            // Quiz functionality
+            function checkAnswer(element, isCorrect) {
+                const options = element.parentElement.querySelectorAll('.quiz-option');
+                options.forEach(opt => {
+                    opt.style.pointerEvents = 'none';
+                    if (opt === element) {
+                        if (isCorrect) {
+                            opt.classList.add('correct');
+                            const msg = document.createElement('span');
+                            msg.textContent = ' ✅ Correct!';
+                            opt.appendChild(msg);
+                            learned++;
+                            document.getElementById('learned').textContent = learned;
+                            localStorage.setItem('learned', learned);
+                        } else {
+                            opt.classList.add('wrong');
+                            const msg = document.createElement('span');
+                            msg.textContent = ' ❌ Wrong!';
+                            opt.appendChild(msg);
+                        }
+                    }
+                });
+            }
+
+            // Track study time
+            setInterval(() => {
+                studyTime++;
+                document.getElementById('studyTime').textContent = studyTime;
+                localStorage.setItem('studyTime', studyTime);
+            }, 60000); // Every minute
+        </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

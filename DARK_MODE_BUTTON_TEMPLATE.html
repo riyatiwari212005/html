@@ -1,0 +1,81 @@
+<!-- 
+Dark Mode Toggle Button Component
+Copy and paste this anywhere in your HTML to add a clickable dark mode toggle button
+-->
+
+<style>
+    /* Dark Mode Toggle Button Styles */
+    .dark-mode-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        padding: 10px 16px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .dark-mode-toggle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .dark-mode-toggle:active {
+        transform: scale(0.95);
+    }
+
+    /* Animated icon */
+    .toggle-icon {
+        font-size: 18px;
+        transition: transform 0.3s ease;
+    }
+
+    .dark-mode-toggle:hover .toggle-icon {
+        transform: rotate(20deg);
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+        .dark-mode-toggle {
+            top: 10px;
+            right: 10px;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        .toggle-icon {
+            font-size: 16px;
+        }
+    }
+</style>
+
+<!-- The Button (add this in your navbar or header) -->
+<button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode (Ctrl+Shift+D)">
+    <span class="toggle-icon">🌙</span>
+    <span class="toggle-text">Dark</span>
+</button>
+
+<!-- 
+USAGE:
+1. Copy this entire file content
+2. Paste the <style> section in your <head>
+3. Paste the <button> element where you want it to appear
+4. Make sure you have the dark-mode.js loaded in your page
+
+The button will:
+- Show 🌙 Dark in light mode
+- Show ☀️ Light in dark mode  
+- Toggle when clicked
+- Remember user preference
+- Work on all devices
+-->

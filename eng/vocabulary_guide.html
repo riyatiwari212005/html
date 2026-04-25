@@ -1,0 +1,590 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Vocabulary & Phrases Master Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        header {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        header p {
+            color: #666;
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95em;
+            transition: all 0.3s;
+        }
+
+        button.active {
+            background: #667eea;
+            color: white;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-title {
+            color: #667eea;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-meaning {
+            background: #e8f5e9;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            color: #2e7d32;
+            font-weight: 500;
+        }
+
+        .card-examples {
+            background: #fff3e0;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            color: #e65100;
+            font-size: 0.95em;
+        }
+
+        .card-synonyms {
+            background: #f3e5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            color: #6a1b9a;
+            font-size: 0.95em;
+        }
+
+        .example-item {
+            margin: 5px 0;
+            padding-left: 10px;
+            border-left: 3px solid #667eea;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        footer {
+            background: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 10px 0;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <header>
+        <h1>🎯 English Vocabulary & Phrases Master Guide</h1>
+        <p>📚 Complete Learning Resource for Professional & Daily-Life English</p>
+        <p>500+ Words with Synonyms, Antonyms & Real Examples</p>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">300+</div>
+                <div class="stat-label">Phrases & Idioms</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">400+</div>
+                <div class="stat-label">Vocabulary Words</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Office & Daily Use</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="tabs">
+        <button onclick="switchTab('sentences')" class="active" id="btn-sentences">🗣️ Spoken Sentences (10)</button>
+        <button onclick="switchTab('phrases')" id="btn-phrases">💼 Business Phrases (50)</button>
+        <button onclick="switchTab('vocab1')" id="btn-vocab1">📖 Vocabulary Set 1</button>
+        <button onclick="switchTab('vocab2')" id="btn-vocab2">📖 Vocabulary Set 2</button>
+        <button onclick="switchTab('vocab3')" id="btn-vocab3">📖 Vocabulary Set 3</button>
+        <button onclick="switchTab('vocab4')" id="btn-vocab4">📖 Vocabulary Set 4</button>
+    </div>
+
+    <!-- SENTENCES TAB -->
+    <div id="sentences-section" class="content-section">
+        <h2>🗣️ Spoken English Sentences with Full Breakdown</h2>
+        <div class="search-box">
+            <input type="text" id="sentencesSearch" placeholder="Search sentences..." onkeyup="filterSentences()">
+        </div>
+        <div id="sentencesList" class="cards-container"></div>
+    </div>
+
+    <!-- PHRASES TAB -->
+    <div id="phrases-section" class="content-section hidden">
+        <h2>💼 Business Phrases & Idioms</h2>
+        <div class="search-box">
+            <input type="text" id="phrasesSearch" placeholder="Search phrases..." onkeyup="filterPhrases()">
+        </div>
+        <div id="phrasesList" class="cards-container"></div>
+    </div>
+
+    <!-- VOCABULARY TABS -->
+    <div id="vocab1-section" class="content-section hidden">
+        <h2>📖 Core Vocabulary (Set 1)</h2>
+        <div class="search-box">
+            <input type="text" id="vocab1Search" placeholder="Search vocabulary..." onkeyup="filterVocab1()">
+        </div>
+        <div id="vocab1List" class="cards-container"></div>
+    </div>
+
+    <div id="vocab2-section" class="content-section hidden">
+        <h2>📖 Professional Terms (Set 2)</h2>
+        <div class="search-box">
+            <input type="text" id="vocab2Search" placeholder="Search vocabulary..." onkeyup="filterVocab2()">
+        </div>
+        <div id="vocab2List" class="cards-container"></div>
+    </div>
+
+    <div id="vocab3-section" class="content-section hidden">
+        <h2>📖 Advanced Terms (Set 3)</h2>
+        <div class="search-box">
+            <input type="text" id="vocab3Search" placeholder="Search vocabulary..." onkeyup="filterVocab3()">
+        </div>
+        <div id="vocab3List" class="cards-container"></div>
+    </div>
+
+    <div id="vocab4-section" class="content-section hidden">
+        <h2>📖 Expert Level (Set 4)</h2>
+        <div class="search-box">
+            <input type="text" id="vocab4Search" placeholder="Search vocabulary..." onkeyup="filterVocab4()">
+        </div>
+        <div id="vocab4List" class="cards-container"></div>
+    </div>
+
+    <footer>
+        <p>✨ Learn, Practice & Master English Vocabulary ✨</p>
+        <p>"Last Updated: April 2026"</p>
+    </footer>
+
+    <script>
+        // DATA ARRAYS
+        var phrases = [
+            { phrase: 'At the forefront', meaning: 'in a leading position', examples: ['Technology is at the forefront of growth', 'He\'s at the forefront of innovation', 'Our company is at the forefront of industry', 'She stands at the forefront of change'] },
+            { phrase: 'In high demand', meaning: 'very popular', examples: ['Data analysts are in high demand', 'Skilled workers are in high demand', 'Her services are in high demand', 'These products are in high demand'] },
+            { phrase: 'From my perspective', meaning: 'from my view', examples: ['From my perspective, this is risky', 'From my perspective, we should proceed', 'From my perspective, the plan is sound', 'From my perspective, quality matters most'] },
+            { phrase: 'On a tight schedule', meaning: 'little time', examples: ['I\'m on a tight schedule today', 'We\'re on a tight schedule for delivery', 'The project is on a tight schedule', 'They\'re on a tight schedule this week'] },
+            { phrase: 'In the clear', meaning: 'free from blame', examples: ['After review, he was in the clear', 'The company is in the clear now', 'You\'re in the clear with the audit', 'The deal is in the clear'] },
+            { phrase: 'Behind the scenes', meaning: 'secretly', examples: ['A lot happens behind the scenes', 'Changes happen behind the scenes', 'Negotiations go on behind the scenes', 'Work continues behind the scenes'] },
+            { phrase: 'On the table', meaning: 'open for discussion', examples: ['The proposal is still on the table', 'All options are on the table', 'The issue is on the table', 'The offer is on the table'] },
+            { phrase: 'Off the record', meaning: 'unofficially', examples: ['Off the record, the plan may change', 'Off the record, I disagree', 'Off the record, we\'ll adjust', 'Off the record, it\'s problematic'] },
+            { phrase: 'In the loop', meaning: 'informed', examples: ['Keep me in the loop', 'Keep everyone in the loop', 'Stay in the loop with updates', 'We\'re in the loop about changes'] },
+            { phrase: 'Out of the loop', meaning: 'not informed', examples: ['I was out of the loop yesterday', 'He felt out of the loop', 'They were out of the loop on the decision', 'I\'m out of the loop on this'] },
+            { phrase: 'At stake', meaning: 'at risk', examples: ['Our reputation is at stake', 'Your job is at stake', 'Everything is at stake', 'Much is at stake here'] },
+            { phrase: 'In the driver\'s seat', meaning: 'in control', examples: ['She\'s in the driver\'s seat now', 'We\'re in the driver\'s seat', 'He put himself in the driver\'s seat', 'We need to be in the driver\'s seat'] },
+            { phrase: 'On solid ground', meaning: 'safe position', examples: ['The company is on solid ground', 'Our foundation is on solid ground', 'We\'re on solid ground financially', 'Your argument is on solid ground'] },
+            { phrase: 'Up to speed', meaning: 'fully informed', examples: ['I\'ll get you up to speed', 'Let me bring you up to speed', 'Get everyone up to speed', 'Are you up to speed?'] },
+            { phrase: 'Down the line', meaning: 'in the future', examples: ['This will help down the line', 'We\'ll benefit down the line', 'Problems may arise down the line', 'Consider this down the line'] },
+            { phrase: 'In the red', meaning: 'losing money', examples: ['The business is in the red', 'Our budget is in the red', 'The account is in the red', 'We went in the red this quarter'] },
+            { phrase: 'In the black', meaning: 'profitable', examples: ['We\'re back in the black', 'The company is in the black', 'We\'re in the black now', 'Keep us in the black'] },
+            { phrase: 'On shaky ground', meaning: 'unstable', examples: ['The deal is on shaky ground', 'Your position is on shaky ground', 'We\'re on shaky ground', 'The relationship is on shaky ground'] },
+            { phrase: 'At arm\'s length', meaning: 'keeping distance', examples: ['Keep vendors at arm\'s length', 'Stay at arm\'s length from politics', 'Maintain at arm\'s length relationships', 'Keep it at arm\'s length'] },
+            { phrase: 'In the pipeline', meaning: 'coming soon', examples: ['New updates are in the pipeline', 'More products are in the pipeline', 'Great news is in the pipeline', 'Improvements are in the pipeline'] },
+            { phrase: 'On the radar', meaning: 'being noticed', examples: ['This issue is on management\'s radar', 'You\'re on their radar', 'It\'s on the radar now', 'We\'re on the competitive radar'] },
+            { phrase: 'In the dark', meaning: 'not informed', examples: ['We were left in the dark', 'I\'m in the dark about this', 'Don\'t leave us in the dark', 'They kept us in the dark'] },
+            { phrase: 'At a standstill', meaning: 'stopped', examples: ['Negotiations are at a standstill', 'Progress is at a standstill', 'The project is at a standstill', 'We\'re at a standstill now'] },
+            { phrase: 'On track', meaning: 'progressing well', examples: ['The project is on track', 'We\'re on track for launch', 'Keep the plan on track', 'Everything is on track'] },
+            { phrase: 'Off track', meaning: 'delayed', examples: ['We\'re slightly off track', 'The schedule is off track', 'We\'ve gone off track', 'The project is off track'] },
+            { phrase: 'In good hands', meaning: 'well managed', examples: ['Your task is in good hands', 'It\'s in good hands', 'We\'re in good hands', 'The project is in good hands'] },
+            { phrase: 'On thin ice', meaning: 'in danger', examples: ['He\'s on thin ice with the boss', 'We\'re on thin ice', 'Don\'t put yourself on thin ice', 'We\'re walking on thin ice'] },
+            { phrase: 'In a bind', meaning: 'in trouble', examples: ['I\'m in a bind right now', 'We\'re in a bind', 'He\'s in a bind', 'Don\'t get in a bind'] },
+            { phrase: 'Out of the question', meaning: 'impossible', examples: ['That option is out of the question', 'It\'s out of the question', 'This is completely out of the question', 'That\'s out of the question'] },
+            { phrase: 'On the safe side', meaning: 'cautious', examples: ['Take extra time to be on the safe side', 'Be on the safe side', 'On the safe side, let\'s check', 'Go with the safe side option'] },
+            { phrase: 'In full control', meaning: 'completely managing', examples: ['She\'s in full control of the project', 'We\'re in full control', 'I\'m in full control', 'Everything is in full control'] },
+            { phrase: 'At short intervals', meaning: 'frequently', examples: ['Reports are sent at short intervals', 'Check at short intervals', 'Update at short intervals', 'Review at short intervals'] },
+            { phrase: 'Under one roof', meaning: 'in one place', examples: ['All teams work under one roof', 'Everything is under one roof', 'Operations are under one roof', 'We\'re all under one roof'] },
+            { phrase: 'On a clear note', meaning: 'clearly', examples: ['Let me end on a clear note', 'On a clear note, we succeeded', 'On a clear note, this works', 'On a clear note, proceed'] },
+            { phrase: 'In poor shape', meaning: 'bad condition', examples: ['The system is in poor shape', 'The building is in poor shape', 'Our budget is in poor shape', 'The infrastructure is in poor shape'] },
+            { phrase: 'In good spirits', meaning: 'happy', examples: ['He\'s in good spirits today', 'Everyone is in good spirits', 'They\'re in good spirits', 'We\'re all in good spirits'] },
+            { phrase: 'At a loss', meaning: 'confused', examples: ['I\'m at a loss for words', 'We\'re at a loss', 'I\'m at a loss to explain', 'He seems at a loss'] },
+            { phrase: 'In real terms', meaning: 'practically', examples: ['In real terms, costs increased', 'In real terms, it works', 'In real terms, this matters', 'In real terms, we need this'] },
+            { phrase: 'On a broader level', meaning: 'generally', examples: ['On a broader level, it\'s beneficial', 'On a broader level, this applies', 'On a broader level, we agree', 'On a broader level, it works'] },
+            { phrase: 'In fine detail', meaning: 'very detailed', examples: ['Explain it in fine detail', 'In fine detail, here\'s how', 'Describe in fine detail', 'Break it down in fine detail'] },
+            { phrase: 'At the core of', meaning: 'main reason', examples: ['Trust is at the core of leadership', 'Quality is at the core', 'Innovation is at the core', 'Value is at the core'] },
+            { phrase: 'In no position to', meaning: 'unable', examples: ['I\'m in no position to decide', 'We\'re in no position to judge', 'He\'s in no position to help', 'They\'re in no position to complain'] },
+            { phrase: 'On the verge of', meaning: 'about to', examples: ['The deal is on the verge of closure', 'We\'re on the verge of success', 'It\'s on the verge of completion', 'We\'re on the verge of breakthrough'] },
+            { phrase: 'In practical terms', meaning: 'realistically', examples: ['In practical terms, it\'s costly', 'In practical terms, it works', 'In practical terms, we need it', 'In practical terms, let\'s proceed'] },
+            { phrase: 'At the heart of', meaning: 'central part', examples: ['Innovation is at the heart of success', 'Quality is at the heart', 'People are at the heart', 'Change is at the heart'] },
+            { phrase: 'On a serious level', meaning: 'seriously', examples: ['On a serious level, this matters', 'On a serious level, we need action', 'On a serious level, it\'s urgent', 'On a serious level, let\'s focus'] },
+            { phrase: 'In poor taste', meaning: 'inappropriate', examples: ['That joke was in poor taste', 'This comment is in poor taste', 'Such behavior is in poor taste', 'That remark is in poor taste'] },
+            { phrase: 'At full capacity', meaning: 'fully busy', examples: ['The team is at full capacity', 'We\'re at full capacity', 'The system is at full capacity', 'We\'re running at full capacity'] },
+            { phrase: 'On a trial run', meaning: 'test period', examples: ['Let\'s do a trial run', 'This is on a trial run', 'We\'re on a trial run basis', 'Start on a trial run'] },
+            { phrase: 'In the right hands', meaning: 'properly handled', examples: ['The project is in the right hands', 'It\'s in the right hands', 'You\'re in the right hands', 'This is in the right hands'] },
+            { phrase: 'At close range', meaning: 'very near', examples: ['We observed the process at close range', 'From at close range', 'Work at close range', 'Examine at close range'] },
+            { phrase: 'On a firm note', meaning: 'confidently', examples: ['He ended the speech on a firm note', 'On a firm note, we\'ll proceed', 'On a firm note, let\'s decide', 'Speak on a firm note'] },
+            { phrase: 'In slow motion', meaning: 'very slowly', examples: ['Progress feels like slow motion', 'Everything moves in slow motion', 'In slow motion, we advance', 'It\'s like slow motion'] },
+            { phrase: 'At the bottom line', meaning: 'final result', examples: ['Bottom line, we need profit', 'At the bottom line, this works', 'At the bottom line, costs matter', 'At the bottom line, quality wins'] }
+        ];
+
+        var sentences = [
+            { sentence: 'I will follow up on the email tomorrow.', meaning: 'Check or take action on something discussed', parts: [{ word: 'follow up', definition: 'take action on something later', examples: ['I\'ll follow up on this issue', 'Can you follow up with the client?', 'We need to follow up on the proposal', 'Let\'s follow up next week'] }, { word: 'on', definition: 'about, concerning', examples: ['Focus on the task', 'Report on the progress', 'Comment on the idea', 'Decide on the plan'] }, { word: 'email', definition: 'electronic message', examples: ['Send an email', 'Check your email', 'Reply to the email', 'Forward the email'] }] },
+            { sentence: 'The project is on track and progressing well.', meaning: 'Project advancing as planned without delays', parts: [{ word: 'on track', definition: 'progressing as planned', examples: ['The meeting is on track', 'Keep the project on track', 'We\'re on track for launch', 'Stay on track with goals'] }, { word: 'progressing', definition: 'moving forward, advancing', examples: ['Work is progressing fast', 'How are you progressing?', 'The team is progressing well', 'Progress slowly but surely'] }, { word: 'well', definition: 'satisfactorily, successfully', examples: ['Everything went well', 'It works well', 'She did well', 'This solution works very well'] }] },
+            { sentence: 'We need to allocate resources efficiently for this project.', meaning: 'Distribute available resources in the best way', parts: [{ word: 'allocate', definition: 'distribute, assign', examples: ['Allocate the budget wisely', 'We allocate tasks daily', 'Allocate time for breaks', 'Allocate roles to team members'] }, { word: 'resources', definition: 'available means, supplies, people', examples: ['Use resources carefully', 'Manage your resources', 'Limited resources available', 'Allocate resources fairly'] }, { word: 'efficiently', definition: 'organized, without waste', examples: ['Work efficiently', 'Manage time efficiently', 'Use energy efficiently', 'Operate efficiently'] }] },
+            { sentence: 'Her proposal is comprehensive and covers all aspects.', meaning: 'Proposal is complete and includes all details', parts: [{ word: 'comprehensive', definition: 'complete, covering everything', examples: ['Comprehensive plan', 'Comprehensive review', 'Comprehensive guide', 'Comprehensive understanding'] }, { word: 'covers', definition: 'includes, deals with', examples: ['The report covers all issues', 'Insurance covers damages', 'The book covers history', 'The package covers everything'] }, { word: 'aspects', definition: 'parts, features, elements', examples: ['Different aspects of life', 'Important aspects', 'Technical aspects', 'All aspects considered'] }] },
+            { sentence: 'The team\'s performance has been consistently excellent.', meaning: 'Team maintains high quality work continuously', parts: [{ word: 'performance', definition: 'how well someone does', examples: ['Great performance today', 'Improve your performance', 'Team performance improved', 'Performance metrics'] }, { word: 'consistently', definition: 'regularly, without variation', examples: ['Work consistently', 'Deliver consistently', 'Show consistently good results', 'Consistently improve'] }, { word: 'excellent', definition: 'extremely good', examples: ['Excellent work', 'Excellent results', 'Excellent team', 'Simply excellent'] }] },
+            { sentence: 'We must identify the root cause of this problem.', meaning: 'Find the main source of the issue', parts: [{ word: 'identify', definition: 'recognize, discover', examples: ['Identify the issue', 'Identify opportunities', 'Identify risks', 'Can you identify this?'] }, { word: 'root cause', definition: 'main source of problem', examples: ['Find the root cause', 'Address root causes', 'Root cause analysis', 'Eliminate root causes'] }, { word: 'problem', definition: 'issue, difficulty', examples: ['Solve the problem', 'Report the problem', 'Problem solved', 'Major problem'] }] },
+            { sentence: 'The data clearly demonstrates that our strategy is viable.', meaning: 'Information shows our plan is workable', parts: [{ word: 'demonstrates', definition: 'shows, proves', examples: ['Results demonstrate success', 'Data demonstrates growth', 'This demonstrates capability', 'Demonstrates clear value'] }, { word: 'strategy', definition: 'plan of action', examples: ['Business strategy', 'Marketing strategy', 'Develop a strategy', 'Strategic plan'] }, { word: 'viable', definition: 'capable of working, feasible', examples: ['Viable solution', 'Viable option', 'Is this viable?', 'Viable business model'] }] },
+            { sentence: 'Please elaborate on your findings in the report.', meaning: 'Provide detailed explanation of your discoveries', parts: [{ word: 'elaborate', definition: 'explain in detail', examples: ['Elaborate on this point', 'Please elaborate more', 'Elaborate your idea', 'Elaborate with examples'] }, { word: 'findings', definition: 'discoveries, results', examples: ['Research findings', 'Important findings', 'Our findings show', 'Share your findings'] }, { word: 'report', definition: 'written account', examples: ['Submit the report', 'Read the report', 'Detailed report', 'Annual report'] }] },
+            { sentence: 'We can facilitate better communication through regular meetings.', meaning: 'Make communication easier with frequent meetings', parts: [{ word: 'facilitate', definition: 'make easier, enable', examples: ['Facilitate discussions', 'Facilitate learning', 'Facilitate teamwork', 'Facilitate cooperation'] }, { word: 'communication', definition: 'exchange of information', examples: ['Clear communication', 'Improve communication', 'Good communication skills', 'Communication is key'] }, { word: 'regular', definition: 'happening frequently', examples: ['Regular meetings', 'Regular breaks', 'Regular updates', 'Regular schedule'] }] },
+            { sentence: 'The timeline is contingent on securing the necessary funds.', meaning: 'Schedule depends on obtaining required money', parts: [{ word: 'contingent on', definition: 'dependent on, conditional on', examples: ['Success is contingent on effort', 'Approval is contingent on review', 'Contingent on funding', 'Contingent on weather'] }, { word: 'timeline', definition: 'schedule of events', examples: ['Project timeline', 'Timeline for completion', 'Aggressive timeline', 'Realistic timeline'] }, { word: 'securing', definition: 'obtaining, getting', examples: ['Securing funds', 'Securing approval', 'Securing the deal', 'Securing an agreement'] }] }
+        ];
+
+        var vocab1 = [
+            { word: 'Absorb', meaning: 'To take in information', synonyms: 'learn, take in', antonyms: 'reject, ignore', examples: ['Absorb the knowledge', 'Students absorb lessons', 'Absorb the impact', 'Absorb new ideas'] },
+            { word: 'Accommodate', meaning: 'To adjust for someone', synonyms: 'adjust, adapt', antonyms: 'refuse, reject', examples: ['Accommodate customers', 'Accommodate changes', 'Accommodate requests', 'Accommodate needs'] },
+            { word: 'Account', meaning: 'A record of activity', synonyms: 'record, report', antonyms: 'omission, neglect', examples: ['Bank account', 'Account for expenses', 'Give account', 'Account details'] },
+            { word: 'Accumulate', meaning: 'To gather over time', synonyms: 'collect, build up', antonyms: 'disperse, reduce', examples: ['Accumulate wealth', 'Accumulate experience', 'Accumulate data', 'Accumulate resources'] },
+            { word: 'Adept', meaning: 'Very skilled', synonyms: 'skilled, expert', antonyms: 'unskilled, weak', examples: ['Adept at coding', 'Adept professional', 'Adept skills', 'Adept in mathematics'] },
+            { word: 'Align', meaning: 'To bring into agreement', synonyms: 'coordinate, match', antonyms: 'conflict, oppose', examples: ['Align goals', 'Align teams', 'Align values', 'Align strategies'] },
+            { word: 'Allocate', meaning: 'To reserve for use', synonyms: 'reserve, assign', antonyms: 'deny, withdraw', examples: ['Allocate budget', 'Allocate resources', 'Allocate time', 'Allocate staff'] },
+            { word: 'Ambiguous', meaning: 'Having unclear meaning', synonyms: 'unclear, vague', antonyms: 'clear, definite', examples: ['Ambiguous statement', 'Ambiguous meaning', 'Ambiguous instructions', 'Ambiguous response'] },
+            { word: 'Amend', meaning: 'To change officially', synonyms: 'revise, correct', antonyms: 'maintain, keep', examples: ['Amend the document', 'Amend the law', 'Amend the plan', 'Amend the contract'] },
+            { word: 'Amplify', meaning: 'To make stronger/louder', synonyms: 'strengthen, boost', antonyms: 'weaken, diminish', examples: ['Amplify the signal', 'Amplify the message', 'Amplify voices', 'Amplify impact'] }
+        ];
+
+        var vocab2 = [
+            { word: 'Analyze', meaning: 'To examine carefully', synonyms: 'examine, study', antonyms: 'ignore, overlook', examples: ['Analyze data', 'Analyze performance', 'Analyze trends', 'Analyze problems'] },
+            { word: 'Animate', meaning: 'To bring to life', synonyms: 'enliven, activate', antonyms: 'deactivate, depress', examples: ['Animate discussions', 'Animate characters', 'Animate projects', 'Animate ideas'] },
+            { word: 'Annex', meaning: 'To attach or add', synonyms: 'attach, add', antonyms: 'detach, remove', examples: ['Annex territory', 'Annex property', 'Annex documents', 'Annex sections'] },
+            { word: 'Annihilate', meaning: 'To destroy completely', synonyms: 'destroy, eliminate', antonyms: 'create, build', examples: ['Annihilate opposition', 'Annihilate doubts', 'Annihilate barriers', 'Annihilate problems'] },
+            { word: 'Announce', meaning: 'To make public', synonyms: 'declare, proclaim', antonyms: 'conceal, hide', examples: ['Announce results', 'Announce changes', 'Announce news', 'Announce decisions'] },
+            { word: 'Annoy', meaning: 'To irritate slightly', synonyms: 'irritate, bother', antonyms: 'please, delight', examples: ['Annoy someone', 'Annoy listeners', 'Annoy viewers', 'Annoy colleagues'] },
+            { word: 'Annual', meaning: 'Occurring yearly', synonyms: 'yearly, recurring', antonyms: 'rare, sporadic', examples: ['Annual report', 'Annual meeting', 'Annual review', 'Annual salary'] },
+            { word: 'Anoint', meaning: 'To apply oil to', synonyms: 'apply, oil', antonyms: 'wash, remove', examples: ['Anoint with oil', 'Anoint with blessing', 'Anoint ceremonially', 'Anoint rites'] },
+            { word: 'Anomaly', meaning: 'Something unusual', synonyms: 'abnormality, deviation', antonyms: 'normal, standard', examples: ['Data anomaly', 'Notable anomaly', 'Detect anomaly', 'Report anomaly'] },
+            { word: 'Anonymous', meaning: 'Without revealing name', synonyms: 'unnamed, unknown', antonyms: 'named, identified', examples: ['Anonymous source', 'Anonymous donation', 'Anonymous feedback', 'Anonymous call'] }
+        ];
+
+        var vocab3 = [
+            { word: 'Antagonist', meaning: 'An opponent or enemy', synonyms: 'opponent, adversary', antonyms: 'ally, supporter', examples: ['Main antagonist', 'Story antagonist', 'Political antagonist', 'Business antagonist'] },
+            { word: 'Antecedent', meaning: 'Something that comes before', synonyms: 'predecessor, prior', antonyms: 'successor, later', examples: ['Historical antecedent', 'Antecedent event', 'Antecedent cause', 'Antecedent factor'] },
+            { word: 'Anticipate', meaning: 'To expect or predict', synonyms: 'expect, predict', antonyms: 'surprise, shock', examples: ['Anticipate growth', 'Anticipate problems', 'Anticipate demand', 'Anticipate changes'] },
+            { word: 'Antidote', meaning: 'A remedy for poison', synonyms: 'remedy, cure', antonyms: 'poison, toxin', examples: ['Find antidote', 'Administer antidote', 'Perfect antidote', 'True antidote'] },
+            { word: 'Antiquated', meaning: 'Very old, outdated', synonyms: 'old, outdated', antonyms: 'modern, current', examples: ['Antiquated system', 'Antiquated method', 'Antiquated equipment', 'Antiquated laws'] },
+            { word: 'Antique', meaning: 'A valuable old object', synonyms: 'old item, relic', antonyms: 'modern, new', examples: ['Valuable antique', 'Rare antique', 'Beautiful antique', 'Precious antique'] },
+            { word: 'Antiseptic', meaning: 'Preventing infection', synonyms: 'sterile, pure', antonyms: 'contaminated, infected', examples: ['Antiseptic solution', 'Antiseptic wipe', 'Antiseptic procedure', 'Antiseptic methods'] },
+            { word: 'Antithesis', meaning: 'Direct opposite', synonyms: 'opposite, contrast', antonyms: 'similarity, same', examples: ['Perfect antithesis', 'Clear antithesis', 'Strong antithesis', 'Direct antithesis'] },
+            { word: 'Antonym', meaning: 'Word opposite in meaning', synonyms: 'opposite word', antonyms: 'synonym', examples: ['Find antonym', 'List antonym', 'Correct antonym', 'Exact antonym'] },
+            { word: 'Anxiety', meaning: 'Feeling of worry', synonyms: 'worry, concern', antonyms: 'calm, peace', examples: ['Feel anxiety', 'Experience anxiety', 'Reduce anxiety', 'Manage anxiety'] }
+        ];
+
+        var vocab4 = [
+            { word: 'Anxious', meaning: 'Nervous or worried', synonyms: 'worried, nervous', antonyms: 'calm, relaxed', examples: ['Feel anxious', 'Anxious person', 'Anxious moment', 'Anxious awaiting'] },
+            { word: 'Apathy', meaning: 'Lack of emotion', synonyms: 'indifference, disinterest', antonyms: 'passion, enthusiasm', examples: ['Show apathy', 'Feeling apathy', 'Display apathy', 'Combat apathy'] },
+            { word: 'Apex', meaning: 'The highest point', synonyms: 'peak, top', antonyms: 'bottom, base', examples: ['Apex of career', 'Reach apex', 'At apex', 'Mountain apex'] },
+            { word: 'Aphorism', meaning: 'A wise short saying', synonyms: 'maxim, proverb', antonyms: 'wordiness, verbosity', examples: ['Wise aphorism', 'Famous aphorism', 'Ancient aphorism', 'Popular aphorism'] },
+            { word: 'Apocalypse', meaning: 'An end of world event', synonyms: 'catastrophe, end', antonyms: 'creation, beginning', examples: ['Avoid apocalypse', 'After apocalypse', 'Environmental apocalypse', 'Pending apocalypse'] },
+            { word: 'Apocryphal', meaning: 'Of questionable authenticity', synonyms: 'unverified, doubtful', antonyms: 'authentic, verified', examples: ['Apocryphal story', 'Apocryphal claim', 'Apocryphal text', 'Apocryphal account'] },
+            { word: 'Apologetic', meaning: 'Expressing regret', synonyms: 'regretful, remorseful', antonyms: 'defiant, proud', examples: ['Apologetic tone', 'Feel apologetic', 'Apologetic letter', 'Apologetic statement'] },
+            { word: 'Apostasy', meaning: 'Abandonment of belief', synonyms: 'desertion, betrayal', antonyms: 'loyalty, faith', examples: ['Commit apostasy', 'Religious apostasy', 'Political apostasy', 'Accusation of apostasy'] },
+            { word: 'Apostle', meaning: 'A devoted follower', synonyms: 'follower, disciple', antonyms: 'leader, opponent', examples: ['Loyal apostle', 'True apostle', 'Religious apostle', 'Modern apostle'] },
+            { word: 'Appall', meaning: 'To shock or horrify', synonyms: 'shock, horrify', antonyms: 'delight, please', examples: ['Appall audience', 'Appall observers', 'Appall listeners', 'Appall viewers'] }
+        ];
+
+        // FUNCTIONS
+        function createSentenceCard(item) {
+            var html = '<div class="card">';
+            html += '<div class="card-title">' + item.sentence + '</div>';
+            html += '<div class="card-meaning"><strong>Meaning:</strong> ' + item.meaning + '</div>';
+
+            if (item.parts && item.parts.length > 0) {
+                html += '<div style="margin-top: 15px;">';
+                for (var i = 0; i < item.parts.length; i++) {
+                    var part = item.parts[i];
+                    html += '<div style="margin-bottom: 12px; padding: 10px; background: #f5f5f5; border-radius: 5px;">';
+                    html += '<strong style="color: #667eea;">📌 ' + part.word + ':</strong> ';
+                    html += '<span style="color: #666;">' + part.definition + '</span>';
+                    html += '<div class="card-examples" style="margin-top: 8px;">';
+                    if (part.examples && part.examples.length > 0) {
+                        for (var j = 0; j < part.examples.length; j++) {
+                            html += '<div class="example-item">• ' + part.examples[j] + '</div>';
+                        }
+                    }
+                    html += '</div>';
+                    html += '</div>';
+                }
+                html += '</div>';
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function createPhraseCard(item) {
+            var html = '<div class="card">';
+            html += '<div class="card-title">💬 ' + item.phrase + '</div>';
+            html += '<div class="card-meaning"><strong>Meaning:</strong> ' + item.meaning + '</div>';
+            if (item.examples && item.examples.length > 0) {
+                html += '<div class="card-examples"><strong>Examples:</strong>';
+                for (var i = 0; i < item.examples.length; i++) {
+                    html += '<div class="example-item">• ' + item.examples[i] + '</div>';
+                }
+                html += '</div>';
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function createVocabCard(item) {
+            var html = '<div class="card">';
+            html += '<div class="card-title">📚 ' + item.word + '</div>';
+            html += '<div class="card-meaning"><strong>Meaning:</strong> ' + item.meaning + '</div>';
+            if (item.synonyms) {
+                html += '<div class="card-synonyms"><strong>Synonyms:</strong> ' + item.synonyms + '</div>';
+            }
+            if (item.antonyms) {
+                html += '<div class="card-synonyms" style="background: #ffe0b2; color: #e65100;"><strong>Antonyms:</strong> ' + item.antonyms + '</div>';
+            }
+            if (item.examples && item.examples.length > 0) {
+                html += '<div class="card-examples"><strong>Examples:</strong>';
+                for (var i = 0; i < item.examples.length; i++) {
+                    html += '<div class="example-item">• ' + item.examples[i] + '</div>';
+                }
+                html += '</div>';
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function displayCards(data, containerId) {
+            var container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].parts) {
+                    container.innerHTML += createSentenceCard(data[i]);
+                } else if (data[i].phrase) {
+                    container.innerHTML += createPhraseCard(data[i]);
+                } else {
+                    container.innerHTML += createVocabCard(data[i]);
+                }
+            }
+        }
+
+        function switchTab(tabName) {
+            var sections = document.querySelectorAll('.content-section');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].classList.add('hidden');
+            }
+            var buttons = document.querySelectorAll('button');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            document.getElementById(tabName + '-section').classList.remove('hidden');
+            document.getElementById('btn-' + tabName).classList.add('active');
+        }
+
+        function filterSentences() {
+            var input = document.getElementById('sentencesSearch').value.toLowerCase();
+            var filtered = [];
+            for (var i = 0; i < sentences.length; i++) {
+                if (sentences[i].sentence.toLowerCase().indexOf(input) > -1 ||
+                    sentences[i].meaning.toLowerCase().indexOf(input) > -1) {
+                    filtered.push(sentences[i]);
+                }
+            }
+            displayCards(filtered, 'sentencesList');
+        }
+
+        function filterPhrases() {
+            var input = document.getElementById('phrasesSearch').value.toLowerCase();
+            var filtered = [];
+            for (var i = 0; i < phrases.length; i++) {
+                if (phrases[i].phrase.toLowerCase().indexOf(input) > -1 ||
+                    phrases[i].meaning.toLowerCase().indexOf(input) > -1) {
+                    filtered.push(phrases[i]);
+                }
+            }
+            displayCards(filtered, 'phrasesList');
+        }
+
+        function filterVocab1() {
+            var input = document.getElementById('vocab1Search').value.toLowerCase();
+            var filtered = [];
+            for (var i = 0; i < vocab1.length; i++) {
+                if (vocab1[i].word.toLowerCase().indexOf(input) > -1) {
+                    filtered.push(vocab1[i]);
+                }
+            }
+            displayCards(filtered, 'vocab1List');
+        }
+
+        function filterVocab2() {
+            var input = document.getElementById('vocab2Search').value.toLowerCase();
+            var filtered = [];
+            for (var i = 0; i < vocab2.length; i++) {
+                if (vocab2[i].word.toLowerCase().indexOf(input) > -1) {
+                    filtered.push(vocab2[i]);
+                }
+            }
+            displayCards(filtered, 'vocab2List');
+        }
+
+        function filterVocab3() {
+            var input = document.getElementById('vocab3Search').value.toLowerCase();
+            var filtered = [];
+            for (var i = 0; i < vocab3.length; i++) {
+                if (vocab3[i].word.toLowerCase().indexOf(input) > -1) {
+                    filtered.push(vocab3[i]);
+                }
+            }
+            displayCards(filtered, 'vocab3List');
+        }
+
+        function filterVocab4() {
+            var input = document.getElementById('vocab4Search').value.toLowerCase();
+            var filtered = [];
+            for (var i = 0; i < vocab4.length; i++) {
+                if (vocab4[i].word.toLowerCase().indexOf(input) > -1) {
+                    filtered.push(vocab4[i]);
+                }
+            }
+            displayCards(filtered, 'vocab4List');
+        }
+
+        function initializeCards() {
+            displayCards(sentences, 'sentencesList');
+            displayCards(phrases, 'phrasesList');
+            displayCards(vocab1, 'vocab1List');
+            displayCards(vocab2, 'vocab2List');
+            displayCards(vocab3, 'vocab3List');
+            displayCards(vocab4, 'vocab4List');
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeCards);
+    </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

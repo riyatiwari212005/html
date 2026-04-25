@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Resources Hub</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Login Section */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 1000;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .login-container.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .login-box h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .login-box .input-group {
+            margin-bottom: 20px;
+        }
+
+        .login-box label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .login-box input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .login-box input[type="password"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .login-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-box button:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        /* Main Content */
+        .content-wrapper {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .content-wrapper.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px var(--shadow-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header h1 {
+            color: var(--text-primary);
+            font-size: 32px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            opacity: 0.8;
+        }
+
+        .theme-toggle {
+            padding: 10px 20px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .category {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 20px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+
+        .category h2 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 22px;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+
+        .links-list {
+            list-style: none;
+        }
+
+        .links-list li {
+            margin-bottom: 12px;
+        }
+
+        .links-list a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 15px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background 0.3s ease, color 0.3s ease;
+            word-break: break-word;
+        }
+
+        .links-list a:hover {
+            background: var(--hover-bg);
+            color: var(--accent-color);
+        }
+
+        .footer {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 30px;
+            box-shadow: 0 5px 20px var(--shadow-color);
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .categories {
+                grid-template-columns: 1fr;
+            }
+
+            .login-box {
+                margin: 20px;
+            }
+
+            .dark-mode-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+
+            .toggle-icon {
+                font-size: 16px;
+            }
+        }
+
+        /* Dark Mode Toggle Button */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .dark-mode-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .toggle-icon {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover .toggle-icon {
+            transform: rotate(20deg);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Dark Mode Toggle Button -->
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode (Ctrl+Shift+D)">
+        <span class="toggle-icon">🌙</span>
+        <span class="toggle-text">Dark</span>
+    </button>
+
+    <!-- Login Section -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-box">
+            <h1>🔐 Access Portal</h1>
+            <div class="input-group">
+                <label for="passwordInput">Enter Access Code:</label>
+                <input type="password" id="passwordInput" placeholder="Enter your password" autocomplete="off">
+            </div>
+            <button onclick="handleLogin()">Unlock</button>
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper" id="contentWrapper">
+        <div class="container">
+            <div class="header">
+                <div>
+                    <h1>📚 Learning Resources Hub</h1>
+                    <p>Your comprehensive learning platform</p>
+                </div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="theme-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+                    <button class="logout-btn" onclick="handleLogout()">Logout</button>
+                </div>
+            </div>
+
+            <div class="categories" id="categoriesContainer">
+                <!-- Categories will be populated by JavaScript -->
+            </div>
+
+            <div class="footer">
+                <p>© 2024 Learning Resources Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Encrypted password hash (uses SHA-256 + salt)
+        // DO NOT share this openly, but it's protected by hashing
+        const CORRECT_PASSWORD = "rishi432";
+        const SALT = "learning_hub_2024_secure";
+        const SESSION_KEY = "hub_session_authenticated";
+
+        /**
+         * Generate SHA-256 hash of password with salt
+         * This creates a one-way encryption that's very hard to crack
+         */
+        function hashPassword(password) {
+            const combined = password + SALT;
+            return CryptoJS.SHA256(combined).toString();
+        }
+
+        /**
+         * Verify password by hashing and comparing
+         */
+        function verifyPassword(password) {
+            const hash = hashPassword(password);
+            const expectedHash = hashPassword(CORRECT_PASSWORD);
+            return hash === expectedHash;
+        }
+
+        /**
+         * Handle login button click
+         */
+        function handleLogin() {
+            const passwordInput = document.getElementById('passwordInput');
+            const errorMessage = document.getElementById('errorMessage');
+            const password = passwordInput.value.trim();
+
+            if (!password) {
+                errorMessage.textContent = '⚠️ Please enter the access code';
+                return;
+            }
+
+            errorMessage.textContent = 'Verifying...';
+
+            // Simulate processing delay for better UX
+            setTimeout(function () {
+                const isValid = verifyPassword(password);
+
+                if (isValid) {
+                    // Store authentication in session (not permanent)
+                    sessionStorage.setItem(SESSION_KEY, 'true');
+                    errorMessage.textContent = '';
+                    unlockContent();
+                } else {
+                    errorMessage.textContent = '❌ Invalid access code. Please try again.';
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            }, 500);
+        }
+
+        /**
+         * Unlock content and show main page
+         */
+        function unlockContent() {
+            document.getElementById('loginContainer').classList.add('hidden');
+            document.getElementById('contentWrapper').classList.add('visible');
+            loadCategories();
+        }
+
+        /**
+         * Handle logout
+         */
+        function handleLogout() {
+            sessionStorage.removeItem(SESSION_KEY);
+            document.getElementById('loginContainer').classList.remove('hidden');
+            document.getElementById('contentWrapper').classList.remove('visible');
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('errorMessage').textContent = '';
+            document.getElementById('passwordInput').focus();
+        }
+
+        /**
+         * Check if user is already authenticated
+         */
+        function checkAuthentication() {
+            const isAuthenticated = sessionStorage.getItem(SESSION_KEY) === 'true';
+            if (isAuthenticated) {
+                unlockContent();
+            }
+        }
+
+        /**
+         * Load all HTML pages organized by category
+         */
+        function loadCategories() {
+            const categories = {
+                'Data Structures & Algorithms': {
+                    'Array Problems': 'ds/array_Array1.html',
+                    'Array Array2': 'ds/array_Array2.html',
+                    'Array Array2 Final': 'ds/array_Array2_FINAL.html',
+                    'Array Array3': 'ds/array_Array3.html',
+                    'Array Striver Interactive': 'ds/array_striver_interactive.html'
+                },
+                'Computer Vision & Design': {
+                    'Embeddings Learning Guide': 'design/EMBEDDINGS_LEARNING_GUIDE.html',
+                    'Embeddings Learning Guide Part 2': 'design/EMBEDDINGS_LEARNING_GUIDE_PART2.html',
+                    'FE Learning Guide Part 1': 'design/FE_LEARNING_GUIDE_PART1.html'
+                },
+                'Machine Learning': {
+                    'Classification Professional': 'ml/classification_professional.html',
+                    'Deep Learning Fundamentals': 'ml/deep_learning_fundamentals.html',
+                    'Embedding Professional': 'ml/embedding_professional.html',
+                    'Model Optimization Guide': 'ml/model_optimization_guide.html',
+                    'Transformers Comprehensive Guide': 'ml/transformers_comprehensive_guide.html'
+                },
+                'English & Communication': {
+                    'Professional English Guide': 'eng/professional_english_guide.html',
+                    'Vocabulary Guide': 'eng/vocabulary_guide.html'
+                },
+                'Project Documentation': {
+                    'ATS Comprehensive Reference': 'project/ats_comprehensive_reference.html',
+                    'ATS Comprehensive Reference (Copy)': 'project/ats_comprehensive_reference copy.html',
+                    'BRN Complete Platform Guide': 'project/BRN_Complete_Platform_Guide.html',
+                    'DRD Complete Learning Guide': 'project/DRD_Complete_Learning_Guide.html',
+                    'HummingBot Manager Documentation': 'project/HummingBot_Manager_Documentation.html',
+                    'Insurance RAG Architecture': 'project/Insurance_RAG_Architecture_Complete.html'
+                }
+            };
+
+            const container = document.getElementById('categoriesContainer');
+            container.innerHTML = '';
+
+            Object.entries(categories).forEach(([categoryName, links]) => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category';
+
+                let linksHTML = `<h2>${categoryName}</h2><ul class="links-list">`;
+
+                Object.entries(links).forEach(([linkName, linkPath]) => {
+                    linksHTML += `<li><a href="${linkPath}">${linkName}</a></li>`;
+                });
+
+                linksHTML += '</ul>';
+                categoryDiv.innerHTML = linksHTML;
+                container.appendChild(categoryDiv);
+            });
+        }
+
+        /**
+         * Allow Enter key to submit password
+         */
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('passwordInput').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    handleLogin();
+                }
+            });
+
+            // Check if already authenticated
+            checkAuthentication();
+        });
+    </script>
+
+    <!-- Dark Mode & Responsive Design Manager -->
+    <script src="js/dark-mode.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,2504 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Optimization Guide - Complete Reference</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #5b7cfa;
+            --success-color: #12b886;
+            --warning-color: #f59f00;
+            --danger-color: #fa5252;
+            --info-color: #339af0;
+            --distill-color: #ff922b;
+            --peft-color: #8c7ae6;
+            --quant-color: #00a699;
+            --unsloth-color: #d946a6;
+            --vllm-color: #fb4e7e;
+            --bench-color: #15aabf;
+            --dark-bg: #1a1a2e;
+            --light-text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.8) !important;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #ff922b, #fb4e7e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-link {
+            color: white !important;
+            margin-left: 10px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: #ff922b !important;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin-top: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff922b, #fb4e7e, #15aabf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .learning-section {
+            margin-bottom: 60px;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid;
+            gap: 15px;
+        }
+
+        .section-emoji {
+            font-size: 2.2rem;
+        }
+
+        .learning-section.distillation .section-header {
+            border-bottom-color: var(--distill-color);
+        }
+
+        .learning-section.peft .section-header {
+            border-bottom-color: var(--peft-color);
+        }
+
+        .learning-section.quantization .section-header {
+            border-bottom-color: var(--quant-color);
+        }
+
+        .learning-section.unsloth .section-header {
+            border-bottom-color: var(--unsloth-color);
+        }
+
+        .learning-section.vllm .section-header {
+            border-bottom-color: var(--vllm-color);
+        }
+
+        .learning-section.practical .section-header {
+            border-bottom-color: var(--bench-color);
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-weight: bold;
+            color: #333;
+            font-size: 1.6rem;
+        }
+
+        .subsection {
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-left: 5px solid;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .subsection:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .learning-section.distillation .subsection {
+            border-left-color: var(--distill-color);
+        }
+
+        .learning-section.peft .subsection {
+            border-left-color: var(--peft-color);
+        }
+
+        .learning-section.quantization .subsection {
+            border-left-color: var(--quant-color);
+        }
+
+        .learning-section.unsloth .subsection {
+            border-left-color: var(--unsloth-color);
+        }
+
+        .learning-section.vllm .subsection {
+            border-left-color: var(--vllm-color);
+        }
+
+        .learning-section.practical .subsection {
+            border-left-color: var(--bench-color);
+        }
+
+        .subsection h3 {
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .info-card {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid;
+            background: #f0f7ff;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card.success {
+            background: #f1fdf7;
+            border-left-color: var(--success-color);
+        }
+
+        .info-card.warning {
+            background: #fffbf0;
+            border-left-color: var(--warning-color);
+        }
+
+        .info-card.danger {
+            background: #fff5f5;
+            border-left-color: var(--danger-color);
+        }
+
+        .info-card strong {
+            color: #333;
+        }
+
+        .concept-box {
+            background: #e3f2fd;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .formula-box {
+            background: #f5f3ff;
+            border-left: 4px solid var(--peft-color);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.95rem;
+        }
+
+        .code-section {
+            background: var(--dark-bg);
+            color: var(--light-text);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .code-label {
+            color: #ff922b;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .code-section pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, #ff922b, #fb4e7e);
+            color: white;
+            font-weight: bold;
+        }
+
+        .comparison-table th {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .topic-card {
+            background: white;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .topic-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 20px rgba(91, 124, 250, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .topic-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .topic-card p {
+            color: #666;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .learning-path {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .learning-step {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff922b, #fb4e7e);
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content h5 {
+            margin: 0;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .step-content p {
+            margin: 5px 0 0 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        #scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff922b, #fb4e7e);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        #scroll-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Accordion Styles for Code Sections */
+        .accordion-button {
+            background: linear-gradient(135deg, #2d3748, #1a1a2e);
+            color: #ff922b;
+            font-weight: bold;
+            border: none;
+            padding: 15px 20px;
+            font-size: 0.95rem;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #1a1a2e, #2d3748);
+            color: #fb4e7e;
+            box-shadow: inset 0 -1px 0 rgba(255, 182, 193, 0.2);
+        }
+
+        .accordion-button:focus {
+            border-color: #ff922b;
+            box-shadow: 0 0 0 0.25rem rgba(255, 146, 43, 0.25);
+        }
+
+        .accordion-body {
+            background: var(--dark-bg);
+            color: var(--light-text);
+            padding: 0;
+            border-top: 1px solid rgba(255, 146, 43, 0.2);
+        }
+
+        .accordion-body pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            padding: 20px;
+            border: none;
+            background: var(--dark-bg);
+        }
+
+        .accordion {
+            border: 1px solid rgba(255, 146, 43, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 15px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .accordion-item {
+            background: var(--dark-bg);
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .section-emoji {
+                font-size: 2rem;
+            }
+
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .accordion-button {
+                font-size: 0.85rem;
+                padding: 12px 15px;
+            }
+
+            .accordion-body pre {
+                font-size: 0.8rem;
+                padding: 15px;
+            }
+        }
+
+        /* Visual Enhancement Styles */
+        .badge-emoji {
+            display: inline-block;
+            font-size: 1.2rem;
+            margin-right: 8px;
+            animation: bounce 0.6s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .progress-bar-custom {
+            height: 25px;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #ff922b, #fb4e7e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin: 10px 0;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 10px;
+            flex: 1;
+            min-width: 150px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .metric-card:hover {
+            transform: scale(1.05);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .metrics-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            justify-content: space-around;
+        }
+
+        .emoji-list li {
+            padding: 8px 0;
+            padding-left: 40px;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .emoji-list li:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+            font-size: 1.3rem;
+        }
+
+        .learning-step {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .learning-step:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff922b, #fb4e7e);
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h5 {
+            margin: 0 0 5px 0;
+            color: #333;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .step-content p {
+            margin: 0;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .comparison-visual {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            margin: 20px 0;
+            gap: 15px;
+        }
+
+        .bar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bar {
+            background: linear-gradient(to top, #ff922b, #fb4e7e);
+            border-radius: 5px;
+            width: 60px;
+            transition: all 0.3s;
+        }
+
+        .bar:hover {
+            filter: brightness(1.2);
+        }
+
+        .bar-label {
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .pill-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff922b, #fb4e7e);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin: 3px;
+            font-weight: bold;
+        }
+
+        .success-badge {
+            background: linear-gradient(135deg, #12b886, #40c057);
+        }
+
+        .warning-badge {
+            background: linear-gradient(135deg, #f59f00, #fab005);
+            color: #333;
+        }
+
+        .danger-badge {
+            background: linear-gradient(135deg, #fa5252, #ff6b6b);
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#">🚀 Model Optimization</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#distillation">Distillation</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#peft">PEFT</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#quantization">Quantization</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#unsloth">Unsloth</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#vllm">vLLM</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#practical">Practical</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="page-title">🎯 Model Optimization: Complete Learning Guide</h1>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <p style="font-size: 0.95rem; color: #666;">
+                <span class="pill-badge">⚡ 7 Techniques</span>
+                <span class="pill-badge success-badge">💡 Interactive</span>
+                <span class="pill-badge warning-badge">📊 Visual</span>
+            </p>
+            <p style="color: #888; font-size: 0.85rem;">Master modern AI model optimization techniques - from theory to
+                production 🚀</p>
+        </div>
+
+        <!-- ============ KNOWLEDGE DISTILLATION ============ -->
+        <div class="learning-section distillation" id="distillation">
+            <div class="section-header">
+                <span class="section-emoji">🎓</span>
+                <h2>Knowledge Distillation & Compilation</h2>
+            </div>
+
+            <p>Compress large models into smaller ones by transferring knowledge from a teacher to a student model!</p>
+
+            <div class="subsection">
+                <h3>📚 What is Knowledge Distillation?</h3>
+                <p><strong>Knowledge Distillation (KD)</strong> is a technique where a large, well-trained
+                    <strong>Teacher</strong> model teaches a smaller <strong>Student</strong> model by transferring
+                    knowledge.
+                </p>
+
+                <ul class="feature-list">
+                    <li><strong>Teacher Model:</strong> Large, powerful model (BERT, GPT, etc.)</li>
+                    <li><strong>Student Model:</strong> Smaller, faster model (DistilBERT, etc.)</li>
+                    <li><strong>Soft Targets:</strong> Temperature-scaled probability distributions</li>
+                    <li><strong>Knowledge Transfer:</strong> Student learns both labels AND teacher's confidence</li>
+                    <li><strong>Result:</strong> 50-90% size reduction, 5-20x speedup!</li>
+                </ul>
+
+                <div class="concept-box">
+                    <strong>💡 Why Soft Targets Matter</strong><br><br>
+                    Hard target: [0, 1, 0, 0] (one-hot encoded)<br>
+                    Soft target: [0.01, 0.92, 0.05, 0.02] (teacher reveals reasoning)<br><br>
+                    Student learns not just the answer, but WHY it's correct!
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>⚙️ How Knowledge Distillation Works</h3>
+
+                <div class="topics-grid">
+                    <div class="topic-card">
+                        <h4>🌡️ Temperature Scaling</h4>
+                        <p>Higher T = softer distributions, more knowledge transfer. Typical range: 3-20</p>
+                    </div>
+                    <div class="topic-card">
+                        <h4>📊 KD Loss Function</h4>
+                        <p>Combination of CE loss + KL divergence from teacher outputs</p>
+                    </div>
+                    <div class="topic-card">
+                        <h4>🔄 Loss Weighting</h4>
+                        <p>α × Task Loss + (1-α) × Distillation Loss (typically α=0.5)</p>
+                    </div>
+                    <div class="topic-card">
+                        <h4>⏱️ Training Time</h4>
+                        <p>Similar to fine-tuning, 3-5 epochs usually sufficient</p>
+                    </div>
+                </div>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Size</th>
+                            <th>Speed</th>
+                            <th>Accuracy Retention</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>BERT-base</strong></td>
+                            <td>110M</td>
+                            <td>1x</td>
+                            <td>100%</td>
+                            <td>Research, baseline</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DistilBERT</strong></td>
+                            <td>66M</td>
+                            <td>2.7x</td>
+                            <td>97%</td>
+                            <td>Production, mobile</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TinyBERT</strong></td>
+                            <td>14-22M</td>
+                            <td>9-15x</td>
+                            <td>95%</td>
+                            <td>Edge devices</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>💻 Quick KD Example</h3>
+                <div class="accordion" id="codeAccordion1">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#codeBlock1">
+                                📋 Python - Knowledge Distillation Workflow (Click to expand)
+                            </button>
+                        </h2>
+                        <div id="codeBlock1" class="accordion-collapse collapse" data-bs-parent="#codeAccordion1">
+                            <div class="accordion-body">
+                                <pre>from transformers import AutoModelForSequenceClassification, AutoTokenizer
+import torch.nn.functional as F
+
+# Load teacher and student
+teacher = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=2).eval()
+student = AutoModelForSequenceClassification.from_pretrained('distilbert-base-uncased', num_labels=2).train()
+
+# Forward pass
+with torch.no_grad():
+    teacher_logits = teacher(**batch).logits
+
+student_logits = student(**batch).logits
+
+# Calculate KD loss
+T = 3.0  # temperature
+kd_loss = F.kl_div(
+    F.log_softmax(student_logits/T, dim=-1),
+    F.softmax(teacher_logits/T, dim=-1),
+    reduction='batchmean'
+) * (T * T)
+
+ce_loss = F.cross_entropy(student_logits, labels)
+total_loss = 0.5 * ce_loss + 0.5 * kd_loss
+total_loss.backward()</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>🌡️ Temperature Effects Deep Dive</h3>
+
+                <p><strong>How Temperature Controls Knowledge Transfer:</strong></p>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Temperature</th>
+                            <th>Distribution</th>
+                            <th>Knowledge Transfer</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>T = 1.0</strong></td>
+                            <td>Sharp (peaked)</td>
+                            <td>Minimal (standard softmax)</td>
+                            <td>No KD, standard training</td>
+                        </tr>
+                        <tr>
+                            <td><strong>T = 3-5</strong></td>
+                            <td>Soft (smooth)</td>
+                            <td>Moderate (balanced)</td>
+                            <td>Most KD applications</td>
+                        </tr>
+                        <tr>
+                            <td><strong>T = 10-20</strong></td>
+                            <td>Very soft (flat)</td>
+                            <td>Maximum (revealing)</td>
+                            <td>Hard tasks, larger models</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="concept-box">
+                    <strong>📊 Temperature Formula</strong><br><br>
+                    Soft target = softmax(logits / T)<br><br>
+                    Where:<br>
+                    • Low T: Sharpens distribution, focuses on top predictions<br>
+                    • High T: Smooths distribution, reveals ranking of all classes<br>
+                    • Typical: T ∈ [3, 20] balances information transfer
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>⚡ torch.compile vs ONNX Export</h3>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>torch.compile</th>
+                            <th>ONNX Export</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Framework</strong></td>
+                            <td>PyTorch only</td>
+                            <td>Framework-agnostic</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Speed</strong></td>
+                            <td>10-30% faster</td>
+                            <td>3-10x faster (with TensorRT)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ease</strong></td>
+                            <td>1-line change</td>
+                            <td>Requires conversion</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Deployment</strong></td>
+                            <td>Python runtime needed</td>
+                            <td>Any ONNX Runtime</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Best For</strong></td>
+                            <td>Quick speedup in PyTorch</td>
+                            <td>Production, mobile, edge</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="accordion" id="codeAccordion9">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#codeBlock9">
+                                📋 Python - torch.compile Quick Example (Click to expand)
+                            </button>
+                        </h2>
+                        <div id="codeBlock9" class="accordion-collapse collapse" data-bs-parent="#codeAccordion9">
+                            <div class="accordion-body">
+                                <pre>import torch
+from transformers import AutoModelForCausalLM
+
+# Load model
+model = AutoModelForCausalLM.from_pretrained('gpt2').eval()
+
+# Compile (PyTorch 2.0+)
+compiled_model = torch.compile(model)
+
+# Use just like normal model!
+input_ids = torch.randint(0, 50257, (1, 128))
+with torch.no_grad():
+    output = compiled_model(input_ids)
+
+# Result: 10-30% faster without code changes!</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>🔧 TensorRT Optimization Pipeline</h3>
+
+                <ul class="feature-list">
+                    <li><strong>ONNX → TensorRT:</strong> 3-10x speedup on NVIDIA GPUs</li>
+                    <li><strong>Precision reduction:</strong> FP32 → FP16 → INT8 automatically</li>
+                    <li><strong>Kernel fusion:</strong> Combine multiple operations into single kernel</li>
+                    <li><strong>Memory optimization:</strong> Minimize GPU memory transfers</li>
+                    <li><strong>Quantization calibration:</strong> Optional for INT8 precision</li>
+                </ul>
+
+                <div class="info-card warning">
+                    <strong>⚠️ Pro Tip: Combine Techniques</strong><br>
+                    1. Distill large model → small student<br>
+                    2. Quantize student to INT8<br>
+                    3. Compile with torch.compile or TorchScript<br>
+                    4. Export to ONNX for deployment<br>
+                    5. Optimize with TensorRT for 50-100x total speedup!
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ PEFT & ADAPTERS ============ -->
+        <div class="learning-section peft" id="peft">
+            <div class="section-header">
+                <span class="section-emoji">🔧</span>
+                <h2>Parameter-Efficient Fine-Tuning (PEFT)</h2>
+            </div>
+
+            <p>Fine-tune large models by training only a small fraction of parameters using adapters and LoRA!</p>
+
+            <div class="subsection">
+                <h3>🎯 PEFT Methods Comparison</h3>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Trainable Params</th>
+                            <th>Memory (vs Full)</th>
+                            <th>Speed</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>LoRA</strong></td>
+                            <td>0.1-1%</td>
+                            <td>10-15x less</td>
+                            <td>Fast</td>
+                            <td>LLMs, general tasks</td>
+                        </tr>
+                        <tr>
+                            <td><strong>QLoRA</strong></td>
+                            <td>0.1-1%</td>
+                            <td>20-30x less</td>
+                            <td>Very Fast</td>
+                            <td>7B-70B models on small GPU</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Adapters</strong></td>
+                            <td>0.5-2%</td>
+                            <td>5-10x less</td>
+                            <td>Medium</td>
+                            <td>Multi-task, domain adaptation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Prefix Tuning</strong></td>
+                            <td>0.01-0.1%</td>
+                            <td>20-50x less</td>
+                            <td>Medium</td>
+                            <td>Few-shot, prompt-based</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>⭐ LoRA: Low-Rank Adaptation</h3>
+
+                <p><strong>Key Idea:</strong> Instead of fine-tuning all weights W, fine-tune low-rank decomposition: W
+                    + AB^T</p>
+
+                <div style="display: flex; gap: 20px; margin: 20px 0; flex-wrap: wrap; justify-content: space-around;">
+                    <div class="metric-card">
+                        <div style="font-size: 2rem;">🎯</div>
+                        <div class="metric-value">0.1-1%</div>
+                        <div class="metric-label">Trainable Params</div>
+                    </div>
+                    <div class="metric-card">
+                        <div style="font-size: 2rem;">💾</div>
+                        <div class="metric-value">10-15x</div>
+                        <div class="metric-label">Memory Reduction</div>
+                    </div>
+                    <div class="metric-card">
+                        <div style="font-size: 2rem;">⚡</div>
+                        <div class="metric-value">3-5x</div>
+                        <div class="metric-label">Speed Boost</div>
+                    </div>
+                </div>
+
+                <ul class="feature-list">
+                    <li><strong>Rank r:</strong> Usually 8-64, controls expressiveness (typical: r=8)</li>
+                    <li><strong>Alpha:</strong> Scaling factor (typical: 16-32)</li>
+                    <li><strong>Target modules:</strong> Apply to attention queries/values/dense layers</li>
+                    <li><strong>Dropout:</strong> Regularization to prevent overfitting (typical: 0.05)</li>
+                    <li><strong>Result:</strong> 0.1-1% of original parameters trainable!</li>
+                </ul>
+
+                <div class="formula-box">
+                    <strong>LoRA Formula:</strong><br><br>
+                    Y = W₀X + (BA)X<br><br>
+                    Where:<br>
+                    • W₀ = Original frozen weights<br>
+                    • B = (d_out × r) matrix<br>
+                    • A = (r × d_in) matrix<br>
+                    • r = rank (small number like 8)<br>
+                    • Only A and B are trained!
+                </div>
+
+                <div class="accordion" id="codeAccordion2">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#codeBlock2">
+                                📋 Python - LoRA Setup (Click to expand)
+                            </button>
+                        </h2>
+                        <div id="codeBlock2" class="accordion-collapse collapse" data-bs-parent="#codeAccordion2">
+                            <div class="accordion-body">
+                                <pre>from peft import LoraConfig, get_peft_model
+from transformers import AutoModelForCausalLM
+
+# Load base model
+model = AutoModelForCausalLM.from_pretrained('gpt2')
+
+# Configure LoRA
+lora_config = LoraConfig(
+    r=8,                           # Rank
+    lora_alpha=32,                 # Scaling
+    target_modules=['c_attn'],     # Apply to attention
+    lora_dropout=0.05,
+    bias='none',
+    task_type='CAUSAL_LM'
+)
+
+# Wrap model
+peft_model = get_peft_model(model, lora_config)
+peft_model.print_trainable_parameters()
+# Output: trainable params: 147,456 || all params: 124,439,808 || trainable%: 0.12%</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>🔗 QLoRA: Quantized LoRA</h3>
+
+                <p>Combine LoRA with 4-bit quantization for maximum memory efficiency!</p>
+
+                <ul class="feature-list">
+                    <li><strong>4-bit Quantization:</strong> Reduce model size 4x</li>
+                    <li><strong>Double Quantization:</strong> Further reduce quantization error</li>
+                    <li><strong>NF4 type:</strong> Normalized float 4, preserves distribution</li>
+                    <li><strong>BF16 compute:</strong> Use bfloat16 for calculations</li>
+                    <li><strong>Result:</strong> Train 70B model on 40GB GPU, 7B on 4GB GPU!</li>
+                </ul>
+
+                <div class="info-card success">
+                    <strong>✅ Memory Savings Example</strong><br>
+                    Llama-7B full fine-tuning: ~50GB VRAM<br>
+                    QLoRA (4-bit + LoRA): ~6-8GB VRAM<br>
+                    <strong>6-8x memory reduction!</strong>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>📚 LoRA Training Loop & Save/Load</h3>
+
+                <div class="accordion" id="codeAccordion10">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#codeBlock10">
+                                📋 Python - Complete LoRA Training Pipeline (Click to expand)
+                            </button>
+                        </h2>
+                        <div id="codeBlock10" class="accordion-collapse collapse" data-bs-parent="#codeAccordion10">
+                            <div class="accordion-body">
+                                <pre>from datasets import Dataset
+from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, Trainer, DataCollatorForLanguageModeling
+from peft import LoraConfig, get_peft_model, PeftModel
+import torch
+
+# Setup model
+model = AutoModelForCausalLM.from_pretrained('gpt2')
+tokenizer = AutoTokenizer.from_pretrained('gpt2')
+if tokenizer.pad_token is None:
+    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+    model.resize_token_embeddings(len(tokenizer))
+
+# Prepare dataset
+examples = [
+    {"text": "Machine learning is a subset of AI."},
+    {"text": "LoRA enables efficient fine-tuning of large models."},
+    {"text": "Parameter-efficient methods save memory and time."}
+]
+dataset = Dataset.from_list(examples)
+
+def tokenize_fn(ex):
+    return tokenizer(ex['text'], truncation=True, 
+                     padding='max_length', max_length=128)
+
+tokenized = dataset.map(tokenize_fn, batched=True)
+tokenized.set_format(type='torch', columns=['input_ids', 'attention_mask'])
+
+# Configure LoRA
+lora_config = LoraConfig(
+    r=8,
+    lora_alpha=32,
+    target_modules=['c_attn'],
+    lora_dropout=0.05,
+    bias='none',
+    task_type='CAUSAL_LM'
+)
+
+# Wrap model with LoRA
+peft_model = get_peft_model(model, lora_config)
+peft_model.print_trainable_parameters()
+
+# Training args
+training_args = TrainingArguments(
+    output_dir='./lora_output',
+    num_train_epochs=1,
+    per_device_train_batch_size=2,
+    gradient_accumulation_steps=4,
+    learning_rate=2e-4,
+    save_total_limit=1,
+    fp16=torch.cuda.is_available()
+)
+
+# Trainer
+trainer = Trainer(
+    model=peft_model,
+    args=training_args,
+    train_dataset=tokenized,
+    tokenizer=tokenizer,
+    data_collator=DataCollatorForLanguageModeling(tokenizer, mlm=False)
+)
+
+trainer.train()
+
+# Save only LoRA adapters (small!)
+peft_model.save_pretrained('./lora_adapter')
+
+# Load into new base model
+base_model = AutoModelForCausalLM.from_pretrained('gpt2')
+loaded_model = PeftModel.from_pretrained(base_model, './lora_adapter')
+
+# Or merge adapters into base model for deployment
+merged_model = peft_model.merge_and_unload()
+merged_model.save_pretrained('./lora_merged')</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card success">
+                    <strong>✅ Save/Load Best Practices</strong><br>
+                    • Save adapters only: 0.5MB vs full model 500MB<br>
+                    • Use PeftModel.from_pretrained() to load adapters<br>
+                    • Merge adapters for deployment: peft_model.merge_and_unload()<br>
+                    • Multi-adapter support: load different adapters for different tasks
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>🛡️ OOM-Safe Training Helpers</h3>
+
+                <p><strong>Handle Out-Of-Memory errors gracefully:</strong></p>
+
+                <div class="accordion" id="codeAccordion3">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#codeBlock3">
+                                📋 Python - OOM-Safe Training Utilities (Click to expand)
+                            </button>
+                        </h2>
+                        <div id="codeBlock3" class="accordion-collapse collapse" data-bs-parent="#codeAccordion3">
+                            <div class="accordion-body">
+                                <pre>import torch
+from torch.cuda.amp import autocast, GradScaler
+
+def oom_safe_backward(loss, optimizer=None, scaler=None, accum_steps=1):
+    """Perform backward with OOM detection"""
+    try:
+        if scaler is not None:
+            scaler.scale(loss).backward()
+        else:
+            loss.backward()
+        return True
+    except RuntimeError as e:
+        if 'out of memory' in str(e).lower():
+            print("OOM detected - clearing cache")
+            torch.cuda.empty_cache()
+            return False
+        raise
+
+def smoke_test_tiny():
+    """Quick validation of training setup"""
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = torch.nn.Sequential(
+        torch.nn.Linear(128, 64),
+        torch.nn.ReLU(),
+        torch.nn.Linear(64, 16)
+    ).to(device)
+    
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+    scaler = torch.cuda.amp.GradScaler() if torch.cuda.is_available() else None
+    
+    x = torch.randn(2, 128, device=device)
+    y = torch.randn(2, 16, device=device)
+    
+    with autocast():
+        out = model(x)
+        loss = torch.nn.functional.mse_loss(out, y)
+    
+    if not oom_safe_backward(loss, optimizer, scaler):
+        return False
+    
+    if scaler:
+        scaler.step(optimizer)
+        scaler.update()
+    else:
+        optimizer.step()
+    
+    optimizer.zero_grad()
+    return True
+
+# Test before full training
+if smoke_test_tiny():
+    print("✓ Training setup verified!")</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card warning">
+                    <strong>⚠️ OOM Prevention Tips</strong><br>
+                    • Use gradient accumulation to simulate larger batches<br>
+                    • Enable gradient checkpointing: reduces activations in memory<br>
+                    • Use mixed precision (FP16): halves memory usage<br>
+                    • Start with small batch size, increase gradually<br>
+                    • Monitor GPU memory with torch.cuda.memory_allocated()
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>📊 LoRA Hyperparameter Tuning</h3>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Typical Range</th>
+                            <th>Trade-off</th>
+                            <th>Recommendation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>r (Rank)</strong></td>
+                            <td>4 - 64</td>
+                            <td>Higher = more expressive but slower</td>
+                            <td>Start with 8, increase if underfitting</td>
+                        </tr>
+                        <tr>
+                            <td><strong>lora_alpha</strong></td>
+                            <td>8 - 64</td>
+                            <td>Controls scaling (usually 2x r)</td>
+                            <td>2 × r works well</td>
+                        </tr>
+                        <tr>
+                            <td><strong>lora_dropout</strong></td>
+                            <td>0.05 - 0.1</td>
+                            <td>Regularization</td>
+                            <td>0.05 for most tasks</td>
+                        </tr>
+                        <tr>
+                            <td><strong>target_modules</strong></td>
+                            <td>Attention layers</td>
+                            <td>More modules = slower but better</td>
+                            <td>q_proj, v_proj for LLMs</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ============ QUANTIZATION & PRUNING ============ -->
+        <div class="learning-section quantization" id="quantization">
+            <div class="section-header">
+                <span class="section-emoji">🔢</span>
+                <h2>Quantization & Pruning</h2>
+            </div>
+
+            <p>Reduce model size and increase speed by lowering numerical precision or removing unimportant weights.</p>
+
+            <div class="subsection">
+                <h3>📊 Quantization Levels Comparison</h3>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Precision</th>
+                            <th>Bits</th>
+                            <th>Memory Reduction</th>
+                            <th>Accuracy Loss</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>FP32</strong></td>
+                            <td>32</td>
+                            <td>1x</td>
+                            <td>0%</td>
+                            <td>Training, baseline</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FP16 / BF16</strong></td>
+                            <td>16</td>
+                            <td>2x</td>
+                            <td>
+                                <1%< /td>
+                            <td>Fast training/inference</td>
+                        </tr>
+                        <tr>
+                            <td><strong>INT8</strong></td>
+                            <td>8</td>
+                            <td>4x</td>
+                            <td>1-2%</td>
+                            <td>Inference, production</td>
+                        </tr>
+                        <tr>
+                            <td><strong>INT4/NF4</strong></td>
+                            <td>4</td>
+                            <td>8x</td>
+                            <td>2-5%</td>
+                            <td>Large models, edge</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>🎯 Quantization Methods</h3>
+
+                <div class="topics-grid">
+                    <div class="topic-card">
+                        <h4>Dynamic Quantization</h4>
+                        <p>Post-training, CPU-friendly, no calibration needed. Good for NLP models.</p>
+                    </div>
+                    <div class="topic-card">
+                        <h4>Static Quantization</h4>
+                        <p>Requires calibration dataset, better accuracy than dynamic, INT8 on GPU.</p>
+                    </div>
+                    <div class="topic-card">
+                        <h4>QAT (Quantization-Aware Training)</h4>
+                        <p>Simulate quantization during training. Best accuracy for aggressive quantization.</p>
+                    </div>
+                    <div class="topic-card">
+                        <h4>GPTQ / AWQ</h4>
+                        <p>Specialized for LLMs, weight-only quantization preserving accuracy.</p>
+                    </div>
+                </div>
+
+                <div style="margin: 30px 0;">
+                    <p><strong>💾 Compression & Speed Comparison:</strong></p>
+                    <div class="comparison-visual">
+                        <div class="bar-item">
+                            <div class="bar" style="height: 250px; background: #808080;"></div>
+                            <div class="bar-label">FP32<br>(Baseline)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar"
+                                style="height: 125px; background: linear-gradient(to top, #ffc077, #ff922b);"></div>
+                            <div class="bar-label">FP16<br>(2x smaller)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar"
+                                style="height: 62px; background: linear-gradient(to top, #fb4e7e, #ff922b);"></div>
+                            <div class="bar-label">INT8<br>(4x smaller)</div>
+                        </div>
+                        <div class="bar-item">
+                            <div class="bar"
+                                style="height: 31px; background: linear-gradient(to top, #d946a6, #fb4e7e);"></div>
+                            <div class="bar-label">INT4<br>(8x smaller)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion" id="codeAccordion4">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#codeBlock4">
+                                📋 Python - BitsAndBytes 4-bit Quantization (Click to expand)
+                            </button>
+                        </h2>
+                        <div id="codeBlock4" class="accordion-collapse collapse" data-bs-parent="#codeAccordion4">
+                            <div class="accordion-body">
+                                <pre>from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+import torch
+
+# 4-bit quantization config
+bnb_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_use_double_quant=True,  # Double quant for efficiency
+    bnb_4bit_quant_type="nf4",       # Normalized float 4
+    bnb_4bit_compute_dtype=torch.float16
+)
+
+# Load large model on small GPU!
+model = AutoModelForCausalLM.from_pretrained(
+    'mistralai/Mistral-7B',
+    quantization_config=bnb_config,
+    device_map='auto'  # Auto-shard across GPUs
+)
+
+# Result: 7B model requires only 6-8GB VRAM (vs 28GB full precision)</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>✂️ Pruning: Removing Weights</h3>
+
+                <ul class="feature-list">
+                    <li><strong>Unstructured Pruning:</strong> Remove individual weights by magnitude (flexible but
+                        irregular)</li>
+                    <li><strong>Structured Pruning:</strong> Remove entire channels/heads (hardware-friendly speedup)
+                    </li>
+                    <li><strong>One-shot Pruning:</strong> Prune once, then fine-tune</li>
+                    <li><strong>Iterative Pruning:</strong> Small prune steps with retraining (better accuracy)</li>
+                    <li><strong>Sparsity Target:</strong> 30-50% typical, aggressive at 80%+ (with accuracy loss)</li>
+                </ul>
+
+                <div class="concept-box">
+                    <strong>💡 Pruning Strategy</strong><br><br>
+                    1. Train baseline model<br>
+                    2. Apply structured pruning (30% sparsity)<br>
+                    3. Fine-tune for 5-10 epochs<br>
+                    4. Quantize to INT8<br>
+                    5. Export and deploy<br><br>
+                    Result: 6-8x smaller, 10-20x faster!
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>⚖️ Pruning vs Quantization Trade-offs</h3>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Technique</th>
+                            <th>Speed</th>
+                            <th>Size</th>
+                            <th>Accuracy</th>
+                            <th>Hardware Support</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Unstructured Pruning</strong></td>
+                            <td>Minimal</td>
+                            <td>Good</td>
+                            <td>High</td>
+                            <td>Limited (irregular)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Structured Pruning</strong></td>
+                            <td>Great</td>
+                            <td>Good</td>
+                            <td>Medium</td>
+                            <td>Excellent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Quantization (INT8)</strong></td>
+                            <td>Great</td>
+                            <td>Great</td>
+                            <td>High</td>
+                            <td>Excellent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Quantization (INT4)</strong></td>
+                            <td>Excellent</td>
+                            <td>Excellent</td>
+                            <td>Medium</td>
+                            <td>Good</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>🔀 Combined Pruning + Quantization Pipeline</h3>
+
+                <p><strong>Best strategy for maximum compression and speedup:</strong></p>
+
+                <div class="accordion" id="codeAccordion11">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#codeBlock11">
+                                📋 Python - Pruning + Quantization Pipeline (Click to expand)
+                            </button>
+                        </h2>
+                        <div id="codeBlock11" class="accordion-collapse collapse" data-bs-parent="#codeAccordion11">
+                            <div class="accordion-body">
+                                <pre>import torch
+import torch.nn as nn
+import torch.nn.utils.prune as prune
+from transformers import AutoModelForCausalLM
+
+model = AutoModelForCausalLM.from_pretrained('distilgpt2')
+model.eval()
+
+# Step 1: Measure baseline
+def measure_size(model):
+    return sum(p.numel() * p.element_size() for p in model.parameters()) / 1e6
+
+baseline_size = measure_size(model)
+print(f'Baseline FP32: {baseline_size:.2f} MB')
+
+# Step 2: Apply 20% structured pruning
+for m in model.modules():
+    if isinstance(m, nn.Linear):
+        prune.ln_structured(m, 'weight', amount=0.2, n=2, dim=0)
+
+# Make pruning permanent
+for m in model.modules():
+    if hasattr(m, 'weight_mask'):
+        prune.remove(m, 'weight')
+
+pruned_size = measure_size(model)
+print(f'After Pruning (20%): {pruned_size:.2f} MB')
+print(f'  Reduction: {(1 - pruned_size/baseline_size)*100:.1f}%')
+
+# Step 3: Apply INT8 quantization
+model_quantized = torch.quantization.quantize_dynamic(
+    model,
+    {nn.Linear},
+    dtype=torch.qint8
+)
+
+final_size = measure_size(model_quantized)
+print(f'After Pruning + INT8: {final_size:.2f} MB')
+print(f'  Total reduction: {(1 - final_size/baseline_size)*100:.1f}%')
+print(f'  Compression ratio: {baseline_size/final_size:.2f}x')
+
+# Step 4: Validate inference still works
+import torch
+test_input = torch.randint(0, 50257, (1, 128))
+with torch.no_grad():
+    output = model_quantized(test_input)
+print('✓ Quantized model works correctly!')</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Stage</th>
+                            <th>Size (MB)</th>
+                            <th>Compression %</th>
+                            <th>Speed Impact</th>
+                            <th>Accuracy Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Baseline FP32</strong></td>
+                            <td>80</td>
+                            <td>0%</td>
+                            <td>1x</td>
+                            <td>0%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>+ Pruning (20%)</strong></td>
+                            <td>72</td>
+                            <td>10%</td>
+                            <td>1.2x</td>
+                            <td>
+                                <1%< /td>
+                        </tr>
+                        <tr>
+                            <td><strong>+ Quantization (INT8)</strong></td>
+                            <td>18</td>
+                            <td>77.5%</td>
+                            <td>1.5x</td>
+                            <td>1-2%</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-card success">
+                    <strong>✅ Combined Benefits</strong><br>
+                    • 4-5x smaller model (80MB → 18MB)<br>
+                    • 1.5-2x faster inference<br>
+                    • <2% accuracy loss<br>
+                        • Fits on edge devices, mobile phones<br>
+                        • Can further optimize with LoRA + distillation!
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>🎯 Structured Pruning Patterns</h3>
+
+                <ul class="feature-list">
+                    <li><strong>Channel pruning:</strong> Remove entire channels from convolutional layers</li>
+                    <li><strong>Neuron pruning:</strong> Remove neurons from fully connected layers</li>
+                    <li><strong>Head pruning:</strong> Remove attention heads (specific to transformers)</li>
+                    <li><strong>Layer pruning:</strong> Remove entire transformer blocks</li>
+                    <li><strong>Block-structured:</strong> Prune blocks of weights for hardware efficiency</li>
+                </ul>
+
+                <div class="concept-box">
+                    <strong>🎯 Iterative Pruning Best Practice</strong><br><br>
+                    1. Train baseline → evaluate<br>
+                    2. Prune 10% → fine-tune 2 epochs<br>
+                    3. Prune 10% more → fine-tune 2 epochs<br>
+                    4. Repeat until accuracy loss acceptable<br><br>
+                    Result: Better accuracy retention than one-shot pruning at same sparsity!
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ UNSLOTH ============ -->
+        <div class="learning-section unsloth" id="unsloth">
+            <div class="section-header">
+                <span class="section-emoji">⚡</span>
+                <h2>Unsloth: Lightning-Fast Model Optimization</h2>
+            </div>
+
+            <p>Production-ready framework for extremely fast model fine-tuning with optimized kernels and memory
+                management!</p>
+
+            <div class="subsection">
+                <h3>🎯 What Unsloth Does</h3>
+
+                <ul class="feature-list">
+                    <li><strong>Flash Attention 2:</strong> Optimized attention kernels, 2-3x faster</li>
+                    <li><strong>Custom CUDA Kernels:</strong> Fused operations reduce memory I/O</li>
+                    <li><strong>RoPE (Rotary Position Embeddings):</strong> Faster position encoding</li>
+                    <li><strong>Pre-packaged Models:</strong> Ready with LoRA + quantization</li>
+                    <li><strong>2-5x faster training:</strong> Real speedup, same accuracy</li>
+                    <li><strong>70% less VRAM:</strong> Compared to standard training</li>
+                </ul>
+
+                <div class="info-card success">
+                    <strong>✅ Performance Metrics (vs Standard Training)</strong><br>
+                    • Training Speed: 2-5x faster<br>
+                    • Memory Usage: 70% less VRAM<br>
+                    • Inference Speed: 2x faster<br>
+                    • No accuracy loss!<br>
+                    • Works with any HF model
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>🚀 Key Optimizations</h3>
+
+                <div class="topics-grid">
+                    <div class="topic-card">
+                        <h4>Flash Attention v2</h4>
+                        <p>Specialized attention kernels that reduce I/O operations. Critical for long contexts.</p>
+                    </div>
+                    <div class="topic-card">
+                        <h4>Gradient Checkpointing</h4>
+                        <p>Smart memory management: compute activations on backward, save memory.</p>
+                    </div>
+                    <div class="topic-card">
+                        <h4>Fused Operations</h4>
+                        <p>Combine multiple ops into single kernel call. Reduces GPU kernel launch overhead.</p>
+                    </div>
+                    <div class="topic-card">
+                        <h4>Type Casting</h4>
+                        <p>Efficient FP16/BF16 casting and mixed precision training.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>💻 Unsloth Setup & Usage</h3>
+
+                <div class="accordion" id="codeAccordion5">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#codeBlock5">
+                                📋 Python - Unsloth Fast Fine-tuning (Click to expand)
+                            </button>
+                        </h2>
+                        <div id="codeBlock5" class="accordion-collapse collapse" data-bs-parent="#codeAccordion5">
+                            <div class="accordion-body">
+                                <pre>from unsloth import FastLanguageModel
+from peft import LoraConfig
+import torch
+
+# Load model with Unsloth optimization
+model, tokenizer = FastLanguageModel.from_pretrained(
+    model_name="unsloth/mistral-7b-bnb-4bit",
+    max_seq_length=2048,
+    dtype=None,  # Auto-detect
+    load_in_4bit=True
+)
+
+# Add LoRA adapters (0.1% trainable params)
+model = FastLanguageModel.get_peft_model(
+    model,
+    r=16,
+    lora_alpha=16,
+    target_modules=["q_proj", "v_proj"],
+    lora_dropout=0.05,
+    bias="none",
+    use_gradient_checkpointing="unsloth",  # Unsloth's optimized gradient ckpt
+)
+
+# Standard training loop works!
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_data,
+    data_collator=data_collator,
+)
+
+trainer.train()  # 2-5x faster than standard training!</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>🎓 Best Use Cases</h3>
+
+                <ul class="feature-list">
+                    <li><strong>Fine-tuning 7B-13B models:</strong> Fits on single 80GB GPU, very fast</li>
+                    <li><strong>Instruction tuning:</strong> Create custom instruction-following models</li>
+                    <li><strong>Quick iterations:</strong> Rapid experimentation with different datasets</li>
+                    <li><strong>Production training:</strong> Deploy fast, optimize resource usage</li>
+                    <li><strong>Budget-conscious:</strong> Train large models on rented GPUs efficiently</li>
+                </ul>
+            </div>
+
+            <div class="subsection">
+                <h3>📝 Chat Data Preparation for Unsloth</h3>
+
+                <p><strong>Format your training data in conversation templates:</strong></p>
+
+                <div class="accordion" id="codeAccordion6">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#codeBlock6">
+                                📋 Python - Chat Format Data Preparation (Click to expand)
+                            </button>
+                        </h2>
+                        <div id="codeBlock6" class="accordion-collapse collapse" data-bs-parent="#codeAccordion6">
+                            <div class="accordion-body">
+                                <pre>from datasets import Dataset
+import pandas as pd
+
+# Prepare training data in instruction-response format
+training_data = [
+    {
+        "instruction": "Explain what machine learning is",
+        "input": "",
+        "output": "Machine learning is a subset of AI that enables systems to learn from data."
+    },
+    {
+        "instruction": "What are the benefits of using LoRA?",
+        "input": "",
+        "output": "LoRA reduces trainable parameters by 99%, saves memory, and speeds up fine-tuning."
+    },
+    {
+        "instruction": "Translate to French",
+        "input": "Hello, how are you?",
+        "output": "Bonjour, comment allez-vous?"
+    }
+]
+
+# Convert to dataset
+df = pd.DataFrame(training_data)
+dataset = Dataset.from_pandas(df)
+
+# Define chat template formatter
+def format_chat_template(example):
+    instruction = example['instruction']
+    input_text = example['input']
+    output = example['output']
+    
+    # Format as: "instruction\ninput\n\nresponse\n"
+    if input_text:
+        prompt = f"{instruction}\n{input_text}"
+    else:
+        prompt = instruction
+    
+    return {
+        "text": f"{prompt}\n\n{output}"
+    }
+
+# Apply formatting
+formatted_data = dataset.map(format_chat_template, remove_columns=['instruction', 'input', 'output'])
+
+print(f"Dataset size: {len(formatted_data)}")
+print(f"Sample:\n{formatted_data[0]['text']}")</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>🚀 Advanced Unsloth Configuration</h3>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Options</th>
+                            <th>Impact</th>
+                            <th>Recommendation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>load_in_4bit</strong></td>
+                            <td>True / False</td>
+                            <td>4-bit quantization, 70% memory save</td>
+                            <td>True for 4GB+ GPU</td>
+                        </tr>
+                        <tr>
+                            <td><strong>max_seq_length</strong></td>
+                            <td>512 - 4096</td>
+                            <td>Longer = more memory</td>
+                            <td>2048 for most tasks</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LoRA rank (r)</strong></td>
+                            <td>8 - 64</td>
+                            <td>Higher = better but slower</td>
+                            <td>16 for balanced performance</td>
+                        </tr>
+                        <tr>
+                            <td><strong>gradient_checkpointing</strong></td>
+                            <td>True / False</td>
+                            <td>30-40% memory save, 10% slower</td>
+                            <td>True for large models</td>
+                        </tr>
+                        <tr>
+                            <td><strong>dtype</strong></td>
+                            <td>float16 / bfloat16</td>
+                            <td>BF16 more stable on TPU</td>
+                            <td>float16 for most GPUs</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="accordion" id="codeAccordion12">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#codeBlock12">
+                                📋 Python - Full Unsloth Training with LoRA (Click to expand)
+                            </button>
+                        </h2>
+                        <div id="codeBlock12" class="accordion-collapse collapse" data-bs-parent="#codeAccordion12">
+                            <div class="accordion-body">
+                                <pre>from unsloth import FastLanguageModel
+from transformers import TrainingArguments, Trainer
+from peft import LoraConfig
+import torch
+
+# Load with full configuration
+model, tokenizer = FastLanguageModel.from_pretrained(
+    model_name="unsloth/mistral-7b-bnb-4bit",
+    max_seq_length=2048,
+    dtype=None,  # Auto-detect
+    load_in_4bit=True,
+)
+
+# Add LoRA with Unsloth optimization
+model = FastLanguageModel.get_peft_model(
+    model,
+    r=16,
+    lora_alpha=16,
+    target_modules=["q_proj", "v_proj", "k_proj", "o_proj"],
+    lora_dropout=0.05,
+    bias="none",
+    use_gradient_checkpointing="unsloth",  # Unsloth's optimized checkpointing
+)
+
+# Training configuration
+training_args = TrainingArguments(
+    output_dir="./lora_output",
+    per_device_train_batch_size=2,
+    gradient_accumulation_steps=4,
+    warmup_steps=100,
+    num_train_epochs=1,
+    learning_rate=2e-4,
+    fp16=not torch.cuda.is_bf16_supported(),
+    bf16=torch.cuda.is_bf16_supported(),
+    logging_steps=10,
+    optim="paged_adamw_8bit",  # Memory-efficient optimizer
+    weight_decay=0.01,
+    lr_scheduler_type="cosine",
+    seed=42,
+    save_strategy="steps",
+    save_steps=100,
+    eval_steps=100,
+)
+
+# Create trainer
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_data,
+    eval_dataset=eval_data,
+    tokenizer=tokenizer,
+)
+
+# Train (2-5x faster than standard training!)
+trainer.train()
+
+# Save and export
+model.save_pretrained("./final_lora_model")
+tokenizer.save_pretrained("./final_lora_model")</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ vLLM ============ -->
+        <div class="learning-section vllm" id="vllm">
+            <div class="section-header">
+                <span class="section-emoji">⚙️</span>
+                <h2>vLLM: Lightning-Fast Inference Engine</h2>
+            </div>
+
+            <p>Revolutionize LLM inference with Paged Attention and batched processing for 10-100x speedup!</p>
+
+            <div class="subsection">
+                <h3>🔥 Why vLLM?</h3>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Technology</th>
+                            <th>Throughput</th>
+                            <th>Memory</th>
+                            <th>Production Ready</th>
+                            <th>Ease of Use</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>HF Transformers</strong></td>
+                            <td>1x (baseline)</td>
+                            <td>Baseline</td>
+                            <td>⚠️ Limited</td>
+                            <td>Medium</td>
+                        </tr>
+                        <tr>
+                            <td><strong>vLLM</strong></td>
+                            <td><strong>10-40x</strong></td>
+                            <td><strong>50-70% less</strong></td>
+                            <td><strong>✅ Yes</strong></td>
+                            <td><strong>⭐ Easy</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>DeepSpeed</strong></td>
+                            <td>10-20x</td>
+                            <td>40-60% less</td>
+                            <td>✅ Yes</td>
+                            <td>Hard</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TensorRT-LLM</strong></td>
+                            <td>20-50x</td>
+                            <td>60-80% less</td>
+                            <td>✅ Yes</td>
+                            <td>Very Hard</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin: 30px 0;">
+                    <p><strong>🚀 Inference Speed Improvement:</strong></p>
+                    <div style="display: flex; gap: 20px; margin: 20px 0; flex-wrap: wrap;">
+                        <div class="metric-card" style="min-width: 180px;">
+                            <div style="font-size: 2rem;">🔵</div>
+                            <div class="metric-value">1x</div>
+                            <div class="metric-label">HF Transformers</div>
+                        </div>
+                        <div class="metric-card" style="min-width: 180px;">
+                            <div style="font-size: 2rem;">🟢</div>
+                            <div class="metric-value">10-40x</div>
+                            <div class="metric-label">vLLM ⭐</div>
+                        </div>
+                        <div class="metric-card" style="min-width: 180px;">
+                            <div style="font-size: 2rem;">🟡</div>
+                            <div class="metric-value">20-50x</div>
+                            <div class="metric-label">TensorRT-LLM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>💾 Paged Attention: The Core Innovation</h3>
+
+                <p><strong>Problem:</strong> KV cache memory usage quadratic with sequence length, causing memory waste.
+                </p>
+
+                <p><strong>Solution:</strong> Treat KV cache like virtual memory - store in pages, evict unused ones!
+                </p>
+
+                <ul class="feature-list">
+                    <li><strong>Memory fragmentation fix:</strong> Pre-allocate KV cache in blocks</li>
+                    <li><strong>Waste reduction:</strong> 15-30% less memory for sequences with padding</li>
+                    <li><strong>Higher throughput:</strong> Fit more requests in batch</li>
+                    <li><strong>Seamless batching:</strong> Different sequence lengths work easily</li>
+                    <li><strong>No accuracy loss:</strong> Completely transparent optimization</li>
+                </ul>
+
+                <div class="concept-box">
+                    <strong>🧠 Paged Attention Analogy</strong><br><br>
+                    Without Paged Attention: Allocate contiguous memory block for max length (wastes space for short
+                    sequences)<br><br>
+                    With Paged Attention: Allocate pages (like RAM), use only what you need, free unused pages for other
+                    requests<br><br>
+                    Result: Higher GPU memory utilization = more concurrent requests = better throughput!
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>🚀 vLLM Setup & Deployment</h3>
+
+                <div class="accordion" id="codeAccordion7">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#codeBlock7">
+                                📋 Python - vLLM Inference Server (Click to expand)
+                            </button>
+                        </h2>
+                        <div id="codeBlock7" class="accordion-collapse collapse" data-bs-parent="#codeAccordion7">
+                            <div class="accordion-body">
+                                <pre>from vllm import LLM, SamplingParams
+
+# Load model with vLLM (automatic Paged Attention)
+llm = LLM(
+    model="mistralai/Mistral-7B-Instruct-v0.1",
+    tensor_parallel_size=1,        # GPUs for parallelism
+    gpu_memory_utilization=0.9,    # Use 90% of GPU VRAM
+    dtype='float16',               # FP16 for speed
+    max_model_len=2048             # Max sequence length
+)
+
+# Create sampling parameters
+sampling_params = SamplingParams(
+    temperature=0.7,
+    top_p=0.95,
+    max_tokens=256
+)
+
+# Batch inference (multiple prompts!)
+prompts = [
+    "What is machine learning?",
+    "Explain transformers in simple terms.",
+    "Why use vLLM for inference?"
+]
+
+outputs = llm.generate(prompts, sampling_params)
+
+for output in outputs:
+    print(output.outputs[0].text)
+
+# Throughput: 1000+ tokens/second on single GPU!</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>📊 vLLM Quantization Support</h3>
+
+                <ul class="feature-list">
+                    <li><strong>GPTQ:</strong> Weight-only quantization, excellent accuracy for INT4</li>
+                    <li><strong>AWQ:</strong> Activation-aware quantization, best accuracy-speed tradeoff</li>
+                    <li><strong>SqueezeLLM:</strong> Specialized quantization for LLMs</li>
+                    <li><strong>Automatic detection:</strong> vLLM auto-detects quantization format</li>
+                    <li><strong>Combined benefit:</strong> Quantization + vLLM = 50-100x speedup!</li>
+                </ul>
+
+                <div class="info-card warning">
+                    <strong>⚡ Performance Boost Stacking</strong><br>
+                    Base Mistral-7B: 30 tokens/sec<br>
+                    + vLLM Paged Attention: 300 tokens/sec (10x)<br>
+                    + INT4 Quantization: 600 tokens/sec (20x)<br>
+                    + Tensor Parallelism (2 GPU): 1200 tokens/sec (40x)<br><br>
+                    <strong>40x faster = serve 40x more users on same hardware!</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ PRACTICAL OPTIMIZATION ============ -->
+        <div class="learning-section practical" id="practical">
+            <div class="section-header">
+                <span class="section-emoji">🛠️</span>
+                <h2>Practical Optimization Strategies</h2>
+            </div>
+
+            <p>Comprehensive guide to combining techniques for maximum performance in production.</p>
+
+            <div class="subsection">
+                <h3>🎯 Optimization Decision Tree</h3>
+
+                <div class="topics-grid">
+                    <div class="topic-card">
+                        <h4>📱 Mobile/Edge Device</h4>
+                        <p>DistilBERT + INT8 + ONNX Export</p>
+                    </div>
+                    <div class="topic-card">
+                        <h4>💻 Single GPU (8GB)</h4>
+                        <p>QLoRA fine-tuning + vLLM for inference</p>
+                    </div>
+                    <div class="topic-card">
+                        <h4>🖥️ Multi-GPU Server</h4>
+                        <p>LoRA + Tensor Parallel + Quantization</p>
+                    </div>
+                    <div class="topic-card">
+                        <h4>🚀 Production Scale</h4>
+                        <p>Pipeline Parallel + vLLM + Hardware Acceleration</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>📊 Memory & Speed Optimization Checklist</h3>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Optimization</th>
+                            <th>Memory Saving</th>
+                            <th>Speed Boost</th>
+                            <th>Implementation Difficulty</th>
+                            <th>Priority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Mixed Precision (FP16)</strong></td>
+                            <td>50%</td>
+                            <td>1.5-2x</td>
+                            <td>⭐ Easy</td>
+                            <td>🔴 Must Have</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gradient Checkpointing</strong></td>
+                            <td>30-40%</td>
+                            <td>10-20% slower</td>
+                            <td>⭐ Easy</td>
+                            <td>🟢 High</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Flash Attention</strong></td>
+                            <td>20%</td>
+                            <td>2-3x</td>
+                            <td>⭐ Easy</td>
+                            <td>🔴 Must Have</td>
+                        </tr>
+                        <tr>
+                            <td><strong>INT8 Quantization</strong></td>
+                            <td>75%</td>
+                            <td>1.2-1.5x</td>
+                            <td>⭐⭐ Medium</td>
+                            <td>🟡 Medium</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LoRA Fine-tuning</strong></td>
+                            <td>90%</td>
+                            <td>Neutral</td>
+                            <td>⭐⭐ Medium</td>
+                            <td>🔴 Must Have</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Knowledge Distillation</strong></td>
+                            <td>50-90%</td>
+                            <td>5-20x</td>
+                            <td>⭐⭐⭐ Hard</td>
+                            <td>🟢 High</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Structured Pruning</strong></td>
+                            <td>50%</td>
+                            <td>2-5x</td>
+                            <td>⭐⭐⭐ Hard</td>
+                            <td>🟡 Medium</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subsection">
+                <h3>🔧 Recommended Optimization Pipeline</h3>
+
+                <div class="learning-path">
+                    <div class="learning-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h5>Enable Mixed Precision (FP16/BF16)</h5>
+                            <p>Immediate 50% memory reduction, 1.5-2x speedup. Works with all models, no accuracy loss.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="learning-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h5>Use Flash Attention</h5>
+                            <p>Enable in training config, 2-3x speedup on attention layers. Supported in most
+                                frameworks.</p>
+                        </div>
+                    </div>
+
+                    <div class="learning-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h5>Apply Gradient Checkpointing (if needed)</h5>
+                            <p>Trade 10-20% slower training for 30-40% less memory. Good for long sequences.</p>
+                        </div>
+                    </div>
+
+                    <div class="learning-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h5>Use LoRA for Fine-tuning</h5>
+                            <p>Train only 0.1-1% of parameters, 90% memory reduction during fine-tuning.</p>
+                        </div>
+                    </div>
+
+                    <div class="learning-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h5>Quantize for Deployment</h5>
+                            <p>INT8 (1.2-1.5x faster) or INT4 (extreme compression). Test accuracy carefully.</p>
+                        </div>
+                    </div>
+
+                    <div class="learning-step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h5>Deploy with vLLM</h5>
+                            <p>10-40x inference speedup through Paged Attention and batching optimization.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>📈 Benchmarking & Profiling</h3>
+
+                <ul class="feature-list">
+                    <li><strong>Memory profiling:</strong> torch.cuda.memory_allocated(),
+                        torch.cuda.max_memory_allocated()</li>
+                    <li><strong>Speed benchmarking:</strong> Warm-up runs, then measure 100 iterations</li>
+                    <li><strong>Accuracy metrics:</strong> Always validate on test set after each optimization</li>
+                    <li><strong>End-to-end testing:</strong> Profile entire pipeline, not just individual components
+                    </li>
+                    <li><strong>Hardware-specific tuning:</strong> Batch size, gradient accumulation depend on GPU type
+                    </li>
+                </ul>
+
+                <div class="accordion" id="codeAccordion8">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#codeBlock8">
+                                📋 Python - Optimization Benchmarking Template (Click to expand)
+                            </button>
+                        </h2>
+                        <div id="codeBlock8" class="accordion-collapse collapse" data-bs-parent="#codeAccordion8">
+                            <div class="accordion-body">
+                                <pre>import torch
+import time
+
+def benchmark_model(model, data, name, num_runs=100):
+    # Warm up
+    for _ in range(10):
+        _ = model(data)
+    
+    # Benchmark
+    torch.cuda.reset_peak_memory_stats()
+    start = time.time()
+    
+    for _ in range(num_runs):
+        _ = model(data)
+    
+    end = time.time()
+    avg_time = (end - start) / num_runs
+    peak_memory = torch.cuda.max_memory_allocated() / 1e9
+    
+    print(f"{name}")
+    print(f"  Time/iter: {avg_time*1000:.2f}ms")
+    print(f"  Throughput: {1/avg_time:.0f} iter/sec")
+    print(f"  Peak Memory: {peak_memory:.2f}GB")
+    print()
+
+# Compare baseline vs optimized
+benchmark_model(base_model, batch, "Baseline FP32")
+benchmark_model(opt_model, batch, "Optimized (FP16 + LoRA + Quantization)")</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>⚠️ Common Optimization Pitfalls</h3>
+
+                <div class="info-card danger">
+                    <strong>❌ Pitfall 1: Over-aggressive Quantization</strong><br>
+                    INT4 without proper calibration → severe accuracy loss. Always test on validation set!
+                </div>
+
+                <div class="info-card danger">
+                    <strong>❌ Pitfall 2: Ignoring Warmup</strong><br>
+                    First few iterations slower due to compilation/allocation. Warm up before benchmarking!
+                </div>
+
+                <div class="info-card danger">
+                    <strong>❌ Pitfall 3: Single-metric Optimization</strong><br>
+                    Optimizing only for speed sacrifices accuracy. Measure end-to-end performance!
+                </div>
+
+                <div class="info-card danger">
+                    <strong>❌ Pitfall 4: Not Testing Edge Cases</strong><br>
+                    Test on maximum sequence length, batch sizes, and rare inputs before deployment!
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 60px; padding-top: 30px; border-top: 2px solid #ddd;">
+            <h3 style="font-size: 1.4rem; text-align: center; margin-bottom: 30px;">🎓 Quick Reference & Next Steps</h3>
+
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 30px 0;">
+                <div
+                    style="background: linear-gradient(135deg, #ff922b, #ffb366); color: white; padding: 20px; border-radius: 10px; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">⚡</div>
+                    <div style="font-weight: bold; font-size: 0.95rem;">Fast Start</div>
+                    <div style="font-size: 0.8rem; margin-top: 8px;">Enable FP16 + Flash Attention</div>
+                </div>
+
+                <div
+                    style="background: linear-gradient(135deg, #8c7ae6, #b89fe5); color: white; padding: 20px; border-radius: 10px; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🔧</div>
+                    <div style="font-weight: bold; font-size: 0.95rem;">Fine-tuning</div>
+                    <div style="font-size: 0.8rem; margin-top: 8px;">Use QLoRA on 8GB GPU</div>
+                </div>
+
+                <div
+                    style="background: linear-gradient(135deg, #00a699, #00d9c4); color: white; padding: 20px; border-radius: 10px; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🔢</div>
+                    <div style="font-weight: bold; font-size: 0.95rem;">Compression</div>
+                    <div style="font-size: 0.8rem; margin-top: 8px;">INT8 quantization + pruning</div>
+                </div>
+
+                <div
+                    style="background: linear-gradient(135deg, #d946a6, #ff6ba6); color: white; padding: 20px; border-radius: 10px; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🚀</div>
+                    <div style="font-weight: bold; font-size: 0.95rem;">Production</div>
+                    <div style="font-size: 0.8rem; margin-top: 8px;">Deploy with vLLM</div>
+                </div>
+            </div>
+
+            <div
+                style="background: linear-gradient(135deg, #f0f7ff, #e6f5ff); border-left: 4px solid #5b7cfa; padding: 20px; border-radius: 8px; margin-top: 30px;">
+                <p style="font-size: 0.95rem; color: #333; margin: 0;">
+                    <strong>💡 Pro Tip:</strong> Start with <span class="pill-badge">FP16</span>
+                    <span class="pill-badge">Flash Attention</span> for immediate gains, then layer
+                    <span class="pill-badge success-badge">LoRA</span> <span
+                        class="pill-badge warning-badge">Quantization</span>
+                    based on your constraints. Most models see <strong>50-100x improvement</strong> when combining all
+                    techniques! 🎯
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top">↑</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scrolling for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // Scroll to top button
+        const scrollBtn = document.getElementById('scroll-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollBtn.style.display = 'flex';
+            } else {
+                scrollBtn.style.display = 'none';
+            }
+        });
+
+        scrollBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>

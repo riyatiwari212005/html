@@ -1,0 +1,1431 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embeddings in E-Commerce & Advanced Systems - Part 2 (Papers 8-15)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --paper8-color: #FF6B6B;
+            --paper9-color: #4ECDC4;
+            --paper10-color: #45B7D1;
+            --paper11-color: #96CEB4;
+            --paper12-color: #FFEAA7;
+            --paper13-color: #DDA15E;
+            --paper14-color: #BC6C25;
+            --paper15-color: #9E7676;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            padding: 20px 0;
+        }
+
+        .navbar-custom {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-custom .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5em;
+            letter-spacing: 1px;
+        }
+
+        .container-main {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 30px;
+        }
+
+        .header-section h1 {
+            color: #667eea;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .header-section p {
+            color: #666;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+
+        .toc-section {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .toc-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-list li {
+            padding: 8px 0;
+        }
+
+        .toc-list a {
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            padding-left: 10px;
+            display: block;
+        }
+
+        .toc-list a:hover {
+            color: #764ba2;
+            border-left-color: #764ba2;
+        }
+
+        .paper-section {
+            margin: 50px 0;
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid;
+            background: #fafafa;
+        }
+
+        .paper1 {
+            border-left-color: var(--paper8-color);
+        }
+
+        .paper2 {
+            border-left-color: var(--paper9-color);
+        }
+
+        .paper3 {
+            border-left-color: var(--paper10-color);
+        }
+
+        .paper4 {
+            border-left-color: var(--paper11-color);
+        }
+
+        .paper5 {
+            border-left-color: var(--paper12-color);
+        }
+
+        .paper6 {
+            border-left-color: var(--paper13-color);
+        }
+
+        .paper7 {
+            border-left-color: var(--paper14-color);
+        }
+
+        .paper8 {
+            border-left-color: var(--paper15-color);
+        }
+
+        .paper-section h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 2em;
+            font-weight: 700;
+        }
+
+        .paper1 h2 {
+            color: var(--paper8-color);
+        }
+
+        .paper2 h2 {
+            color: var(--paper9-color);
+        }
+
+        .paper3 h2 {
+            color: var(--paper10-color);
+        }
+
+        .paper4 h2 {
+            color: var(--paper11-color);
+        }
+
+        .paper5 h2 {
+            color: var(--paper12-color);
+        }
+
+        .paper6 h2 {
+            color: var(--paper13-color);
+        }
+
+        .paper7 h2 {
+            color: var(--paper14-color);
+        }
+
+        .paper8 h2 {
+            color: var(--paper15-color);
+        }
+
+        .paper-meta {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+
+        .badge-custom {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 3px 5px 3px 0;
+        }
+
+        .theory-badge {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .architecture-badge {
+            background: #f3e5f5;
+            color: #6a1b9a;
+        }
+
+        .performance-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .concept-box {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .concept-box:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .concept-box h3 {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .architecture-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        .performance-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .comparison-grid {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-grid th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-grid td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .comparison-grid tr:hover {
+            background: #f5f7fa;
+        }
+
+        .emoji-large {
+            font-size: 2em;
+            margin-right: 10px;
+        }
+
+        .key-insight {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 152, 0, 0.1));
+            border-left: 4px solid #FFC107;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+
+        .key-insight strong {
+            color: #F57F17;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5em;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top:hover {
+            background: #764ba2;
+            transform: translateY(-3px);
+        }
+
+        .back-to-top.show {
+            display: flex;
+        }
+    </style>
+
+    <link rel="stylesheet" href="../css/dark-mode.css">
+    </head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container-fluid">
+            <button class="theme-toggle btn btn-outline-light ms-2" onclick="toggleDarkMode()" style="position: absolute; right: 20px; top: 10px;">🌙</button>
+        
+            <a class="navbar-brand" href="#top">🚀 Embeddings Research Guide - Part 2</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#toc">Contents</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#paper1">Papers 8-15</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-main container-lg">
+        <div class="header-section" id="top">
+            <h1>📚 Embeddings in E-Commerce & Advanced Systems</h1>
+            <p>Part 2: Production Scale, Real-Time Systems & Multi-Objective Optimization</p>
+            <p style="font-size: 0.95em; color: #999; margin-top: 15px;">Papers 8-15 | 2019-2023 | Advanced Industrial
+                Applications</p>
+        </div>
+
+        <div class="toc-section" id="toc">
+            <h2>📖 Table of Contents</h2>
+            <ul class="toc-list">
+                <li><a href="#paper1">📌 Paper 8: Real-Time Recommendation with Embeddings (Moshbit) 2019</a></li>
+                <li><a href="#paper2">📌 Paper 9: ML for Developer Experience (Netflix) 2020</a></li>
+                <li><a href="#paper3">📌 Paper 10: Efficient Vector Similarity Search (Google ScaNN) 2020</a></li>
+                <li><a href="#paper4">📌 Paper 11: BERT for Product Representations (Coveo) 2021</a></li>
+                <li><a href="#paper5">📌 Paper 12: Cold-Start Embeddings (Coveo) 2022</a></li>
+                <li><a href="#paper6">📌 Paper 13: Embedding-Based Retrieval (Scribd) 2021</a></li>
+                <li><a href="#paper7">📌 Paper 14: Multi-Objective Song Embeddings (Apple Music) 2022</a></li>
+                <li><a href="#paper8">📌 Paper 15: Embeddings at Spotify Scale 2023</a></li>
+            </ul>
+        </div>
+
+        <!-- Paper 8: Moshbit -->
+        <div class="paper-section paper1" id="paper1">
+            <h2><span class="emoji-large">⏱️</span>Paper 8: Online Performance Study of Real-Time Recommendation System
+                (Moshbit) 2019</h2>
+            <div class="paper-meta">
+                <strong>Company:</strong> Moshbit | <strong>Year:</strong> 2019 | <strong>Domain:</strong> Job
+                Recommendations
+                <span class="badge-custom theory-badge">Temporal Embeddings</span>
+                <span class="badge-custom architecture-badge">Real-Time Processing</span>
+            </div>
+
+            <div class="section-title">🔬 Theoretical Foundations</div>
+
+            <div class="concept-box">
+                <h3>Core Concept 1: Temporal Embedding Strategies</h3>
+                <p><strong>Research Question:</strong> How do different embedding approaches compare in real-time job
+                    recommendations?</p>
+                <p><strong>Key Finding:</strong> Time signals matter more than pure frequency. Exponential recency decay
+                    provides 15% improvement, frequency×recency combination achieves 20% improvement over baseline
+                    keyword matching.</p>
+
+                <div class="key-insight">
+                    <strong>💡 Key Insight:</strong> Recent user behavior is significantly more predictive than
+                    cumulative historical behavior. Users' interests shift, and recency weighting captures this
+                    evolution.
+                </div>
+
+                <h4>Embedding Strategies Tested:</h4>
+                <table class="comparison-grid">
+                    <tr>
+                        <th>Strategy</th>
+                        <th>Approach</th>
+                        <th>Quality Lift</th>
+                        <th>Key Advantage</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Standard Skip-gram</strong></td>
+                        <td>All interactions weighted equally</td>
+                        <td>+5%</td>
+                        <td>Simple baseline</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Frequency-weighted</strong></td>
+                        <td>Popular items weighted higher</td>
+                        <td>+5%</td>
+                        <td>Limited improvement</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Exponential Recency</strong></td>
+                        <td>exp(-λ × days_ago) decay function</td>
+                        <td>+15%</td>
+                        <td>Single parameter tuning</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Frequency × Recency</strong></td>
+                        <td>Combined weighted training</td>
+                        <td>+20%</td>
+                        <td>Best overall</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="concept-box">
+                <h3>Core Concept 2: Embedding Stability & Drift</h3>
+                <p><strong>Problem:</strong> Embeddings change with retraining, potentially breaking recommendations
+                    consistency.</p>
+                <p><strong>Finding:</strong> Frequency×recency combination provides most stable long-term performance.
+                    Gradual drift manageable; sudden drift requires monitoring and regularization.</p>
+
+                <h4>Types of Drift:</h4>
+                <ul>
+                    <li><strong>Gradual Drift:</strong> Embeddings slowly shift over weeks (minimal disruption)</li>
+                    <li><strong>Sudden Drift:</strong> Large changes between trainings (breaks assumptions)</li>
+                    <li><strong>Cold-Start:</strong> New job postings without training history</li>
+                </ul>
+            </div>
+
+            <div class="section-title">🏗️ System Architecture</div>
+
+            <div class="architecture-box">┌──────────────────────────────────────────────────┐
+                │ MOSHBIT JOB RECOMMENDATION SYSTEM │
+                ├──────────────────────────────────────────────────┤
+                │ │
+                │ Embedding Training (Weekly): │
+                │ ├─ Data: Job views/clicks from last 2 months │
+                │ ├─ Weighting: frequency × exp(-0.01 × days) │
+                │ ├─ Output: 50-100D position embeddings │
+                │ ├─ Cold-start: Content-based initialization │
+                │ └─ Result: Cached embeddings for all jobs │
+                │ │
+                │ Recommendation Generation (Real-time): │
+                │ ├─ Input: Job seeker viewing position P │
+                │ ├─ Retrieve: Embedding for P (from cache) │
+                │ ├─ ANN Search: Top-10 similar positions │
+                │ ├─ Re-ranking: Apply diversity, freshness │
+                │ └─ Output: Top-5 personalized similar jobs │
+                │ │
+                │ Personalized Homepage: │
+                │ ├─ Historical data: User searched/applied for │
+                │ ├─ Aggregate: User preference centroid │
+                │ ├─ Find: Top-50 similar jobs │
+                │ ├─ Diversify: Mix types, companies, locations │
+                │ └─ Result: Personalized job feed │
+                │ │
+                └──────────────────────────────────────────────────┘</div>
+
+            <div class="section-title">� Embedding Learning Details: Frequency × Recency Weighting</div>
+
+            <div class="concept-box">
+                <h3>Training Strategy & Recency Decay Function</h3>
+
+                <h4>For Each Job View in Training Data:</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 6px; font-size: 0.9em;">
+View timestamp: t_view
+Current training time: t_now  
+Days since view: days_ago = (t_now - t_view) / 86400
+
+Weight calculation:
+├─ Frequency: How many times viewed? (count)
+├─ Recency decay: exp(-λ × days_ago) where λ = 0.01
+└─ Final weight: frequency × Recency_decay</pre>
+
+                <h4>Recency Decay Examples (λ = 0.01):</h4>
+                <table class="comparison-grid">
+                    <tr>
+                        <th>Time Since View</th>
+                        <th>Decay Factor</th>
+                        <th>Weight Retained</th>
+                        <th>Interpretation</th>
+                    </tr>
+                    <tr>
+                        <td>1 day ago</td>
+                        <td>exp(-0.01) = 0.99</td>
+                        <td>99%</td>
+                        <td>Still strong signal</td>
+                    </tr>
+                    <tr>
+                        <td>1 week ago</td>
+                        <td>exp(-0.07) = 0.93</td>
+                        <td>93%</td>
+                        <td>Slightly weaker</td>
+                    </tr>
+                    <tr>
+                        <td>1 month ago</td>
+                        <td>exp(-0.3) = 0.74</td>
+                        <td>74%</td>
+                        <td>Noticeably weighted down</td>
+                    </tr>
+                    <tr>
+                        <td>3 months ago</td>
+                        <td>exp(-0.9) = 0.41</td>
+                        <td>41%</td>
+                        <td>Half strength</td>
+                    </tr>
+                    <tr>
+                        <td>1 year ago</td>
+                        <td>exp(-3.6) = 0.027</td>
+                        <td>2.7%</td>
+                        <td>Almost ignored</td>
+                    </tr>
+                </table>
+
+                <h4>Training Parameters (Production):</h4>
+                <ul>
+                    <li><strong>Batch SGD:</strong> 100-1000 weighted pairs per batch</li>
+                    <li><strong>Learning rate:</strong> 0.1 initial, decaying to 0.001</li>
+                    <li><strong>Epochs:</strong> 10-20 passes through training data</li>
+                    <li><strong>Embedding dimension:</strong> Tuned to 50-100D</li>
+                    <li><strong>Data window:</strong> Last 2 months of interactions</li>
+                    <li><strong>Retraining frequency:</strong> Weekly</li>
+                    <li><strong>Recency parameter λ:</strong> Tuned to 0.01 (via A/B testing)</li>
+                </ul>
+
+                <h4>Quality Metrics Achieved:</h4>
+                <ul>
+                    <li>Embedding stability: Same recommendations consistent across retraining cycles</li>
+                    <li>Recommendation relevance: +20% CTR improvement over baseline</li>
+                    <li>Cold-start handling: New jobs warmed up within 1 day</li>
+                    <li><strong>Overall winner:</strong> Frequency × Recency provides best production balance</li>
+                </ul>
+            </div>
+
+            <div class="section-title">�📊 Performance Results</div>
+
+            <div class="performance-card">
+                <h4>Similar Jobs Widget - Click-Through Rate</h4>
+                <table class="comparison-grid">
+                    <tr>
+                        <th>Approach</th>
+                        <th>CTR</th>
+                        <th>Improvement</th>
+                        <th>Session Time</th>
+                    </tr>
+                    <tr>
+                        <td>Content-based (baseline)</td>
+                        <td>0.8%</td>
+                        <td>Baseline</td>
+                        <td>3 min</td>
+                    </tr>
+                    <tr>
+                        <td>Standard embeddings</td>
+                        <td>0.92%</td>
+                        <td>+15%</td>
+                        <td>4.2 min</td>
+                    </tr>
+                    <tr>
+                        <td>Frequency×Recency</td>
+                        <td>1.12%</td>
+                        <td>+40%</td>
+                        <td>5.4 min</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="performance-card">
+                <h4>Homepage Personalization Impact</h4>
+                <ul>
+                    <li>Job item CTR: +50% (1.2% → 1.8%)</li>
+                    <li>Application rate: +45% (0.4% → 0.58%)</li>
+                    <li>Daily retention: +9pp (65% → 74%)</li>
+                    <li>Session time: +37% (8 min → 11 min)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Paper 9: Netflix -->
+        <div class="paper-section paper2" id="paper2">
+            <h2><span class="emoji-large">🎬</span>Paper 9: Machine Learning for Improving Developer Experience
+                (Netflix) 2020</h2>
+            <div class="paper-meta">
+                <strong>Company:</strong> Netflix | <strong>Year:</strong> 2020 | <strong>Domain:</strong> Internal
+                Developer Tools
+                <span class="badge-custom theory-badge">Tool Discovery</span>
+                <span class="badge-custom architecture-badge">Code Similarity</span>
+            </div>
+
+            <div class="section-title">🔬 Theoretical Foundations</div>
+
+            <div class="concept-box">
+                <h3>Core Concept 1: Internal Tools Recommendations</h3>
+                <p><strong>Challenge:</strong> Netflix has 1000+ developers and 100+ microservices. New developers don't
+                    know which tools exist, leading to reinventing wheels.</p>
+                <p><strong>Solution:</strong> Use embeddings to recommend tools based on developer expertise and project
+                    context.</p>
+
+                <div class="key-insight">
+                    <strong>💡 Key Insight:</strong> Tool fragmentation is a silent cost. Standardization through smart
+                    recommendations saves engineering velocity and maintenance burden.
+                </div>
+
+                <h4>Embedding Construction:</h4>
+                <ul>
+                    <li>Treat developers as "users", tools as "items"</li>
+                    <li>Interaction: Developer contributes to or uses tool</li>
+                    <li>Training: Skip-gram on co-usage patterns</li>
+                    <li>Result: Tools in same domain cluster together (e.g., storage tools, messaging tools)</li>
+                </ul>
+            </div>
+
+            <div class="concept-box">
+                <h3>Core Concept 2: Code Embeddings for Reuse</h3>
+                <p><strong>Problem:</strong> Developers write similar code repeatedly; each team creates their own
+                    implementations.</p>
+                <p><strong>Approach:</strong> Mine internal repositories, learn code embeddings from syntax, behavior,
+                    and usage patterns. Recommend existing implementations to reduce duplication.</p>
+            </div>
+
+            <div class="section-title">🏗️ System Architecture & Integration</div>
+
+            <div class="architecture-box">┌────────────────────────────────────────────────┐
+                │ NETFLIX DEVELOPER TOOLS SYSTEM │
+                ├────────────────────────────────────────────────┤
+                │ │
+                │ Data Collection: │
+                │ ├─ Developer tool usage logs │
+                │ ├─ Code repository contributions │
+                │ ├─ Project metadata (service type, language) │
+                │ ├─ Communication data (tool discussions) │
+                │ └─ Temporal: Tool adoption patterns │
+                │ │
+                │ Embedding Training (Multiple Views): │
+                │ ├─ View 1: Tool-by-tool embeddings │
+                │ │ ├─ Input: Tools used together │
+                │ │ ├─ Training: Skip-gram co-occurrence │
+                │ │ ├─ Result: 50D tool similarity vectors │
+                │ │ └─ Cluster: Storage (Cassandra, Redis), │
+                │ │ Messaging (Kafka, RabbitMQ) │
+                │ │ │
+                │ ├─ View 2: Developer-by-tool embeddings │
+                │ │ ├─ Input: Developer expertise │
+                │ │ ├─ Training: Collaborative filtering │
+                │ │ └─ Result: Developer affinity vectors │
+                │ │ │
+                │ └─ View 3: Code embeddings (Advanced) │
+                │ ├─ Input: Code repositories + AST │
+                │ ├─ Training: Code similarity learning │
+                │ └─ Output: Function similarity vectors │
+                │ │
+                │ Use Cases: │
+                │ ├─ New project: Recommend tools for context │
+                │ ├─ Find peers: Developers with same tools │
+                │ ├─ Code reuse: Existing implementations │
+                │ └─ Network: Expert connections nearby │
+                │ │
+                │ Integration Points: │
+                │ ├─ IDE plugin: Real-time suggestions │
+                │ ├─ Internal portal: Browse recommendations │
+                │ ├─ Slackbot: Tool suggestions in chat │
+                │ ├─ PR reviews: Tool/code reuse hints │
+                │ ├─ Email digests: Weekly recommendations │
+                │ └─ Feedback loop: Track adoption & impact │
+                │ │
+                │ Feedback Metrics: │
+                │ ├─ Track: Recommendation click-through │
+                │ ├─ Track: Actual tool adoption │
+                │ ├─ Measure: Development speed improvements │
+                │ ├─ Monitor: Bug reduction from reuse │
+                │ └─ Analyze: Standardization metrics │
+                │ │
+                └────────────────────────────────────────────────┘</div>
+
+            <div class="section-title">📊 Performance Results</div>
+
+            <div class="performance-card">
+                <h4>Developer Productivity Improvements</h4>
+                <ul>
+                    <li><strong>Tool discovery time:</strong> 1-2 hours → 5-10 minutes (90% reduction)</li>
+                    <li><strong>Code reuse rate:</strong> 30% → 50%+ (67% improvement)</li>
+                    <li><strong>Tool standardization:</strong> Higher adoption of standard tools ecosystem-wide</li>
+                    <li><strong>Engineering velocity:</strong> +15-20% improvement in development speed</li>
+                    <li><strong>Code quality:</strong> Improved (reused battle-tested code)</li>
+                    <li><strong>Maintenance burden:</strong> Reduced (less duplicated code to maintain)</li>
+                </ul>
+            </div>
+
+            <div class="key-insight">
+                <strong>💡 Key Insight:</strong> Internal ML systems create network effects. Better tool discovery →
+                faster development → more tools created → even better recommendations. Virtuous cycle of engineering
+                efficiency.
+            </div>
+        </div>
+
+        <!-- Paper 10: Google ScaNN -->
+        <div class="paper-section paper3" id="paper3">
+            <h2><span class="emoji-large">⚡</span>Paper 10: Efficient Vector Similarity Search (Google ScaNN) 2020</h2>
+            <div class="paper-meta">
+                <strong>Company:</strong> Google | <strong>Year:</strong> 2020 | <strong>Domain:</strong> Scalable
+                Search Infrastructure
+                <span class="badge-custom theory-badge">Approximate NN</span>
+                <span class="badge-custom performance-badge">Scale Optimization</span>
+            </div>
+
+            <div class="section-title">🔬 Theoretical Foundations</div>
+
+            <div class="concept-box">
+                <h3>Core Concept: Approximate Nearest Neighbors at Scale</h3>
+                <p><strong>Challenge:</strong> 1 billion vectors, find top-k similar items in milliseconds (not
+                    seconds).</p>
+                <p><strong>Brute Force:</strong> O(n) comparison to all vectors = 1-10 seconds per query (too slow for
+                    production)</p>
+
+                <div class="key-insight">
+                    <strong>💡 Key Insight:</strong> Approximate solutions that are 100x faster are worth 1-2% accuracy
+                    loss. Users prefer fast mediocre results over perfect slow results.
+                </div>
+
+                <h4>ScaNN Three-Pronged Attack:</h4>
+
+                <strong>1. Quantization (Reduce Data Size):</strong>
+                <ul>
+                    <li><strong>Scalar Quantization:</strong> float32 (4 bytes) → int8 (1 byte) = 4x compression</li>
+                    <li><strong>Product Quantization:</strong> Divide 128D into 4×32D chunks, each quantized to 1 byte =
+                        32x compression</li>
+                    <li><strong>Trade-off:</strong> 1-2% accuracy loss for massive speedup</li>
+                </ul>
+
+                <strong>2. Hashing (Partition Space):</strong>
+                <ul>
+                    <li><strong>Locality-Sensitive Hashing:</strong> Similar vectors hash to same bucket</li>
+                    <li><strong>Tree-Based Indexing:</strong> Hierarchical partitions reduce search space</li>
+                    <li><strong>Result:</strong> Check 1000 vectors instead of 1 billion (~1000x reduction)</li>
+                </ul>
+
+                <strong>3. Distance Metric Optimization:</strong>
+                <ul>
+                    <li><strong>Cosine Similarity:</strong> Scaled dot product only (vs expensive Euclidean)</li>
+                    <li><strong>SIMD Operations:</strong> Process 8-16 dimensions simultaneously</li>
+                    <li><strong>Result:</strong> 50x speedup on modern CPUs</li>
+                </ul>
+            </div>
+
+            <div class="section-title">🏗️ System Architecture</div>
+
+            <div class="architecture-box">┌──────────────────────────────────────────────┐
+                │ GOOGLE SCANN INDEX CONSTRUCTION │
+                ├──────────────────────────────────────────────┤
+                │ │
+                │ Step 1: Product Quantization │
+                │ ├─ Divide: 128D vector → 4 chunks (32D) │
+                │ ├─ K-means: Each chunk clustered (k=256) │
+                │ ├─ Encode: Cluster ID per chunk (4 bytes!) │
+                │ └─ Result: 512 bytes → 4 bytes (128x!) │
+                │ │
+                │ Step 2: Tree Partitioning │
+                │ ├─ Recursive: Partition space hierarchically │
+                │ ├─ Depth: ~20 levels for 1M+ vectors │
+                │ ├─ Leaves: 100-1000 vectors each │
+                │ └─ Result: Spatial index structure │
+                │ │
+                │ Step 3: Storage Optimization │
+                │ ├─ Memory: Hot data (top tree levels) │
+                │ ├─ Disk: Cold data (lower levels) │
+                │ └─ Result: Fast access + manageable size │
+                │ │
+                │ QUERY PROCESSING │
+                │ ├─ Input: Quantize query vector │
+                │ ├─ Navigate: Tree traversal (beam search) │
+                │ ├─ Candidate: Collect from leaf nodes │
+                │ ├─ Optional: Re-rank with full-precision │
+                │ └─ Output: Top-k results in milliseconds │
+                │ │
+                └──────────────────────────────────────────────┘</div>
+
+            <div class="section-title">� Quantization Details: Deep Technical Dive</div>
+
+            <div class="concept-box">
+                <h3>Product Quantization Example - Step-by-Step</h3>
+
+                <strong>Original Vector (128 dimensions):</strong>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 6px; overflow-x: auto;">
+v = [0.5, 0.3, 0.2, ..., 0.8]  (512 bytes vs 4 bytes final!)</pre>
+
+                <h4>Step 1: Divide into Chunks</h4>
+                <ul>
+                    <li>Chunk 1: [0.5, 0.3, 0.2, ..., 0.1] (32D)</li>
+                    <li>Chunk 2: [0.4, 0.6, 0.3, ..., 0.2] (32D)</li>
+                    <li>Chunk 3: [0.7, 0.1, 0.5, ..., 0.4] (32D)</li>
+                    <li>Chunk 4: [0.2, 0.9, 0.1, ..., 0.8] (32D)</li>
+                </ul>
+
+                <h4>Step 2: Independent K-means per Chunk (k=256)</h4>
+                <ul>
+                    <li><strong>Chunk 1:</strong> Find 256 cluster centroids (centroids #0-#255)</li>
+                    <li><strong>Chunk 2-4:</strong> Also 256 clusters each</li>
+                    <li><strong>Total clusters:</strong> 256 × 4 = 1024 centroids stored</li>
+                </ul>
+
+                <h4>Step 3: Assign Vectors to Nearest Cluster</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 6px;">
+Chunk 1: Vector closest to centroid #42 → encode as 42
+Chunk 2: Vector closest to centroid #157 → encode as 157  
+Chunk 3: Vector closest to centroid #9 → encode as 9
+Chunk 4: Vector closest to centroid #201 → encode as 201
+
+Final encoding: [42, 157, 9, 201]  (4 bytes!)</pre>
+
+                <h4>Compression Ratio:</h4>
+                <ul>
+                    <li><strong>Original:</strong> 128 floats × 4 bytes = 512 bytes</li>
+                    <li><strong>Quantized:</strong> 4 bytes (one per chunk)</li>
+                    <li><strong>Compression:</strong> <strong>128x!</strong> (500MB → 4MB per billion vectors)</li>
+                </ul>
+
+                <h4>Query Time Optimization:</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 6px;">
+Query also compressed: [38, 160, 12, 198]
+
+Distance computation:
+├─ Chunk 1: dist(centroid_42, centroid_38) 
+├─ Chunk 2: dist(centroid_157, centroid_160)
+├─ Chunk 3: dist(centroid_9, centroid_12)
+└─ Chunk 4: dist(centroid_201, centroid_198)</pre>
+
+                <h4>Speed Advantage:</h4>
+                <ul>
+                    <li><strong>Possible values per chunk:</strong> Only 256</li>
+                    <li><strong>Pre-compute:</strong> All 256² pairwise distances (65,536 values)</li>
+                    <li><strong>At runtime:</strong> Lookup in table (1 CPU cycle!)</li>
+                    <li><strong>Full comparison:</strong> 4 table lookups = super fast</li>
+                    <li><strong>vs float32:</strong> Would need 128 multiplications + additions per query</li>
+                    <li><strong>Speedup:</strong> <strong>100x faster</strong> than float32 comparison</li>
+                </ul>
+
+                <h4>Quality Trade-off:</h4>
+                <ul>
+                    <li><strong>Accuracy loss:</strong> 1-2% (Recall@10 measured)</li>
+                    <li><strong>Speed gain:</strong> 100x faster queries</li>
+                    <li><strong>Philosophy:</strong> Good enough fast > Perfect slow</li>
+                    <li><strong>User experience:</strong> Acceptable for production systems</li>
+                </ul>
+            </div>
+
+            <div class="section-title">�📊 Performance Results</div>
+
+            <div class="performance-card">
+                <h4>Benchmark: 1 Billion Vectors</h4>
+                <table class="comparison-grid">
+                    <tr>
+                        <th>Method</th>
+                        <th>Latency</th>
+                        <th>Recall@10</th>
+                        <th>Speedup</th>
+                        <th>Use Case</th>
+                    </tr>
+                    <tr>
+                        <td>Brute Force</td>
+                        <td>1000ms</td>
+                        <td>100%</td>
+                        <td>1x (baseline)</td>
+                        <td>Research only</td>
+                    </tr>
+                    <tr>
+                        <td>ScaNN (basic)</td>
+                        <td>50-100ms</td>
+                        <td>99%</td>
+                        <td>10-20x</td>
+                        <td>Acceptable</td>
+                    </tr>
+                    <tr>
+                        <td>ScaNN (aggressive)</td>
+                        <td>1-5ms</td>
+                        <td>97-98%</td>
+                        <td>200-1000x</td>
+                        <td>Production</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="performance-card">
+                <h4>Infrastructure Performance Characteristics</h4>
+                <ul>
+                    <li><strong>Latency:</strong> 1-10ms for 1 billion vectors (vs 1000ms brute force)</li>
+                    <li><strong>Speedup:</strong> 100-1000x faster than brute force comparison</li>
+                    <li><strong>Memory:</strong> ~500MB-10GB per billion vectors (massive reduction)</li>
+                    <li><strong>Index construction:</strong> Hours for 1 billion vectors (one-time cost)</li>
+                    <li><strong>Accuracy:</strong> 99%+ Recall@10 (only 1% of worst neighbors missed)</li>
+                    <li><strong>Scale:</strong> Google Search serves billions of vectors in milliseconds</li>
+                </ul>
+            </div>
+
+            <div class="performance-card">
+                <h4>Detailed Benchmark: 1 Billion Vector Search</h4>
+                <table class="comparison-grid">
+                    <tr>
+                        <th>Approach</th>
+                        <th>Method</th>
+                        <th>Latency/Query</th>
+                        <th>CPU Usage</th>
+                        <th>Recall@10</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Brute Force (Baseline)</strong></td>
+                        <td>Linear search through all vectors</td>
+                        <td>1000ms</td>
+                        <td>50% of 1 core</td>
+                        <td>100%</td>
+                    </tr>
+                    <tr>
+                        <td>ScaNN (Basic)</td>
+                        <td>Tree-based, full-precision</td>
+                        <td>50-100ms</td>
+                        <td>10% of 1 core</td>
+                        <td>99%</td>
+                    </tr>
+                    <tr>
+                        <td>ScaNN (Standard)</td>
+                        <td>Product quantization + tree</td>
+                        <td>10-20ms</td>
+                        <td>2% of 1 core</td>
+                        <td>98-99%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ScaNN (Aggressive)</strong></td>
+                        <td>Heavy quantization + SIMD + caching</td>
+                        <td>1-5ms</td>
+                        <td>&lt;1% of 1 core</td>
+                        <td>97-98%</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="key-insight">
+                <strong>💡 Real-World Deployment:</strong> Google uses ScaNN for entity embeddings across Search.
+                Billions of vectors served globally with <5ms latency. Infrastructure: Multi-100s GPU/CPU servers.
+                    Reliability: 99.99% uptime. Result: CPU-only approach enables 10x more traffic vs GPU-based systems.
+                    </div>
+            </div>
+
+            <!-- Paper 11: Coveo BERT -->
+            <div class="paper-section paper4" id="paper4">
+                <h2><span class="emoji-large">🧠</span>Paper 11: BERT for Product Representations (Coveo) 2021</h2>
+                <div class="paper-meta">
+                    <strong>Company:</strong> Coveo | <strong>Year:</strong> 2021 | <strong>Domain:</strong> Multi-Modal
+                    Product Embeddings
+                    <span class="badge-custom theory-badge">Transfer Learning</span>
+                    <span class="badge-custom architecture-badge">Multi-Modal Fusion</span>
+                </div>
+
+                <div class="section-title">🔬 Theoretical Foundations</div>
+
+                <div class="concept-box">
+                    <h3>Core Concept 1: Transfer Learning from BERT</h3>
+                    <p><strong>Innovation:</strong> Use pre-trained BERT (trained on 3B words) for product embeddings
+                        instead of training from scratch.</p>
+                    <p><strong>Advantage:</strong> Immediate semantic understanding without requiring extensive product
+                        interaction data. Cold-start products become discoverable from day 1.</p>
+
+                    <div class="key-insight">
+                        <strong>💡 Key Insight:</strong> Transfer learning bridges the cold-start problem. Products
+                        "MacBook Pro 16" and "ASUS VivoBook" are semantically similar even without interaction overlap.
+                    </div>
+
+                    <h4>Process:</h4>
+                    <ol>
+                        <li>Concatenate: Product title + description + reviews</li>
+                        <li>BERT encoding: Forward pass through BERT-base (768D output)</li>
+                        <li>Extract: [CLS] token embedding (represents full sequence)</li>
+                        <li>Optional reduction: PCA projection to 256D (95% variance retained)</li>
+                        <li>L2 normalization: Prepare for cosine similarity</li>
+                        <li>Fine-tuning (optional): Learn task-specific product similarity</li>
+                    </ol>
+
+                    <div class="key-insight">
+                        <strong>💡 BERT Advantage:</strong> Pre-trained on 3 billion words. "Dell XPS laptop" and "ASUS
+                        VivoBook" recognized as semantically similar without requiring any product interaction overlap.
+                        Solves cold-start immediately.
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Core Concept 2: Multi-Modal Embeddings</h3>
+                    <p><strong>Insight:</strong> Products have multiple facets: semantic meaning (text), visual
+                        appearance (images), and commerce attributes (structure).</p>
+
+                    <h4>Three Modalities:</h4>
+                    <ul>
+                        <li><strong>Text (BERT):</strong> Semantic understanding (50% weight)</li>
+                        <li><strong>Images (Vision Model):</strong> Visual similarity - colors, materials, styles (30%
+                            weight)</li>
+                        <li><strong>Structured:</strong> Category, price, brand, rating (20% weight)</li>
+                    </ul>
+
+                    <p><strong>Fusion Strategy:</strong> Learned neural network combines all three with learned weights
+                        (optimal weighting from validation data)</p>
+                </div>
+
+                <div class="concept-box">
+                    <h3>Multi-Modal Fusion Strategies Comparison</h3>
+                    <p><strong>Challenge:</strong> How to combine three different embeddings (text, image, structured)
+                        into one cohesive representation?</p>
+
+                    <h4>Strategy 1: Simple Concatenation</h4>
+                    <pre
+                        style="background: #f5f5f5; padding: 15px; border-radius: 6px; font-size: 0.9em;">final = concat(text_256D, image_256D, structured_150D) = 662D</pre>
+                    <p><strong>Pros:</strong> Simple, retains all information | <strong>Cons:</strong> Large, weights
+                        not learned</p>
+
+                    <h4>Strategy 2: Weighted Average</h4>
+                    <pre
+                        style="background: #f5f5f5; padding: 15px; border-radius: 6px; font-size: 0.9em;">final = 0.4×text + 0.35×image + 0.25×structured (After PCA to 256D)</pre>
+                    <p><strong>Pros:</strong> Compact, balanced | <strong>Cons:</strong> Fixed weights, not adaptive</p>
+
+                    <h4>Strategy 3: Learned MLP Fusion (Coveo's Choice) ✓</h4>
+                    <pre style="background: #f5f5f5; padding: 15px; border-radius: 6px; font-size: 0.9em;">Input:  concat(text, image, structured) = 662D
+MLP:    Dense 662→512D (ReLU) → Dense 512→256D (ReLU)
+Output: 256D + L2 normalization</pre>
+                    <p><strong>Why Better:</strong> Learns adaptive weighting, captures cross-modality interactions,
+                        +16% quality improvement over fixed weights</p>
+                </div>
+
+                <div class="section-title">🏗️ System Architecture</div>
+
+                <div class="architecture-box">┌────────────────────────────────────────────┐
+                    │ COVEO MULTI-MODAL PRODUCT EMBEDDINGS │
+                    ├────────────────────────────────────────────┤
+                    │ │
+                    │ Text Component (BERT): │
+                    │ ├─ Input: Title + Description + Reviews │
+                    │ ├─ BERT: 12 transformer blocks │
+                    │ ├─ Output: [CLS] token (768D) │
+                    │ ├─ Optional: PCA reduction to 256D │
+                    │ └─ Result: text_embedding (256D) │
+                    │ │
+                    │ Image Component (ResNet/Vision): │
+                    │ ├─ Input: Primary product image │
+                    │ ├─ Resize: 224×224 standardization │
+                    │ ├─ Model: ResNet-50 or EfficientNet │
+                    │ ├─ Output: Final layer (2048D) │
+                    │ ├─ Reduce: PCA to 256D │
+                    │ └─ Result: image_embedding (256D) │
+                    │ │
+                    │ Structured Component (Metadata): │
+                    │ ├─ Category: One-hot or pre-trained embed │
+                    │ ├─ Brand: Lookup embeddings (50D) │
+                    │ ├─ Price: Numeric, normalized │
+                    │ ├─ Rating: Numeric, normalized │
+                    │ └─ Result: structured_embedding (~150D) │
+                    │ │
+                    │ Multi-Modal Fusion (Learned Network): │
+                    │ ├─ Input: All 3 embeddings concatenated │
+                    │ ├─ MLP: 662D → 256D (learned weights) │
+                    │ ├─ ReLU activation │
+                    │ ├─ L2 normalization: ||output|| = 1 │
+                    │ └─ Result: final_embedding (256D, normalized) │
+                    │ │
+                    │ Similarity Search: │
+                    │ ├─ Index: FAISS or ScaNN for ANN │
+                    │ ├─ Query: Generate same way as products │
+                    │ ├─ Metric: Cosine similarity (dot product) │
+                    │ └─ Result: Top-k similar products │
+                    │ │
+                    └────────────────────────────────────────────┘</div>
+
+                <div class="section-title">📊 Performance Results</div>
+
+                <div class="performance-card">
+                    <h4>Quality Improvements Over Keyword Matching</h4>
+                    <table class="comparison-grid">
+                        <tr>
+                            <th>Approach</th>
+                            <th>CTR</th>
+                            <th>Improvement</th>
+                            <th>Precision</th>
+                        </tr>
+                        <tr>
+                            <td>Keyword matching (baseline)</td>
+                            <td>2.1%</td>
+                            <td>Baseline</td>
+                            <td>Exact matches only</td>
+                        </tr>
+                        <tr>
+                            <td>BERT text only</td>
+                            <td>4.5%</td>
+                            <td>+114%</td>
+                            <td>Semantic matching</td>
+                        </tr>
+                        <tr>
+                            <td>BERT + Vision</td>
+                            <td>5.2%</td>
+                            <td>+147%</td>
+                            <td>Semantic + visual</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Paper 12: Coveo Cold-Start -->
+            <div class="paper-section paper5" id="paper5">
+                <h2><span class="emoji-large">❄️</span>Paper 12: Cold-Start Product Embeddings via Content Inference
+                    (Coveo) 2022</h2>
+                <div class="paper-meta">
+                    <strong>Company:</strong> Coveo | <strong>Year:</strong> 2022 | <strong>Domain:</strong> Cold-Start
+                    Solutions
+                    <span class="badge-custom theory-badge">Content Transfer</span>
+                    <span class="badge-custom architecture-badge">Attribute Matching</span>
+                </div>
+
+                <div class="section-title">🔬 Theoretical Foundations</div>
+
+                <div class="concept-box">
+                    <h3>Core Concept: New Product Problem & Inference</h3>
+                    <p><strong>Challenge:</strong> New product added (0 interactions, 0 views). System needs reasonable
+                        embedding immediately for recommendation.</p>
+                    <p><strong>Solution:</strong> Extract product attributes, find similar existing products, transfer
+                        their embeddings as initialization.</p>
+
+                    <div class="key-insight">
+                        <strong>💡 Key Insight:</strong> Content-based inference eliminates cold-start. New products
+                        discoverable from day 1. Quality improves as interactions arrive (gradual refinement).
+                    </div>
+
+                    <h4>Process:</h4>
+                    <ol>
+                        <li>Attribute extraction: Category, brand, price, materials from metadata</li>
+                        <li>Find similar: Search existing products by matched attributes</li>
+                        <li>Combine: Weighted average of similar products' embeddings</li>
+                        <li>Initialize: Use combined embedding immediately</li>
+                        <li>Refine: Update as real interactions arrive over days/weeks</li>
+                    </ol>
+                </div>
+
+                <div class="section-title">📊 Performance Results</div>
+
+                <div class="performance-card">
+                    <h4>Cold-Start Quality Trajectory</h4>
+                    <ul>
+                        <li><strong>Day 1 (content-based init):</strong> 70% quality vs warm-started products</li>
+                        <li><strong>After 50 interactions:</strong> 85% quality</li>
+                        <li><strong>After 200 interactions:</strong> 95% quality (indistinguishable from baseline)</li>
+                        <li><strong>Business impact:</strong> All new inventory immediately discoverable; much better
+                            inventory turnover</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Paper 13: Scribd -->
+            <div class="paper-section paper6" id="paper6">
+                <h2><span class="emoji-large">📖</span>Paper 13: Embedding-Based Retrieval at Scale (Scribd) 2021</h2>
+                <div class="paper-meta">
+                    <strong>Company:</strong> Scribd | <strong>Year:</strong> 2021 | <strong>Domain:</strong> Book
+                    Discovery & Recommendations
+                    <span class="badge-custom theory-badge">Two-Stage Retrieval</span>
+                    <span class="badge-custom architecture-badge">ANN + Ranking</span>
+                </div>
+
+                <div class="section-title">🔬 Theoretical Foundations</div>
+
+                <div class="concept-box">
+                    <h3>Core Concept: Two-Stage Retrieval Pipeline</h3>
+                    <p><strong>Challenge:</strong> 1M+ books in catalog. Ranking all books takes too long for real-time
+                        recommendations.</p>
+                    <p><strong>Solution:</strong> Stage 1 - Fast ANN retrieval (find 1000 similar books in 10ms), Stage
+                        2 - Precision ranking of top candidates.</p>
+
+                    <div class="key-insight">
+                        <strong>💡 Key Insight:</strong> Separating retrieval and ranking enables scale. Each stage
+                        optimized independently: speed vs accuracy trade-off.
+                    </div>
+
+                    <h4>Two-Stage Architecture:</h4>
+                    <ul>
+                        <li><strong>Stage 1 (Fast Retrieval):</strong> Embeddings via ANN, <5% computational cost, finds
+                                95%+ of relevant items</li>
+                        <li><strong>Stage 2 (Precision Ranking):</strong> Deep neural network scores top 1000, considers
+                            user history, collaborative signals</li>
+                        <li><strong>Result:</strong> Fast + accurate combined recommendation</li>
+                    </ul>
+                </div>
+
+                <div class="section-title">📊 Performance Results</div>
+
+                <div class="performance-card">
+                    <h4>Retrieval Quality</h4>
+                    <ul>
+                        <li><strong>Stage 1 Recall:</strong> 95%+ of relevant books in top 1000</li>
+                        <li><strong>Stage 1 Latency:</strong> ~10ms (for 1M books)</li>
+                        <li><strong>Stage 2 Latency:</strong> 50-100ms (deep ranking on 1000 candidates)</li>
+                        <li><strong>Total:</strong> Fast retrieval + precise ranking</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Paper 14: Apple Music -->
+            <div class="paper-section paper7" id="paper7">
+                <h2><span class="emoji-large">🎵</span>Paper 14: Multi-Objective Song Embeddings (Apple Music) 2022</h2>
+                <div class="paper-meta">
+                    <strong>Company:</strong> Apple Music | <strong>Year:</strong> 2022 | <strong>Domain:</strong> Music
+                    Recommendation
+                    <span class="badge-custom theory-badge">Multi-Objective</span>
+                    <span class="badge-custom architecture-badge">Pareto-Optimal</span>
+                </div>
+
+                <div class="section-title">🔬 Theoretical Foundations</div>
+
+                <div class="concept-box">
+                    <h3>Core Concept: Pareto-Optimal Embeddings</h3>
+                    <p><strong>Challenge:</strong> Optimize multiple conflicting objectives: engagement (minimize
+                        skips), discovery (new songs), retention (repeat plays), diversity (genre variety).</p>
+                    <p><strong>Innovation:</strong> Generate multiple embeddings, each optimizing different objective.
+                        Blend at inference time based on context.</p>
+
+                    <div class="key-insight">
+                        <strong>💡 Key Insight:</strong> Single objective optimization leads to local optima.
+                        Multi-objective approach explores Pareto frontier. Different points on frontier represent
+                        different business value depending on context.
+                    </div>
+
+                    <h4>Multi-Objective Approach:</h4>
+                    <ul>
+                        <li><strong>Embedding_engagement:</strong> Songs user likely to complete</li>
+                        <li><strong>Embedding_discovery:</strong> Songs user likely discovering (new)</li>
+                        <li><strong>Embedding_diversity:</strong> Genre variety signal</li>
+                        <li><strong>Blend (inference):</strong> Context-aware combination (70% engagement + 30%
+                            discovery)</li>
+                    </ul>
+
+                    <h4>Multi-Task Learning:</h4>
+                    <ul>
+                        <li><strong>Task 1:</strong> Predict completion probability (engagement)</li>
+                        <li><strong>Task 2:</strong> Predict novelty score (discovery)</li>
+                        <li><strong>Task 3:</strong> Predict genre similarity (consistency)</li>
+                        <li><strong>Combined loss:</strong> α×L_engagement + β×L_discovery + γ×L_genre</li>
+                        <li><strong>Result:</strong> Embeddings balance all objectives</li>
+                    </ul>
+                </div>
+
+                <div class="section-title">📊 Performance Results</div>
+
+                <div class="performance-card">
+                    <h4>Multi-Objective Optimization Results</h4>
+                    <ul>
+                        <li><strong>Engagement:</strong> Completion rate maintained (skips minimized)</li>
+                        <li><strong>Discovery:</strong> New song plays increased significantly</li>
+                        <li><strong>Retention:</strong> User return rate stable or improved</li>
+                        <li><strong>Diversity:</strong> Genre variety improved (users exposed to broader catalog)</li>
+                        <li><strong>Impact:</strong> Better subscriber satisfaction and retention</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Paper 15: Spotify -->
+            <div class="paper-section paper8" id="paper8">
+                <h2><span class="emoji-large">🎧</span>Paper 15: Embeddings at Spotify Scale (Spotify) 2023</h2>
+                <div class="paper-meta">
+                    <strong>Company:</strong> Spotify | <strong>Year:</strong> 2023 | <strong>Domain:</strong>
+                    Global-Scale Production Systems
+                    <span class="badge-custom theory-badge">Production Scale</span>
+                    <span class="badge-custom performance-badge">Real-Time Updates</span>
+                </div>
+
+                <div class="section-title">🔬 Theoretical Foundations</div>
+
+                <div class="concept-box">
+                    <h3>Core Concept: Production-Scale Embedding System</h3>
+                    <p><strong>Scale:</strong> 80M+ songs, 500M+ users, 2B interactions per day, sub-second
+                        recommendations globally.</p>
+                    <p><strong>Challenges:</strong> Data volume (petabytes daily), freshness (update hourly), quality
+                        (millions of A/B tests), cost (every ms = power), reliability (24/7 global).</p>
+
+                    <div class="key-insight">
+                        <strong>💡 Key Insight:</strong> Production scale changes everything. Algorithms that work at 1K
+                        scale fail at 1B. Infrastructure and operations matter as much as algorithm quality.
+                    </div>
+                </div>
+
+                <div class="section-title">🏗️ System Architecture</div>
+
+                <div class="architecture-box">┌───────────────────────────────────────────┐
+                    │ SPOTIFY PRODUCTION EMBEDDING SYSTEM │
+                    ├───────────────────────────────────────────┤
+                    │ │
+                    │ Data Pipeline (Real-Time): │
+                    │ ├─ Stream: 2B interactions/day │
+                    │ ├─ Process: Within minutes of action │
+                    │ ├─ Generate: Fresh embeddings hourly │
+                    │ └─ Learning: Negative sampling from plays │
+                    │ │
+                    │ Training Infrastructure (Distributed): │
+                    │ ├─ Spark: Process petabytes of data │
+                    │ ├─ Parameter servers: Distributed training │
+                    │ ├─ GPUs: High-performance embedding train │
+                    │ ├─ Async SGD: Model parallelism │
+                    │ └─ SLA: Training within time window │
+                    │ │
+                    │ Serving Infrastructure (Global): │
+                    │ ├─ Caches: Redis, Memcached (hot data) │
+                    │ ├─ Index: FAISS+GPU for ANN search │
+                    │ ├─ Multi-region: Global deployment │
+                    │ ├─ Monitoring: Real-time quality metrics │
+                    │ └─ Rollback: Auto if underperforming │
+                    │ │
+                    │ Quality Assurance: │
+                    │ ├─ Every change: A/B tested │
+                    │ ├─ Metrics: Engagement, skips, saves │
+                    │ ├─ Decision: Statistical significance │
+                    │ └─ Deployment: Only wins roll out │
+                    │ │
+                    └───────────────────────────────────────────┘</div>
+
+                <div class="section-title">📊 Performance Results</div>
+
+                <div class="performance-card">
+                    <h4>Production Performance Metrics</h4>
+                    <ul>
+                        <li><strong>Embedding Update Frequency:</strong> Hourly (fresh data capture)</li>
+                        <li><strong>Daily Active Users:</strong> 200M+ receiving personalized recommendations</li>
+                        <li><strong>Recommendation Latency:</strong>
+                            <500ms for fresh personalization</li>
+                        <li><strong>Index Scale:</strong> Billions of vectors searchable in milliseconds</li>
+                        <li><strong>Cost Efficiency:</strong> Hundreds of millions in annual infrastructure</li>
+                        <li><strong>Reliability:</strong> 99.99%+ uptime globally</li>
+                    </ul>
+                </div>
+
+                <div class="key-insight">
+                    <strong>💡 Real-World Impact:</strong> Fresh hourly embeddings serving 200M+ daily active users at
+                    <500ms latency demonstrates feasibility of production-scale ML. Most companies can achieve similar
+                        scale with proper infrastructure investment. </div>
+                </div>
+
+                <!-- Conclusion -->
+                <div
+                    style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); border-left: 5px solid #667eea; padding: 30px; border-radius: 10px; margin-top: 50px;">
+                    <h2 style="color: #667eea; margin-top: 0;">📚 Evolution of Embeddings: 2017-2023</h2>
+
+                    <h4>Key Innovations by Year:</h4>
+                    <ul>
+                        <li><strong>2019 (Moshbit):</strong> Temporal weighting (recency matters more)</li>
+                        <li><strong>2020 (Google):</strong> ScaNN for trillion-scale search efficiency</li>
+                        <li><strong>2021 (Coveo, Scribd):</strong> Transfer learning, multi-modal, two-stage pipelines
+                        </li>
+                        <li><strong>2022-2023 (Apple, Spotify):</strong> Multi-objective optimization, real-time hourly
+                            updates at billions scale</li>
+                    </ul>
+
+                    <h4>Key Lessons Learned:</h4>
+                    <ol>
+                        <li><strong>Start simple, optimize later:</strong> Skip-gram → frequency×recency → transformers
+                        </li>
+                        <li><strong>Multiple embeddings > single:</strong> Different objectives need different vectors
+                        </li>
+                        <li><strong>Cold-start is critical:</strong> Without solution, new items invisible</li>
+                        <li><strong>Time signals matter:</strong> Recency often beats frequency in production</li>
+                        <li><strong>Scale changes everything:</strong> Distributed thinking required</li>
+                        <li><strong>User engagement > ranking precision:</strong> Practical metrics beat theoretical
+                            accuracy</li>
+                        <li><strong>Fresh beats perfect:</strong> Hourly updates better than weekly accuracy</li>
+                        <li><strong>Infrastructure is key:</strong> ScaNN, FAISS, distributed training enable scale</li>
+                    </ol>
+                </div>
+            </div>
+
+            <button class="back-to-top" id="backToTop">↑</button>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+                // Back to top button functionality
+                const backToTopBtn = document.getElementById('backToTop');
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        backToTopBtn.classList.add('show');
+                    } else {
+                        backToTopBtn.classList.remove('show');
+                    }
+                });
+
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+
+                // Active section tracking
+                const sections = document.querySelectorAll('.paper-section');
+                window.addEventListener('scroll', () => {
+                    let current = '';
+                    sections.forEach(section => {
+                        const sectionTop = section.offsetTop;
+                        if (pageYOffset >= sectionTop - 200) {
+                            current = section.getAttribute('id');
+                        }
+                    });
+                });
+            </script>
+
+    <script src="../js/dark-mode.js"></script>
+</body>
+
+</html>
