@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌬️ Breathing Practice Coach</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --light-bg: #f0f4ff;
+            --border-light: #d1d9ff;
+            --text-dark: #2d3748;
+            --text-muted: #4a5568;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--text-dark);
+        }
+
+        .header h1 {
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .pattern-form {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .pattern-form h2 {
+            color: var(--text-dark);
+            font-weight: 700;
+            margin-bottom: 25px;
+            border-bottom: 3px solid var(--primary-gradient);
+            padding-bottom: 15px;
+        }
+
+        .step-card {
+            background: var(--light-bg);
+            border-left: 4px solid #667eea;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .step-card .step-name {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+
+        .step-card .step-time {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .step-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .step-controls input {
+            width: 80px;
+        }
+
+        .step-controls select {
+            min-width: 150px;
+        }
+
+        .preview-card {
+            background: var(--light-bg);
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .preview-card h5 {
+            color: var(--text-dark);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .preview-step {
+            padding: 8px 0;
+            color: var(--text-muted);
+        }
+
+        .preview-step strong {
+            color: var(--text-dark);
+        }
+
+        .preview-total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid var(--border-light);
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .session-card {
+            background: var(--light-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .session-card .session-time {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .practice-container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .practice-container h2 {
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .cycle-indicator {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .cycle-indicator .cycle-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .step-display {
+            background: var(--light-bg);
+            border-left: 4px solid #667eea;
+            border-radius: 12px;
+            padding: 40px;
+            margin: 30px 0;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .step-display .current-step {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .step-display .step-timer {
+            font-size: 2rem;
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .progress-info {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 15px;
+        }
+
+        .step-list {
+            background: var(--light-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .step-list h5 {
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .step-item {
+            padding: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .step-item.completed {
+            color: #28a745;
+            text-decoration: line-through;
+        }
+
+        .step-item.active {
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .step-item.pending {
+            color: var(--text-muted);
+        }
+
+        .btn-group-custom {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn-custom {
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-custom {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary-custom {
+            background: #e9ecef;
+            color: var(--text-dark);
+        }
+
+        .btn-secondary-custom:hover {
+            background: #dee2e6;
+        }
+
+        .btn-danger-custom {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger-custom:hover {
+            background: #c82333;
+        }
+
+        .btn-remove {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 5px 10px;
+            font-size: 0.85rem;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-remove:hover {
+            background: #f5c6cb;
+        }
+
+        .alert-custom {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-info-custom {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .alert-success-custom {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error-custom {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .form-control-custom {
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            padding: 10px 15px;
+            font-size: 1rem;
+        }
+
+        .form-control-custom:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .stats-badge {
+            display: inline-block;
+            background: var(--light-bg);
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin: 0 5px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .section {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .pattern-form {
+                padding: 20px;
+            }
+
+            .step-display .current-step {
+                font-size: 2rem;
+            }
+
+            .step-display .step-timer {
+                font-size: 1.5rem;
+            }
+
+            .step-controls {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .step-controls input,
+            .step-controls select {
+                width: 100%;
+            }
+
+            .btn-group-custom {
+                flex-direction: column;
+            }
+
+            .btn-custom {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🌬️ Breathing Practice Coach</h1>
+            <p>Create custom breathing patterns and practice with guided timing. Take control of your breathing practice
+                anytime, anywhere.</p>
+        </div>
+
+        <!-- MAIN BUILDER FORM -->
+        <div id="builderSection" class="section">
+            <div class="pattern-form">
+                <h2>📋 Build Your Breathing Pattern</h2>
+
+                <div class="mb-4">
+                    <label for="patternName" class="form-label">📛 Pattern Name</label>
+                    <input type="text" class="form-control form-control-custom" id="patternName"
+                        placeholder="e.g., Morning Calm, Focus Boost" value="My Breathing Pattern">
+                </div>
+
+                <div class="mb-4">
+                    <label for="numSteps" class="form-label">🔄 Number of Steps</label>
+                    <input type="number" class="form-control form-control-custom" id="numSteps" min="1" max="10"
+                        value="2">
+                </div>
+
+                <div id="stepsContainer" class="mb-4"></div>
+
+                <div class="preview-card">
+                    <h5>📊 Pattern Preview</h5>
+                    <div id="previewSteps"></div>
+                    <div id="previewTotal" class="preview-total"></div>
+                </div>
+
+                <div class="mb-4 mt-4">
+                    <label for="numCycles" class="form-label">🔁 Number of Cycles</label>
+                    <input type="number" class="form-control form-control-custom" id="numCycles" min="1" max="10000"
+                        placeholder="e.g., 5, 10, 50" value="">
+                </div>
+
+                <div class="btn-group-custom">
+                    <button class="btn-custom btn-primary-custom" onclick="startPractice()">▶ Start Practice</button>
+                    <button class="btn-custom btn-secondary-custom" onclick="resetForm()">🔄 Reset Form</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRACTICE SESSION -->
+        <div id="practiceSection" class="section hidden">
+            <div class="practice-container">
+                <h2 id="practiceTitle">Breathing Practice</h2>
+
+                <div class="cycle-indicator">
+                    <div class="cycle-number" id="cycleInfo">Cycle 1 / 1</div>
+                    <div>
+                        <span class="stats-badge">✅ <span id="cyclesCompleted">0</span> Completed</span>
+                        <span class="stats-badge">⏳ <span id="cyclesRemaining">0</span> Remaining</span>
+                    </div>
+                </div>
+
+                <div class="progress">
+                    <div id="overallProgress" class="progress-bar" role="progressbar" style="width: 0%;"></div>
+                </div>
+
+                <div class="step-display">
+                    <div class="current-step" id="currentStep">Breathe In</div>
+                    <div class="step-timer" id="stepTimer">0s</div>
+                </div>
+
+                <div class="progress-info">
+                    Overall Progress: <span id="overallPercent">0</span>% | Cycle Progress: <span
+                        id="cyclePercent">0</span>%
+                </div>
+
+                <div class="step-list">
+                    <h5>Current Cycle Steps</h5>
+                    <div id="stepItems"></div>
+                </div>
+
+                <div class="btn-group-custom">
+                    <button class="btn-custom btn-danger-custom" onclick="stopPractice()">⏹️ Stop Practice</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMPLETION SCREEN -->
+        <div id="completionSection" class="section hidden">
+            <div class="practice-container">
+                <h2>✨ All Cycles Complete!</h2>
+                <p class="mt-3 mb-4" style="font-size: 1.2rem; color: var(--text-muted);">Excellent work on your
+                    breathing practice!</p>
+
+                <div class="session-card">
+                    <strong id="completionPatternName">Pattern</strong><br>
+                    <span class="session-time" id="completionStats">0s completed</span>
+                </div>
+
+                <div class="btn-group-custom">
+                    <button class="btn-custom btn-primary-custom" onclick="returnToBuilder()">↩️ Back to
+                        Builder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // APP STATE
+        let appState = {
+            mode: 'builder', // builder, practice, completion
+            pattern: [],
+            patternName: '',
+            numCycles: 1,
+            currentCycle: 1,
+            startTime: null,
+            audioPlayedSteps: new Set(),
+        };
+
+        // INITIALIZATION
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('numSteps').addEventListener('change', renderSteps);
+            renderSteps();
+            updatePreview();
+        });
+
+        // RENDER STEP INPUTS
+        function renderSteps() {
+            const numSteps = parseInt(document.getElementById('numSteps').value) || 2;
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = '';
+
+            for (let i = 0; i < numSteps; i++) {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = 'step-card';
+                stepDiv.innerHTML = `
+                    <div class="step-controls">
+                        <select class="form-control form-control-custom" id="stepType_${i}" onchange="updatePreview()">
+                            <option>Breathe In</option>
+                            <option>Hold</option>
+                            <option>Breathe Out</option>
+                            <option>Cold Breath</option>
+                        </select>
+                        <input type="number" class="form-control form-control-custom" id="stepDuration_${i}" min="1" max="60" value="4" placeholder="Seconds" onchange="updatePreview()" oninput="updatePreview()">
+                    </div>
+                `;
+                container.appendChild(stepDiv);
+            }
+        }
+
+        // UPDATE PREVIEW
+        function updatePreview() {
+            const numSteps = parseInt(document.getElementById('numSteps').value) || 2;
+            const steps = [];
+            let totalDuration = 0;
+
+            for (let i = 0; i < numSteps; i++) {
+                const type = document.getElementById(`stepType_${i}`).value;
+                const duration = parseInt(document.getElementById(`stepDuration_${i}`).value) || 1;
+                steps.push({ name: type, duration });
+                totalDuration += duration;
+            }
+
+            appState.pattern = steps;
+
+            // Render preview
+            const previewSteps = document.getElementById('previewSteps');
+            previewSteps.innerHTML = steps.map((s, i) =>
+                `<div class="preview-step"><strong>${i + 1}.</strong> ${s.name} (${s.duration}s)</div>`
+            ).join('');
+
+            const numCycles = parseInt(document.getElementById('numCycles').value) || 0;
+            const totalTime = totalDuration * (numCycles || 1);
+            const minutes = Math.floor(totalTime / 60);
+            const seconds = totalTime % 60;
+            const formattedTime = minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+
+            let previewTotal = `<strong>One Cycle: ${totalDuration}s</strong>`;
+            if (numCycles > 0) {
+                previewTotal += `<br><strong style="color: #667eea; font-size: 1.1rem;">Total Time: ${formattedTime}</strong><br><span style="font-size: 0.9rem; color: var(--text-muted);">(${numCycles} cycles)</span>`;
+            } else {
+                previewTotal += `<br><span style="font-size: 0.9rem; color: var(--text-muted);">⬆️ Enter cycles above to see total time</span>`;
+            }
+
+            document.getElementById('previewTotal').innerHTML = previewTotal;
+        }
+
+        // START PRACTICE
+        function startPractice() {
+            const patternName = document.getElementById('patternName').value;
+            const numCycles = parseInt(document.getElementById('numCycles').value);
+
+            if (appState.pattern.length === 0) {
+                showAlert('error', 'Add at least one step to your pattern.');
+                return;
+            }
+
+            if (!numCycles || numCycles < 1) {
+                showAlert('error', 'Enter number of cycles (1-10000).');
+                return;
+            }
+
+            appState.mode = 'practice';
+            appState.patternName = patternName;
+            appState.numCycles = numCycles;
+            appState.currentCycle = 1;
+            appState.startTime = Date.now();
+            appState.audioPlayedSteps = new Set();
+
+            switchMode('practice');
+            document.getElementById('practiceTitle').textContent = `⏱️ ${patternName}`;
+            runPracticeSession();
+        }
+
+        // RUN PRACTICE SESSION
+        function runPracticeSession() {
+            if (appState.mode !== 'practice') return;
+
+            const elapsed = (Date.now() - appState.startTime) / 1000;
+            const cycleDuration = appState.pattern.reduce((sum, s) => sum + s.duration, 0);
+            const totalDuration = cycleDuration * appState.numCycles;
+
+            if (elapsed >= totalDuration) {
+                appState.mode = 'completion';
+                switchMode('completion');
+                document.getElementById('completionPatternName').textContent = appState.patternName;
+                document.getElementById('completionStats').textContent = `${Math.round(totalDuration)}s completed`;
+                return;
+            }
+
+            // Calculate current cycle and position
+            const cyclePosition = elapsed % cycleDuration;
+            const currentCycle = Math.min(Math.floor(elapsed / cycleDuration) + 1, appState.numCycles);
+            appState.currentCycle = currentCycle;
+
+            // Find current step
+            let currentTime = 0;
+            let currentStepIndex = 0;
+            for (let i = 0; i < appState.pattern.length; i++) {
+                if (currentTime + appState.pattern[i].duration > cyclePosition) {
+                    currentStepIndex = i;
+                    break;
+                }
+                currentTime += appState.pattern[i].duration;
+            }
+
+            const currentStep = appState.pattern[currentStepIndex];
+            const stepRemaining = Math.ceil(currentStep.duration - (cyclePosition - currentTime));
+
+            // Update UI
+            document.getElementById('cycleInfo').textContent = `Cycle ${currentCycle} / ${appState.numCycles}`;
+            document.getElementById('cyclesCompleted').textContent = currentCycle - 1;
+            document.getElementById('cyclesRemaining').textContent = appState.numCycles - currentCycle;
+            document.getElementById('currentStep').textContent = currentStep.name;
+            document.getElementById('stepTimer').textContent = `${stepRemaining}s`;
+
+            // Update progress bars
+            const overallPercent = Math.min(Math.round((elapsed / totalDuration) * 100), 100);
+            const cyclePercent = Math.round((cyclePosition / cycleDuration) * 100);
+            document.getElementById('overallProgress').style.width = `${overallPercent}%`;
+            document.getElementById('overallPercent').textContent = overallPercent;
+            document.getElementById('cyclePercent').textContent = cyclePercent;
+
+            // Update step list
+            const stepItems = document.getElementById('stepItems');
+            stepItems.innerHTML = appState.pattern.map((s, i) => {
+                let className = 'step-item';
+                let icon = '⏳';
+                if (i < currentStepIndex) {
+                    className += ' completed';
+                    icon = '✅';
+                } else if (i === currentStepIndex) {
+                    className += ' active';
+                    icon = '➡️';
+                }
+                return `<div class="${className}">${icon} <strong>${s.name}</strong> (${s.duration}s)</div>`;
+            }).join('');
+
+            // Audio cue
+            const stepKey = `${currentCycle}_${currentStepIndex}`;
+            if (!appState.audioPlayedSteps.has(stepKey)) {
+                speakText(currentStep.name);
+                appState.audioPlayedSteps.add(stepKey);
+            }
+
+            // Continue loop
+            setTimeout(runPracticeSession, 500);
+        }
+
+        // STOP PRACTICE
+        function stopPractice() {
+            appState.mode = 'builder';
+            switchMode('builder');
+        }
+
+        // RETURN TO BUILDER
+        function returnToBuilder() {
+            appState.mode = 'builder';
+            switchMode('builder');
+        }
+
+        // SWITCH MODE
+        function switchMode(mode) {
+            document.getElementById('builderSection').classList.toggle('hidden', mode !== 'builder');
+            document.getElementById('practiceSection').classList.toggle('hidden', mode !== 'practice');
+            document.getElementById('completionSection').classList.toggle('hidden', mode !== 'completion');
+        }
+
+        // RESET FORM
+        function resetForm() {
+            document.getElementById('patternName').value = 'My Breathing Pattern';
+            document.getElementById('numSteps').value = 2;
+            document.getElementById('numCycles').value = '';
+            renderSteps();
+            updatePreview();
+        }
+
+        // TEXT TO SPEECH
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 1;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                window.speechSynthesis.cancel();
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // SHOW ALERT
+        function showAlert(type, message) {
+            const className = `alert-${type}-custom`;
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert-custom ${className}`;
+            alertDiv.textContent = message;
+            alertDiv.style.marginBottom = '20px';
+
+            const container = document.querySelector('.container');
+            container.insertBefore(alertDiv, container.firstChild);
+
+            setTimeout(() => alertDiv.remove(), 4000);
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
